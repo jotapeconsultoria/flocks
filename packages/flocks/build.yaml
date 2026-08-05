@@ -1,0 +1,8 @@
+# Faz o build_runner (widgetbook_generator) escanear a pasta `widgetbook/`,
+# além de `lib/`, para gerar `widgetbook/main.directories.g.dart`.
+targets:
+  $default:
+    sources:
+      - "$package$"
+      - "lib/**"
+      - "widgetbook/**"

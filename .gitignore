@@ -1,0 +1,24 @@
+# Artefatos de build e de ferramenta, em qualquer pacote do workspace.
+**/.dart_tool/
+**/build/
+**/.flutter-plugins-dependencies
+**/.packages
+
+# O lock é resolvido na raiz do workspace. Os três pacotes são bibliotecas, e
+# biblioteca não versiona lock: ele fixaria, para quem consome, versões que só
+# valem para o desenvolvimento aqui dentro.
+pubspec.lock
+
+# Editores e sistema
+*.iml
+*.ipr
+*.iws
+.idea/
+.vscode/
+.DS_Store
+
+# Saída de teste de golden que falhou (imagens de diagnóstico, não fonte)
+**/test/**/failures/
+
+# Cobertura
+coverage/

@@ -1,0 +1,24 @@
+# Raiz do workspace — não é um pacote publicável, e não deve virar um.
+#
+# Existe por uma razão só: enquanto o `flocks` não está no pub.dev, os
+# adaptadores precisam resolvê-lo localmente. Eles declaram `flocks: ^1.0.0`
+# (sintaxe hospedada, apontando para o destino decidido), e é o `workspace:`
+# abaixo que faz o `pub` casar essa restrição com o membro local em vez de ir à
+# rede. Sem isso, `pub get` num clone deste repo falharia até a publicação.
+#
+# O `example/` do flocks_phosphor entra na lista porque depende dos DOIS
+# pacotes locais — é o app que mede o tree-shaking das fontes, e precisa
+# compilar contra o código deste checkout, não contra uma versão publicada.
+name: flocks_workspace
+description: "Workspace do Flocks — o design system, e os adaptadores de ícone."
+publish_to: none
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.44.0"
+
+workspace:
+  - packages/flocks
+  - packages/flocks_material
+  - packages/flocks_phosphor
+  - packages/flocks_phosphor/example

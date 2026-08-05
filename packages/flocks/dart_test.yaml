@@ -1,0 +1,14 @@
+# Tags declaradas deste pacote.
+#
+# Sem esta declaração o runner avisa "A tag was used that wasn't specified in
+# dart_test.yaml" a cada execução. O aviso existe para pegar tag escrita errada
+# — `@Tags(['goldens'])` no plural, por exemplo, passaria despercebida e o
+# arquivo escaparia do `--exclude-tags golden`. Declarar aqui é o que transforma
+# esse deslize em erro visível em vez de ruído recorrente. Aqui isso pesa: são
+# 51 arquivos de golden, e o DS é onde a comparação de imagem mais se mexe.
+tags:
+  # Verificação de contraste (WCAG) dos pares de cor do tema.
+  contrast:
+  # Testes de golden: EXCLUÍDOS da rodada normal e regerados sob demanda com
+  #   flutter test --update-goldens --tags golden
+  golden:

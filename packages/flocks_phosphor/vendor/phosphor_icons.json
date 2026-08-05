@@ -1,0 +1,9114 @@
+{
+  "coreCommit": "33fb01d1d33cd0156633ea4d33f4011fabe4d2da",
+  "icons": [
+    {
+      "aliases": [],
+      "codepoint": 60314,
+      "duotoneFigure": 60315,
+      "name": "acorn"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59128,
+      "duotoneFigure": 59129,
+      "name": "address-book"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61006,
+      "duotoneFigure": 61007,
+      "name": "address-book-tabs"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60632,
+      "duotoneFigure": 60633,
+      "name": "air-traffic-control"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57346,
+      "duotoneFigure": 57347,
+      "name": "airplane"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58622,
+      "duotoneFigure": 58623,
+      "name": "airplane-in-flight"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58626,
+      "duotoneFigure": 58627,
+      "name": "airplane-landing"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58628,
+      "duotoneFigure": 58629,
+      "name": "airplane-takeoff"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58624,
+      "duotoneFigure": 58625,
+      "name": "airplane-taxiing"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58838,
+      "duotoneFigure": 58839,
+      "name": "airplane-tilt"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57348,
+      "duotoneFigure": 57349,
+      "name": "airplay"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57350,
+      "duotoneFigure": 57351,
+      "name": "alarm"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59558,
+      "duotoneFigure": 59559,
+      "name": "alien"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58630,
+      "duotoneFigure": 58631,
+      "name": "align-bottom"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60172,
+      "duotoneFigure": 60173,
+      "name": "align-bottom-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58634,
+      "duotoneFigure": 58635,
+      "name": "align-center-horizontal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60174,
+      "duotoneFigure": 60175,
+      "name": "align-center-horizontal-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58636,
+      "duotoneFigure": 58637,
+      "name": "align-center-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60176,
+      "duotoneFigure": 60177,
+      "name": "align-center-vertical-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58638,
+      "duotoneFigure": 58639,
+      "name": "align-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60142,
+      "duotoneFigure": 60143,
+      "name": "align-left-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58640,
+      "duotoneFigure": 58641,
+      "name": "align-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60178,
+      "duotoneFigure": 60179,
+      "name": "align-right-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58642,
+      "duotoneFigure": 58643,
+      "name": "align-top"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60180,
+      "duotoneFigure": 60181,
+      "name": "align-top-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59756,
+      "duotoneFigure": 59757,
+      "name": "amazon-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58738,
+      "duotoneFigure": 58739,
+      "name": "ambulance"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58644,
+      "duotoneFigure": 58645,
+      "name": "anchor"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58840,
+      "duotoneFigure": 58841,
+      "name": "anchor-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57352,
+      "duotoneFigure": 57353,
+      "name": "android-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59324,
+      "duotoneFigure": 59325,
+      "name": "angle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60288,
+      "duotoneFigure": 60289,
+      "name": "angular-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57354,
+      "duotoneFigure": 57355,
+      "name": "aperture"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59764,
+      "duotoneFigure": 59765,
+      "name": "app-store-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58842,
+      "duotoneFigure": 58843,
+      "name": "app-window"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58646,
+      "duotoneFigure": 58647,
+      "name": "apple-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60310,
+      "duotoneFigure": 60311,
+      "name": "apple-podcasts-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60842,
+      "duotoneFigure": 60843,
+      "name": "approximate-equals"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57356,
+      "duotoneFigure": 57357,
+      "name": "archive"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57362,
+      "duotoneFigure": 57363,
+      "name": "armchair"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57364,
+      "duotoneFigure": 57365,
+      "name": "arrow-arc-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57366,
+      "duotoneFigure": 57367,
+      "name": "arrow-arc-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57402,
+      "duotoneFigure": 57403,
+      "name": "arrow-bend-double-up-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57404,
+      "duotoneFigure": 57405,
+      "name": "arrow-bend-double-up-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57368,
+      "duotoneFigure": 57369,
+      "name": "arrow-bend-down-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57370,
+      "duotoneFigure": 57371,
+      "name": "arrow-bend-down-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57372,
+      "duotoneFigure": 57373,
+      "name": "arrow-bend-left-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57374,
+      "duotoneFigure": 57375,
+      "name": "arrow-bend-left-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57376,
+      "duotoneFigure": 57377,
+      "name": "arrow-bend-right-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57378,
+      "duotoneFigure": 57379,
+      "name": "arrow-bend-right-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57380,
+      "duotoneFigure": 57381,
+      "name": "arrow-bend-up-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57382,
+      "duotoneFigure": 57383,
+      "name": "arrow-bend-up-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57384,
+      "duotoneFigure": 57385,
+      "name": "arrow-circle-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57386,
+      "duotoneFigure": 57387,
+      "name": "arrow-circle-down-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57388,
+      "duotoneFigure": 57389,
+      "name": "arrow-circle-down-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57434,
+      "duotoneFigure": 57435,
+      "name": "arrow-circle-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57390,
+      "duotoneFigure": 57391,
+      "name": "arrow-circle-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57392,
+      "duotoneFigure": 57393,
+      "name": "arrow-circle-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57394,
+      "duotoneFigure": 57395,
+      "name": "arrow-circle-up-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57396,
+      "duotoneFigure": 57397,
+      "name": "arrow-circle-up-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57398,
+      "duotoneFigure": 57399,
+      "name": "arrow-clockwise"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57400,
+      "duotoneFigure": 57401,
+      "name": "arrow-counter-clockwise"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57406,
+      "duotoneFigure": 57407,
+      "name": "arrow-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57408,
+      "duotoneFigure": 57409,
+      "name": "arrow-down-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57410,
+      "duotoneFigure": 57411,
+      "name": "arrow-down-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57412,
+      "duotoneFigure": 57413,
+      "name": "arrow-elbow-down-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57414,
+      "duotoneFigure": 57415,
+      "name": "arrow-elbow-down-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57416,
+      "duotoneFigure": 57417,
+      "name": "arrow-elbow-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57418,
+      "duotoneFigure": 57419,
+      "name": "arrow-elbow-left-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57420,
+      "duotoneFigure": 57421,
+      "name": "arrow-elbow-left-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57422,
+      "duotoneFigure": 57423,
+      "name": "arrow-elbow-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57424,
+      "duotoneFigure": 57425,
+      "name": "arrow-elbow-right-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57426,
+      "duotoneFigure": 57427,
+      "name": "arrow-elbow-right-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57428,
+      "duotoneFigure": 57429,
+      "name": "arrow-elbow-up-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57430,
+      "duotoneFigure": 57431,
+      "name": "arrow-elbow-up-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58648,
+      "duotoneFigure": 58649,
+      "name": "arrow-fat-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58650,
+      "duotoneFigure": 58651,
+      "name": "arrow-fat-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58652,
+      "duotoneFigure": 58653,
+      "name": "arrow-fat-line-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58654,
+      "duotoneFigure": 58655,
+      "name": "arrow-fat-line-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58656,
+      "duotoneFigure": 58657,
+      "name": "arrow-fat-line-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58658,
+      "duotoneFigure": 58659,
+      "name": "arrow-fat-line-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58660,
+      "duotoneFigure": 58661,
+      "name": "arrow-fat-lines-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58662,
+      "duotoneFigure": 58663,
+      "name": "arrow-fat-lines-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58664,
+      "duotoneFigure": 58665,
+      "name": "arrow-fat-lines-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58666,
+      "duotoneFigure": 58667,
+      "name": "arrow-fat-lines-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58668,
+      "duotoneFigure": 58669,
+      "name": "arrow-fat-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58670,
+      "duotoneFigure": 58671,
+      "name": "arrow-fat-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57432,
+      "duotoneFigure": 57433,
+      "name": "arrow-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57436,
+      "duotoneFigure": 57437,
+      "name": "arrow-line-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57438,
+      "duotoneFigure": 57439,
+      "name": "arrow-line-down-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57440,
+      "duotoneFigure": 57441,
+      "name": "arrow-line-down-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57442,
+      "duotoneFigure": 57443,
+      "name": "arrow-line-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57444,
+      "duotoneFigure": 57445,
+      "name": "arrow-line-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57446,
+      "duotoneFigure": 57447,
+      "name": "arrow-line-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57448,
+      "duotoneFigure": 57449,
+      "name": "arrow-line-up-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57450,
+      "duotoneFigure": 57451,
+      "name": "arrow-line-up-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57452,
+      "duotoneFigure": 57453,
+      "name": "arrow-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57454,
+      "duotoneFigure": 57455,
+      "name": "arrow-square-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57456,
+      "duotoneFigure": 57457,
+      "name": "arrow-square-down-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57458,
+      "duotoneFigure": 57459,
+      "name": "arrow-square-down-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58844,
+      "duotoneFigure": 58845,
+      "name": "arrow-square-in"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57460,
+      "duotoneFigure": 57461,
+      "name": "arrow-square-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58846,
+      "duotoneFigure": 58847,
+      "name": "arrow-square-out"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57462,
+      "duotoneFigure": 57463,
+      "name": "arrow-square-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57464,
+      "duotoneFigure": 57465,
+      "name": "arrow-square-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57466,
+      "duotoneFigure": 57467,
+      "name": "arrow-square-up-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57468,
+      "duotoneFigure": 57469,
+      "name": "arrow-square-up-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57470,
+      "duotoneFigure": 57471,
+      "name": "arrow-u-down-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57472,
+      "duotoneFigure": 57473,
+      "name": "arrow-u-down-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57474,
+      "duotoneFigure": 57475,
+      "name": "arrow-u-left-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57476,
+      "duotoneFigure": 57477,
+      "name": "arrow-u-left-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57478,
+      "duotoneFigure": 57479,
+      "name": "arrow-u-right-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57480,
+      "duotoneFigure": 57481,
+      "name": "arrow-u-right-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57482,
+      "duotoneFigure": 57483,
+      "name": "arrow-u-up-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57484,
+      "duotoneFigure": 57485,
+      "name": "arrow-u-up-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57486,
+      "duotoneFigure": 57487,
+      "name": "arrow-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57488,
+      "duotoneFigure": 57489,
+      "name": "arrow-up-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57490,
+      "duotoneFigure": 57491,
+      "name": "arrow-up-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57492,
+      "duotoneFigure": 57493,
+      "name": "arrows-clockwise"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57494,
+      "duotoneFigure": 57495,
+      "name": "arrows-counter-clockwise"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57496,
+      "duotoneFigure": 57497,
+      "name": "arrows-down-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60166,
+      "duotoneFigure": 60167,
+      "name": "arrows-horizontal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57498,
+      "duotoneFigure": 57499,
+      "name": "arrows-in"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57500,
+      "duotoneFigure": 57501,
+      "name": "arrows-in-cardinal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58672,
+      "duotoneFigure": 58673,
+      "name": "arrows-in-line-horizontal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58674,
+      "duotoneFigure": 58675,
+      "name": "arrows-in-line-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57502,
+      "duotoneFigure": 57503,
+      "name": "arrows-in-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57504,
+      "duotoneFigure": 57505,
+      "name": "arrows-left-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60734,
+      "duotoneFigure": 60735,
+      "name": "arrows-merge"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57506,
+      "duotoneFigure": 57507,
+      "name": "arrows-out"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57508,
+      "duotoneFigure": 57509,
+      "name": "arrows-out-cardinal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58676,
+      "duotoneFigure": 58677,
+      "name": "arrows-out-line-horizontal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58678,
+      "duotoneFigure": 58679,
+      "name": "arrows-out-line-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57510,
+      "duotoneFigure": 57511,
+      "name": "arrows-out-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60732,
+      "duotoneFigure": 60733,
+      "name": "arrows-split"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60164,
+      "duotoneFigure": 60165,
+      "name": "arrows-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57512,
+      "duotoneFigure": 57513,
+      "name": "article"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58848,
+      "duotoneFigure": 58849,
+      "name": "article-medium"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58850,
+      "duotoneFigure": 58851,
+      "name": "article-ny-times"
+    },
+    {
+      "aliases": [
+        "caduceus"
+      ],
+      "codepoint": 60980,
+      "duotoneFigure": 60981,
+      "name": "asclepius"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57514,
+      "duotoneFigure": 57515,
+      "name": "asterisk"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59442,
+      "duotoneFigure": 59443,
+      "name": "asterisk-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57516,
+      "duotoneFigure": 57517,
+      "name": "at"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58852,
+      "duotoneFigure": 58853,
+      "name": "atom"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60932,
+      "duotoneFigure": 60933,
+      "name": "avocado"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59900,
+      "duotoneFigure": 59901,
+      "name": "axe"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59252,
+      "duotoneFigure": 59253,
+      "name": "baby"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59416,
+      "duotoneFigure": 59417,
+      "name": "baby-carriage"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59682,
+      "duotoneFigure": 59683,
+      "name": "backpack"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57518,
+      "duotoneFigure": 57519,
+      "name": "backspace"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57520,
+      "duotoneFigure": 57521,
+      "name": "bag"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58854,
+      "duotoneFigure": 58855,
+      "name": "bag-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59244,
+      "duotoneFigure": 59245,
+      "name": "balloon"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57522,
+      "duotoneFigure": 57523,
+      "name": "bandaids"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57524,
+      "duotoneFigure": 57525,
+      "name": "bank"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57526,
+      "duotoneFigure": 57527,
+      "name": "barbell"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57528,
+      "duotoneFigure": 57529,
+      "name": "barcode"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60530,
+      "duotoneFigure": 60531,
+      "name": "barn"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59720,
+      "duotoneFigure": 59721,
+      "name": "barricade"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59162,
+      "duotoneFigure": 59163,
+      "name": "baseball"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59944,
+      "duotoneFigure": 59945,
+      "name": "baseball-cap"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61002,
+      "duotoneFigure": 61003,
+      "name": "baseball-helmet"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59748,
+      "duotoneFigure": 59749,
+      "name": "basket"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59172,
+      "duotoneFigure": 59173,
+      "name": "basketball"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59422,
+      "duotoneFigure": 59423,
+      "name": "bathtub"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57530,
+      "duotoneFigure": 57531,
+      "name": "battery-charging"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57532,
+      "duotoneFigure": 57533,
+      "name": "battery-charging-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57534,
+      "duotoneFigure": 57535,
+      "name": "battery-empty"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57536,
+      "duotoneFigure": 57537,
+      "name": "battery-full"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57538,
+      "duotoneFigure": 57539,
+      "name": "battery-high"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57540,
+      "duotoneFigure": 57541,
+      "name": "battery-low"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57542,
+      "duotoneFigure": 57543,
+      "name": "battery-medium"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59400,
+      "duotoneFigure": 59401,
+      "name": "battery-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60496,
+      "duotoneFigure": 60497,
+      "name": "battery-plus-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59334,
+      "duotoneFigure": 59335,
+      "name": "battery-vertical-empty"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59332,
+      "duotoneFigure": 59333,
+      "name": "battery-vertical-full"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59330,
+      "duotoneFigure": 59331,
+      "name": "battery-vertical-high"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59326,
+      "duotoneFigure": 59327,
+      "name": "battery-vertical-low"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59328,
+      "duotoneFigure": 59329,
+      "name": "battery-vertical-medium"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57544,
+      "duotoneFigure": 57545,
+      "name": "battery-warning"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57546,
+      "duotoneFigure": 57547,
+      "name": "battery-warning-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60708,
+      "duotoneFigure": 60709,
+      "name": "beach-ball"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59946,
+      "duotoneFigure": 59947,
+      "name": "beanie"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57548,
+      "duotoneFigure": 57549,
+      "name": "bed"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59312,
+      "duotoneFigure": 59313,
+      "name": "beer-bottle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60258,
+      "duotoneFigure": 60259,
+      "name": "beer-stein"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59380,
+      "duotoneFigure": 59381,
+      "name": "behance-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57550,
+      "duotoneFigure": 57551,
+      "name": "bell"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58856,
+      "duotoneFigure": 58857,
+      "name": "bell-ringing"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57552,
+      "duotoneFigure": 57553,
+      "name": "bell-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58858,
+      "duotoneFigure": 58859,
+      "name": "bell-simple-ringing"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57554,
+      "duotoneFigure": 57555,
+      "name": "bell-simple-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58860,
+      "duotoneFigure": 58861,
+      "name": "bell-simple-z"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57556,
+      "duotoneFigure": 57557,
+      "name": "bell-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58862,
+      "duotoneFigure": 58863,
+      "name": "bell-z"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59948,
+      "duotoneFigure": 59949,
+      "name": "belt"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60160,
+      "duotoneFigure": 60161,
+      "name": "bezier-curve"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57558,
+      "duotoneFigure": 57559,
+      "name": "bicycle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61024,
+      "duotoneFigure": 61025,
+      "name": "binary"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60004,
+      "duotoneFigure": 60005,
+      "name": "binoculars"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59872,
+      "duotoneFigure": 59873,
+      "name": "biohazard"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59180,
+      "duotoneFigure": 59181,
+      "name": "bird"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60832,
+      "duotoneFigure": 60833,
+      "name": "blueprint"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57562,
+      "duotoneFigure": 57563,
+      "name": "bluetooth"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57564,
+      "duotoneFigure": 57565,
+      "name": "bluetooth-connected"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57566,
+      "duotoneFigure": 57567,
+      "name": "bluetooth-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57568,
+      "duotoneFigure": 57569,
+      "name": "bluetooth-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59270,
+      "duotoneFigure": 59271,
+      "name": "boat"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60938,
+      "duotoneFigure": 60939,
+      "name": "bomb"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59378,
+      "duotoneFigure": 59379,
+      "name": "bone"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57570,
+      "duotoneFigure": 57571,
+      "name": "book"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57572,
+      "duotoneFigure": 57573,
+      "name": "book-bookmark"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57574,
+      "duotoneFigure": 57575,
+      "name": "book-open"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59634,
+      "duotoneFigure": 59635,
+      "name": "book-open-text"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60896,
+      "duotoneFigure": 60897,
+      "name": "book-open-user"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57576,
+      "duotoneFigure": 57577,
+      "name": "bookmark"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57578,
+      "duotoneFigure": 57579,
+      "name": "bookmark-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57580,
+      "duotoneFigure": 57581,
+      "name": "bookmarks"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58864,
+      "duotoneFigure": 58865,
+      "name": "bookmarks-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59224,
+      "duotoneFigure": 59225,
+      "name": "books"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60618,
+      "duotoneFigure": 60619,
+      "name": "boot"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59170,
+      "duotoneFigure": 59171,
+      "name": "boules"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59086,
+      "duotoneFigure": 59087,
+      "name": "bounding-box"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60068,
+      "duotoneFigure": 60069,
+      "name": "bowl-food"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59620,
+      "duotoneFigure": 59621,
+      "name": "bowl-steam"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59956,
+      "duotoneFigure": 59957,
+      "name": "bowling-ball"
+    },
+    {
+      "aliases": [
+        "archive-box"
+      ],
+      "codepoint": 57358,
+      "duotoneFigure": 57359,
+      "name": "box-arrow-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61012,
+      "duotoneFigure": 61013,
+      "name": "box-arrow-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59958,
+      "duotoneFigure": 59959,
+      "name": "boxing-glove"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59490,
+      "duotoneFigure": 59491,
+      "name": "brackets-angle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59488,
+      "duotoneFigure": 59489,
+      "name": "brackets-curly"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59492,
+      "duotoneFigure": 59493,
+      "name": "brackets-round"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59486,
+      "duotoneFigure": 59487,
+      "name": "brackets-square"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59214,
+      "duotoneFigure": 59215,
+      "name": "brain"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59060,
+      "duotoneFigure": 59061,
+      "name": "brandy"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59420,
+      "duotoneFigure": 59421,
+      "name": "bread"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60008,
+      "duotoneFigure": 60009,
+      "name": "bridge"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57582,
+      "duotoneFigure": 57583,
+      "name": "briefcase"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58866,
+      "duotoneFigure": 58867,
+      "name": "briefcase-metal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57586,
+      "duotoneFigure": 57587,
+      "name": "broadcast"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60500,
+      "duotoneFigure": 60501,
+      "name": "broom"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57588,
+      "duotoneFigure": 57589,
+      "name": "browser"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57590,
+      "duotoneFigure": 57591,
+      "name": "browsers"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58868,
+      "duotoneFigure": 58869,
+      "name": "bug"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58870,
+      "duotoneFigure": 58871,
+      "name": "bug-beetle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58872,
+      "duotoneFigure": 58873,
+      "name": "bug-droid"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57600,
+      "duotoneFigure": 57601,
+      "name": "building"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57598,
+      "duotoneFigure": 57603,
+      "name": "building-apartment"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57599,
+      "duotoneFigure": 57604,
+      "name": "building-office"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57602,
+      "duotoneFigure": 57605,
+      "name": "buildings"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60524,
+      "duotoneFigure": 60525,
+      "name": "bulldozer"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57606,
+      "duotoneFigure": 57607,
+      "name": "bus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60014,
+      "duotoneFigure": 60015,
+      "name": "butterfly"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58524,
+      "duotoneFigure": 58525,
+      "name": "cable-car"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59672,
+      "duotoneFigure": 59673,
+      "name": "cactus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59264,
+      "duotoneFigure": 59265,
+      "name": "cake"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58680,
+      "duotoneFigure": 58681,
+      "name": "calculator"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57608,
+      "duotoneFigure": 57609,
+      "name": "calendar"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57610,
+      "duotoneFigure": 57611,
+      "name": "calendar-blank"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59154,
+      "duotoneFigure": 59155,
+      "name": "calendar-check"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59314,
+      "duotoneFigure": 59315,
+      "name": "calendar-dot"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59316,
+      "duotoneFigure": 59317,
+      "name": "calendar-dots"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59568,
+      "duotoneFigure": 59569,
+      "name": "calendar-heart"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59924,
+      "duotoneFigure": 59925,
+      "name": "calendar-minus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59156,
+      "duotoneFigure": 59157,
+      "name": "calendar-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59922,
+      "duotoneFigure": 59923,
+      "name": "calendar-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59570,
+      "duotoneFigure": 59571,
+      "name": "calendar-star"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57612,
+      "duotoneFigure": 57613,
+      "name": "calendar-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59358,
+      "duotoneFigure": 59359,
+      "name": "call-bell"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57614,
+      "duotoneFigure": 57615,
+      "name": "camera"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60504,
+      "duotoneFigure": 60505,
+      "name": "camera-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59300,
+      "duotoneFigure": 59301,
+      "name": "camera-rotate"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57616,
+      "duotoneFigure": 57617,
+      "name": "camera-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59864,
+      "duotoneFigure": 59865,
+      "name": "campfire"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57618,
+      "duotoneFigure": 57619,
+      "name": "car"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60976,
+      "duotoneFigure": 60977,
+      "name": "car-battery"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59596,
+      "duotoneFigure": 59597,
+      "name": "car-profile"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57620,
+      "duotoneFigure": 57621,
+      "name": "car-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58874,
+      "duotoneFigure": 58875,
+      "name": "cardholder"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57592,
+      "duotoneFigure": 57593,
+      "name": "cards"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61008,
+      "duotoneFigure": 61009,
+      "name": "cards-three"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57622,
+      "duotoneFigure": 57623,
+      "name": "caret-circle-double-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57624,
+      "duotoneFigure": 57625,
+      "name": "caret-circle-double-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57626,
+      "duotoneFigure": 57627,
+      "name": "caret-circle-double-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57628,
+      "duotoneFigure": 57629,
+      "name": "caret-circle-double-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57630,
+      "duotoneFigure": 57631,
+      "name": "caret-circle-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57632,
+      "duotoneFigure": 57633,
+      "name": "caret-circle-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57634,
+      "duotoneFigure": 57635,
+      "name": "caret-circle-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57636,
+      "duotoneFigure": 57637,
+      "name": "caret-circle-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57662,
+      "duotoneFigure": 57663,
+      "name": "caret-circle-up-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57638,
+      "duotoneFigure": 57639,
+      "name": "caret-double-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57640,
+      "duotoneFigure": 57641,
+      "name": "caret-double-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57642,
+      "duotoneFigure": 57643,
+      "name": "caret-double-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57644,
+      "duotoneFigure": 57645,
+      "name": "caret-double-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57654,
+      "duotoneFigure": 57655,
+      "name": "caret-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57656,
+      "duotoneFigure": 57657,
+      "name": "caret-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57652,
+      "duotoneFigure": 57653,
+      "name": "caret-line-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57650,
+      "duotoneFigure": 57651,
+      "name": "caret-line-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57648,
+      "duotoneFigure": 57649,
+      "name": "caret-line-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57646,
+      "duotoneFigure": 57647,
+      "name": "caret-line-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57658,
+      "duotoneFigure": 57659,
+      "name": "caret-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57660,
+      "duotoneFigure": 57661,
+      "name": "caret-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57664,
+      "duotoneFigure": 57665,
+      "name": "caret-up-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60728,
+      "duotoneFigure": 60729,
+      "name": "carrot"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60800,
+      "duotoneFigure": 60801,
+      "name": "cash-register"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60718,
+      "duotoneFigure": 60719,
+      "name": "cassette-tape"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59856,
+      "duotoneFigure": 59857,
+      "name": "castle-turret"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59208,
+      "duotoneFigure": 59209,
+      "name": "cat"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57666,
+      "duotoneFigure": 57667,
+      "name": "cell-signal-full"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57668,
+      "duotoneFigure": 57669,
+      "name": "cell-signal-high"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57670,
+      "duotoneFigure": 57671,
+      "name": "cell-signal-low"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57672,
+      "duotoneFigure": 57673,
+      "name": "cell-signal-medium"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57674,
+      "duotoneFigure": null,
+      "name": "cell-signal-none"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57676,
+      "duotoneFigure": 57677,
+      "name": "cell-signal-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57678,
+      "duotoneFigure": 57679,
+      "name": "cell-signal-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60330,
+      "duotoneFigure": 60331,
+      "name": "cell-tower"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59238,
+      "duotoneFigure": 59239,
+      "name": "certificate"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59728,
+      "duotoneFigure": 59729,
+      "name": "chair"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58876,
+      "duotoneFigure": 58877,
+      "name": "chalkboard"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58878,
+      "duotoneFigure": 58879,
+      "name": "chalkboard-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58880,
+      "duotoneFigure": 58881,
+      "name": "chalkboard-teacher"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60106,
+      "duotoneFigure": 60107,
+      "name": "champagne"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59600,
+      "duotoneFigure": 59601,
+      "name": "charging-station"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57680,
+      "duotoneFigure": 57681,
+      "name": "chart-bar"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57682,
+      "duotoneFigure": 57683,
+      "name": "chart-bar-horizontal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60070,
+      "duotoneFigure": 60071,
+      "name": "chart-donut"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57684,
+      "duotoneFigure": 57685,
+      "name": "chart-line"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59574,
+      "duotoneFigure": 59575,
+      "name": "chart-line-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57686,
+      "duotoneFigure": 57687,
+      "name": "chart-line-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57688,
+      "duotoneFigure": 57689,
+      "name": "chart-pie"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57690,
+      "duotoneFigure": 57691,
+      "name": "chart-pie-slice"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60072,
+      "duotoneFigure": 60073,
+      "name": "chart-polar"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60076,
+      "duotoneFigure": 60077,
+      "name": "chart-scatter"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57692,
+      "duotoneFigure": 57693,
+      "name": "chat"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57696,
+      "duotoneFigure": 57697,
+      "name": "chat-centered"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57700,
+      "duotoneFigure": 57701,
+      "name": "chat-centered-dots"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57698,
+      "duotoneFigure": 57699,
+      "name": "chat-centered-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57702,
+      "duotoneFigure": 57703,
+      "name": "chat-centered-text"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57704,
+      "duotoneFigure": 57705,
+      "name": "chat-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57708,
+      "duotoneFigure": 57709,
+      "name": "chat-circle-dots"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57706,
+      "duotoneFigure": 57707,
+      "name": "chat-circle-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57710,
+      "duotoneFigure": 57711,
+      "name": "chat-circle-text"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57712,
+      "duotoneFigure": 57713,
+      "name": "chat-dots"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57694,
+      "duotoneFigure": 57695,
+      "name": "chat-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57714,
+      "duotoneFigure": 57715,
+      "name": "chat-teardrop"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57718,
+      "duotoneFigure": 57719,
+      "name": "chat-teardrop-dots"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57716,
+      "duotoneFigure": 57717,
+      "name": "chat-teardrop-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57720,
+      "duotoneFigure": 57721,
+      "name": "chat-teardrop-text"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57722,
+      "duotoneFigure": 57723,
+      "name": "chat-text"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57724,
+      "duotoneFigure": 57725,
+      "name": "chats"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57726,
+      "duotoneFigure": 57727,
+      "name": "chats-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57728,
+      "duotoneFigure": 57729,
+      "name": "chats-teardrop"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57730,
+      "duotoneFigure": 57731,
+      "name": "check"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57732,
+      "duotoneFigure": 57733,
+      "name": "check-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60326,
+      "duotoneFigure": 60327,
+      "name": "check-fat"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57734,
+      "duotoneFigure": 57735,
+      "name": "check-square"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57736,
+      "duotoneFigure": 57737,
+      "name": "check-square-offset"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59588,
+      "duotoneFigure": 59589,
+      "name": "checkerboard"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58682,
+      "duotoneFigure": 58683,
+      "name": "checks"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59978,
+      "duotoneFigure": 59979,
+      "name": "cheers"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59902,
+      "duotoneFigure": 59903,
+      "name": "cheese"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60814,
+      "duotoneFigure": 60815,
+      "name": "chef-hat"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59440,
+      "duotoneFigure": 59441,
+      "name": "cherries"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60650,
+      "duotoneFigure": 60651,
+      "name": "church"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60816,
+      "duotoneFigure": 60817,
+      "name": "cigarette"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60818,
+      "duotoneFigure": 60819,
+      "name": "cigarette-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57738,
+      "duotoneFigure": 57739,
+      "name": "circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58882,
+      "duotoneFigure": 58883,
+      "name": "circle-dashed"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57740,
+      "duotoneFigure": 57741,
+      "name": "circle-half"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57742,
+      "duotoneFigure": 57743,
+      "name": "circle-half-tilt"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60228,
+      "duotoneFigure": 60229,
+      "name": "circle-notch"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57744,
+      "duotoneFigure": 57745,
+      "name": "circles-four"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57746,
+      "duotoneFigure": 57747,
+      "name": "circles-three"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57748,
+      "duotoneFigure": 57749,
+      "name": "circles-three-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59842,
+      "duotoneFigure": 59843,
+      "name": "circuitry"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60010,
+      "duotoneFigure": 60011,
+      "name": "city"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57750,
+      "duotoneFigure": 57751,
+      "name": "clipboard"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57752,
+      "duotoneFigure": 57753,
+      "name": "clipboard-text"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57754,
+      "duotoneFigure": 57755,
+      "name": "clock"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57756,
+      "duotoneFigure": 57757,
+      "name": "clock-afternoon"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57758,
+      "duotoneFigure": 57759,
+      "name": "clock-clockwise"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60716,
+      "duotoneFigure": 60717,
+      "name": "clock-countdown"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57760,
+      "duotoneFigure": 57761,
+      "name": "clock-counter-clockwise"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60908,
+      "duotoneFigure": 60909,
+      "name": "clock-user"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57764,
+      "duotoneFigure": 57765,
+      "name": "closed-captioning"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57770,
+      "duotoneFigure": 57771,
+      "name": "cloud"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57772,
+      "duotoneFigure": 57773,
+      "name": "cloud-arrow-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57774,
+      "duotoneFigure": 57775,
+      "name": "cloud-arrow-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57776,
+      "duotoneFigure": 57777,
+      "name": "cloud-check"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58684,
+      "duotoneFigure": 58685,
+      "name": "cloud-fog"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57778,
+      "duotoneFigure": 57779,
+      "name": "cloud-lightning"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58686,
+      "duotoneFigure": 58687,
+      "name": "cloud-moon"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57780,
+      "duotoneFigure": 57781,
+      "name": "cloud-rain"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57782,
+      "duotoneFigure": 57783,
+      "name": "cloud-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57784,
+      "duotoneFigure": 57785,
+      "name": "cloud-snow"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58688,
+      "duotoneFigure": 58689,
+      "name": "cloud-sun"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60056,
+      "duotoneFigure": 60057,
+      "name": "cloud-warning"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60054,
+      "duotoneFigure": 60055,
+      "name": "cloud-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60872,
+      "duotoneFigure": 60873,
+      "name": "clover"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57786,
+      "duotoneFigure": 57787,
+      "name": "club"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59390,
+      "duotoneFigure": 59391,
+      "name": "coat-hanger"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59342,
+      "duotoneFigure": 59343,
+      "name": "coda-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57788,
+      "duotoneFigure": 57789,
+      "name": "code"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60158,
+      "duotoneFigure": 60159,
+      "name": "code-block"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57790,
+      "duotoneFigure": 57791,
+      "name": "code-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59768,
+      "duotoneFigure": 59769,
+      "name": "codepen-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59910,
+      "duotoneFigure": 59911,
+      "name": "codesandbox-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57794,
+      "duotoneFigure": 57795,
+      "name": "coffee"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57792,
+      "duotoneFigure": 57793,
+      "name": "coffee-bean"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58894,
+      "duotoneFigure": 58895,
+      "name": "coin"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60232,
+      "duotoneFigure": 60233,
+      "name": "coin-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59278,
+      "duotoneFigure": 59279,
+      "name": "coins"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58694,
+      "duotoneFigure": 58695,
+      "name": "columns"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58692,
+      "duotoneFigure": 58693,
+      "name": "columns-plus-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58690,
+      "duotoneFigure": 58691,
+      "name": "columns-plus-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57796,
+      "duotoneFigure": 57797,
+      "name": "command"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57800,
+      "duotoneFigure": 57801,
+      "name": "compass"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57798,
+      "duotoneFigure": 57799,
+      "name": "compass-rose"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59918,
+      "duotoneFigure": 59919,
+      "name": "compass-tool"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58696,
+      "duotoneFigure": 58697,
+      "name": "computer-tower"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59418,
+      "duotoneFigure": 59419,
+      "name": "confetti"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60738,
+      "duotoneFigure": 60739,
+      "name": "contactless-payment"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60582,
+      "duotoneFigure": 60583,
+      "name": "control"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59082,
+      "duotoneFigure": 59083,
+      "name": "cookie"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59236,
+      "duotoneFigure": 59237,
+      "name": "cooking-pot"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57802,
+      "duotoneFigure": 57803,
+      "name": "copy"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57804,
+      "duotoneFigure": 57805,
+      "name": "copy-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59498,
+      "duotoneFigure": 59499,
+      "name": "copyleft"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58698,
+      "duotoneFigure": 58699,
+      "name": "copyright"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57806,
+      "duotoneFigure": 57807,
+      "name": "corners-in"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57808,
+      "duotoneFigure": 57809,
+      "name": "corners-out"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59382,
+      "duotoneFigure": 59383,
+      "name": "couch"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60982,
+      "duotoneFigure": 60983,
+      "name": "court-basketball"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60094,
+      "duotoneFigure": 60095,
+      "name": "cow"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60690,
+      "duotoneFigure": 60691,
+      "name": "cowboy-hat"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58896,
+      "duotoneFigure": 58897,
+      "name": "cpu"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60744,
+      "duotoneFigure": 60747,
+      "name": "crane"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60745,
+      "duotoneFigure": 60749,
+      "name": "crane-tower"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57810,
+      "duotoneFigure": 57811,
+      "name": "credit-card"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60946,
+      "duotoneFigure": 60947,
+      "name": "cricket"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57812,
+      "duotoneFigure": 57813,
+      "name": "crop"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59552,
+      "duotoneFigure": 59553,
+      "name": "cross"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57814,
+      "duotoneFigure": 57815,
+      "name": "crosshair"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57816,
+      "duotoneFigure": 57817,
+      "name": "crosshair-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58900,
+      "duotoneFigure": 58901,
+      "name": "crown"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61022,
+      "duotoneFigure": 61023,
+      "name": "crown-cross"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58902,
+      "duotoneFigure": 58903,
+      "name": "crown-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57818,
+      "duotoneFigure": 57819,
+      "name": "cube"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60682,
+      "duotoneFigure": 60683,
+      "name": "cube-focus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60540,
+      "duotoneFigure": 60541,
+      "name": "cube-transparent"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58904,
+      "duotoneFigure": 58905,
+      "name": "currency-btc"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58700,
+      "duotoneFigure": 58701,
+      "name": "currency-circle-dollar"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58702,
+      "duotoneFigure": 58703,
+      "name": "currency-cny"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58704,
+      "duotoneFigure": 58705,
+      "name": "currency-dollar"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58706,
+      "duotoneFigure": 58707,
+      "name": "currency-dollar-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60122,
+      "duotoneFigure": 60123,
+      "name": "currency-eth"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58708,
+      "duotoneFigure": 58709,
+      "name": "currency-eur"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58710,
+      "duotoneFigure": 58711,
+      "name": "currency-gbp"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58712,
+      "duotoneFigure": 58713,
+      "name": "currency-inr"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58714,
+      "duotoneFigure": 58715,
+      "name": "currency-jpy"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58716,
+      "duotoneFigure": 58717,
+      "name": "currency-krw"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60492,
+      "duotoneFigure": 60493,
+      "name": "currency-kzt"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60242,
+      "duotoneFigure": 60243,
+      "name": "currency-ngn"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58718,
+      "duotoneFigure": 58719,
+      "name": "currency-rub"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57820,
+      "duotoneFigure": 57821,
+      "name": "cursor"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59336,
+      "duotoneFigure": 59337,
+      "name": "cursor-click"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59352,
+      "duotoneFigure": 59353,
+      "name": "cursor-text"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59644,
+      "duotoneFigure": 59645,
+      "name": "cylinder"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57822,
+      "duotoneFigure": 57823,
+      "name": "database"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60694,
+      "duotoneFigure": 60695,
+      "name": "desk"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58720,
+      "duotoneFigure": 58721,
+      "name": "desktop"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58722,
+      "duotoneFigure": 58723,
+      "name": "desktop-tower"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59454,
+      "duotoneFigure": 59455,
+      "name": "detective"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60686,
+      "duotoneFigure": 60687,
+      "name": "dev-to-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57824,
+      "duotoneFigure": 57825,
+      "name": "device-mobile"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57826,
+      "duotoneFigure": 57827,
+      "name": "device-mobile-camera"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60998,
+      "duotoneFigure": 60999,
+      "name": "device-mobile-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57828,
+      "duotoneFigure": 57829,
+      "name": "device-mobile-speaker"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60914,
+      "duotoneFigure": 60915,
+      "name": "device-rotate"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57830,
+      "duotoneFigure": 57831,
+      "name": "device-tablet"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57832,
+      "duotoneFigure": 57833,
+      "name": "device-tablet-camera"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57834,
+      "duotoneFigure": 57835,
+      "name": "device-tablet-speaker"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60324,
+      "duotoneFigure": 60325,
+      "name": "devices"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57836,
+      "duotoneFigure": 57837,
+      "name": "diamond"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59636,
+      "duotoneFigure": 59637,
+      "name": "diamonds-four"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57838,
+      "duotoneFigure": 57839,
+      "name": "dice-five"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57840,
+      "duotoneFigure": 57841,
+      "name": "dice-four"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57842,
+      "duotoneFigure": 57843,
+      "name": "dice-one"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57844,
+      "duotoneFigure": 57845,
+      "name": "dice-six"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57846,
+      "duotoneFigure": 57847,
+      "name": "dice-three"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57848,
+      "duotoneFigure": 57849,
+      "name": "dice-two"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58724,
+      "duotoneFigure": 58725,
+      "name": "disc"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60824,
+      "duotoneFigure": 60825,
+      "name": "disco-ball"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58906,
+      "duotoneFigure": 58907,
+      "name": "discord-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57850,
+      "duotoneFigure": 57851,
+      "name": "divide"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59684,
+      "duotoneFigure": 59685,
+      "name": "dna"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59210,
+      "duotoneFigure": 59211,
+      "name": "dog"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58908,
+      "duotoneFigure": 58909,
+      "name": "door"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59366,
+      "duotoneFigure": 59367,
+      "name": "door-open"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60638,
+      "duotoneFigure": 60639,
+      "name": "dot"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60640,
+      "duotoneFigure": 60641,
+      "name": "dot-outline"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57852,
+      "duotoneFigure": 57853,
+      "name": "dots-nine"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59284,
+      "duotoneFigure": 59285,
+      "name": "dots-six"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60130,
+      "duotoneFigure": 60131,
+      "name": "dots-six-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57854,
+      "duotoneFigure": 57855,
+      "name": "dots-three"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57856,
+      "duotoneFigure": 57857,
+      "name": "dots-three-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57858,
+      "duotoneFigure": 57859,
+      "name": "dots-three-circle-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57860,
+      "duotoneFigure": 57861,
+      "name": "dots-three-outline"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57862,
+      "duotoneFigure": 57863,
+      "name": "dots-three-outline-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57864,
+      "duotoneFigure": 57865,
+      "name": "dots-three-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57866,
+      "duotoneFigure": 57867,
+      "name": "download"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57868,
+      "duotoneFigure": 57869,
+      "name": "download-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60030,
+      "duotoneFigure": 60031,
+      "name": "dress"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59726,
+      "duotoneFigure": 59727,
+      "name": "dresser"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57870,
+      "duotoneFigure": 57871,
+      "name": "dribbble-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60788,
+      "duotoneFigure": 60789,
+      "name": "drone"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57872,
+      "duotoneFigure": 57873,
+      "name": "drop"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58726,
+      "duotoneFigure": 58727,
+      "name": "drop-half"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60224,
+      "duotoneFigure": 60225,
+      "name": "drop-half-bottom"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60978,
+      "duotoneFigure": 60979,
+      "name": "drop-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59732,
+      "duotoneFigure": 59733,
+      "name": "drop-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59344,
+      "duotoneFigure": 59345,
+      "name": "dropbox-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59148,
+      "duotoneFigure": 59149,
+      "name": "ear"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59150,
+      "duotoneFigure": 59151,
+      "name": "ear-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59410,
+      "duotoneFigure": 59411,
+      "name": "egg"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60260,
+      "duotoneFigure": 60261,
+      "name": "egg-crack"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57874,
+      "duotoneFigure": 57875,
+      "name": "eject"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59054,
+      "duotoneFigure": 59055,
+      "name": "eject-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60608,
+      "duotoneFigure": 60609,
+      "name": "elevator"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60860,
+      "duotoneFigure": 60861,
+      "name": "empty"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60032,
+      "duotoneFigure": 60033,
+      "name": "engine"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57876,
+      "duotoneFigure": 57877,
+      "name": "envelope"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57878,
+      "duotoneFigure": 57879,
+      "name": "envelope-open"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57880,
+      "duotoneFigure": 57881,
+      "name": "envelope-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57882,
+      "duotoneFigure": 57883,
+      "name": "envelope-simple-open"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60348,
+      "duotoneFigure": 60349,
+      "name": "equalizer"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57884,
+      "duotoneFigure": 57885,
+      "name": "equals"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57886,
+      "duotoneFigure": 57887,
+      "name": "eraser"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60602,
+      "duotoneFigure": 60603,
+      "name": "escalator-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60604,
+      "duotoneFigure": 60605,
+      "name": "escalator-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59202,
+      "duotoneFigure": 59203,
+      "name": "exam"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60996,
+      "duotoneFigure": 60997,
+      "name": "exclamation-mark"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59522,
+      "duotoneFigure": 59523,
+      "name": "exclude"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59520,
+      "duotoneFigure": 59521,
+      "name": "exclude-square"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60144,
+      "duotoneFigure": 60145,
+      "name": "export"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57888,
+      "duotoneFigure": 57889,
+      "name": "eye"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57890,
+      "duotoneFigure": 57891,
+      "name": "eye-closed"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57892,
+      "duotoneFigure": 57893,
+      "name": "eye-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58728,
+      "duotoneFigure": 58729,
+      "name": "eyedropper"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60100,
+      "duotoneFigure": 60101,
+      "name": "eyedropper-sample"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59322,
+      "duotoneFigure": 59323,
+      "name": "eyeglasses"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61020,
+      "duotoneFigure": 61021,
+      "name": "eyes"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58730,
+      "duotoneFigure": 58731,
+      "name": "face-mask"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57894,
+      "duotoneFigure": 57895,
+      "name": "facebook-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59232,
+      "duotoneFigure": 59233,
+      "name": "factory"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57896,
+      "duotoneFigure": 57897,
+      "name": "faders"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57898,
+      "duotoneFigure": 57899,
+      "name": "faders-horizontal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59870,
+      "duotoneFigure": 59871,
+      "name": "fallout-shelter"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59890,
+      "duotoneFigure": 59891,
+      "name": "fan"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60528,
+      "duotoneFigure": 60529,
+      "name": "farm"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59046,
+      "duotoneFigure": 59047,
+      "name": "fast-forward"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57900,
+      "duotoneFigure": 57901,
+      "name": "fast-forward-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59840,
+      "duotoneFigure": 59841,
+      "name": "feather"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60774,
+      "duotoneFigure": 60775,
+      "name": "fediverse-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57902,
+      "duotoneFigure": 57903,
+      "name": "figma-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57904,
+      "duotoneFigure": 57905,
+      "name": "file"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60202,
+      "duotoneFigure": 60203,
+      "name": "file-archive"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57906,
+      "duotoneFigure": 57907,
+      "name": "file-arrow-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58910,
+      "duotoneFigure": 58911,
+      "name": "file-arrow-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59936,
+      "duotoneFigure": 59937,
+      "name": "file-audio"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60210,
+      "duotoneFigure": 60214,
+      "name": "file-c"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60208,
+      "duotoneFigure": 60209,
+      "name": "file-c-sharp"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59742,
+      "duotoneFigure": 59743,
+      "name": "file-cloud"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59668,
+      "duotoneFigure": 59669,
+      "name": "file-code"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60206,
+      "duotoneFigure": 60207,
+      "name": "file-cpp"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60212,
+      "duotoneFigure": 60215,
+      "name": "file-css"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60188,
+      "duotoneFigure": 60189,
+      "name": "file-csv"
+    },
+    {
+      "aliases": [
+        "file-dotted"
+      ],
+      "codepoint": 59140,
+      "duotoneFigure": 59141,
+      "name": "file-dashed"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60190,
+      "duotoneFigure": 60191,
+      "name": "file-doc"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60216,
+      "duotoneFigure": 60217,
+      "name": "file-html"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59940,
+      "duotoneFigure": 59941,
+      "name": "file-image"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60211,
+      "duotoneFigure": 60219,
+      "name": "file-ini"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60186,
+      "duotoneFigure": 60187,
+      "name": "file-jpg"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60196,
+      "duotoneFigure": 60197,
+      "name": "file-js"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60218,
+      "duotoneFigure": 60221,
+      "name": "file-jsx"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59740,
+      "duotoneFigure": 59741,
+      "name": "file-lock"
+    },
+    {
+      "aliases": [
+        "file-search"
+      ],
+      "codepoint": 57912,
+      "duotoneFigure": 57913,
+      "name": "file-magnifying-glass"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60752,
+      "duotoneFigure": 60753,
+      "name": "file-md"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57908,
+      "duotoneFigure": 57909,
+      "name": "file-minus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59138,
+      "duotoneFigure": 59139,
+      "name": "file-pdf"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57910,
+      "duotoneFigure": 57911,
+      "name": "file-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60184,
+      "duotoneFigure": 60185,
+      "name": "file-png"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60192,
+      "duotoneFigure": 60193,
+      "name": "file-ppt"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60204,
+      "duotoneFigure": 60205,
+      "name": "file-py"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60200,
+      "duotoneFigure": 60201,
+      "name": "file-rs"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60750,
+      "duotoneFigure": 60751,
+      "name": "file-sql"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60680,
+      "duotoneFigure": 60681,
+      "name": "file-svg"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57914,
+      "duotoneFigure": 57915,
+      "name": "file-text"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60198,
+      "duotoneFigure": 60199,
+      "name": "file-ts"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60220,
+      "duotoneFigure": 60223,
+      "name": "file-tsx"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60213,
+      "duotoneFigure": 60227,
+      "name": "file-txt"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59938,
+      "duotoneFigure": 59939,
+      "name": "file-video"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60222,
+      "duotoneFigure": 60231,
+      "name": "file-vue"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57916,
+      "duotoneFigure": 57917,
+      "name": "file-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60194,
+      "duotoneFigure": 60195,
+      "name": "file-xls"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59736,
+      "duotoneFigure": 59737,
+      "name": "file-zip"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59152,
+      "duotoneFigure": 59153,
+      "name": "files"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59584,
+      "duotoneFigure": 59585,
+      "name": "film-reel"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60240,
+      "duotoneFigure": 60241,
+      "name": "film-script"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59586,
+      "duotoneFigure": 59587,
+      "name": "film-slate"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59282,
+      "duotoneFigure": 59283,
+      "name": "film-strip"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57918,
+      "duotoneFigure": 57919,
+      "name": "fingerprint"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57920,
+      "duotoneFigure": 57921,
+      "name": "fingerprint-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58732,
+      "duotoneFigure": 58733,
+      "name": "finn-the-human"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57922,
+      "duotoneFigure": 57923,
+      "name": "fire"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59880,
+      "duotoneFigure": 59881,
+      "name": "fire-extinguisher"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58912,
+      "duotoneFigure": 58913,
+      "name": "fire-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58740,
+      "duotoneFigure": 58741,
+      "name": "fire-truck"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58734,
+      "duotoneFigure": 58735,
+      "name": "first-aid"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58736,
+      "duotoneFigure": 58737,
+      "name": "first-aid-kit"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59176,
+      "duotoneFigure": 59177,
+      "name": "fish"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59178,
+      "duotoneFigure": 59179,
+      "name": "fish-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57924,
+      "duotoneFigure": 57925,
+      "name": "flag"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58914,
+      "duotoneFigure": 58915,
+      "name": "flag-banner"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60658,
+      "duotoneFigure": 60659,
+      "name": "flag-banner-fold"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59960,
+      "duotoneFigure": 59961,
+      "name": "flag-checkered"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60656,
+      "duotoneFigure": 60657,
+      "name": "flag-pennant"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58916,
+      "duotoneFigure": 58917,
+      "name": "flame"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57926,
+      "duotoneFigure": 57927,
+      "name": "flashlight"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59294,
+      "duotoneFigure": 59295,
+      "name": "flask"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60778,
+      "duotoneFigure": 60779,
+      "name": "flip-horizontal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60780,
+      "duotoneFigure": 60781,
+      "name": "flip-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57928,
+      "duotoneFigure": 57929,
+      "name": "floppy-disk"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60148,
+      "duotoneFigure": 60149,
+      "name": "floppy-disk-back"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59116,
+      "duotoneFigure": 59117,
+      "name": "flow-arrow"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59230,
+      "duotoneFigure": 59231,
+      "name": "flower"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59084,
+      "duotoneFigure": 59085,
+      "name": "flower-lotus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60108,
+      "duotoneFigure": 60109,
+      "name": "flower-tulip"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60234,
+      "duotoneFigure": 60235,
+      "name": "flying-saucer"
+    },
+    {
+      "aliases": [
+        "folder-notch"
+      ],
+      "codepoint": 57930,
+      "duotoneFigure": 57931,
+      "name": "folder"
+    },
+    {
+      "aliases": [
+        "folder-dotted"
+      ],
+      "codepoint": 59640,
+      "duotoneFigure": 59641,
+      "name": "folder-dashed"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59964,
+      "duotoneFigure": 59965,
+      "name": "folder-lock"
+    },
+    {
+      "aliases": [
+        "folder-notch-minus"
+      ],
+      "codepoint": 57940,
+      "duotoneFigure": 57941,
+      "name": "folder-minus"
+    },
+    {
+      "aliases": [
+        "folder-notch-open"
+      ],
+      "codepoint": 57942,
+      "duotoneFigure": 57943,
+      "name": "folder-open"
+    },
+    {
+      "aliases": [
+        "folder-notch-plus"
+      ],
+      "codepoint": 57944,
+      "duotoneFigure": 57945,
+      "name": "folder-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57946,
+      "duotoneFigure": 57947,
+      "name": "folder-simple"
+    },
+    {
+      "aliases": [
+        "folder-simple-dotted"
+      ],
+      "codepoint": 60458,
+      "duotoneFigure": 60459,
+      "name": "folder-simple-dashed"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60254,
+      "duotoneFigure": 60255,
+      "name": "folder-simple-lock"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57948,
+      "duotoneFigure": 57949,
+      "name": "folder-simple-minus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57950,
+      "duotoneFigure": 57951,
+      "name": "folder-simple-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60462,
+      "duotoneFigure": 60463,
+      "name": "folder-simple-star"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60256,
+      "duotoneFigure": 60257,
+      "name": "folder-simple-user"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60038,
+      "duotoneFigure": 60039,
+      "name": "folder-star"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60230,
+      "duotoneFigure": 60236,
+      "name": "folder-user"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57952,
+      "duotoneFigure": 57953,
+      "name": "folders"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59160,
+      "duotoneFigure": 59161,
+      "name": "football"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61004,
+      "duotoneFigure": 61005,
+      "name": "football-helmet"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60040,
+      "duotoneFigure": 60041,
+      "name": "footprints"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57954,
+      "duotoneFigure": 57955,
+      "name": "fork-knife"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59996,
+      "duotoneFigure": 59997,
+      "name": "four-k"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58918,
+      "duotoneFigure": 58919,
+      "name": "frame-corners"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57956,
+      "duotoneFigure": 57957,
+      "name": "framer-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60388,
+      "duotoneFigure": 60389,
+      "name": "function"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57958,
+      "duotoneFigure": 57959,
+      "name": "funnel"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57960,
+      "duotoneFigure": 57961,
+      "name": "funnel-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57962,
+      "duotoneFigure": 57963,
+      "name": "funnel-simple-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57964,
+      "duotoneFigure": 57965,
+      "name": "funnel-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57966,
+      "duotoneFigure": 57967,
+      "name": "game-controller"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60630,
+      "duotoneFigure": 60631,
+      "name": "garage"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59598,
+      "duotoneFigure": 59599,
+      "name": "gas-can"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59240,
+      "duotoneFigure": 59241,
+      "name": "gas-pump"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58920,
+      "duotoneFigure": 58921,
+      "name": "gauge"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59954,
+      "duotoneFigure": 59955,
+      "name": "gavel"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57968,
+      "duotoneFigure": 57969,
+      "name": "gear"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59516,
+      "duotoneFigure": 59517,
+      "name": "gear-fine"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57970,
+      "duotoneFigure": 57971,
+      "name": "gear-six"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59104,
+      "duotoneFigure": 59105,
+      "name": "gender-female"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59110,
+      "duotoneFigure": 59111,
+      "name": "gender-intersex"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59106,
+      "duotoneFigure": 59107,
+      "name": "gender-male"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59114,
+      "duotoneFigure": 59115,
+      "name": "gender-neuter"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59108,
+      "duotoneFigure": 59109,
+      "name": "gender-nonbinary"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59112,
+      "duotoneFigure": 59113,
+      "name": "gender-transgender"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58922,
+      "duotoneFigure": 58923,
+      "name": "ghost"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57972,
+      "duotoneFigure": 57973,
+      "name": "gif"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57974,
+      "duotoneFigure": 57975,
+      "name": "gift"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57976,
+      "duotoneFigure": 57977,
+      "name": "git-branch"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57978,
+      "duotoneFigure": 57979,
+      "name": "git-commit"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57980,
+      "duotoneFigure": 57981,
+      "name": "git-diff"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57982,
+      "duotoneFigure": 57983,
+      "name": "git-fork"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57984,
+      "duotoneFigure": 57985,
+      "name": "git-merge"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57986,
+      "duotoneFigure": 57987,
+      "name": "git-pull-request"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58742,
+      "duotoneFigure": 58743,
+      "name": "github-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59028,
+      "duotoneFigure": 59029,
+      "name": "gitlab-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59030,
+      "duotoneFigure": 59031,
+      "name": "gitlab-logo-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57992,
+      "duotoneFigure": 57993,
+      "name": "globe"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57994,
+      "duotoneFigure": 57995,
+      "name": "globe-hemisphere-east"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57996,
+      "duotoneFigure": 57997,
+      "name": "globe-hemisphere-west"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57998,
+      "duotoneFigure": 57999,
+      "name": "globe-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57988,
+      "duotoneFigure": 57989,
+      "name": "globe-simple-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58000,
+      "duotoneFigure": 58001,
+      "name": "globe-stand"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57990,
+      "duotoneFigure": 57991,
+      "name": "globe-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60596,
+      "duotoneFigure": 60597,
+      "name": "goggles"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59966,
+      "duotoneFigure": 59967,
+      "name": "golf"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60688,
+      "duotoneFigure": 60689,
+      "name": "goodreads-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59318,
+      "duotoneFigure": 59319,
+      "name": "google-cardboard-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59766,
+      "duotoneFigure": 59767,
+      "name": "google-chrome-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59638,
+      "duotoneFigure": 59639,
+      "name": "google-drive-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58002,
+      "duotoneFigure": 58003,
+      "name": "google-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60306,
+      "duotoneFigure": 60307,
+      "name": "google-photos-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58004,
+      "duotoneFigure": 58005,
+      "name": "google-play-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60308,
+      "duotoneFigure": 60309,
+      "name": "google-podcasts-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60888,
+      "duotoneFigure": 60889,
+      "name": "gps"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60886,
+      "duotoneFigure": 60887,
+      "name": "gps-fix"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60884,
+      "duotoneFigure": 60885,
+      "name": "gps-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60226,
+      "duotoneFigure": 60237,
+      "name": "gradient"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58924,
+      "duotoneFigure": 58925,
+      "name": "graduation-cap"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60520,
+      "duotoneFigure": 60521,
+      "name": "grains"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60522,
+      "duotoneFigure": 60523,
+      "name": "grains-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60248,
+      "duotoneFigure": 60249,
+      "name": "graph"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58898,
+      "duotoneFigure": 58899,
+      "name": "graphics-card"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60868,
+      "duotoneFigure": 60869,
+      "name": "greater-than"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60834,
+      "duotoneFigure": 60835,
+      "name": "greater-than-or-equal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58006,
+      "duotoneFigure": 58007,
+      "name": "grid-four"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60556,
+      "duotoneFigure": 60557,
+      "name": "grid-nine"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60042,
+      "duotoneFigure": 60043,
+      "name": "guitar"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60006,
+      "duotoneFigure": 60007,
+      "name": "hair-dryer"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59280,
+      "duotoneFigure": 59281,
+      "name": "hamburger"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59406,
+      "duotoneFigure": 59407,
+      "name": "hammer"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58008,
+      "duotoneFigure": 58009,
+      "name": "hand"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59982,
+      "duotoneFigure": 59983,
+      "name": "hand-arrow-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61018,
+      "duotoneFigure": 61019,
+      "name": "hand-arrow-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60044,
+      "duotoneFigure": 60045,
+      "name": "hand-coins"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61058,
+      "duotoneFigure": 61059,
+      "name": "hand-deposit"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59980,
+      "duotoneFigure": 59981,
+      "name": "hand-eye"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58746,
+      "duotoneFigure": 58747,
+      "name": "hand-fist"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58748,
+      "duotoneFigure": 58749,
+      "name": "hand-grabbing"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59408,
+      "duotoneFigure": 59409,
+      "name": "hand-heart"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58750,
+      "duotoneFigure": 58751,
+      "name": "hand-palm"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59340,
+      "duotoneFigure": 59341,
+      "name": "hand-peace"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58010,
+      "duotoneFigure": 58011,
+      "name": "hand-pointing"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58928,
+      "duotoneFigure": 58929,
+      "name": "hand-soap"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60564,
+      "duotoneFigure": 60565,
+      "name": "hand-swipe-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60562,
+      "duotoneFigure": 60563,
+      "name": "hand-swipe-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60560,
+      "duotoneFigure": 60561,
+      "name": "hand-tap"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58752,
+      "duotoneFigure": 58753,
+      "name": "hand-waving"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61056,
+      "duotoneFigure": 61057,
+      "name": "hand-withdraw"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58012,
+      "duotoneFigure": 58013,
+      "name": "handbag"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58926,
+      "duotoneFigure": 58927,
+      "name": "handbag-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59040,
+      "duotoneFigure": 59041,
+      "name": "hands-clapping"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60616,
+      "duotoneFigure": 60617,
+      "name": "hands-praying"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58754,
+      "duotoneFigure": 58755,
+      "name": "handshake"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58014,
+      "duotoneFigure": 58015,
+      "name": "hard-drive"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58016,
+      "duotoneFigure": 58017,
+      "name": "hard-drives"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60742,
+      "duotoneFigure": 60743,
+      "name": "hard-hat"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58018,
+      "duotoneFigure": 58019,
+      "name": "hash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58020,
+      "duotoneFigure": 58021,
+      "name": "hash-straight"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59348,
+      "duotoneFigure": 59349,
+      "name": "head-circuit"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59134,
+      "duotoneFigure": 59135,
+      "name": "headlights"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58022,
+      "duotoneFigure": 58023,
+      "name": "headphones"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58756,
+      "duotoneFigure": 58757,
+      "name": "headset"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58024,
+      "duotoneFigure": 58025,
+      "name": "heart"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60392,
+      "duotoneFigure": 60393,
+      "name": "heart-break"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60488,
+      "duotoneFigure": 60489,
+      "name": "heart-half"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58026,
+      "duotoneFigure": 58027,
+      "name": "heart-straight"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60312,
+      "duotoneFigure": 60313,
+      "name": "heart-straight-break"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58028,
+      "duotoneFigure": 58029,
+      "name": "heartbeat"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58030,
+      "duotoneFigure": 58031,
+      "name": "hexagon"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60046,
+      "duotoneFigure": 60047,
+      "name": "high-definition"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59624,
+      "duotoneFigure": 59625,
+      "name": "high-heel"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60534,
+      "duotoneFigure": 60535,
+      "name": "highlighter"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58930,
+      "duotoneFigure": 58931,
+      "name": "highlighter-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60550,
+      "duotoneFigure": 60551,
+      "name": "hockey"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60624,
+      "duotoneFigure": 60625,
+      "name": "hoodie"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58032,
+      "duotoneFigure": 58033,
+      "name": "horse"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59460,
+      "duotoneFigure": 59461,
+      "name": "hospital"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58034,
+      "duotoneFigure": 58035,
+      "name": "hourglass"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58036,
+      "duotoneFigure": 58037,
+      "name": "hourglass-high"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58038,
+      "duotoneFigure": 58039,
+      "name": "hourglass-low"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58040,
+      "duotoneFigure": 58041,
+      "name": "hourglass-medium"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58042,
+      "duotoneFigure": 58043,
+      "name": "hourglass-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58044,
+      "duotoneFigure": 58045,
+      "name": "hourglass-simple-high"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58046,
+      "duotoneFigure": 58047,
+      "name": "hourglass-simple-low"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58048,
+      "duotoneFigure": 58049,
+      "name": "hourglass-simple-medium"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58050,
+      "duotoneFigure": 58051,
+      "name": "house"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58052,
+      "duotoneFigure": 58053,
+      "name": "house-line"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58054,
+      "duotoneFigure": 58055,
+      "name": "house-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59534,
+      "duotoneFigure": 59535,
+      "name": "hurricane"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59396,
+      "duotoneFigure": 59397,
+      "name": "ice-cream"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59126,
+      "duotoneFigure": 59127,
+      "name": "identification-badge"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58056,
+      "duotoneFigure": 58057,
+      "name": "identification-card"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58058,
+      "duotoneFigure": 58059,
+      "name": "image"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59304,
+      "duotoneFigure": 59305,
+      "name": "image-broken"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58060,
+      "duotoneFigure": 58061,
+      "name": "image-square"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59446,
+      "duotoneFigure": 59447,
+      "name": "images"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59444,
+      "duotoneFigure": 59445,
+      "name": "images-square"
+    },
+    {
+      "aliases": [
+        "lemniscate"
+      ],
+      "codepoint": 58932,
+      "duotoneFigure": 58933,
+      "name": "infinity"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58062,
+      "duotoneFigure": 58063,
+      "name": "info"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58064,
+      "duotoneFigure": 58065,
+      "name": "instagram-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58066,
+      "duotoneFigure": 58067,
+      "name": "intersect"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59514,
+      "duotoneFigure": 59515,
+      "name": "intersect-square"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60612,
+      "duotoneFigure": 60613,
+      "name": "intersect-three"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60858,
+      "duotoneFigure": 60859,
+      "name": "intersection"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60994,
+      "duotoneFigure": 60995,
+      "name": "invoice"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60934,
+      "duotoneFigure": 60935,
+      "name": "island"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59360,
+      "duotoneFigure": 59363,
+      "name": "jar"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59361,
+      "duotoneFigure": 59365,
+      "name": "jar-label"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58068,
+      "duotoneFigure": 58069,
+      "name": "jeep"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59998,
+      "duotoneFigure": 59999,
+      "name": "joystick"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60244,
+      "duotoneFigure": 60245,
+      "name": "kanban"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58070,
+      "duotoneFigure": 58071,
+      "name": "key"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59266,
+      "duotoneFigure": 59267,
+      "name": "key-return"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58072,
+      "duotoneFigure": 58073,
+      "name": "keyboard"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60024,
+      "duotoneFigure": 60025,
+      "name": "keyhole"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58934,
+      "duotoneFigure": 58935,
+      "name": "knife"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59876,
+      "duotoneFigure": 59877,
+      "name": "ladder"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60454,
+      "duotoneFigure": 60455,
+      "name": "ladder-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58936,
+      "duotoneFigure": 58937,
+      "name": "lamp"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60974,
+      "duotoneFigure": 60975,
+      "name": "lamp-pendant"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58758,
+      "duotoneFigure": 58759,
+      "name": "laptop"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60870,
+      "duotoneFigure": 60871,
+      "name": "lasso"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59458,
+      "duotoneFigure": 59459,
+      "name": "lastfm-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59094,
+      "duotoneFigure": 59095,
+      "name": "layout"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58074,
+      "duotoneFigure": 58075,
+      "name": "leaf"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59738,
+      "duotoneFigure": 59739,
+      "name": "lectern"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59590,
+      "duotoneFigure": 59592,
+      "name": "lego"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59591,
+      "duotoneFigure": 59593,
+      "name": "lego-smiley"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60844,
+      "duotoneFigure": 60845,
+      "name": "less-than"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60836,
+      "duotoneFigure": 60837,
+      "name": "less-than-or-equal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60408,
+      "duotoneFigure": 60409,
+      "name": "letter-circle-h"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60424,
+      "duotoneFigure": 60425,
+      "name": "letter-circle-p"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60436,
+      "duotoneFigure": 60437,
+      "name": "letter-circle-v"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58938,
+      "duotoneFigure": 58939,
+      "name": "lifebuoy"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58076,
+      "duotoneFigure": 58077,
+      "name": "lightbulb"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58940,
+      "duotoneFigure": 58941,
+      "name": "lightbulb-filament"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59894,
+      "duotoneFigure": 59895,
+      "name": "lighthouse"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58078,
+      "duotoneFigure": 58079,
+      "name": "lightning"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60036,
+      "duotoneFigure": 60037,
+      "name": "lightning-a"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58080,
+      "duotoneFigure": 58081,
+      "name": "lightning-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59090,
+      "duotoneFigure": 59091,
+      "name": "line-segment"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59092,
+      "duotoneFigure": 59093,
+      "name": "line-segments"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60784,
+      "duotoneFigure": 60785,
+      "name": "line-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58082,
+      "duotoneFigure": 58083,
+      "name": "link"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58084,
+      "duotoneFigure": 58085,
+      "name": "link-break"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58086,
+      "duotoneFigure": 58087,
+      "name": "link-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58088,
+      "duotoneFigure": 58089,
+      "name": "link-simple-break"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58090,
+      "duotoneFigure": 58091,
+      "name": "link-simple-horizontal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58092,
+      "duotoneFigure": 58093,
+      "name": "link-simple-horizontal-break"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58094,
+      "duotoneFigure": 58095,
+      "name": "linkedin-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60910,
+      "duotoneFigure": 60911,
+      "name": "linktree-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60162,
+      "duotoneFigure": 60163,
+      "name": "linux-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58096,
+      "duotoneFigure": 58097,
+      "name": "list"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58098,
+      "duotoneFigure": 58099,
+      "name": "list-bullets"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60124,
+      "duotoneFigure": 60125,
+      "name": "list-checks"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58100,
+      "duotoneFigure": 58101,
+      "name": "list-dashes"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60382,
+      "duotoneFigure": 60383,
+      "name": "list-heart"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60384,
+      "duotoneFigure": 60385,
+      "name": "list-magnifying-glass"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58102,
+      "duotoneFigure": 58103,
+      "name": "list-numbers"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58104,
+      "duotoneFigure": 58105,
+      "name": "list-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60380,
+      "duotoneFigure": 60381,
+      "name": "list-star"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58106,
+      "duotoneFigure": 58107,
+      "name": "lock"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58110,
+      "duotoneFigure": 58111,
+      "name": "lock-key"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58112,
+      "duotoneFigure": 58113,
+      "name": "lock-key-open"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58114,
+      "duotoneFigure": 58115,
+      "name": "lock-laminated"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58116,
+      "duotoneFigure": 58117,
+      "name": "lock-laminated-open"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58118,
+      "duotoneFigure": 58119,
+      "name": "lock-open"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58120,
+      "duotoneFigure": 58121,
+      "name": "lock-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58122,
+      "duotoneFigure": 58123,
+      "name": "lock-simple-open"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60600,
+      "duotoneFigure": 60601,
+      "name": "lockers"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60802,
+      "duotoneFigure": 60803,
+      "name": "log"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59062,
+      "duotoneFigure": 59063,
+      "name": "magic-wand"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59008,
+      "duotoneFigure": 59009,
+      "name": "magnet"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59010,
+      "duotoneFigure": 59011,
+      "name": "magnet-straight"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58124,
+      "duotoneFigure": 58125,
+      "name": "magnifying-glass"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58126,
+      "duotoneFigure": 58127,
+      "name": "magnifying-glass-minus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58128,
+      "duotoneFigure": 58129,
+      "name": "magnifying-glass-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60446,
+      "duotoneFigure": 60447,
+      "name": "mailbox"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58134,
+      "duotoneFigure": 58135,
+      "name": "map-pin"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60986,
+      "duotoneFigure": 60987,
+      "name": "map-pin-area"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58136,
+      "duotoneFigure": 58137,
+      "name": "map-pin-line"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58132,
+      "duotoneFigure": 58133,
+      "name": "map-pin-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60990,
+      "duotoneFigure": 60991,
+      "name": "map-pin-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60988,
+      "duotoneFigure": 60989,
+      "name": "map-pin-simple-area"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60984,
+      "duotoneFigure": 60985,
+      "name": "map-pin-simple-line"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58138,
+      "duotoneFigure": 58139,
+      "name": "map-trifold"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58632,
+      "duotoneFigure": 58633,
+      "name": "markdown-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58944,
+      "duotoneFigure": 58945,
+      "name": "marker-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58140,
+      "duotoneFigure": 58141,
+      "name": "martini"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59892,
+      "duotoneFigure": 59893,
+      "name": "mask-happy"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60318,
+      "duotoneFigure": 60319,
+      "name": "mask-sad"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60776,
+      "duotoneFigure": 60777,
+      "name": "mastodon-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58142,
+      "duotoneFigure": 58143,
+      "name": "math-operations"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60772,
+      "duotoneFigure": 60773,
+      "name": "matrix-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58144,
+      "duotoneFigure": 58145,
+      "name": "medal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60668,
+      "duotoneFigure": 60669,
+      "name": "medal-military"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58146,
+      "duotoneFigure": 58147,
+      "name": "medium-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58148,
+      "duotoneFigure": 58149,
+      "name": "megaphone"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58946,
+      "duotoneFigure": 58947,
+      "name": "megaphone-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60866,
+      "duotoneFigure": 60867,
+      "name": "member-of"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59844,
+      "duotoneFigure": 59845,
+      "name": "memory"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59096,
+      "duotoneFigure": 59097,
+      "name": "messenger-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60674,
+      "duotoneFigure": 60675,
+      "name": "meta-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59834,
+      "duotoneFigure": 59835,
+      "name": "meteor"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60558,
+      "duotoneFigure": 60559,
+      "name": "metronome"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58150,
+      "duotoneFigure": 58151,
+      "name": "microphone"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58152,
+      "duotoneFigure": 58153,
+      "name": "microphone-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59228,
+      "duotoneFigure": 59229,
+      "name": "microphone-stage"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60538,
+      "duotoneFigure": 60539,
+      "name": "microscope"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60268,
+      "duotoneFigure": 60269,
+      "name": "microsoft-excel-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60272,
+      "duotoneFigure": 60273,
+      "name": "microsoft-outlook-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60110,
+      "duotoneFigure": 60111,
+      "name": "microsoft-powerpoint-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60262,
+      "duotoneFigure": 60263,
+      "name": "microsoft-teams-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60266,
+      "duotoneFigure": 60267,
+      "name": "microsoft-word-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58154,
+      "duotoneFigure": 58155,
+      "name": "minus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58156,
+      "duotoneFigure": 58157,
+      "name": "minus-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60748,
+      "duotoneFigure": 60755,
+      "name": "minus-square"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58760,
+      "duotoneFigure": 58761,
+      "name": "money"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61032,
+      "duotoneFigure": 61033,
+      "name": "money-wavy"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58158,
+      "duotoneFigure": 58159,
+      "name": "monitor"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58762,
+      "duotoneFigure": 58763,
+      "name": "monitor-arrow-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58764,
+      "duotoneFigure": 58765,
+      "name": "monitor-play"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58160,
+      "duotoneFigure": 58161,
+      "name": "moon"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58766,
+      "duotoneFigure": 58767,
+      "name": "moon-stars"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59428,
+      "duotoneFigure": 59429,
+      "name": "moped"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59426,
+      "duotoneFigure": 59427,
+      "name": "moped-front"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60654,
+      "duotoneFigure": 60655,
+      "name": "mosque"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59402,
+      "duotoneFigure": 59403,
+      "name": "motorcycle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59310,
+      "duotoneFigure": 59311,
+      "name": "mountains"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58170,
+      "duotoneFigure": 58171,
+      "name": "mouse"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58164,
+      "duotoneFigure": 58165,
+      "name": "mouse-left-click"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58168,
+      "duotoneFigure": 58169,
+      "name": "mouse-middle-click"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58166,
+      "duotoneFigure": 58167,
+      "name": "mouse-right-click"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58162,
+      "duotoneFigure": 58163,
+      "name": "mouse-scroll"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58948,
+      "duotoneFigure": 58949,
+      "name": "mouse-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58172,
+      "duotoneFigure": 58173,
+      "name": "music-note"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58174,
+      "duotoneFigure": 58175,
+      "name": "music-note-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58176,
+      "duotoneFigure": 58177,
+      "name": "music-notes"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60940,
+      "duotoneFigure": 60941,
+      "name": "music-notes-minus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60284,
+      "duotoneFigure": 60285,
+      "name": "music-notes-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58178,
+      "duotoneFigure": 58179,
+      "name": "music-notes-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60126,
+      "duotoneFigure": 60127,
+      "name": "navigation-arrow"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59438,
+      "duotoneFigure": 59439,
+      "name": "needle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60894,
+      "duotoneFigure": 60895,
+      "name": "network"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60892,
+      "duotoneFigure": 60893,
+      "name": "network-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60890,
+      "duotoneFigure": 60891,
+      "name": "network-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58180,
+      "duotoneFigure": 58181,
+      "name": "newspaper"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58182,
+      "duotoneFigure": 58183,
+      "name": "newspaper-clipping"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60838,
+      "duotoneFigure": 60839,
+      "name": "not-equals"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60846,
+      "duotoneFigure": 60847,
+      "name": "not-member-of"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60848,
+      "duotoneFigure": 60849,
+      "name": "not-subset-of"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60850,
+      "duotoneFigure": 60851,
+      "name": "not-superset-of"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60730,
+      "duotoneFigure": 60731,
+      "name": "notches"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58184,
+      "duotoneFigure": 58185,
+      "name": "note"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58186,
+      "duotoneFigure": 58187,
+      "name": "note-blank"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58188,
+      "duotoneFigure": 58189,
+      "name": "note-pencil"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58190,
+      "duotoneFigure": 58191,
+      "name": "notebook"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58942,
+      "duotoneFigure": 58943,
+      "name": "notepad"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59130,
+      "duotoneFigure": 59131,
+      "name": "notification"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59808,
+      "duotoneFigure": 59809,
+      "name": "notion-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60796,
+      "duotoneFigure": 60797,
+      "name": "nuclear-plant"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58194,
+      "duotoneFigure": 58195,
+      "name": "number-circle-eight"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58200,
+      "duotoneFigure": 58201,
+      "name": "number-circle-five"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58206,
+      "duotoneFigure": 58207,
+      "name": "number-circle-four"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58212,
+      "duotoneFigure": 58213,
+      "name": "number-circle-nine"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58218,
+      "duotoneFigure": 58219,
+      "name": "number-circle-one"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58224,
+      "duotoneFigure": 58225,
+      "name": "number-circle-seven"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58230,
+      "duotoneFigure": 58231,
+      "name": "number-circle-six"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58236,
+      "duotoneFigure": 58237,
+      "name": "number-circle-three"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58242,
+      "duotoneFigure": 58243,
+      "name": "number-circle-two"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58248,
+      "duotoneFigure": 58249,
+      "name": "number-circle-zero"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58192,
+      "duotoneFigure": 58193,
+      "name": "number-eight"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58198,
+      "duotoneFigure": 58199,
+      "name": "number-five"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58204,
+      "duotoneFigure": 58205,
+      "name": "number-four"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58210,
+      "duotoneFigure": 58211,
+      "name": "number-nine"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58216,
+      "duotoneFigure": 58217,
+      "name": "number-one"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58222,
+      "duotoneFigure": 58223,
+      "name": "number-seven"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58228,
+      "duotoneFigure": 58229,
+      "name": "number-six"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58196,
+      "duotoneFigure": 58197,
+      "name": "number-square-eight"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58202,
+      "duotoneFigure": 58203,
+      "name": "number-square-five"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58208,
+      "duotoneFigure": 58209,
+      "name": "number-square-four"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58214,
+      "duotoneFigure": 58215,
+      "name": "number-square-nine"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58220,
+      "duotoneFigure": 58221,
+      "name": "number-square-one"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58226,
+      "duotoneFigure": 58227,
+      "name": "number-square-seven"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58232,
+      "duotoneFigure": 58233,
+      "name": "number-square-six"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58238,
+      "duotoneFigure": 58239,
+      "name": "number-square-three"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58244,
+      "duotoneFigure": 58245,
+      "name": "number-square-two"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58250,
+      "duotoneFigure": 58251,
+      "name": "number-square-zero"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58234,
+      "duotoneFigure": 58235,
+      "name": "number-three"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58240,
+      "duotoneFigure": 58241,
+      "name": "number-two"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58246,
+      "duotoneFigure": 58247,
+      "name": "number-zero"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58312,
+      "duotoneFigure": 58313,
+      "name": "numpad"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58252,
+      "duotoneFigure": 58253,
+      "name": "nut"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58950,
+      "duotoneFigure": 58951,
+      "name": "ny-times-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58254,
+      "duotoneFigure": 58255,
+      "name": "octagon"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59974,
+      "duotoneFigure": 59975,
+      "name": "office-chair"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60972,
+      "duotoneFigure": 60973,
+      "name": "onigiri"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59346,
+      "duotoneFigure": 59347,
+      "name": "open-ai-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59560,
+      "duotoneFigure": 59561,
+      "name": "option"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60992,
+      "duotoneFigure": 60993,
+      "name": "orange"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60726,
+      "duotoneFigure": 60727,
+      "name": "orange-slice"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60812,
+      "duotoneFigure": 60813,
+      "name": "oven"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58256,
+      "duotoneFigure": 58257,
+      "name": "package"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59120,
+      "duotoneFigure": 59121,
+      "name": "paint-brush"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58768,
+      "duotoneFigure": 58769,
+      "name": "paint-brush-broad"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59122,
+      "duotoneFigure": 59123,
+      "name": "paint-brush-household"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58258,
+      "duotoneFigure": 58259,
+      "name": "paint-bucket"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59124,
+      "duotoneFigure": 59125,
+      "name": "paint-roller"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59080,
+      "duotoneFigure": 59081,
+      "name": "palette"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60066,
+      "duotoneFigure": 60067,
+      "name": "panorama"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60552,
+      "duotoneFigure": 60553,
+      "name": "pants"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58260,
+      "duotoneFigure": 58261,
+      "name": "paper-plane"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58262,
+      "duotoneFigure": 58263,
+      "name": "paper-plane-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58264,
+      "duotoneFigure": 58265,
+      "name": "paper-plane-tilt"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58266,
+      "duotoneFigure": 58267,
+      "name": "paperclip"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58770,
+      "duotoneFigure": 58771,
+      "name": "paperclip-horizontal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60028,
+      "duotoneFigure": 60029,
+      "name": "parachute"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59744,
+      "duotoneFigure": 59745,
+      "name": "paragraph"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60614,
+      "duotoneFigure": 60615,
+      "name": "parallelogram"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60594,
+      "duotoneFigure": 60595,
+      "name": "park"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59218,
+      "duotoneFigure": 59219,
+      "name": "password"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58268,
+      "duotoneFigure": 58269,
+      "name": "path"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59786,
+      "duotoneFigure": 59787,
+      "name": "patreon-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58270,
+      "duotoneFigure": 58271,
+      "name": "pause"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58272,
+      "duotoneFigure": 58273,
+      "name": "pause-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58952,
+      "duotoneFigure": 58953,
+      "name": "paw-print"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59788,
+      "duotoneFigure": 59789,
+      "name": "paypal-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58274,
+      "duotoneFigure": 58275,
+      "name": "peace"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58282,
+      "duotoneFigure": 58283,
+      "name": "pen"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58284,
+      "duotoneFigure": 58285,
+      "name": "pen-nib"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58954,
+      "duotoneFigure": 58955,
+      "name": "pen-nib-straight"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58286,
+      "duotoneFigure": 58287,
+      "name": "pencil"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58288,
+      "duotoneFigure": 58289,
+      "name": "pencil-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58290,
+      "duotoneFigure": 58291,
+      "name": "pencil-line"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59654,
+      "duotoneFigure": 59655,
+      "name": "pencil-ruler"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58292,
+      "duotoneFigure": 58293,
+      "name": "pencil-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60358,
+      "duotoneFigure": 60359,
+      "name": "pencil-simple-line"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60662,
+      "duotoneFigure": 60663,
+      "name": "pencil-simple-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60664,
+      "duotoneFigure": 60665,
+      "name": "pencil-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60542,
+      "duotoneFigure": 60543,
+      "name": "pentagon"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60508,
+      "duotoneFigure": 60509,
+      "name": "pentagram"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59722,
+      "duotoneFigure": 59723,
+      "name": "pepper"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58294,
+      "duotoneFigure": 58295,
+      "name": "percent"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58280,
+      "duotoneFigure": 58281,
+      "name": "person"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60670,
+      "duotoneFigure": 60671,
+      "name": "person-arms-spread"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59182,
+      "duotoneFigure": 59183,
+      "name": "person-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59188,
+      "duotoneFigure": 59189,
+      "name": "person-simple-bike"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61016,
+      "duotoneFigure": 61017,
+      "name": "person-simple-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60756,
+      "duotoneFigure": 60757,
+      "name": "person-simple-hike"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59184,
+      "duotoneFigure": 59185,
+      "name": "person-simple-run"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59164,
+      "duotoneFigure": 59165,
+      "name": "person-simple-ski"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59166,
+      "duotoneFigure": 59167,
+      "name": "person-simple-snowboard"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59190,
+      "duotoneFigure": 59191,
+      "name": "person-simple-swim"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60764,
+      "duotoneFigure": 60765,
+      "name": "person-simple-tai-chi"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59186,
+      "duotoneFigure": 59187,
+      "name": "person-simple-throw"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59194,
+      "duotoneFigure": 59195,
+      "name": "person-simple-walk"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60390,
+      "duotoneFigure": 60391,
+      "name": "perspective"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58296,
+      "duotoneFigure": 58297,
+      "name": "phone"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58298,
+      "duotoneFigure": 58299,
+      "name": "phone-call"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58300,
+      "duotoneFigure": 58301,
+      "name": "phone-disconnect"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58302,
+      "duotoneFigure": 58303,
+      "name": "phone-incoming"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58316,
+      "duotoneFigure": 58317,
+      "name": "phone-list"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58304,
+      "duotoneFigure": 58305,
+      "name": "phone-outgoing"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58314,
+      "duotoneFigure": 58315,
+      "name": "phone-pause"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60502,
+      "duotoneFigure": 60503,
+      "name": "phone-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58306,
+      "duotoneFigure": 58307,
+      "name": "phone-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58310,
+      "duotoneFigure": 58311,
+      "name": "phone-transfer"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58308,
+      "duotoneFigure": 58309,
+      "name": "phone-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58318,
+      "duotoneFigure": 58319,
+      "name": "phosphor-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60544,
+      "duotoneFigure": 60545,
+      "name": "pi"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59848,
+      "duotoneFigure": 59849,
+      "name": "piano-keys"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60966,
+      "duotoneFigure": 60967,
+      "name": "picnic-table"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58956,
+      "duotoneFigure": 58957,
+      "name": "picture-in-picture"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59908,
+      "duotoneFigure": 59909,
+      "name": "piggy-bank"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59136,
+      "duotoneFigure": 59137,
+      "name": "pill"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59970,
+      "duotoneFigure": 59971,
+      "name": "ping-pong"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60880,
+      "duotoneFigure": 60881,
+      "name": "pint-glass"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58958,
+      "duotoneFigure": 58959,
+      "name": "pinterest-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60316,
+      "duotoneFigure": 60317,
+      "name": "pinwheel"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60806,
+      "duotoneFigure": 60807,
+      "name": "pipe"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60808,
+      "duotoneFigure": 60809,
+      "name": "pipe-wrench"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60610,
+      "duotoneFigure": 60611,
+      "name": "pix-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59286,
+      "duotoneFigure": 59287,
+      "name": "pizza"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58960,
+      "duotoneFigure": 58961,
+      "name": "placeholder"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58962,
+      "duotoneFigure": 58963,
+      "name": "planet"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60334,
+      "duotoneFigure": 60335,
+      "name": "plant"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58320,
+      "duotoneFigure": 58321,
+      "name": "play"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58322,
+      "duotoneFigure": 58323,
+      "name": "play-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59582,
+      "duotoneFigure": 59583,
+      "name": "play-pause"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59050,
+      "duotoneFigure": 59051,
+      "name": "playlist"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59718,
+      "duotoneFigure": 59719,
+      "name": "plug"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60252,
+      "duotoneFigure": 60253,
+      "name": "plug-charging"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60246,
+      "duotoneFigure": 60247,
+      "name": "plugs"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60250,
+      "duotoneFigure": 60251,
+      "name": "plugs-connected"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58324,
+      "duotoneFigure": 58325,
+      "name": "plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58326,
+      "duotoneFigure": 58327,
+      "name": "plus-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58328,
+      "duotoneFigure": 58329,
+      "name": "plus-minus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60746,
+      "duotoneFigure": 60758,
+      "name": "plus-square"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58772,
+      "duotoneFigure": 58773,
+      "name": "poker-chip"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60490,
+      "duotoneFigure": 60491,
+      "name": "police-car"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59088,
+      "duotoneFigure": 59089,
+      "name": "polygon"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60238,
+      "duotoneFigure": 60239,
+      "name": "popcorn"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60350,
+      "duotoneFigure": 60351,
+      "name": "popsicle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60450,
+      "duotoneFigure": 60451,
+      "name": "potted-plant"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58330,
+      "duotoneFigure": 58331,
+      "name": "power"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59298,
+      "duotoneFigure": 59299,
+      "name": "prescription"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58964,
+      "duotoneFigure": 58965,
+      "name": "presentation"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58966,
+      "duotoneFigure": 58967,
+      "name": "presentation-chart"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58332,
+      "duotoneFigure": 58333,
+      "name": "printer"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58334,
+      "duotoneFigure": 58335,
+      "name": "prohibit"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58336,
+      "duotoneFigure": 58337,
+      "name": "prohibit-inset"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58968,
+      "duotoneFigure": 58969,
+      "name": "projector-screen"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58970,
+      "duotoneFigure": 58971,
+      "name": "projector-screen-chart"
+    },
+    {
+      "aliases": [
+        "activity"
+      ],
+      "codepoint": 57344,
+      "duotoneFigure": 57345,
+      "name": "pulse"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58338,
+      "duotoneFigure": 58339,
+      "name": "push-pin"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58972,
+      "duotoneFigure": 58973,
+      "name": "push-pin-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58974,
+      "duotoneFigure": 58975,
+      "name": "push-pin-simple-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58340,
+      "duotoneFigure": 58341,
+      "name": "push-pin-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58774,
+      "duotoneFigure": 58775,
+      "name": "puzzle-piece"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58342,
+      "duotoneFigure": 58343,
+      "name": "qr-code"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58344,
+      "duotoneFigure": 58347,
+      "name": "question"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58345,
+      "duotoneFigure": 58349,
+      "name": "question-mark"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59052,
+      "duotoneFigure": 59053,
+      "name": "queue"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58976,
+      "duotoneFigure": 58977,
+      "name": "quotes"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60098,
+      "duotoneFigure": 60099,
+      "name": "rabbit"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60930,
+      "duotoneFigure": 60931,
+      "name": "racquet"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58346,
+      "duotoneFigure": 58351,
+      "name": "radical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59262,
+      "duotoneFigure": 59263,
+      "name": "radio"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60168,
+      "duotoneFigure": 60169,
+      "name": "radio-button"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59868,
+      "duotoneFigure": 59869,
+      "name": "radioactive"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58776,
+      "duotoneFigure": 58777,
+      "name": "rainbow"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58778,
+      "duotoneFigure": 58779,
+      "name": "rainbow-cloud"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60770,
+      "duotoneFigure": 60771,
+      "name": "ranking"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60684,
+      "duotoneFigure": 60685,
+      "name": "read-cv-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58348,
+      "duotoneFigure": 58353,
+      "name": "receipt"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60736,
+      "duotoneFigure": 60737,
+      "name": "receipt-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58350,
+      "duotoneFigure": 58355,
+      "name": "record"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58352,
+      "duotoneFigure": 58357,
+      "name": "rectangle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58354,
+      "duotoneFigure": 58359,
+      "name": "rectangle-dashed"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59226,
+      "duotoneFigure": 59227,
+      "name": "recycle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58780,
+      "duotoneFigure": 58781,
+      "name": "reddit-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58358,
+      "duotoneFigure": 58361,
+      "name": "repeat"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58360,
+      "duotoneFigure": 58363,
+      "name": "repeat-once"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60298,
+      "duotoneFigure": 60299,
+      "name": "replit-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60782,
+      "duotoneFigure": 60783,
+      "name": "resize"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59048,
+      "duotoneFigure": 59049,
+      "name": "rewind"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58362,
+      "duotoneFigure": 58365,
+      "name": "rewind-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59448,
+      "duotoneFigure": 59449,
+      "name": "road-horizon"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59234,
+      "duotoneFigure": 59235,
+      "name": "robot"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58364,
+      "duotoneFigure": 58367,
+      "name": "rocket"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58366,
+      "duotoneFigure": 58369,
+      "name": "rocket-launch"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58786,
+      "duotoneFigure": 58787,
+      "name": "rows"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58782,
+      "duotoneFigure": 58783,
+      "name": "rows-plus-bottom"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58784,
+      "duotoneFigure": 58785,
+      "name": "rows-plus-top"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58368,
+      "duotoneFigure": 58371,
+      "name": "rss"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58370,
+      "duotoneFigure": 58373,
+      "name": "rss-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59930,
+      "duotoneFigure": 59931,
+      "name": "rug"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59064,
+      "duotoneFigure": 59065,
+      "name": "ruler"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59274,
+      "duotoneFigure": 59275,
+      "name": "sailboat"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59216,
+      "duotoneFigure": 59217,
+      "name": "scales"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60342,
+      "duotoneFigure": 60343,
+      "name": "scan"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60340,
+      "duotoneFigure": 60341,
+      "name": "scan-smiley"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60128,
+      "duotoneFigure": 60129,
+      "name": "scissors"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59424,
+      "duotoneFigure": 59425,
+      "name": "scooter"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58372,
+      "duotoneFigure": 58375,
+      "name": "screencast"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59502,
+      "duotoneFigure": 59503,
+      "name": "screwdriver"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59398,
+      "duotoneFigure": 59399,
+      "name": "scribble"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58978,
+      "duotoneFigure": 58979,
+      "name": "scribble-loop"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60282,
+      "duotoneFigure": 60283,
+      "name": "scroll"
+    },
+    {
+      "aliases": [
+        "circle-wavy"
+      ],
+      "codepoint": 58884,
+      "duotoneFigure": 58885,
+      "name": "seal"
+    },
+    {
+      "aliases": [
+        "circle-wavy-check"
+      ],
+      "codepoint": 58886,
+      "duotoneFigure": 58887,
+      "name": "seal-check"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58890,
+      "duotoneFigure": 58891,
+      "name": "seal-percent"
+    },
+    {
+      "aliases": [
+        "circle-wavy-question"
+      ],
+      "codepoint": 58888,
+      "duotoneFigure": 58889,
+      "name": "seal-question"
+    },
+    {
+      "aliases": [
+        "circle-wavy-warning"
+      ],
+      "codepoint": 58892,
+      "duotoneFigure": 58893,
+      "name": "seal-warning"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60302,
+      "duotoneFigure": 60303,
+      "name": "seat"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60926,
+      "duotoneFigure": 60927,
+      "name": "seatbelt"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60580,
+      "duotoneFigure": 60581,
+      "name": "security-camera"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59034,
+      "duotoneFigure": 59035,
+      "name": "selection"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59206,
+      "duotoneFigure": 59207,
+      "name": "selection-all"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60152,
+      "duotoneFigure": 60153,
+      "name": "selection-background"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60150,
+      "duotoneFigure": 60151,
+      "name": "selection-foreground"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59204,
+      "duotoneFigure": 59205,
+      "name": "selection-inverse"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59036,
+      "duotoneFigure": 59037,
+      "name": "selection-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59038,
+      "duotoneFigure": 59039,
+      "name": "selection-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60510,
+      "duotoneFigure": 60511,
+      "name": "shapes"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58374,
+      "duotoneFigure": 58377,
+      "name": "share"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60754,
+      "duotoneFigure": 60759,
+      "name": "share-fat"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58376,
+      "duotoneFigure": 58379,
+      "name": "share-network"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58378,
+      "duotoneFigure": 58381,
+      "name": "shield"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58380,
+      "duotoneFigure": 58383,
+      "name": "shield-check"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59144,
+      "duotoneFigure": 59145,
+      "name": "shield-checkered"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58382,
+      "duotoneFigure": 58385,
+      "name": "shield-chevron"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59142,
+      "duotoneFigure": 59143,
+      "name": "shield-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58384,
+      "duotoneFigure": 58387,
+      "name": "shield-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60468,
+      "duotoneFigure": 60469,
+      "name": "shield-star"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58386,
+      "duotoneFigure": 58388,
+      "name": "shield-warning"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59276,
+      "duotoneFigure": 59277,
+      "name": "shipping-container"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60050,
+      "duotoneFigure": 60051,
+      "name": "shirt-folded"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60666,
+      "duotoneFigure": 60667,
+      "name": "shooting-star"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58390,
+      "duotoneFigure": 58391,
+      "name": "shopping-bag"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58392,
+      "duotoneFigure": 58393,
+      "name": "shopping-bag-open"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58398,
+      "duotoneFigure": 58399,
+      "name": "shopping-cart"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58400,
+      "duotoneFigure": 58401,
+      "name": "shopping-cart-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59878,
+      "duotoneFigure": 59879,
+      "name": "shovel"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59254,
+      "duotoneFigure": 59255,
+      "name": "shower"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60084,
+      "duotoneFigure": 60085,
+      "name": "shrimp"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58402,
+      "duotoneFigure": 58403,
+      "name": "shuffle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58404,
+      "duotoneFigure": 58405,
+      "name": "shuffle-angular"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58406,
+      "duotoneFigure": 58407,
+      "name": "shuffle-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60086,
+      "duotoneFigure": 60087,
+      "name": "sidebar"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60452,
+      "duotoneFigure": 60453,
+      "name": "sidebar-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60088,
+      "duotoneFigure": 60089,
+      "name": "sigma"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58408,
+      "duotoneFigure": 58409,
+      "name": "sign-in"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58410,
+      "duotoneFigure": 58411,
+      "name": "sign-out"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60332,
+      "duotoneFigure": 60333,
+      "name": "signature"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59548,
+      "duotoneFigure": 59549,
+      "name": "signpost"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58980,
+      "duotoneFigure": 58981,
+      "name": "sim-card"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59832,
+      "duotoneFigure": 59833,
+      "name": "siren"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58412,
+      "duotoneFigure": 58413,
+      "name": "sketch-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58788,
+      "duotoneFigure": 58789,
+      "name": "skip-back"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58414,
+      "duotoneFigure": 58415,
+      "name": "skip-back-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58790,
+      "duotoneFigure": 58791,
+      "name": "skip-forward"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58416,
+      "duotoneFigure": 58417,
+      "name": "skip-forward-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59670,
+      "duotoneFigure": 59671,
+      "name": "skull"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59612,
+      "duotoneFigure": 59613,
+      "name": "skype-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58792,
+      "duotoneFigure": 58793,
+      "name": "slack-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58418,
+      "duotoneFigure": 58419,
+      "name": "sliders"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58420,
+      "duotoneFigure": 58421,
+      "name": "sliders-horizontal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60722,
+      "duotoneFigure": 60723,
+      "name": "slideshow"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58422,
+      "duotoneFigure": 58423,
+      "name": "smiley"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60514,
+      "duotoneFigure": 60515,
+      "name": "smiley-angry"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58424,
+      "duotoneFigure": 58425,
+      "name": "smiley-blank"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58426,
+      "duotoneFigure": 58427,
+      "name": "smiley-meh"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61014,
+      "duotoneFigure": 61015,
+      "name": "smiley-melting"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58428,
+      "duotoneFigure": 58429,
+      "name": "smiley-nervous"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58430,
+      "duotoneFigure": 58431,
+      "name": "smiley-sad"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58432,
+      "duotoneFigure": 58433,
+      "name": "smiley-sticker"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58982,
+      "duotoneFigure": 58983,
+      "name": "smiley-wink"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58434,
+      "duotoneFigure": 58435,
+      "name": "smiley-x-eyes"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58984,
+      "duotoneFigure": 58985,
+      "name": "snapchat-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59404,
+      "duotoneFigure": 59405,
+      "name": "sneaker"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60768,
+      "duotoneFigure": 60769,
+      "name": "sneaker-move"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58794,
+      "duotoneFigure": 58795,
+      "name": "snowflake"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59158,
+      "duotoneFigure": 59159,
+      "name": "soccer-ball"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60622,
+      "duotoneFigure": 60623,
+      "name": "sock"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60794,
+      "duotoneFigure": 60798,
+      "name": "solar-panel"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60795,
+      "duotoneFigure": 60799,
+      "name": "solar-roof"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58436,
+      "duotoneFigure": 58437,
+      "name": "sort-ascending"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58438,
+      "duotoneFigure": 58439,
+      "name": "sort-descending"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59614,
+      "duotoneFigure": 59615,
+      "name": "soundcloud-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58440,
+      "duotoneFigure": 58441,
+      "name": "spade"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59042,
+      "duotoneFigure": 59043,
+      "name": "sparkle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59912,
+      "duotoneFigure": 59913,
+      "name": "speaker-hifi"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58442,
+      "duotoneFigure": 58443,
+      "name": "speaker-high"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58444,
+      "duotoneFigure": 58445,
+      "name": "speaker-low"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58446,
+      "duotoneFigure": 58447,
+      "name": "speaker-none"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58448,
+      "duotoneFigure": 58449,
+      "name": "speaker-simple-high"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58450,
+      "duotoneFigure": 58451,
+      "name": "speaker-simple-low"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58452,
+      "duotoneFigure": 58453,
+      "name": "speaker-simple-none"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58454,
+      "duotoneFigure": 58455,
+      "name": "speaker-simple-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58456,
+      "duotoneFigure": 58457,
+      "name": "speaker-simple-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58458,
+      "duotoneFigure": 58459,
+      "name": "speaker-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58460,
+      "duotoneFigure": 58461,
+      "name": "speaker-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61044,
+      "duotoneFigure": 61045,
+      "name": "speedometer"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61030,
+      "duotoneFigure": 61031,
+      "name": "sphere"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58986,
+      "duotoneFigure": 58987,
+      "name": "spinner"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60968,
+      "duotoneFigure": 60969,
+      "name": "spinner-ball"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58988,
+      "duotoneFigure": 58989,
+      "name": "spinner-gap"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59898,
+      "duotoneFigure": 59899,
+      "name": "spiral"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59506,
+      "duotoneFigure": 59507,
+      "name": "split-horizontal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59510,
+      "duotoneFigure": 59511,
+      "name": "split-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58990,
+      "duotoneFigure": 58991,
+      "name": "spotify-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59364,
+      "duotoneFigure": 59368,
+      "name": "spray-bottle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58462,
+      "duotoneFigure": 58463,
+      "name": "square"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58466,
+      "duotoneFigure": 58467,
+      "name": "square-half"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60182,
+      "duotoneFigure": 60183,
+      "name": "square-half-bottom"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59024,
+      "duotoneFigure": 59025,
+      "name": "square-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59504,
+      "duotoneFigure": 59505,
+      "name": "square-split-horizontal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59508,
+      "duotoneFigure": 59509,
+      "name": "square-split-vertical"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58468,
+      "duotoneFigure": 58469,
+      "name": "squares-four"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58470,
+      "duotoneFigure": 58471,
+      "name": "stack"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60916,
+      "duotoneFigure": 60917,
+      "name": "stack-minus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60280,
+      "duotoneFigure": 60281,
+      "name": "stack-overflow-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60918,
+      "duotoneFigure": 60919,
+      "name": "stack-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58472,
+      "duotoneFigure": 58473,
+      "name": "stack-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59628,
+      "duotoneFigure": 59629,
+      "name": "stairs"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59976,
+      "duotoneFigure": 59977,
+      "name": "stamp"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60048,
+      "duotoneFigure": 60049,
+      "name": "standard-definition"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58474,
+      "duotoneFigure": 58475,
+      "name": "star"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60660,
+      "duotoneFigure": 60661,
+      "name": "star-and-crescent"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59044,
+      "duotoneFigure": 59045,
+      "name": "star-four"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59146,
+      "duotoneFigure": 59147,
+      "name": "star-half"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59550,
+      "duotoneFigure": 59551,
+      "name": "star-of-david"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60116,
+      "duotoneFigure": 60117,
+      "name": "steam-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59820,
+      "duotoneFigure": 59821,
+      "name": "steering-wheel"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60606,
+      "duotoneFigure": 60607,
+      "name": "steps"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59370,
+      "duotoneFigure": 59371,
+      "name": "stethoscope"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58796,
+      "duotoneFigure": 58797,
+      "name": "sticker"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59972,
+      "duotoneFigure": 59973,
+      "name": "stool"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58476,
+      "duotoneFigure": 58477,
+      "name": "stop"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58478,
+      "duotoneFigure": 58479,
+      "name": "stop-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58480,
+      "duotoneFigure": 58481,
+      "name": "storefront"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59962,
+      "duotoneFigure": 59963,
+      "name": "strategy"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59032,
+      "duotoneFigure": 59033,
+      "name": "stripe-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59198,
+      "duotoneFigure": 59199,
+      "name": "student"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60864,
+      "duotoneFigure": 60865,
+      "name": "subset-of"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60854,
+      "duotoneFigure": 60855,
+      "name": "subset-proper-of"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57768,
+      "duotoneFigure": 57769,
+      "name": "subtitles"
+    },
+    {
+      "aliases": [],
+      "codepoint": 57766,
+      "duotoneFigure": 57767,
+      "name": "subtitles-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60374,
+      "duotoneFigure": 60375,
+      "name": "subtract"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60372,
+      "duotoneFigure": 60373,
+      "name": "subtract-square"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58520,
+      "duotoneFigure": 58521,
+      "name": "subway"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58798,
+      "duotoneFigure": 58799,
+      "name": "suitcase"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59824,
+      "duotoneFigure": 59825,
+      "name": "suitcase-rolling"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58800,
+      "duotoneFigure": 58801,
+      "name": "suitcase-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58482,
+      "duotoneFigure": 58483,
+      "name": "sun"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58484,
+      "duotoneFigure": 58485,
+      "name": "sun-dim"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58806,
+      "duotoneFigure": 58807,
+      "name": "sun-horizon"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59414,
+      "duotoneFigure": 59415,
+      "name": "sunglasses"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60856,
+      "duotoneFigure": 60857,
+      "name": "superset-of"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60852,
+      "duotoneFigure": 60853,
+      "name": "superset-proper-of"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59452,
+      "duotoneFigure": 59453,
+      "name": "swap"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58808,
+      "duotoneFigure": 58809,
+      "name": "swatches"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60598,
+      "duotoneFigure": 60599,
+      "name": "swimming-pool"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58810,
+      "duotoneFigure": 58811,
+      "name": "sword"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60652,
+      "duotoneFigure": 60653,
+      "name": "synagogue"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59752,
+      "duotoneFigure": 59753,
+      "name": "syringe"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58992,
+      "duotoneFigure": 58993,
+      "name": "t-shirt"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58486,
+      "duotoneFigure": 58487,
+      "name": "table"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59256,
+      "duotoneFigure": 59257,
+      "name": "tabs"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58488,
+      "duotoneFigure": 58489,
+      "name": "tag"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58994,
+      "duotoneFigure": 58995,
+      "name": "tag-chevron"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58490,
+      "duotoneFigure": 58491,
+      "name": "tag-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58492,
+      "duotoneFigure": 58493,
+      "name": "target"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59650,
+      "duotoneFigure": 59651,
+      "name": "taxi"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59622,
+      "duotoneFigure": 59623,
+      "name": "tea-bag"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58812,
+      "duotoneFigure": 58813,
+      "name": "telegram-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59220,
+      "duotoneFigure": 59221,
+      "name": "television"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60134,
+      "duotoneFigure": 60135,
+      "name": "television-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59168,
+      "duotoneFigure": 59169,
+      "name": "tennis-ball"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59578,
+      "duotoneFigure": 59579,
+      "name": "tent"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58494,
+      "duotoneFigure": 58495,
+      "name": "terminal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60136,
+      "duotoneFigure": 60137,
+      "name": "terminal-window"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59296,
+      "duotoneFigure": 59297,
+      "name": "test-tube"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60724,
+      "duotoneFigure": 60725,
+      "name": "text-a-underline"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59118,
+      "duotoneFigure": 59119,
+      "name": "text-aa"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58496,
+      "duotoneFigure": 58497,
+      "name": "text-align-center"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58498,
+      "duotoneFigure": 58499,
+      "name": "text-align-justify"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58500,
+      "duotoneFigure": 58501,
+      "name": "text-align-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58502,
+      "duotoneFigure": 58503,
+      "name": "text-align-right"
+    },
+    {
+      "aliases": [
+        "text-bolder"
+      ],
+      "codepoint": 58814,
+      "duotoneFigure": 58815,
+      "name": "text-b"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60566,
+      "duotoneFigure": 60567,
+      "name": "text-columns"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59066,
+      "duotoneFigure": 59067,
+      "name": "text-h"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59076,
+      "duotoneFigure": 59077,
+      "name": "text-h-five"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59074,
+      "duotoneFigure": 59075,
+      "name": "text-h-four"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59068,
+      "duotoneFigure": 59069,
+      "name": "text-h-one"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59078,
+      "duotoneFigure": 59079,
+      "name": "text-h-six"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59072,
+      "duotoneFigure": 59073,
+      "name": "text-h-three"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59070,
+      "duotoneFigure": 59071,
+      "name": "text-h-two"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59934,
+      "duotoneFigure": 59935,
+      "name": "text-indent"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58816,
+      "duotoneFigure": 58817,
+      "name": "text-italic"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59932,
+      "duotoneFigure": 59933,
+      "name": "text-outdent"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58818,
+      "duotoneFigure": 58819,
+      "name": "text-strikethrough"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60568,
+      "duotoneFigure": 60569,
+      "name": "text-subscript"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60570,
+      "duotoneFigure": 60571,
+      "name": "text-superscript"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58506,
+      "duotoneFigure": 58507,
+      "name": "text-t"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58504,
+      "duotoneFigure": 58505,
+      "name": "text-t-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58820,
+      "duotoneFigure": 58821,
+      "name": "text-underline"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60170,
+      "duotoneFigure": 60171,
+      "name": "textbox"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58822,
+      "duotoneFigure": 58823,
+      "name": "thermometer"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58824,
+      "duotoneFigure": 58825,
+      "name": "thermometer-cold"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58826,
+      "duotoneFigure": 58827,
+      "name": "thermometer-hot"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58828,
+      "duotoneFigure": 58829,
+      "name": "thermometer-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60830,
+      "duotoneFigure": 60831,
+      "name": "threads-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59994,
+      "duotoneFigure": 59995,
+      "name": "three-d"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58508,
+      "duotoneFigure": 58509,
+      "name": "thumbs-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58510,
+      "duotoneFigure": 58511,
+      "name": "thumbs-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58512,
+      "duotoneFigure": 58513,
+      "name": "ticket"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60700,
+      "duotoneFigure": 60701,
+      "name": "tidal-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60146,
+      "duotoneFigure": 60147,
+      "name": "tiktok-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60840,
+      "duotoneFigure": 60841,
+      "name": "tilde"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58514,
+      "duotoneFigure": 58515,
+      "name": "timer"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59362,
+      "duotoneFigure": 59369,
+      "name": "tip-jar"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60720,
+      "duotoneFigure": 60721,
+      "name": "tipi"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60882,
+      "duotoneFigure": 60883,
+      "name": "tire"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58996,
+      "duotoneFigure": 58997,
+      "name": "toggle-left"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58998,
+      "duotoneFigure": 58999,
+      "name": "toggle-right"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59290,
+      "duotoneFigure": 59291,
+      "name": "toilet"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59292,
+      "duotoneFigure": 59293,
+      "name": "toilet-paper"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60576,
+      "duotoneFigure": 60577,
+      "name": "toolbox"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59852,
+      "duotoneFigure": 59853,
+      "name": "tooth"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59532,
+      "duotoneFigure": 59533,
+      "name": "tornado"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58516,
+      "duotoneFigure": 58517,
+      "name": "tote"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59000,
+      "duotoneFigure": 59001,
+      "name": "tote-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60902,
+      "duotoneFigure": 60903,
+      "name": "towel"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60526,
+      "duotoneFigure": 60527,
+      "name": "tractor"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59888,
+      "duotoneFigure": 59889,
+      "name": "trademark"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58356,
+      "duotoneFigure": 58389,
+      "name": "trademark-registered"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59816,
+      "duotoneFigure": 59817,
+      "name": "traffic-cone"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59002,
+      "duotoneFigure": 59003,
+      "name": "traffic-sign"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59818,
+      "duotoneFigure": 59819,
+      "name": "traffic-signal"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58518,
+      "duotoneFigure": 58519,
+      "name": "train"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58526,
+      "duotoneFigure": 58527,
+      "name": "train-regional"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58528,
+      "duotoneFigure": 58529,
+      "name": "train-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59884,
+      "duotoneFigure": 59885,
+      "name": "tram"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58530,
+      "duotoneFigure": 58531,
+      "name": "translate"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58534,
+      "duotoneFigure": 58535,
+      "name": "trash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58536,
+      "duotoneFigure": 58537,
+      "name": "trash-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58538,
+      "duotoneFigure": 58539,
+      "name": "tray"
+    },
+    {
+      "aliases": [
+        "archive-tray"
+      ],
+      "codepoint": 57360,
+      "duotoneFigure": 57361,
+      "name": "tray-arrow-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61010,
+      "duotoneFigure": 61011,
+      "name": "tray-arrow-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60898,
+      "duotoneFigure": 60899,
+      "name": "treasure-chest"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59098,
+      "duotoneFigure": 59099,
+      "name": "tree"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59100,
+      "duotoneFigure": 59101,
+      "name": "tree-evergreen"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59674,
+      "duotoneFigure": 59675,
+      "name": "tree-palm"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59004,
+      "duotoneFigure": 59005,
+      "name": "tree-structure"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61000,
+      "duotoneFigure": 61001,
+      "name": "tree-view"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58540,
+      "duotoneFigure": 58541,
+      "name": "trend-down"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58542,
+      "duotoneFigure": 58543,
+      "name": "trend-up"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58544,
+      "duotoneFigure": 58545,
+      "name": "triangle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58546,
+      "duotoneFigure": 58547,
+      "name": "triangle-dashed"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58802,
+      "duotoneFigure": 58803,
+      "name": "trolley"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58804,
+      "duotoneFigure": 58805,
+      "name": "trolley-suitcase"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59006,
+      "duotoneFigure": 59007,
+      "name": "trophy"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58548,
+      "duotoneFigure": 58549,
+      "name": "truck"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58550,
+      "duotoneFigure": 58551,
+      "name": "truck-trailer"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59604,
+      "duotoneFigure": 59605,
+      "name": "tumblr-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58830,
+      "duotoneFigure": 58831,
+      "name": "twitch-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58554,
+      "duotoneFigure": 58555,
+      "name": "twitter-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59012,
+      "duotoneFigure": 59013,
+      "name": "umbrella"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59014,
+      "duotoneFigure": 59015,
+      "name": "umbrella-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60862,
+      "duotoneFigure": 60863,
+      "name": "union"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59518,
+      "duotoneFigure": 59519,
+      "name": "unite"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59512,
+      "duotoneFigure": 59513,
+      "name": "unite-square"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58558,
+      "duotoneFigure": 58559,
+      "name": "upload"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58560,
+      "duotoneFigure": 58561,
+      "name": "upload-simple"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59734,
+      "duotoneFigure": 59735,
+      "name": "usb"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58562,
+      "duotoneFigure": 58563,
+      "name": "user"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60154,
+      "duotoneFigure": 60155,
+      "name": "user-check"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58564,
+      "duotoneFigure": 58565,
+      "name": "user-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60472,
+      "duotoneFigure": 60473,
+      "name": "user-circle-check"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60470,
+      "duotoneFigure": 60471,
+      "name": "user-circle-dashed"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58566,
+      "duotoneFigure": 58567,
+      "name": "user-circle-gear"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58568,
+      "duotoneFigure": 58569,
+      "name": "user-circle-minus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58570,
+      "duotoneFigure": 58571,
+      "name": "user-circle-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59132,
+      "duotoneFigure": 59133,
+      "name": "user-focus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58572,
+      "duotoneFigure": 58573,
+      "name": "user-gear"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59196,
+      "duotoneFigure": 59197,
+      "name": "user-list"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58574,
+      "duotoneFigure": 58575,
+      "name": "user-minus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58576,
+      "duotoneFigure": 58577,
+      "name": "user-plus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58578,
+      "duotoneFigure": 58579,
+      "name": "user-rectangle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60584,
+      "duotoneFigure": 60585,
+      "name": "user-sound"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58580,
+      "duotoneFigure": 58581,
+      "name": "user-square"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59222,
+      "duotoneFigure": 59223,
+      "name": "user-switch"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58582,
+      "duotoneFigure": 58583,
+      "name": "users"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59020,
+      "duotoneFigure": 59021,
+      "name": "users-four"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59022,
+      "duotoneFigure": 59023,
+      "name": "users-three"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59430,
+      "duotoneFigure": 59431,
+      "name": "van"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59246,
+      "duotoneFigure": 59247,
+      "name": "vault"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61026,
+      "duotoneFigure": 61027,
+      "name": "vector-three"
+    },
+    {
+      "aliases": [],
+      "codepoint": 61028,
+      "duotoneFigure": 61029,
+      "name": "vector-two"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58584,
+      "duotoneFigure": 58585,
+      "name": "vibrate"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59200,
+      "duotoneFigure": 59201,
+      "name": "video"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58586,
+      "duotoneFigure": 58587,
+      "name": "video-camera"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58588,
+      "duotoneFigure": 58589,
+      "name": "video-camera-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60878,
+      "duotoneFigure": 60879,
+      "name": "video-conference"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60322,
+      "duotoneFigure": 60323,
+      "name": "vignette"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60588,
+      "duotoneFigure": 60589,
+      "name": "vinyl-record"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59320,
+      "duotoneFigure": 59321,
+      "name": "virtual-reality"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59350,
+      "duotoneFigure": 59351,
+      "name": "virus"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60970,
+      "duotoneFigure": 60971,
+      "name": "visor"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58590,
+      "duotoneFigure": 58591,
+      "name": "voicemail"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59174,
+      "duotoneFigure": 59175,
+      "name": "volleyball"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59016,
+      "duotoneFigure": 59017,
+      "name": "wall"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59018,
+      "duotoneFigure": 59019,
+      "name": "wallet"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60628,
+      "duotoneFigure": 60629,
+      "name": "warehouse"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58592,
+      "duotoneFigure": 58593,
+      "name": "warning"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58594,
+      "duotoneFigure": 58595,
+      "name": "warning-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59388,
+      "duotoneFigure": 59389,
+      "name": "warning-diamond"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58596,
+      "duotoneFigure": 58597,
+      "name": "warning-octagon"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60904,
+      "duotoneFigure": 60905,
+      "name": "washing-machine"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58598,
+      "duotoneFigure": 58599,
+      "name": "watch"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60060,
+      "duotoneFigure": 60061,
+      "name": "wave-sawtooth"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60058,
+      "duotoneFigure": 60059,
+      "name": "wave-sine"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60062,
+      "duotoneFigure": 60063,
+      "name": "wave-square"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60064,
+      "duotoneFigure": 60065,
+      "name": "wave-triangle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59394,
+      "duotoneFigure": 59395,
+      "name": "waveform"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59392,
+      "duotoneFigure": 59393,
+      "name": "waveform-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59102,
+      "duotoneFigure": 59103,
+      "name": "waves"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59826,
+      "duotoneFigure": 59827,
+      "name": "webcam"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60636,
+      "duotoneFigure": 60637,
+      "name": "webcam-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60590,
+      "duotoneFigure": 60591,
+      "name": "webhooks-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59602,
+      "duotoneFigure": 59603,
+      "name": "wechat-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58832,
+      "duotoneFigure": 58833,
+      "name": "whatsapp-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58600,
+      "duotoneFigure": 58601,
+      "name": "wheelchair"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59546,
+      "duotoneFigure": 59547,
+      "name": "wheelchair-motion"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58602,
+      "duotoneFigure": 58603,
+      "name": "wifi-high"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58604,
+      "duotoneFigure": 58605,
+      "name": "wifi-low"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58606,
+      "duotoneFigure": 58607,
+      "name": "wifi-medium"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58608,
+      "duotoneFigure": null,
+      "name": "wifi-none"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58610,
+      "duotoneFigure": 58611,
+      "name": "wifi-slash"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58612,
+      "duotoneFigure": 58613,
+      "name": "wifi-x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58834,
+      "duotoneFigure": 58835,
+      "name": "wind"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59896,
+      "duotoneFigure": 59897,
+      "name": "windmill"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59026,
+      "duotoneFigure": 59027,
+      "name": "windows-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59058,
+      "duotoneFigure": 59059,
+      "name": "wine"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58836,
+      "duotoneFigure": 58837,
+      "name": "wrench"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58614,
+      "duotoneFigure": 58615,
+      "name": "x"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58616,
+      "duotoneFigure": 58617,
+      "name": "x-circle"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58556,
+      "duotoneFigure": 58557,
+      "name": "x-logo"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58618,
+      "duotoneFigure": 58619,
+      "name": "x-square"
+    },
+    {
+      "aliases": [],
+      "codepoint": 60826,
+      "duotoneFigure": 60827,
+      "name": "yarn"
+    },
+    {
+      "aliases": [],
+      "codepoint": 59690,
+      "duotoneFigure": 59691,
+      "name": "yin-yang"
+    },
+    {
+      "aliases": [],
+      "codepoint": 58620,
+      "duotoneFigure": 58621,
+      "name": "youtube-logo"
+    }
+  ],
+  "webTag": "v2.1.2"
+}

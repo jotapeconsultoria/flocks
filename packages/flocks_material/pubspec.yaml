@@ -1,0 +1,31 @@
+name: flocks_material
+description: "Ícones do Material Design como AppIconProvider do Flocks — a implementação de referência do eixo."
+# Em lockstep com o core: o contrato (`AppIconProvider`) mora lá, e um
+# adaptador numa linha própria só criaria matriz de compatibilidade para
+# manter. Ver a justificativa do 0.x no pubspec do `flocks`.
+version: 0.1.0
+publish_to: none
+
+repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks_material
+homepage: https://flocks.live
+issue_tracker: https://github.com/jotapeconsultoria/flocks/issues
+
+resolution: workspace
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.44.0"
+
+dependencies:
+  flocks: ^0.1.0
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  # Os glifos vêm da fonte MaterialIcons, que o Flutter já embute.
+  uses-material-design: true

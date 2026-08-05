@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://jotapetecnologia.com/flocks/component.schema.json",
+  "title": "Flocks Component Metadata",
+  "description": "Descritor de um componente do design system Flocks, consumido pelo MCP server e pelo site (uma rota por componente, em PT e EN).",
+  "type": "object",
+  "required": ["id", "name", "category", "status", "summary"],
+  "additionalProperties": false,
+  "$defs": {
+    "localizedText": {
+      "description": "Prosa do catálogo nos dois idiomas publicados. Ambos obrigatórios: é o que impede uma rota do site existir num idioma e faltar no outro.",
+      "type": "object",
+      "required": ["en", "pt"],
+      "additionalProperties": false,
+      "properties": {
+        "en": { "type": "string", "minLength": 1 },
+        "pt": { "type": "string", "minLength": 1 }
+      }
+    },
+    "localizedList": {
+      "description": "Lista de marcadores nos dois idiomas. O recorte pode diferir (3 marcadores em PT podem ser 2 em EN); o que os dois se devem é cobertura, não cardinalidade.",
+      "type": "object",
+      "required": ["en", "pt"],
+      "additionalProperties": false,
+      "properties": {
+        "en": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "pt": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    }
+  },
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+    "name": { "type": "string" },
+    "category": { "enum": ["atom", "molecule", "organism"] },
+    "status": { "enum": ["legacy", "inProgress", "migrated"] },
+    "since": { "type": "string" },
+    "summary": { "$ref": "#/$defs/localizedText" },
+    "description": { "$ref": "#/$defs/localizedText" },
+    "whenToUse": { "$ref": "#/$defs/localizedList" },
+    "whenNotToUse": { "$ref": "#/$defs/localizedList" },
+    "props": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "required"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string" },
+          "required": { "type": "boolean" },
+          "default": { "type": "string" },
+          "description": { "$ref": "#/$defs/localizedText" },
+          "enumValues": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "variants": { "type": "array", "items": { "type": "string" } },
+    "states": { "type": "array", "items": { "type": "string" } },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "code"],
+        "additionalProperties": false,
+        "properties": {
+          "title": { "$ref": "#/$defs/localizedText" },
+          "code": { "type": "string" },
+          "description": { "$ref": "#/$defs/localizedText" }
+        }
+      }
+    },
+    "do": { "$ref": "#/$defs/localizedList" },
+    "dont": { "$ref": "#/$defs/localizedList" },
+    "a11y": { "$ref": "#/$defs/localizedText" },
+    "crossPlatform": { "type": "boolean" },
+    "themeAware": { "type": "boolean" },
+    "reducesMotion": { "type": "boolean" },
+    "related": { "type": "array", "items": { "type": "string" } }
+  }
+}

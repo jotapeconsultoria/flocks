@@ -1,0 +1,122 @@
+name: CI
+
+# CI dos três pacotes do Flocks. Herdada da `flutter-ui.yml` do monorepo de
+# origem, com a mesma divisão e as mesmas cicatrizes — o que mudou é que aqui
+# não há prefixo `tracked-app/`: a raiz do repo É a raiz do workspace.
+#
+# São DOIS jobs, e a divisão não é estética. O `checks` roda tudo menos golden,
+# em Linux, que é barato e paralelizável. O `goldens` roda só os golden, em
+# macOS, porque golden compara PIXEL e a rasterização de texto não é idêntica
+# entre plataformas: as 302 baselines foram geradas em macOS arm64 e só fecham
+# lá.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  checks:
+    name: format · analyze · test · validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.0
+          channel: stable
+          cache: true
+
+      - name: Resolver dependências (workspace)
+        # Da raiz: é o `workspace:` do pubspec daqui que faz `flocks_phosphor` e
+        # `flocks_material` resolverem `flocks` no membro local. Enquanto o
+        # pacote não está no pub.dev, `pub get` dentro de um pacote isolado não
+        # tem como resolver o `flocks: ^0.1.0` que eles declaram.
+        run: flutter pub get
+
+      - name: Formatação
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Análise estática
+        # Da raiz, e isso cobre os três pacotes — verificado por canário
+        # (erro plantado no `flocks_material` reprova aqui).
+        run: dart analyze
+
+      - name: Testes + arquitetura (flocks)
+        # Sem golden: eles têm job próprio, em macOS (ver `goldens` abaixo).
+        run: flutter test --exclude-tags golden
+        working-directory: packages/flocks
+
+      - name: Validar metadados de componentes migrados
+        run: dart run tool/validate_components.dart
+        working-directory: packages/flocks
+
+      # Os dois adaptadores rodam separados, e não são formalidade: é aqui que
+      # vive o teste de contrato cruzado ("todo `AppIconToken` tem mapeamento em
+      # todo adaptador"). Ele é a razão de os três pacotes estarem num repo só —
+      # separados, só rodaria depois de publicar.
+      - name: Testes (flocks_phosphor)
+        run: flutter test
+        working-directory: packages/flocks_phosphor
+
+      - name: Testes (flocks_material)
+        run: flutter test
+        working-directory: packages/flocks_material
+
+  goldens:
+    name: goldens (macOS)
+    # Runner PINADO, não `macos-latest`: trocar a imagem troca o rasterizador
+    # de texto, e uma baseline de 302 imagens não pode mudar de referência
+    # porque o GitHub promoveu a `latest` numa terça-feira.
+    #
+    # `macos-26` (arm64) porque é onde as baselines são geradas. No monorepo
+    # isto esteve em `macos-15` e o job nunca passou verde, com a causa
+    # invisível: 302 imagens vermelhas sem nada dizendo "a imagem não é a
+    # mesma". O passo abaixo passou a dizer.
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Conferir que a imagem bate com a das baselines
+        # Uma linha, antes de rodar teste nenhum, em vez de 302 falhas de pixel
+        # sem causa aparente. Ao subir o pin, regere as baselines na imagem nova
+        # (`flutter test --tags golden --update-goldens`) no MESMO commit.
+        run: |
+          esperado=26
+          atual=$(sw_vers -productVersion | cut -d. -f1)
+          arco=$(uname -m)
+          echo "runner: macOS $atual ($arco) · baselines: macOS $esperado (arm64)"
+          if [ "$atual" != "$esperado" ] || [ "$arco" != "arm64" ]; then
+            echo "::error::As baselines de golden foram geradas em macOS $esperado/arm64, e este runner é macOS $atual/$arco. O rasterizador difere, então TODA comparação de pixel vai falhar por um motivo que não é o código. Alinhe o \`runs-on\` ou regere as baselines."
+            exit 1
+          fi
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.0
+          channel: stable
+          cache: true
+
+      - name: Resolver dependências (workspace)
+        run: flutter pub get
+
+      - name: Goldens (flocks)
+        # As fontes reais entram por `FontLoader` e os ícones são estubados no
+        # `test/flutter_test_config.dart` — é o que tira do caminho as duas
+        # fontes de variação entre máquinas (fonte do sistema e rede).
+        run: flutter test --tags golden
+        working-directory: packages/flocks
+
+      - name: Imagens da divergência
+        # Sem isto, um golden vermelho na CI é indiagnosticável: a mensagem diz
+        # que os bytes diferem e não mostra o quê. O `flutter_test` grava
+        # master/test/isolatedDiff em `failures/` — é o que a triagem usa.
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: golden-failures
+          path: packages/flocks/test/**/failures/**
+          retention-days: 14
+          if-no-files-found: ignore

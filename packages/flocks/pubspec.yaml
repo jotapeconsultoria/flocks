@@ -1,0 +1,89 @@
+name: flocks
+description: "Flocks — the Tracked design system: design tokens, theme and brand (white-label)."
+# 0.x, e não 1.0.0, por uma razão só: 1.0.0 no pub.dev é promessa sobre o
+# FUTURO, não atestado sobre o passado. O pacote tem 131 componentes testados e
+# documentados, mas nunca encarou um consumidor externo, levou um
+# `refactor(flocks)!` no dia da extração e roda a ~65 commits por quinzena.
+# Em 0.x o SemVer trata o MINOR como slot de quebra, então `^0.1.0` resolve
+# para `>=0.1.0 <0.2.0` e todo adotante já sai pinado contra o churn.
+#
+# 0.x → 1.0.0 é formatura que se anuncia; 1.0.0 → 2.0.0 → 3.0.0 num trimestre é
+# instabilidade que não se retrata — no pub.dev só existe `retract`.
+#
+# Os `since: 'flocks@1.4.0'` do catálogo são marcos INTERNOS de migração,
+# anteriores a qualquer publicação, e já divergiam deste campo antes da
+# extração (a régua chega a 1.5.0 com o pubspec em 1.0.0). Ver CHANGELOG.
+version: 0.1.0
+publish_to: none
+
+repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks
+homepage: https://flocks.live
+issue_tracker: https://github.com/jotapeconsultoria/flocks/issues
+
+resolution: workspace
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.44.0"
+
+dependencies:
+  equatable: ^2.0.8
+  flutter:
+    sdk: flutter
+  flutter_cache_manager: ^3.3.1
+  flutter_svg: ^2.2.3
+  # Parsers Dart PUROS (sem Flutter/Material) usados pelos organisms de conteúdo
+  # (AppMarkdown/AppHtml). Só produzem AST/DOM — o render é 100% nosso, sobre
+  # widgets.dart. NÃO trocar por flutter_html: ele exige ancestral Material.
+  html: ^0.15.4
+  markdown: ^7.3.0
+  material_color_utilities: ^0.13.0
+  # `@internal`: marca o widget que existe só como peça de outro componente.
+  # O analisador então proíbe usá-lo fora do pacote E exportá-lo no baril
+  # público — a fronteira deixa de ser convenção e vira erro de compilação.
+  meta: ^1.16.0
+  pointer_interceptor: ^0.10.1+2
+  shimmer: ^3.0.0
+  url_launcher: ^6.3.0
+
+dev_dependencies:
+  build_runner: ^2.4.0
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.4
+  widgetbook: ^3.0.0
+  widgetbook_annotation: ^3.0.0
+  widgetbook_generator: ^3.0.0
+
+flutter:
+  # Necessário para os ícones da UI do catálogo Widgetbook (tooling). NÃO muda
+  # o design system: os componentes do flocks não importam Material (garantido
+  # pelo teste de arquitetura); isto só bundla MaterialIcons no build do catálogo.
+  uses-material-design: true
+
+  # Os 55 ícones do contrato ([AppIconToken]), servidos pelo provider padrão sem
+  # tocar a rede. São do Phosphor Icons (MIT) — a licença e a tradução de cada
+  # nome estão em `assets/icons/`.
+  assets:
+    - assets/icons/
+    - assets/illustrations/
+  # Só fontes redistribuíveis: as duas famílias são SIL Open Font License 1.1, e
+  # a OFL exige que o texto da licença acompanhe a fonte — daí o `OFL.txt` ao
+  # lado de cada uma. Não acrescente família sem verificar a licença: a Neutrek
+  # saiu daqui por ser "Personal Use Only", o que tornava o pacote impublicável.
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins/Poppins-SemiBold.ttf
+          weight: 600
+    - family: SpaceGrotesk
+      fonts:
+        - asset: assets/fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/SpaceGrotesk/SpaceGrotesk-Medium.ttf
+          weight: 500

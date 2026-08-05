@@ -1,0 +1,61 @@
+name: flocks_phosphor
+description: "Phosphor Icons para o Flocks: os 1.512 ícones nos 6 pesos, em fonte, com tree-shaking."
+# Em lockstep com o core, como o `flocks_material`. O 2.0.0 anterior contava a
+# reescrita interna de SVG para fonte — marco que nenhum consumidor externo
+# viu, porque nada foi publicado. Ver a justificativa do 0.x no pubspec do
+# `flocks`.
+version: 0.1.0
+publish_to: none
+
+repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks_phosphor
+homepage: https://flocks.live
+issue_tracker: https://github.com/jotapeconsultoria/flocks/issues
+
+resolution: workspace
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.44.0"
+
+dependencies:
+  flocks: ^0.1.0
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  # Seis TTFs, ~2,9 MB, de phosphor-icons/web numa tag fixada (ver
+  # `tool/phosphor_catalog.dart`). Antes eram 9.072 SVGs e 35 MB.
+  #
+  # A troca não é de formato, é de mecânica: o Flutter NÃO faz tree-shaking de
+  # asset — todo SVG declarado aqui ia inteiro para o bundle de quem instalasse
+  # o pacote, usasse ele vinte ícones ou mil. Fonte ele SABE podar: o
+  # `--tree-shake-icons` lê os `IconData` constantes do app e remonta cada TTF
+  # só com os glifos citados. É a mesma razão pela qual `flocks_material` nunca
+  # teve o problema — ícone do Material é fonte, e vem dentro do Flutter.
+  #
+  # Cada peso é uma família própria, e não um `weight` de uma família só: os
+  # desenhos são independentes, e o `fill` não é um `regular` mais gordo.
+  fonts:
+    - family: Phosphor
+      fonts:
+        - asset: assets/fonts/Phosphor.ttf
+    - family: Phosphor-Bold
+      fonts:
+        - asset: assets/fonts/Phosphor-Bold.ttf
+    - family: Phosphor-Duotone
+      fonts:
+        - asset: assets/fonts/Phosphor-Duotone.ttf
+    - family: Phosphor-Fill
+      fonts:
+        - asset: assets/fonts/Phosphor-Fill.ttf
+    - family: Phosphor-Light
+      fonts:
+        - asset: assets/fonts/Phosphor-Light.ttf
+    - family: Phosphor-Thin
+      fonts:
+        - asset: assets/fonts/Phosphor-Thin.ttf
