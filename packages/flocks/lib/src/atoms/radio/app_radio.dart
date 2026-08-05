@@ -251,7 +251,7 @@ final class AppRadio<T> extends StatelessWidget {
 ///
 /// Desabilitado usa [AppColorTheme.disabledColor] (apagado por **tom**, não por
 /// opacidade), garantindo perceptibilidade e distinção do habilitado nos dois
-/// temas. Ver `docs/COLOR_ACCESSIBILITY_RULES.md` §7.
+/// temas. Ver `doc/COLOR_ACCESSIBILITY_RULES.md` §7.
 ({Color indicator, Color? container, Color? border}) appRadioStateColors(
   AppColorTheme theme, {
   required bool selected,

@@ -5,7 +5,7 @@
 // a copy de /instalar do site sai desse mesmo texto: a contradição não fica no
 // repositório, ela é publicada.
 //
-// O destino está decidido (pub.dev, ver `docs/EXTRACAO.md`), mas o pacote ainda
+// O destino está decidido (pub.dev, ver `doc/EXTRACAO.md`), mas o pacote ainda
 // não foi publicado. Enquanto `publish_to: none` estiver lá, o README tem de
 // dizer isso na cara — e no dia em que a linha sair, este teste cobra que o
 // aviso saia junto. É o mesmo princípio do gate de contagem: o número (ou a
@@ -41,7 +41,7 @@ void main() {
       readme,
       contains(kHostedDependency),
       reason:
-          'O destino decidido é o pub.dev (docs/EXTRACAO.md). Se isso mudou, '
+          'O destino decidido é o pub.dev (doc/EXTRACAO.md). Se isso mudou, '
           'mude a instrução do README e este teste juntos — a copy de '
           '/instalar do site sai daqui.',
     );

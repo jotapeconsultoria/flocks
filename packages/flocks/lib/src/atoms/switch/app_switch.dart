@@ -225,7 +225,7 @@ final class AppSwitch extends StatelessWidget {
 /// cor que contraste ≥3:1 com a superfície do trilho nos dois temas.
 ///
 /// Desabilitado usa [AppColorTheme.disabledColor] (apagado por **tom**, não por
-/// opacidade). Ver `docs/COLOR_ACCESSIBILITY_RULES.md` §7.
+/// opacidade). Ver `doc/COLOR_ACCESSIBILITY_RULES.md` §7.
 ({Color indicator, Color? container, Color? border}) appSwitchStateColors(
   AppColorTheme theme, {
   required bool selected,

@@ -12,7 +12,7 @@ dependencies:
 ```
 
 > The package is **not yet published** on pub.dev — that is the decided
-> destination, and the step-by-step is in [`docs/EXTRACAO.md`](docs/EXTRACAO.md).
+> destination, and the step-by-step is in [`doc/EXTRACAO.md`](doc/EXTRACAO.md).
 > Until then the line above does not resolve, and the way in is a git dependency:
 >
 > ```yaml
@@ -127,7 +127,7 @@ remote asset would go, and simply draw nothing.
 `lib/src/brand/brands/flocks_brand.dart` is the complete example — and every
 registered brand's contrast is verified against WCAG AA, brand × brightness, in
 `test/src/theme/contrast_test.dart`. The rules are in
-[`docs/COLOR_ACCESSIBILITY_RULES.md`](docs/COLOR_ACCESSIBILITY_RULES.md).
+[`doc/COLOR_ACCESSIBILITY_RULES.md`](doc/COLOR_ACCESSIBILITY_RULES.md).
 
 ## Pluggable icons
 

@@ -1,7 +1,7 @@
 /// Métricas e alvos de **contraste de acessibilidade** do Flocks.
 ///
 /// Duas métricas complementares, ambas usadas pelas regras (ver
-/// `docs/COLOR_ACCESSIBILITY_RULES.md`):
+/// `doc/COLOR_ACCESSIBILITY_RULES.md`):
 ///
 /// 1. **Razão WCAG 2** (`contrastRatio`, em `swatch_generator.dart`) — o piso
 ///    legal/normativo (1.0 a 21.0).

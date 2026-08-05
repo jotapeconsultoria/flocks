@@ -14,12 +14,12 @@ import 'package:flutter_test/flutter_test.dart';
 //
 // Rodar como relatório vivo (só imprime):
 //   flutter test test/src/theme/contrast_report_test.dart
-// Gravar o markdown em docs/:
+// Gravar o markdown em doc/:
 //   flutter test --dart-define=CONTRAST_REPORT=true \
 //     test/src/theme/contrast_report_test.dart
 
 const bool _write = bool.fromEnvironment('CONTRAST_REPORT');
-const String _reportPath = 'docs/COLOR_ACCESSIBILITY_REPORT.md';
+const String _reportPath = 'doc/COLOR_ACCESSIBILITY_REPORT.md';
 
 final List<AppBrandConfig> _brands = <AppBrandConfig>[
   jotapeBrand,
@@ -125,7 +125,7 @@ void main() {
       ..writeln(summary);
 
     if (_write) {
-      Directory('docs').createSync(recursive: true);
+      Directory('doc').createSync(recursive: true);
       File(_reportPath).writeAsStringSync(md.toString());
       stdout.writeln('Relatório gravado em $_reportPath');
     }

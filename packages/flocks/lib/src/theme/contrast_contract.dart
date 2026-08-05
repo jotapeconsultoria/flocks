@@ -11,7 +11,7 @@
 /// base), que é como os componentes os consomem (ex.: `theme.colorTheme.primary`
 /// como `Color` em `app_checkbox.dart`).
 ///
-/// Ver a explicação das regras em `docs/COLOR_ACCESSIBILITY_RULES.md`.
+/// Ver a explicação das regras em `doc/COLOR_ACCESSIBILITY_RULES.md`.
 library;
 
 import 'package:flutter/widgets.dart';
@@ -247,7 +247,7 @@ const List<ContrastRule> flocksContrastContract = <ContrastRule>[
   // Data-viz **semântico** (gráficos/scores que carregam significado) sobre a
   // superfície — objeto gráfico, alvo 3:1 (WCAG 1.4.11). A série categórica
   // (`chartCategorical`) é decorativa (distinta por legenda/posição) e está
-  // isenta por ora — ver `docs/COLOR_ACCESSIBILITY_RULES.md` §6.
+  // isenta por ora — ver `doc/COLOR_ACCESSIBILITY_RULES.md` §6.
   ContrastRule(
     id: 'chartGood/surface',
     tier: ContrastTier.uiComponent,

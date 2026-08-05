@@ -237,7 +237,7 @@ class _AppCheckboxState extends State<AppCheckbox>
 /// - `border`: o contorno.
 ///
 /// Desabilitado usa [AppColorTheme.disabledColor] (apagado por **tom**, não por
-/// opacidade). Ver `docs/COLOR_ACCESSIBILITY_RULES.md` §7.
+/// opacidade). Ver `doc/COLOR_ACCESSIBILITY_RULES.md` §7.
 ({Color indicator, Color? container, Color? border}) appCheckboxStateColors(
   AppColorTheme theme, {
   required bool selected,

@@ -137,11 +137,24 @@ Only" tornava o pacote impublicável.
 
 ## Dívida conhecida
 
-- **`docs/` deveria ser `doc/`.** O `pub publish --dry-run` avisa: a convenção
-  de layout é singular, e nomes plurais não são reconhecidos pelo pub e pelas
-  ferramentas. O pacote tem os dois diretórios hoje. Consertar é mesclar
-  `docs/*` em `doc/` e atualizar ~15 referências em dartdoc. Não bloqueia nada
-  antes de publicar.
+- ✅ **`docs/` virou `doc/`** — resolvido em 2026-08-05. Era o último aviso do
+  `pub publish --dry-run`: a convenção de layout do pub é singular, e nomes
+  plurais não são reconhecidos por ele nem pelas ferramentas. Os três arquivos
+  foram mesclados no `doc/` que já existia.
+
+  **O que quase escapou:** `test/src/theme/contrast_report_test.dart` não só
+  *cita* o caminho — ele **escreve** o `COLOR_ACCESSIBILITY_REPORT.md` e faz
+  `Directory('docs').createSync()`. Sem trocar essa linha, o `docs/`
+  reapareceria sozinho no `flutter test` seguinte, e o aviso do pub junto.
+  Numa renomeação de diretório, procure o gravador, não só os leitores.
+- **~10 referências a `docs/FLOCKS_MIGRATION_PLAN.md` estão penduradas**, em
+  `lib/flocks.dart`, `lib/meta.dart`, `lib/organisms.dart`,
+  `lib/src/meta/app_component_meta.dart`, `lib/src/foundation/a11y/`,
+  `lib/src/tokens/` e três testes. O arquivo **nunca veio para o pacote**: ele
+  mora em `tracked-app/docs/` no monorepo de origem, e é documento interno de
+  migração. Não foram reescritas para `doc/` de propósito — mudar o prefixo só
+  moveria o link quebrado de lugar. Ou o documento vem para cá (e é preciso
+  decidir se ele cabe num repo público), ou o caminho sai da prosa.
 - **Os `since:` do catálogo** referenciam marcos internos que não correspondem a
   release nenhuma (ver §4). Ou viram a versão publicada em que o componente
   apareceu, ou saem.

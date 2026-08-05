@@ -13,7 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 // verdade). AAA é aspiracional: apenas reportado (nunca quebra o build).
 //
 // As duas marcas passam AA em todas as verificações (ver
-// `docs/COLOR_ACCESSIBILITY_REPORT.md`). O gate segue ligado para impedir
+// `doc/COLOR_ACCESSIBILITY_REPORT.md`). O gate segue ligado para impedir
 // regressões — qualquer novo par/paleta fora do contrato reprova aqui.
 void main() {
   final List<AppBrandConfig> brands = <AppBrandConfig>[

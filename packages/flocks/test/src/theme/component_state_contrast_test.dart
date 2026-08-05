@@ -18,7 +18,7 @@ import 'package:flutter_test/flutter_test.dart';
 //   3. Desabilitado DISTINTO   — indicator habilitado↔desabilitado ΔT ≥
 //      kDisabledDistinctionTone (dá pra ver que está desabilitado).
 //
-// Ver `docs/COLOR_ACCESSIBILITY_RULES.md` §7.
+// Ver `doc/COLOR_ACCESSIBILITY_RULES.md` §7.
 
 typedef _StateColors = ({Color indicator, Color? container, Color? border});
 typedef _Resolver =
