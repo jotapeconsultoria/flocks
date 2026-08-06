@@ -65,6 +65,25 @@ jobs:
         run: flutter test
         working-directory: packages/flocks_material
 
+      # `dart test`, e não `flutter test`: o `flocks_mcp` é Dart puro, sem
+      # `flutter:` no `environment` — é isso que o mantém instalável por
+      # `dart pub global activate`, e chamá-lo pelo runner do Flutter esconderia
+      # o dia em que uma dependência de Flutter entrasse sem querer.
+      #
+      # A suíte cobre três coisas que nenhuma outra do repo cobre: o gate de
+      # frescor do catálogo embarcado (a terceira aplicação do padrão, e a que
+      # mais importa — sem ela o servidor entrega props velhas A UM MODELO, com
+      # cara de fonte de verdade), o contrato das três tools contra o catálogo
+      # real, e um teste ponta a ponta que sobe o BINÁRIO e conversa com ele por
+      # stdin/stdout. Este último é o canário do pin `dart_mcp: ^0.5.2`.
+      #
+      # O `dart analyze` da raiz já cobre este pacote pelo workspace —
+      # verificado por canário, como o do `flocks_material`: erro plantado em
+      # `packages/flocks_mcp/lib/` reprova lá em cima.
+      - name: Testes (flocks_mcp)
+        run: dart test
+        working-directory: packages/flocks_mcp
+
   goldens:
     name: goldens (macOS)
     # Runner PINADO, não `macos-latest`: trocar a imagem troca o rasterizador
