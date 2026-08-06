@@ -6,7 +6,6 @@ const AppComponentMeta appDividerMeta = AppComponentMeta(
   name: 'AppDivider',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.4.0',
   summary: LocalizedText(
     en: 'Thin rule that separates content, adapted to the theme.',
     pt: 'Régua fina que separa conteúdo, adaptada ao tema.',

@@ -6,7 +6,6 @@ const AppComponentMeta appTabViewMeta = AppComponentMeta(
   name: 'AppTabView',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Horizontal tabs with a sliding indicator and lazy loading.',
     pt: 'Abas horizontais com indicador deslizante e carga preguiçosa.',

@@ -6,7 +6,6 @@ const AppComponentMeta appTimePickerMeta = AppComponentMeta(
   name: 'AppTimePicker',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Hour/minute (and second) wheels in 24h format, with finite scrolling.',
     pt: 'Rodas de hora/minuto (e segundo) em formato 24h, com scroll finito.',

@@ -6,7 +6,6 @@ const AppComponentMeta appSideSheetMeta = AppComponentMeta(
   name: 'AppSideSheet',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.7.0',
   summary: LocalizedText(
     en: 'Floating side panel (the bottom sheet\'s horizontal sibling), responsive.',
     pt: 'Painel lateral flutuante (irmão horizontal do bottom sheet), responsivo.',
@@ -148,7 +147,6 @@ const AppComponentMeta appSideSheetPageMeta = AppComponentMeta(
   name: 'AppSideSheetPage',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.8.0',
   summary: LocalizedText(
     en: 'The same surface as AppSideSheet, shown by a PERSISTENT route (SideSheetPageRoute) instead of an ephemeral one.',
     pt:

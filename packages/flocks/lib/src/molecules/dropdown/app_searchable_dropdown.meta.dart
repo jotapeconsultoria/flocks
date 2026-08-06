@@ -6,7 +6,6 @@ const AppComponentMeta appSearchableDropdownMeta = AppComponentMeta(
   name: 'AppSearchableDropdown',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Single-selection dropdown with a search field.',
     pt: 'Dropdown de seleção única com campo de busca.',

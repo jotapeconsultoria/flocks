@@ -6,7 +6,6 @@ const AppComponentMeta appAssistantPanelMeta = AppComponentMeta(
   name: 'AppAssistantPanel',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.7.0',
   summary: LocalizedText(
     en: 'Assistant side panel, always present: header, fixed banner, conversation and composer.',
     pt:

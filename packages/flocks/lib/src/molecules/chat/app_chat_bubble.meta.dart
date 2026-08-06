@@ -6,7 +6,6 @@ const AppComponentMeta appChatBubbleMeta = AppComponentMeta(
   name: 'AppChatBubble',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Content-agnostic message bubble (LLM + WhatsApp style).',
     pt: 'Bolha de mensagem agnóstica de conteúdo (LLM + estilo WhatsApp).',

@@ -6,7 +6,6 @@ const AppComponentMeta appIconMeta = AppComponentMeta(
   name: 'AppIcon',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'Design system SVG icon, loaded from the CDN with caching.',
     pt: 'Ícone SVG do design system, carregado da CDN com cache.',

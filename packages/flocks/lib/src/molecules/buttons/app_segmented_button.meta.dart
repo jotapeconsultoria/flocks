@@ -6,7 +6,6 @@ const AppComponentMeta appSegmentedButtonMeta = AppComponentMeta(
   name: 'AppSegmentedButton',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.4.0',
   summary: LocalizedText(
     en: 'Segmented button for single selection (2–4 options in a pill).',
     pt: 'Botão segmentado de seleção única (2–4 opções numa pílula).',

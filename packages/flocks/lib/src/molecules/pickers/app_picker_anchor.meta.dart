@@ -6,7 +6,6 @@ const AppComponentMeta appPickerAnchorMeta = AppComponentMeta(
   name: 'AppPickerAnchor',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Generic picker anchor: a trigger that opens an anchored floating panel (date/time/color…) in an AppCard.',
     pt:

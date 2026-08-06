@@ -8,7 +8,6 @@ const AppComponentMeta appColorPickerInputMeta = AppComponentMeta(
   name: 'AppColorPickerInput',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Color field: a painted swatch + an editable hex, with the HSV panel in an overlay.',
     pt:
@@ -157,7 +156,6 @@ const AppComponentMeta appColorPickerPanelMeta = AppComponentMeta(
   name: 'AppColorPickerPanel',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Visual HSV picker: a saturation/value area, a hue bar and presets.',
     pt: 'Seletor visual HSV: área de saturação/valor, barra de matiz e presets.',

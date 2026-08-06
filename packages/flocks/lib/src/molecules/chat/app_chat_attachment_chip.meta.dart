@@ -6,7 +6,6 @@ const AppComponentMeta appChatAttachmentChipMeta = AppComponentMeta(
   name: 'AppChatAttachmentChip',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Image thumbnail or file pill, with a remove control.',
     pt: 'Thumbnail de imagem ou pílula de arquivo, com remover.',

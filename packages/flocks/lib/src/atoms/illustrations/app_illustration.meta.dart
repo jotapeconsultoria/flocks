@@ -6,7 +6,6 @@ const AppComponentMeta appIllustrationMeta = AppComponentMeta(
   name: 'AppIllustration',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'Remote SVG illustration (cached), with theme-aware base/accent colors.',
     pt: 'Ilustração SVG remota (com cache), cores base/destaque theme-aware.',

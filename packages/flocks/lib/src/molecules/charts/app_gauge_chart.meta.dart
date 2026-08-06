@@ -6,7 +6,6 @@ const AppComponentMeta appGaugeChartMeta = AppComponentMeta(
   name: 'AppGaugeChart',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Gauge: a segmented arc with a central label.',
     pt: 'Medidor: arco segmentado com rótulo central.',

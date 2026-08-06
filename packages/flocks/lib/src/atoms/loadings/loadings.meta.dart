@@ -7,7 +7,6 @@ const AppComponentMeta appCircularLoadingMeta = AppComponentMeta(
   name: 'AppCircularLoading',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'Circular progress ring (indeterminate or determinate).',
     pt: 'Anel de progresso circular (indeterminado ou determinado).',
@@ -93,7 +92,6 @@ const AppComponentMeta appLinearLoadingMeta = AppComponentMeta(
   name: 'AppLinearLoading',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'Linear progress bar (indeterminate or determinate).',
     pt: 'Barra de progresso linear (indeterminada ou determinada).',
@@ -169,7 +167,6 @@ const AppComponentMeta appBorderProgressMeta = AppComponentMeta(
   name: 'AppBorderProgress',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'Animated progress border around a child.',
     pt: 'Borda de progresso animada ao redor de um filho.',
@@ -256,7 +253,6 @@ const AppComponentMeta appOverlayLoadingMeta = AppComponentMeta(
   name: 'AppOverlayLoading',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'Loading overlay on top of a child (barrier + indicator).',
     pt: 'Overlay de carregamento sobre um filho (barrier + indicador).',
@@ -316,7 +312,6 @@ const AppComponentMeta appShimmerLoadingMeta = AppComponentMeta(
   name: 'AppShimmerLoading',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'Skeleton placeholder with an animated sheen.',
     pt: 'Placeholder skeleton com brilho animado.',

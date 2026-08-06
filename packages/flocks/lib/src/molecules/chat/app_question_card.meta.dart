@@ -6,7 +6,6 @@ const AppComponentMeta appQuestionCardMeta = AppComponentMeta(
   name: 'AppQuestionCard',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Inline question card: confirmation, single choice or multiple choice.',
     pt: 'Card de pergunta inline: confirmação, escolha única ou múltipla.',

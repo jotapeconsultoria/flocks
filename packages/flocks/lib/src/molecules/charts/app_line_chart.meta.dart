@@ -6,7 +6,6 @@ const AppComponentMeta appLineChartMeta = AppComponentMeta(
   name: 'AppLineChart',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Line chart for a trend over time.',
     pt: 'Gráfico de linha para tendência ao longo do tempo.',

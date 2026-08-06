@@ -6,7 +6,6 @@ const AppComponentMeta appMenuMeta = AppComponentMeta(
   name: 'AppMenu',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.4.0',
   summary: LocalizedText(
     en: 'Anchored action menu (popup / context menu), through the Overlay.',
     pt: 'Menu de ações ancorado (popup / context menu), via Overlay.',

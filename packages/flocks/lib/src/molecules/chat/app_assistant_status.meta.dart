@@ -6,7 +6,6 @@ const AppComponentMeta appAssistantStatusMeta = AppComponentMeta(
   name: 'AppAssistantStatus',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Assistant step label, with a smooth transition.',
     pt: 'Rótulo de etapa do assistente, com transição suave.',

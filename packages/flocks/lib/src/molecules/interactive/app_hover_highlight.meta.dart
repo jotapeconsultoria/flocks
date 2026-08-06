@@ -6,7 +6,6 @@ const AppComponentMeta appHoverHighlightMeta = AppComponentMeta(
   name: 'AppHoverHighlight',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.7.0',
   summary: LocalizedText(
     en: 'Purely visual hover highlight — no gesture, no focus, no Tab stop.',
     pt:

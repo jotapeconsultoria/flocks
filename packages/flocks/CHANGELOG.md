@@ -5,10 +5,10 @@ Every relevant change to this package. The format follows
 follows [SemVer](https://semver.org/).
 
 > **On the numbering.** Nothing here has ever been published. The versions below
-> `[1.0.0]`, and the `since: 'flocks@x.y.z'` markers in the component catalog,
-> are *internal* migration milestones from the monorepo — they ran from `0.1.0`
-> to `1.5.0` while the pubspec still said `1.0.0`, so they never agreed with it
-> in the first place.
+> `[1.0.0]` are *internal* migration milestones from the monorepo — they ran
+> from `0.1.0` to `1.5.0` while the pubspec still said `1.0.0`, so they never
+> agreed with it in the first place. The component catalog used to carry the
+> same milestones in a `since:` field; it was dropped for that reason.
 >
 > The **public** line starts at `0.1.0`, on purpose. `1.0.0` on pub.dev is a
 > promise about the future, and this package has not yet met an external

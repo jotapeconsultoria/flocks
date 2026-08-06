@@ -6,7 +6,6 @@ const AppComponentMeta appSnackbarMeta = AppComponentMeta(
   name: 'AppSnackbar',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Temporary feedback card (success/error/info).',
     pt: 'Card de feedback temporário (sucesso/erro/info).',

@@ -6,7 +6,6 @@ const AppComponentMeta appButtonsFooterMeta = AppComponentMeta(
   name: 'AppButtonsFooter',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Action footer: a primary button + an optional secondary one.',
     pt: 'Rodapé de ações: botão primário + secundário opcional.',

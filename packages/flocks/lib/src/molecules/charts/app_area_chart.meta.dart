@@ -6,7 +6,6 @@ const AppComponentMeta appAreaChartMeta = AppComponentMeta(
   name: 'AppAreaChart',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Area chart: a line with the space beneath it filled.',
     pt: 'Gráfico de área: linha com o espaço abaixo preenchido.',

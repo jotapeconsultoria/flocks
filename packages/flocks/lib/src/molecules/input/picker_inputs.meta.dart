@@ -52,7 +52,6 @@ const AppComponentMeta appDatePickerInputMeta = AppComponentMeta(
   name: 'AppDatePickerInput',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Date field: type it with a DD/MM/YYYY mask or pick it from the calendar.',
     pt: 'Campo de data: digitar com máscara DD/MM/AAAA ou escolher no calendário.',
@@ -165,7 +164,6 @@ const AppComponentMeta appTimePickerInputMeta = AppComponentMeta(
   name: 'AppTimePickerInput',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Time field: type it with an HH:mm mask or pick it from the wheels.',
     pt: 'Campo de horário: digitar com máscara HH:mm ou escolher nas rodas.',
@@ -266,7 +264,6 @@ const AppComponentMeta appDateTimePickerInputMeta = AppComponentMeta(
   name: 'AppDateTimePickerInput',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Single date + time field: a DD/MM/YYYY HH:mm mask, with the calendar and the wheels in one panel.',
     pt:

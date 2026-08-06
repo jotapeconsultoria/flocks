@@ -6,7 +6,6 @@ const AppComponentMeta appOverlayAlertMeta = AppComponentMeta(
   name: 'AppOverlayAlert',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Alert card with a semantic color through a ColorSwatch (AppAlert\'s sibling).',
     pt:

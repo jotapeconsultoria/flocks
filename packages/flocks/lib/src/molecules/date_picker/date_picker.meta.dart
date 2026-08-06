@@ -8,7 +8,6 @@ const AppComponentMeta appDatePickerMeta = AppComponentMeta(
   name: 'AppDatePicker',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Single-date calendar: a day grid, month navigation and a direct jump to year/month.',
     pt:
@@ -137,7 +136,6 @@ const AppComponentMeta appDateRangePickerMeta = AppComponentMeta(
   name: 'AppDateRangePicker',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Range calendar: one tap for the start, another for the end.',
     pt: 'Calendário de intervalo: um toque no início, outro no fim.',

@@ -6,7 +6,6 @@ const AppComponentMeta appBadgeMeta = AppComponentMeta(
   name: 'AppBadge',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.4.0',
   summary: LocalizedText(
     en: 'Compact status pill, tinted by a semantic color role.',
     pt: 'Pill compacta de status, tingida por papel de cor semântico.',

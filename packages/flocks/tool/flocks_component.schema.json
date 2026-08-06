@@ -33,7 +33,6 @@
     "name": { "type": "string" },
     "category": { "enum": ["atom", "molecule", "organism"] },
     "status": { "enum": ["legacy", "inProgress", "migrated"] },
-    "since": { "type": "string" },
     "summary": { "$ref": "#/$defs/localizedText" },
     "description": { "$ref": "#/$defs/localizedText" },
     "whenToUse": { "$ref": "#/$defs/localizedList" },

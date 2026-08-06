@@ -6,7 +6,6 @@ const AppComponentMeta appChatMessageListMeta = AppComponentMeta(
   name: 'AppChatMessageList',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Scrollable list that sticks to the bottom + auto-scroll + spacing.',
     pt: 'Lista rolável que gruda no fim + auto-scroll + espaçamento.',

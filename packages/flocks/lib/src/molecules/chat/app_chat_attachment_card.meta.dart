@@ -6,7 +6,6 @@ const AppComponentMeta appChatAttachmentCardMeta = AppComponentMeta(
   name: 'AppChatAttachmentCard',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Square attachment card (thumbnail or large icon).',
     pt: 'Card quadrado de anexo (thumbnail ou ícone grande).',

@@ -6,7 +6,6 @@ const AppComponentMeta appChatDayDividerMeta = AppComponentMeta(
   name: 'AppChatDayDivider',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Centered "Today/Yesterday/date" pill that separates days.',
     pt: 'Pílula central "Hoje/Ontem/data" que separa dias.',

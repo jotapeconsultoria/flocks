@@ -6,7 +6,6 @@ const AppComponentMeta appDataTableMeta = AppComponentMeta(
   name: 'AppDataTable',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Paginated table with per-column sorting (the backoffice grids).',
     pt: 'Tabela paginada com ordenação por coluna (grids do backoffice).',
@@ -87,7 +86,6 @@ const AppComponentMeta appSimpleDataTableMeta = AppComponentMeta(
   name: 'AppSimpleDataTable',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Static table (header + rows), with no sorting or pagination.',
     pt: 'Tabela estática (header + linhas), sem ordenação/paginação.',

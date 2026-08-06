@@ -6,7 +6,6 @@ const AppComponentMeta appListTileCheckboxMeta = AppComponentMeta(
   name: 'AppListTileCheckbox',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Selection row with a checkbox; the whole row toggles.',
     pt: 'Linha de seleção com checkbox; a linha inteira alterna.',

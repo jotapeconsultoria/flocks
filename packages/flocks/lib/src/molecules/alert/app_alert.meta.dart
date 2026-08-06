@@ -6,7 +6,6 @@ const AppComponentMeta appAlertMeta = AppComponentMeta(
   name: 'AppAlert',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Alert card with a title, a description and a semantic icon.',
     pt: 'Card de alerta com título, descrição e ícone semântico.',

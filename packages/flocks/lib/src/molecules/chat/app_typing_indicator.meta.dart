@@ -6,7 +6,6 @@ const AppComponentMeta appTypingIndicatorMeta = AppComponentMeta(
   name: 'AppTypingIndicator',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Three "typing…" dots, motion-aware.',
     pt: 'Três pontinhos "digitando…", motion-aware.',

@@ -168,7 +168,6 @@ class AppComponentMeta {
     required this.category,
     required this.status,
     required this.summary,
-    this.since,
     this.description,
     this.whenToUse = const LocalizedList.empty(),
     this.whenNotToUse = const LocalizedList.empty(),
@@ -199,9 +198,6 @@ class AppComponentMeta {
 
   /// One-line summary.
   final LocalizedText summary;
-
-  /// Version it was migrated in (e.g. `flocks@0.3.0`).
-  final String? since;
 
   /// Long description.
   final LocalizedText? description;
@@ -260,7 +256,6 @@ class AppComponentMeta {
     'name': name,
     'category': category.name,
     'status': status.name,
-    if (since != null) 'since': since,
     'summary': summary.toJson(),
     if (description != null) 'description': description!.toJson(),
     if (whenToUse.isNotEmpty) 'whenToUse': whenToUse.toJson(),

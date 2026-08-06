@@ -6,7 +6,6 @@ const AppComponentMeta appShortcutHintMeta = AppComponentMeta(
   name: 'AppShortcutHint',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.7.0',
   summary: LocalizedText(
     en: 'Badge that SHOWS a keyboard shortcut, resolved per platform.',
     pt: 'Selo que MOSTRA um atalho de teclado, resolvido por plataforma.',

@@ -6,7 +6,6 @@ const AppComponentMeta appInputMeta = AppComponentMeta(
   name: 'AppInput',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.0.0',
   summary: LocalizedText(
     en: 'Design system text field (built on a bare EditableText).',
     pt: 'Campo de texto do design system (sobre EditableText cru).',

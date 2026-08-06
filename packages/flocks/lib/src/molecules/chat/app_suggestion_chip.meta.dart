@@ -6,7 +6,6 @@ const AppComponentMeta appSuggestionChipMeta = AppComponentMeta(
   name: 'AppSuggestionChip',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Tappable chip for a starter prompt or a quick reply.',
     pt: 'Chip tocável de prompt inicial / resposta rápida.',

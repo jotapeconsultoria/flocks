@@ -6,7 +6,6 @@ const AppComponentMeta appChatActionBarMeta = AppComponentMeta(
   name: 'AppChatActionBar',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Row of icon actions for a message (copy/like/…).',
     pt: 'Linha de ações-ícone de uma mensagem (copiar/like/…).',

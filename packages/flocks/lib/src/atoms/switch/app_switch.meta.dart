@@ -6,7 +6,6 @@ const AppComponentMeta appSwitchMeta = AppComponentMeta(
   name: 'AppSwitch',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'On/off switch for a single option.',
     pt: 'Switch liga/desliga de uma única opção.',

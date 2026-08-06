@@ -6,7 +6,6 @@ const AppComponentMeta appNumberStepperMeta = AppComponentMeta(
   name: 'AppNumberStepper',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.4.0',
   summary: LocalizedText(
     en: 'Numeric control − value + (min/max/step), with no text editing.',
     pt: 'Controle numérico − valor + (min/max/step), sem edição de texto.',

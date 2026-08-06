@@ -6,7 +6,6 @@ const AppComponentMeta appMessageMetaMeta = AppComponentMeta(
   name: 'AppMessageMeta',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Time + delivery ticks in a bubble\'s footer.',
     pt: 'Horário + ticks de entrega no rodapé de uma bolha.',

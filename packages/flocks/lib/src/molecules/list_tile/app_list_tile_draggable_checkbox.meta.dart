@@ -6,7 +6,6 @@ const AppComponentMeta appListTileDraggableCheckboxMeta = AppComponentMeta(
   name: 'AppListTileDraggableCheckbox',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Reorderable selection row: a drag handle + a checkbox.',
     pt: 'Linha de seleção reordenável: handle de arraste + checkbox.',

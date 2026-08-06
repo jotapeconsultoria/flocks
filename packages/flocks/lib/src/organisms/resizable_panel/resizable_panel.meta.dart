@@ -6,7 +6,6 @@ const AppComponentMeta appResizablePanelMeta = AppComponentMeta(
   name: 'AppResizablePanel',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.8.0',
   summary: LocalizedText(
     en: 'Panel whose width is dragged (in px) from one of its edges.',
     pt: 'Painel com largura arrastável (px) por uma das bordas.',

@@ -6,7 +6,6 @@ const AppComponentMeta appFloatingButtonMeta = AppComponentMeta(
   name: 'AppFloatingButton',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.9.0',
   summary: LocalizedText(
     en: 'Floating action button (FAB) with a shadow that is always there; icon and/or label, circular by default.',
     pt:

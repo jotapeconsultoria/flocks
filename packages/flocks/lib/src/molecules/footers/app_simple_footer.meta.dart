@@ -6,7 +6,6 @@ const AppComponentMeta appSimpleFooterMeta = AppComponentMeta(
   name: 'AppSimpleFooter',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Simple footer: a band over the surface holding one child.',
     pt: 'Rodapé simples: faixa sobre surface com um child.',

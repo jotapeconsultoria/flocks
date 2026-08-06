@@ -6,7 +6,6 @@ const AppComponentMeta appChartShellMeta = AppComponentMeta(
   name: 'AppChartShell',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Chart frame: title, legend and states.',
     pt: 'Moldura de gráfico: título, legenda e estados.',

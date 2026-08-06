@@ -6,7 +6,6 @@ const AppComponentMeta appChatFooterMeta = AppComponentMeta(
   name: 'AppChatFooter',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Chat footer: wraps AppChatComposer with a safe area + AppStyle.',
     pt: 'Rodapé de chat: envolve o AppChatComposer com safe-area + AppStyle.',

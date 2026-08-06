@@ -6,7 +6,6 @@ const AppComponentMeta appMultiSelectMeta = AppComponentMeta(
   name: 'AppMultiSelect',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Multi-selection dropdown (chips + ✓).',
     pt: 'Dropdown de seleção múltipla (chips + ✓).',

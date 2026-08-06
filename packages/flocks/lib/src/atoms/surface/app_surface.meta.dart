@@ -6,7 +6,6 @@ const AppComponentMeta appSurfaceMeta = AppComponentMeta(
   name: 'AppSurface',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.4.0',
   summary: LocalizedText(
     en: 'Themeable base container (surface) with elevation by tone.',
     pt: 'Container-base temável (superfície) com elevação por tom.',

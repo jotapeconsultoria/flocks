@@ -6,7 +6,6 @@ const AppComponentMeta appWorkspaceTabsMeta = AppComponentMeta(
   name: 'AppWorkspaceTabs',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Browser-style tab bar (icon + title + close).',
     pt: 'Barra de abas estilo navegador (ícone + título + fechar).',

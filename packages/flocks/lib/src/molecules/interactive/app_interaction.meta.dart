@@ -6,7 +6,6 @@ const AppComponentMeta appInteractionMeta = AppComponentMeta(
   name: 'AppInteraction',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.4.0',
   summary: LocalizedText(
     en: 'Interaction wrapper (InkWell-like) that makes any widget clickable.',
     pt: 'Wrapper de interação (tipo InkWell) para tornar qualquer widget clicável.',

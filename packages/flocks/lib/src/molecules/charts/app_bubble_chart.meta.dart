@@ -6,7 +6,6 @@ const AppComponentMeta appBubbleChartMeta = AppComponentMeta(
   name: 'AppBubbleChart',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Bubble chart: the circle\'s area is the value.',
     pt: 'Gráfico de bolhas: a área do círculo é o valor.',

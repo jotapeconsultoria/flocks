@@ -6,7 +6,6 @@ const AppComponentMeta appNavigationFooterMeta = AppComponentMeta(
   name: 'AppNavigationFooter',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Bottom navigation bar (icon+title items).',
     pt: 'Barra de navegação inferior (itens ícone+título).',

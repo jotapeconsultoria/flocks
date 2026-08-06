@@ -6,7 +6,6 @@ const AppComponentMeta appSearchableMultiSelectMeta = AppComponentMeta(
   name: 'AppSearchableMultiSelect',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Multi-selection with chips and a search field.',
     pt: 'Seleção múltipla com chips e campo de busca.',

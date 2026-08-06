@@ -6,7 +6,6 @@ const AppComponentMeta appDropdownMeta = AppComponentMeta(
   name: 'AppDropdown',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Single-selection dropdown.',
     pt: 'Dropdown de seleção única.',

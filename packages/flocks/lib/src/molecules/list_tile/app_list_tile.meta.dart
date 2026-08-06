@@ -6,7 +6,6 @@ const AppComponentMeta appListTileMeta = AppComponentMeta(
   name: 'AppListTile',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'List row in 2 styles, with orthogonal variations.',
     pt: 'Linha de lista em 2 estilos, com variações ortogonais.',

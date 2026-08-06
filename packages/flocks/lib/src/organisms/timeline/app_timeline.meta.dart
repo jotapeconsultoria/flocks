@@ -6,7 +6,6 @@ const AppComponentMeta appTimelineMeta = AppComponentMeta(
   name: 'AppTimeline',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.2.0',
   summary: LocalizedText(
     en: 'Chronological list of events that happened, newest first.',
     pt: 'Lista cronológica de eventos que aconteceram, do mais recente ao mais antigo.',

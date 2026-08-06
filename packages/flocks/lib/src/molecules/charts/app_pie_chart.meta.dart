@@ -6,7 +6,6 @@ const AppComponentMeta appPieChartMeta = AppComponentMeta(
   name: 'AppPieChart',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Pie chart (distribution in slices).',
     pt: 'Gráfico de pizza (distribuição em fatias).',

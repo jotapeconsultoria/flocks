@@ -6,7 +6,6 @@ const AppComponentMeta appDonutChartMeta = AppComponentMeta(
   name: 'AppDonutChart',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Donut chart (a pie with a hole in the middle).',
     pt: 'Gráfico de rosca (pizza com furo central).',

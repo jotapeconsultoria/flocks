@@ -6,7 +6,6 @@ const AppComponentMeta appApiMethodBadgeMeta = AppComponentMeta(
   name: 'AppApiMethodBadge',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.4.0',
   summary: LocalizedText(
     en: 'HTTP verb pill, tinted by the method\'s semantic role.',
     pt: 'Pílula do verbo HTTP, tingida pelo papel semântico do método.',
@@ -117,7 +116,6 @@ const AppComponentMeta appApiPathMeta = AppComponentMeta(
   name: 'AppApiPath',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.4.0',
   summary: LocalizedText(
     en: 'Endpoint path in mono, with the placeholders highlighted.',
     pt: 'Path de endpoint em mono, com os placeholders destacados.',
@@ -190,7 +188,6 @@ const AppComponentMeta appApiParamTableMeta = AppComponentMeta(
   name: 'AppApiParamTable',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.4.0',
   summary: LocalizedText(
     en: 'Request parameter table built on AppSimpleDataTable.',
     pt: 'Tabela de parâmetros de requisição sobre o AppSimpleDataTable.',
@@ -248,7 +245,6 @@ const AppComponentMeta appApiSchemaTreeMeta = AppComponentMeta(
   name: 'AppApiSchemaTree',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.4.0',
   summary: LocalizedText(
     en: 'Field tree for a schema, with nodes that open level by level.',
     pt: 'Árvore de campos de um schema, com nós abríveis por nível.',
@@ -324,7 +320,6 @@ const AppComponentMeta appApiEndpointTileMeta = AppComponentMeta(
   name: 'AppApiEndpointTile',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.4.0',
   summary: LocalizedText(
     en: 'Collapsible endpoint card: verb, path, params, responses.',
     pt: 'Cartão colapsável de um endpoint: verbo, path, params, respostas.',
@@ -402,7 +397,6 @@ const AppComponentMeta appApiFlowMeta = AppComponentMeta(
   name: 'AppApiFlow',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.4.0',
   summary: LocalizedText(
     en: 'A business flow as a numbered vertical timeline of calls.',
     pt: 'Fluxo de negócio como timeline vertical numerada de chamadas.',
@@ -476,7 +470,6 @@ const AppComponentMeta appApiDocsPanelMeta = AppComponentMeta(
   name: 'AppApiDocsPanel',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.4.0',
   summary: LocalizedText(
     en: 'API documentation in the context of one screen, in a single flow.',
     pt: 'Documentação da API no contexto de uma tela, num só fluxo.',
@@ -565,7 +558,6 @@ const AppComponentMeta appEntityDocPanelMeta = AppComponentMeta(
   name: 'AppEntityDocPanel',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.4.0',
   summary: LocalizedText(
     en: 'Conceptual documentation for an entity: what it is, what it relates to and who exchanges data with it.',
     pt:
@@ -658,7 +650,6 @@ const AppComponentMeta appDocsWorkspaceMeta = AppComponentMeta(
   name: 'AppDocsWorkspace',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.4.0',
   summary: LocalizedText(
     en: 'Documentation for one context in two columns: concept and API.',
     pt: 'Documentação de um contexto em duas colunas: conceito e API.',

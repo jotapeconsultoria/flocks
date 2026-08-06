@@ -6,7 +6,6 @@ const AppComponentMeta appImageMeta = AppComponentMeta(
   name: 'AppImage',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.4.0',
   summary: LocalizedText(
     en: 'Raster image (network/asset) with standardized loading and fallback.',
     pt: 'Imagem raster (rede/asset) com loading e fallback padronizados.',

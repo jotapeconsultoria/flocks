@@ -6,7 +6,6 @@ const AppComponentMeta appResizableSplitMeta = AppComponentMeta(
   name: 'AppResizableSplit',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Two panels with a draggable divider (horizontal or vertical).',
     pt: 'Dois painéis com divisor arrastável (horizontal ou vertical).',

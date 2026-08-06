@@ -6,7 +6,6 @@ const AppComponentMeta appRatingMeta = AppComponentMeta(
   name: 'AppRating',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.4.0',
   summary: LocalizedText(
     en: 'Star rating (display and input), with an optional half step.',
     pt: 'Avaliação por estrelas (display e input), com meio-passo opcional.',

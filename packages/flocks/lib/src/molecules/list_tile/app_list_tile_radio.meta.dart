@@ -6,7 +6,6 @@ const AppComponentMeta appListTileRadioMeta = AppComponentMeta(
   name: 'AppListTileRadio',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'List row with a radio (single selection).',
     pt: 'Linha de lista com radio (seleção única).',

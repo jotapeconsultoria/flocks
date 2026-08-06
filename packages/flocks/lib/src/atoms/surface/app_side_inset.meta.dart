@@ -6,7 +6,6 @@ const AppComponentMeta appSideInsetMeta = AppComponentMeta(
   name: 'AppSideInset',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.8.0',
   summary: LocalizedText(
     en: 'Applies — and consumes — the side inset the host surface published in MediaQuery.padding.',
     pt:

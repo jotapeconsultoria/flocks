@@ -6,7 +6,6 @@ const AppComponentMeta appListTileActionMeta = AppComponentMeta(
   name: 'AppListTileAction',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Title/value row with a trailing action, clickable.',
     pt: 'Linha título/valor com trailing de ação, clicável.',

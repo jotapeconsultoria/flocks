@@ -6,7 +6,6 @@ const AppComponentMeta appNavigationRailMeta = AppComponentMeta(
   name: 'AppNavigationRail',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Collapsible side menu with items and sub-items (the app\'s navigation).',
     pt: 'Menu lateral colapsável com itens e subitens (navegação do app).',
@@ -93,7 +92,6 @@ const AppComponentMeta appNavigationRailItemMeta = AppComponentMeta(
   name: 'AppNavigationRailItem',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'An AppNavigationRail item (icon + title, with states).',
     pt: 'Item de um AppNavigationRail (ícone + título, com estados).',
@@ -167,7 +165,6 @@ const AppComponentMeta appNavigationRailProfileMeta = AppComponentMeta(
   name: 'AppNavigationRailProfile',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.7.0',
   summary: LocalizedText(
     en: 'Profile row (avatar + name/role + trailing) for the footer.',
     pt: 'Linha de perfil (avatar + nome/papel + trailing) para o footer.',
@@ -238,7 +235,6 @@ const AppComponentMeta appNavigationRailFilterMeta = AppComponentMeta(
   name: 'AppNavigationRailFilter',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.7.0',
   summary: LocalizedText(
     en: 'Filter row for the rail\'s footer: icon, filter name and selected value.',
     pt:

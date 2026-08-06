@@ -6,7 +6,6 @@ const AppComponentMeta appSimpleHeaderMeta = AppComponentMeta(
   name: 'AppSimpleHeader',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Simple page header (a band over the surface holding one child).',
     pt: 'Cabeçalho simples de página (faixa sobre surface com um child).',

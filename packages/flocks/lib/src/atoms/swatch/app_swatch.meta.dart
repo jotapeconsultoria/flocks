@@ -6,7 +6,6 @@ const AppComponentMeta appSwatchMeta = AppComponentMeta(
   name: 'AppSwatch',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.4.0',
   summary: LocalizedText(
     en: 'Color swatch (rounded square or circle).',
     pt: 'Amostra de cor (quadrado arredondado ou círculo).',

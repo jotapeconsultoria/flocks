@@ -6,7 +6,6 @@ const AppComponentMeta appOverlayCardMeta = AppComponentMeta(
   name: 'AppOverlayCard',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Floating card that intercepts the pointer (for floating over maps).',
     pt:

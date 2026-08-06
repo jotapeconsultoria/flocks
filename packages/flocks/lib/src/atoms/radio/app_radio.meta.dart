@@ -6,7 +6,6 @@ const AppComponentMeta appRadioMeta = AppComponentMeta(
   name: 'AppRadio',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'Radio button for single selection within a mutually exclusive group.',
     pt: 'Radio button de seleção única em grupo mutuamente exclusivo.',

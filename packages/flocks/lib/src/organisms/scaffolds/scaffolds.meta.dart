@@ -6,7 +6,6 @@ const AppComponentMeta appScaffoldMeta = AppComponentMeta(
   name: 'AppScaffold',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Page layout: header · content · footer over the surface.',
     pt: 'Layout de página: header · conteúdo · footer sobre a surface.',
@@ -95,7 +94,6 @@ const AppComponentMeta appAuthSplitLayoutMeta = AppComponentMeta(
   name: 'AppAuthSplitLayout',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Split layout for the authentication pages (login/OTP).',
     pt: 'Layout dividido das páginas de autenticação (login/OTP).',

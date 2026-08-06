@@ -6,7 +6,6 @@ const AppComponentMeta appTileInfoMeta = AppComponentMeta(
   name: 'AppTileInfo',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Label/value pair (not clickable).',
     pt: 'Par rótulo/valor (não clicável).',

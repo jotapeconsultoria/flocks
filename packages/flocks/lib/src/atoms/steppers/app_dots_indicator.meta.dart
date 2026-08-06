@@ -6,7 +6,6 @@ const AppComponentMeta appDotsIndicatorMeta = AppComponentMeta(
   name: 'AppDotsIndicator',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'Progress indicator as dots (current position among N pages).',
     pt: 'Indicador de progresso em "dots" (posição atual entre N páginas).',

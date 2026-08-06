@@ -6,7 +6,6 @@ const AppComponentMeta appCardMeta = AppComponentMeta(
   name: 'AppCard',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Structured card (header/child/footer) on the AppStyle axis.',
     pt: 'Card estruturado (header/child/footer) no eixo AppStyle.',

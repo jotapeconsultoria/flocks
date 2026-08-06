@@ -6,7 +6,6 @@ const AppComponentMeta appSplitButtonMeta = AppComponentMeta(
   name: 'AppSplitButton',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.4.0',
   summary: LocalizedText(
     en: 'Primary action + a caret that opens an AppMenu of secondary actions.',
     pt: 'Ação primária + caret que abre um AppMenu de ações secundárias.',

@@ -6,7 +6,6 @@ const AppComponentMeta appBreadcrumbMeta = AppComponentMeta(
   name: 'AppBreadcrumb',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Navigation trail with clickable items and separators.',
     pt: 'Trilha de navegação com itens clicáveis e separadores.',

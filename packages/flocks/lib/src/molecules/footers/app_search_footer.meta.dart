@@ -6,7 +6,6 @@ const AppComponentMeta appSearchFooterMeta = AppComponentMeta(
   name: 'AppSearchFooter',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Floating search footer (Notes style), with the AppStyle axis + glass.',
     pt: 'Rodapé de busca flutuante (estilo Notes), com eixo AppStyle + glass.',

@@ -6,7 +6,6 @@ const AppComponentMeta appActionItemMeta = AppComponentMeta(
   name: 'AppActionItem',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Action item (icon + text) on a clickable tinted surface.',
     pt: 'Item de ação (ícone + texto) numa superfície tingida clicável.',

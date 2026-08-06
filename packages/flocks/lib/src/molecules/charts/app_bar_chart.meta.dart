@@ -6,7 +6,6 @@ const AppComponentMeta appBarChartMeta = AppComponentMeta(
   name: 'AppBarChart',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Bar chart, grouped or stacked.',
     pt: 'Gráfico de barras, agrupado ou empilhado.',

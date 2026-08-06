@@ -6,7 +6,6 @@ const AppComponentMeta appPaginationMeta = AppComponentMeta(
   name: 'AppPagination',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.4.0',
   summary: LocalizedText(
     en: 'Page navigation (prev/next + numbers with an ellipsis).',
     pt: 'Navegação de páginas (prev/next + números com reticências).',

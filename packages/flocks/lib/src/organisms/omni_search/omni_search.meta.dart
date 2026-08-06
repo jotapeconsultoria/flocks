@@ -6,7 +6,6 @@ const AppComponentMeta appOmniSearchMeta = AppComponentMeta(
   name: 'AppOmniSearch',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.7.0',
   summary: LocalizedText(
     en: 'Global search with async autocomplete, results grouped by entity and `/` commands.',
     pt:

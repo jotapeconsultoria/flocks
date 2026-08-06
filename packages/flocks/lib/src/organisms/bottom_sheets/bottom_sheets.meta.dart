@@ -6,7 +6,6 @@ const AppComponentMeta appBottomSheetMeta = AppComponentMeta(
   name: 'AppBottomSheet',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Floating panel anchored to the bottom (bottom sheet), optionally draggable.',
     pt: 'Painel flutuante ancorado na base (bottom sheet), opcionalmente arrastável.',
@@ -130,7 +129,6 @@ const AppComponentMeta appBottomSheetPageMeta = AppComponentMeta(
   name: 'AppBottomSheetPage',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.7.0',
   summary: LocalizedText(
     en: 'iOS-style modal page that rises to the top (peek), edge-to-edge.',
     pt: 'Página modal estilo iOS que sobe até o topo (peek), edge-to-edge.',
@@ -235,7 +233,6 @@ const AppComponentMeta appBottomSheetContentMeta = AppComponentMeta(
   name: 'AppBottomSheetContent',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Standard bottom sheet body: title, message and illustration.',
     pt: 'Corpo padrão de um bottom sheet: título, mensagem e ilustração.',

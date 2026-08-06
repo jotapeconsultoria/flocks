@@ -6,7 +6,6 @@ const AppComponentMeta appStepperMeta = AppComponentMeta(
   name: 'AppStepper',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'Labelled step indicator (numbered/checked circles + connecting lines).',
     pt: 'Indicador de etapas rotuladas (círculos numerados/check + linhas).',

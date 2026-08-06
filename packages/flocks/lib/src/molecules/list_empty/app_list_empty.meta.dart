@@ -6,7 +6,6 @@ const AppComponentMeta appListEmptyMeta = AppComponentMeta(
   name: 'AppListEmpty',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'List empty state: illustration + message + optional action.',
     pt: 'Estado vazio de lista: ilustração + mensagem + ação opcional.',

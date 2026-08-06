@@ -6,7 +6,6 @@ const AppComponentMeta appMarkdownMeta = AppComponentMeta(
   name: 'AppMarkdown',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Renders Markdown (GFM) with the theme\'s tokens, without Material.',
     pt: 'Renderiza Markdown (GFM) com os tokens do tema, sem Material.',
@@ -108,7 +107,6 @@ const AppComponentMeta appHtmlMeta = AppComponentMeta(
   name: 'AppHtml',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Renders a safe subset of HTML with the theme\'s tokens.',
     pt: 'Renderiza um subconjunto seguro de HTML com os tokens do tema.',
@@ -193,7 +191,6 @@ const AppComponentMeta appCodeBlockMeta = AppComponentMeta(
   name: 'AppCodeBlock',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.4.0',
   summary: LocalizedText(
     en: 'Monospaced code block with a language label and a copy control.',
     pt: 'Bloco de código monoespaçado com rótulo de linguagem e copiar.',

@@ -6,7 +6,6 @@ const AppComponentMeta appPopoverMeta = AppComponentMeta(
   name: 'AppPopover',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.4.0',
   summary: LocalizedText(
     en: 'Rich-content overlay anchored to a trigger (click or hover).',
     pt: 'Overlay de conteúdo rico ancorado a um trigger (clique ou hover).',

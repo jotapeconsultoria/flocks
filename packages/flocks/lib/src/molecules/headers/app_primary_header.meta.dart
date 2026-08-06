@@ -6,7 +6,6 @@ const AppComponentMeta appPrimaryHeaderMeta = AppComponentMeta(
   name: 'AppPrimaryHeader',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Primary header: a centered child + optional leading/trailing.',
     pt: 'Cabeçalho primário: child central + leading/trailing opcionais.',

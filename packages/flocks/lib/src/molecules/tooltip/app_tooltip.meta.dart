@@ -6,7 +6,6 @@ const AppComponentMeta appTooltipMeta = AppComponentMeta(
   name: 'AppTooltip',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'Tooltip (hint balloon) shown on hover, through the Overlay.',
     pt: 'Tooltip (balão de dica) exibido ao passar o mouse, via Overlay.',

@@ -6,7 +6,6 @@ const AppComponentMeta appChatComposerMeta = AppComponentMeta(
   name: 'AppChatComposer',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.1.0',
   summary: LocalizedText(
     en: 'Multimodal field with a toolbar (attachment/model/info/context).',
     pt: 'Campo multimodal com toolbar (anexo/modelo/info/contexto).',

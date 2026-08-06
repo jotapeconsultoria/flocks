@@ -6,7 +6,6 @@ const AppComponentMeta appScrollEdgeFadeMeta = AppComponentMeta(
   name: 'AppScrollEdgeFade',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.8.0',
   summary: LocalizedText(
     en: 'Fades the edge of scrolling content, so the cut against a fixed bar is not a hard line.',
     pt:
@@ -144,7 +143,6 @@ const AppComponentMeta appScrollEdgeFadeOwnerMeta = AppComponentMeta(
   name: 'AppScrollEdgeFadeOwner',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.8.0',
   summary: LocalizedText(
     en: 'Takes over the veil for its own area: switches off the ancestor AppScrollEdgeFade while it is mounted.',
     pt:

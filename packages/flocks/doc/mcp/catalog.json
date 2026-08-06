@@ -4,7 +4,6 @@
     "name": "AppText",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.1.0",
     "summary": {
       "en": "Design system text, theme-adapted and selectable.",
       "pt": "Texto do design system, adaptado ao tema e selecionável."
@@ -127,7 +126,6 @@
     "name": "AppRichText",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.1.0",
     "summary": {
       "en": "Text with multiple inline styles, theme-adapted and selectable.",
       "pt": "Texto com múltiplos estilos inline, adaptado ao tema e selecionável."
@@ -240,7 +238,6 @@
     "name": "AppIcon",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "Design system SVG icon, loaded from the CDN with caching.",
       "pt": "Ícone SVG do design system, carregado da CDN com cache."
@@ -364,7 +361,6 @@
     "name": "AppAvatar",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "Circular avatar with a network image and a fallback (text or icon).",
       "pt": "Avatar circular com imagem de rede e fallback (texto ou ícone)."
@@ -507,7 +503,6 @@
     "name": "AppIllustration",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "Remote SVG illustration (cached), with theme-aware base/accent colors.",
       "pt": "Ilustração SVG remota (com cache), cores base/destaque theme-aware."
@@ -607,7 +602,6 @@
     "name": "AppRadio",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "Radio button for single selection within a mutually exclusive group.",
       "pt": "Radio button de seleção única em grupo mutuamente exclusivo."
@@ -709,7 +703,6 @@
     "name": "AppCheckbox",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "Multi-selection checkbox (check/uncheck).",
       "pt": "Checkbox de seleção múltipla (marcar/desmarcar)."
@@ -811,7 +804,6 @@
     "name": "AppSwitch",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "On/off switch for a single option.",
       "pt": "Switch liga/desliga de uma única opção."
@@ -912,7 +904,6 @@
     "name": "AppDotsIndicator",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "Progress indicator as dots (current position among N pages).",
       "pt": "Indicador de progresso em \"dots\" (posição atual entre N páginas)."
@@ -1016,7 +1007,6 @@
     "name": "AppStepper",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "Labelled step indicator (numbered/checked circles + connecting lines).",
       "pt": "Indicador de etapas rotuladas (círculos numerados/check + linhas)."
@@ -1133,7 +1123,6 @@
     "name": "AppCircularLoading",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "Circular progress ring (indeterminate or determinate).",
       "pt": "Anel de progresso circular (indeterminado ou determinado)."
@@ -1230,7 +1219,6 @@
     "name": "AppLinearLoading",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "Linear progress bar (indeterminate or determinate).",
       "pt": "Barra de progresso linear (indeterminada ou determinada)."
@@ -1316,7 +1304,6 @@
     "name": "AppBorderProgress",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "Animated progress border around a child.",
       "pt": "Borda de progresso animada ao redor de um filho."
@@ -1425,7 +1412,6 @@
     "name": "AppOverlayLoading",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "Loading overlay on top of a child (barrier + indicator).",
       "pt": "Overlay de carregamento sobre um filho (barrier + indicador)."
@@ -1489,7 +1475,6 @@
     "name": "AppShimmerLoading",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "Skeleton placeholder with an animated sheen.",
       "pt": "Placeholder skeleton com brilho animado."
@@ -1577,7 +1562,6 @@
     "name": "AppDivider",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.4.0",
     "summary": {
       "en": "Thin rule that separates content, adapted to the theme.",
       "pt": "Régua fina que separa conteúdo, adaptada ao tema."
@@ -1711,7 +1695,6 @@
     "name": "AppBadge",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.4.0",
     "summary": {
       "en": "Compact status pill, tinted by a semantic color role.",
       "pt": "Pill compacta de status, tingida por papel de cor semântico."
@@ -1882,7 +1865,6 @@
     "name": "AppTooltip",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.2.0",
     "summary": {
       "en": "Tooltip (hint balloon) shown on hover, through the Overlay.",
       "pt": "Tooltip (balão de dica) exibido ao passar o mouse, via Overlay."
@@ -2003,7 +1985,6 @@
     "name": "AppInteraction",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.4.0",
     "summary": {
       "en": "Interaction wrapper (InkWell-like) that makes any widget clickable.",
       "pt": "Wrapper de interação (tipo InkWell) para tornar qualquer widget clicável."
@@ -2195,7 +2176,6 @@
     "name": "AppHoverHighlight",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.7.0",
     "summary": {
       "en": "Purely visual hover highlight — no gesture, no focus, no Tab stop.",
       "pt": "Realce de hover puramente visual — sem gesto, sem foco, sem parada de Tab."
@@ -2307,7 +2287,6 @@
     "name": "AppCopyButton",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.5.0",
     "summary": {
       "en": "Copy button with animated confirmation in the button itself (icon and tooltip).",
       "pt": "Botão de copiar com confirmação animada no próprio botão (ícone e tooltip)."
@@ -2511,7 +2490,6 @@
     "name": "AppBreadcrumb",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Navigation trail with clickable items and separators.",
       "pt": "Trilha de navegação com itens clicáveis e separadores."
@@ -2595,7 +2573,6 @@
     "name": "AppButton",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Action button (label/icon) that varies along the global AppStyle axis.",
       "pt": "Botão de ação (rótulo/ícone) que varia pelo eixo global AppStyle."
@@ -2793,7 +2770,6 @@
     "name": "AppFloatingButton",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.9.0",
     "summary": {
       "en": "Floating action button (FAB) with a shadow that is always there; icon and/or label, circular by default.",
       "pt": "Ação flutuante (FAB) com sombra sempre presente; ícone e/ou rótulo, circular por padrão."
@@ -2999,7 +2975,6 @@
     "name": "AppDropdown",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Single-selection dropdown.",
       "pt": "Dropdown de seleção única."
@@ -3129,7 +3104,6 @@
     "name": "AppInput",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.0.0",
     "summary": {
       "en": "Design system text field (built on a bare EditableText).",
       "pt": "Campo de texto do design system (sobre EditableText cru)."
@@ -3365,7 +3339,6 @@
     "name": "AppDatePickerInput",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Date field: type it with a DD/MM/YYYY mask or pick it from the calendar.",
       "pt": "Campo de data: digitar com máscara DD/MM/AAAA ou escolher no calendário."
@@ -3551,7 +3524,6 @@
     "name": "AppTimePickerInput",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Time field: type it with an HH:mm mask or pick it from the wheels.",
       "pt": "Campo de horário: digitar com máscara HH:mm ou escolher nas rodas."
@@ -3754,7 +3726,6 @@
     "name": "AppDateTimePickerInput",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Single date + time field: a DD/MM/YYYY HH:mm mask, with the calendar and the wheels in one panel.",
       "pt": "Campo único de data + hora: máscara DD/MM/AAAA HH:mm, calendário e rodas no mesmo painel."
@@ -3929,7 +3900,6 @@
     "name": "AppDatePicker",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Single-date calendar: a day grid, month navigation and a direct jump to year/month.",
       "pt": "Calendário de data única: grade de dias, navegação por mês e salto direto para ano/mês."
@@ -4052,7 +4022,6 @@
     "name": "AppDateRangePicker",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Range calendar: one tap for the start, another for the end.",
       "pt": "Calendário de intervalo: um toque no início, outro no fim."
@@ -4165,7 +4134,6 @@
     "name": "AppTimePicker",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Hour/minute (and second) wheels in 24h format, with finite scrolling.",
       "pt": "Rodas de hora/minuto (e segundo) em formato 24h, com scroll finito."
@@ -4305,7 +4273,6 @@
     "name": "AppColorPickerInput",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Color field: a painted swatch + an editable hex, with the HSV panel in an overlay.",
       "pt": "Campo de cor: amostra pintada + hex editável, com o painel HSV num overlay."
@@ -4501,7 +4468,6 @@
     "name": "AppColorPickerPanel",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Visual HSV picker: a saturation/value area, a hue bar and presets.",
       "pt": "Seletor visual HSV: área de saturação/valor, barra de matiz e presets."
@@ -4608,7 +4574,6 @@
     "name": "AppMultiSelect",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Multi-selection dropdown (chips + ✓).",
       "pt": "Dropdown de seleção múltipla (chips + ✓)."
@@ -4739,7 +4704,6 @@
     "name": "AppSearchableDropdown",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Single-selection dropdown with a search field.",
       "pt": "Dropdown de seleção única com campo de busca."
@@ -4875,7 +4839,6 @@
     "name": "AppSearchableMultiSelect",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Multi-selection with chips and a search field.",
       "pt": "Seleção múltipla com chips e campo de busca."
@@ -5012,7 +4975,6 @@
     "name": "AppPieChart",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Pie chart (distribution in slices).",
       "pt": "Gráfico de pizza (distribuição em fatias)."
@@ -5102,7 +5064,6 @@
     "name": "AppDonutChart",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Donut chart (a pie with a hole in the middle).",
       "pt": "Gráfico de rosca (pizza com furo central)."
@@ -5189,7 +5150,6 @@
     "name": "AppLineChart",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Line chart for a trend over time.",
       "pt": "Gráfico de linha para tendência ao longo do tempo."
@@ -5292,7 +5252,6 @@
     "name": "AppAreaChart",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Area chart: a line with the space beneath it filled.",
       "pt": "Gráfico de área: linha com o espaço abaixo preenchido."
@@ -5399,7 +5358,6 @@
     "name": "AppBarChart",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Bar chart, grouped or stacked.",
       "pt": "Gráfico de barras, agrupado ou empilhado."
@@ -5529,7 +5487,6 @@
     "name": "AppBubbleChart",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Bubble chart: the circle's area is the value.",
       "pt": "Gráfico de bolhas: a área do círculo é o valor."
@@ -5616,7 +5573,6 @@
     "name": "AppGaugeChart",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Gauge: a segmented arc with a central label.",
       "pt": "Medidor: arco segmentado com rótulo central."
@@ -5719,7 +5675,6 @@
     "name": "AppChartShell",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Chart frame: title, legend and states.",
       "pt": "Moldura de gráfico: título, legenda e estados."
@@ -5858,7 +5813,6 @@
     "name": "AppExpansionTile",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Expandable tile: a clickable header + an animated body.",
       "pt": "Tile expansível: cabeçalho clicável + corpo animado."
@@ -5981,7 +5935,6 @@
     "name": "AppSimpleHeader",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Simple page header (a band over the surface holding one child).",
       "pt": "Cabeçalho simples de página (faixa sobre surface com um child)."
@@ -6072,7 +6025,6 @@
     "name": "AppPrimaryHeader",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Primary header: a centered child + optional leading/trailing.",
       "pt": "Cabeçalho primário: child central + leading/trailing opcionais."
@@ -6180,7 +6132,6 @@
     "name": "AppButtonsFooter",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Action footer: a primary button + an optional secondary one.",
       "pt": "Rodapé de ações: botão primário + secundário opcional."
@@ -6315,7 +6266,6 @@
     "name": "AppSimpleFooter",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Simple footer: a band over the surface holding one child.",
       "pt": "Rodapé simples: faixa sobre surface com um child."
@@ -6408,7 +6358,6 @@
     "name": "AppNavigationFooter",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Bottom navigation bar (icon+title items).",
       "pt": "Barra de navegação inferior (itens ícone+título)."
@@ -6508,7 +6457,6 @@
     "name": "AppSearchFooter",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Floating search footer (Notes style), with the AppStyle axis + glass.",
       "pt": "Rodapé de busca flutuante (estilo Notes), com eixo AppStyle + glass."
@@ -6650,7 +6598,6 @@
     "name": "AppChatFooter",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Chat footer: wraps AppChatComposer with a safe area + AppStyle.",
       "pt": "Rodapé de chat: envolve o AppChatComposer com safe-area + AppStyle."
@@ -6788,7 +6735,6 @@
     "name": "AppListEmpty",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "List empty state: illustration + message + optional action.",
       "pt": "Estado vazio de lista: ilustração + mensagem + ação opcional."
@@ -6886,7 +6832,6 @@
     "name": "AppTileInfo",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Label/value pair (not clickable).",
       "pt": "Par rótulo/valor (não clicável)."
@@ -6973,7 +6918,6 @@
     "name": "AppListTile",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "List row in 2 styles, with orthogonal variations.",
       "pt": "Linha de lista em 2 estilos, com variações ortogonais."
@@ -7173,7 +7117,6 @@
     "name": "AppListTileAction",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Title/value row with a trailing action, clickable.",
       "pt": "Linha título/valor com trailing de ação, clicável."
@@ -7250,7 +7193,6 @@
     "name": "AppListTileCheckbox",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Selection row with a checkbox; the whole row toggles.",
       "pt": "Linha de seleção com checkbox; a linha inteira alterna."
@@ -7334,7 +7276,6 @@
     "name": "AppListTileDraggableCheckbox",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Reorderable selection row: a drag handle + a checkbox.",
       "pt": "Linha de seleção reordenável: handle de arraste + checkbox."
@@ -7429,7 +7370,6 @@
     "name": "AppListTileRadio",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "List row with a radio (single selection).",
       "pt": "Linha de lista com radio (seleção única)."
@@ -7563,7 +7503,6 @@
     "name": "AppListTileGroup",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Groups list tiles into a card with a background/border + dividers.",
       "pt": "Agrupa list-tiles num card com fundo/borda + divisórias."
@@ -7654,7 +7593,6 @@
     "name": "AppAlert",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Alert card with a title, a description and a semantic icon.",
       "pt": "Card de alerta com título, descrição e ícone semântico."
@@ -7777,7 +7715,6 @@
     "name": "AppMenu",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.4.0",
     "summary": {
       "en": "Anchored action menu (popup / context menu), through the Overlay.",
       "pt": "Menu de ações ancorado (popup / context menu), via Overlay."
@@ -7918,7 +7855,6 @@
     "name": "AppNumberStepper",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.4.0",
     "summary": {
       "en": "Numeric control − value + (min/max/step), with no text editing.",
       "pt": "Controle numérico − valor + (min/max/step), sem edição de texto."
@@ -8039,7 +7975,6 @@
     "name": "AppCard",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Structured card (header/child/footer) on the AppStyle axis.",
       "pt": "Card estruturado (header/child/footer) no eixo AppStyle."
@@ -8205,7 +8140,6 @@
     "name": "AppPagination",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.4.0",
     "summary": {
       "en": "Page navigation (prev/next + numbers with an ellipsis).",
       "pt": "Navegação de páginas (prev/next + números com reticências)."
@@ -8320,7 +8254,6 @@
     "name": "AppPickerAnchor",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.5.0",
     "summary": {
       "en": "Generic picker anchor: a trigger that opens an anchored floating panel (date/time/color…) in an AppCard.",
       "pt": "Âncora genérica de picker: um trigger que abre um painel flutuante ancorado (date/time/color…) num AppCard."
@@ -8477,7 +8410,6 @@
     "name": "AppPopover",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.4.0",
     "summary": {
       "en": "Rich-content overlay anchored to a trigger (click or hover).",
       "pt": "Overlay de conteúdo rico ancorado a um trigger (clique ou hover)."
@@ -8642,7 +8574,6 @@
     "name": "AppRating",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.4.0",
     "summary": {
       "en": "Star rating (display and input), with an optional half step.",
       "pt": "Avaliação por estrelas (display e input), com meio-passo opcional."
@@ -8764,7 +8695,6 @@
     "name": "AppSegmentedButton",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.4.0",
     "summary": {
       "en": "Segmented button for single selection (2–4 options in a pill).",
       "pt": "Botão segmentado de seleção única (2–4 opções numa pílula)."
@@ -8878,7 +8808,6 @@
     "name": "AppSplitButton",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.4.0",
     "summary": {
       "en": "Primary action + a caret that opens an AppMenu of secondary actions.",
       "pt": "Ação primária + caret que abre um AppMenu de ações secundárias."
@@ -9028,7 +8957,6 @@
     "name": "AppSnackbar",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Temporary feedback card (success/error/info).",
       "pt": "Card de feedback temporário (sucesso/erro/info)."
@@ -9147,7 +9075,6 @@
     "name": "AppSurface",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.4.0",
     "summary": {
       "en": "Themeable base container (surface) with elevation by tone.",
       "pt": "Container-base temável (superfície) com elevação por tom."
@@ -9283,7 +9210,6 @@
     "name": "AppScrollEdgeFade",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.8.0",
     "summary": {
       "en": "Fades the edge of scrolling content, so the cut against a fixed bar is not a hard line.",
       "pt": "Esmaece a borda do conteúdo que rola, para o corte contra uma barra fixa não ser uma linha seca."
@@ -9409,7 +9335,6 @@
     "name": "AppScrollEdgeFadeOwner",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.8.0",
     "summary": {
       "en": "Takes over the veil for its own area: switches off the ancestor AppScrollEdgeFade while it is mounted.",
       "pt": "Assume o véu da própria área: desliga o AppScrollEdgeFade ancestral enquanto estiver montado."
@@ -9496,7 +9421,6 @@
     "name": "AppSideInset",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.8.0",
     "summary": {
       "en": "Applies — and consumes — the side inset the host surface published in MediaQuery.padding.",
       "pt": "Aplica — e consome — o respiro lateral que a superfície hospedeira publicou em MediaQuery.padding."
@@ -9587,7 +9511,6 @@
     "name": "AppShortcutHint",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.7.0",
     "summary": {
       "en": "Badge that SHOWS a keyboard shortcut, resolved per platform.",
       "pt": "Selo que MOSTRA um atalho de teclado, resolvido por plataforma."
@@ -9724,7 +9647,6 @@
     "name": "AppImage",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.4.0",
     "summary": {
       "en": "Raster image (network/asset) with standardized loading and fallback.",
       "pt": "Imagem raster (rede/asset) com loading e fallback padronizados."
@@ -9869,7 +9791,6 @@
     "name": "AppSwatch",
     "category": "atom",
     "status": "migrated",
-    "since": "flocks@0.4.0",
     "summary": {
       "en": "Color swatch (rounded square or circle).",
       "pt": "Amostra de cor (quadrado arredondado ou círculo)."
@@ -9986,7 +9907,6 @@
     "name": "AppChatBubble",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Content-agnostic message bubble (LLM + WhatsApp style).",
       "pt": "Bolha de mensagem agnóstica de conteúdo (LLM + estilo WhatsApp)."
@@ -10115,7 +10035,6 @@
     "name": "AppMessageMeta",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Time + delivery ticks in a bubble's footer.",
       "pt": "Horário + ticks de entrega no rodapé de uma bolha."
@@ -10196,7 +10115,6 @@
     "name": "AppChatComposer",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Multimodal field with a toolbar (attachment/model/info/context).",
       "pt": "Campo multimodal com toolbar (anexo/modelo/info/contexto)."
@@ -10355,7 +10273,6 @@
     "name": "AppChatAttachmentChip",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Image thumbnail or file pill, with a remove control.",
       "pt": "Thumbnail de imagem ou pílula de arquivo, com remover."
@@ -10424,7 +10341,6 @@
     "name": "AppChatAttachmentCard",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Square attachment card (thumbnail or large icon).",
       "pt": "Card quadrado de anexo (thumbnail ou ícone grande)."
@@ -10517,7 +10433,6 @@
     "name": "AppTypingIndicator",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Three \"typing…\" dots, motion-aware.",
       "pt": "Três pontinhos \"digitando…\", motion-aware."
@@ -10582,7 +10497,6 @@
     "name": "AppAssistantStatus",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Assistant step label, with a smooth transition.",
       "pt": "Rótulo de etapa do assistente, com transição suave."
@@ -10646,7 +10560,6 @@
     "name": "AppChatActionBar",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Row of icon actions for a message (copy/like/…).",
       "pt": "Linha de ações-ícone de uma mensagem (copiar/like/…)."
@@ -10703,7 +10616,6 @@
     "name": "AppFilterChip",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.2.0",
     "summary": {
       "en": "Applied-filter chip with a remove affordance.",
       "pt": "Chip de filtro aplicado, com afordância de remover."
@@ -10782,7 +10694,6 @@
     "name": "AppTimeline",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@1.2.0",
     "summary": {
       "en": "Chronological list of events that happened, newest first.",
       "pt": "Lista cronológica de eventos que aconteceram, do mais recente ao mais antigo."
@@ -10866,7 +10777,6 @@
     "name": "AppSuggestionChip",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Tappable chip for a starter prompt or a quick reply.",
       "pt": "Chip tocável de prompt inicial / resposta rápida."
@@ -10944,7 +10854,6 @@
     "name": "AppChatDayDivider",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Centered \"Today/Yesterday/date\" pill that separates days.",
       "pt": "Pílula central \"Hoje/Ontem/data\" que separa dias."
@@ -10999,7 +10908,6 @@
     "name": "AppQuestionCard",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Inline question card: confirmation, single choice or multiple choice.",
       "pt": "Card de pergunta inline: confirmação, escolha única ou múltipla."
@@ -11135,7 +11043,6 @@
     "name": "AppChatMessageList",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Scrollable list that sticks to the bottom + auto-scroll + spacing.",
       "pt": "Lista rolável que gruda no fim + auto-scroll + espaçamento."
@@ -11223,7 +11130,6 @@
     "name": "AppMarkdown",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Renders Markdown (GFM) with the theme's tokens, without Material.",
       "pt": "Renderiza Markdown (GFM) com os tokens do tema, sem Material."
@@ -11341,7 +11247,6 @@
     "name": "AppHtml",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@1.1.0",
     "summary": {
       "en": "Renders a safe subset of HTML with the theme's tokens.",
       "pt": "Renderiza um subconjunto seguro de HTML com os tokens do tema."
@@ -11448,7 +11353,6 @@
     "name": "AppCodeBlock",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@1.4.0",
     "summary": {
       "en": "Monospaced code block with a language label and a copy control.",
       "pt": "Bloco de código monoespaçado com rótulo de linguagem e copiar."
@@ -11590,7 +11494,6 @@
     "name": "AppDataTable",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Paginated table with per-column sorting (the backoffice grids).",
       "pt": "Tabela paginada com ordenação por coluna (grids do backoffice)."
@@ -11714,7 +11617,6 @@
     "name": "AppSimpleDataTable",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Static table (header + rows), with no sorting or pagination.",
       "pt": "Tabela estática (header + linhas), sem ordenação/paginação."
@@ -11795,7 +11697,6 @@
     "name": "AppNavigationRail",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Collapsible side menu with items and sub-items (the app's navigation).",
       "pt": "Menu lateral colapsável com itens e subitens (navegação do app)."
@@ -11909,7 +11810,6 @@
     "name": "AppNavigationRailItem",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "An AppNavigationRail item (icon + title, with states).",
       "pt": "Item de um AppNavigationRail (ícone + título, com estados)."
@@ -12020,7 +11920,6 @@
     "name": "AppNavigationRailProfile",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.7.0",
     "summary": {
       "en": "Profile row (avatar + name/role + trailing) for the footer.",
       "pt": "Linha de perfil (avatar + nome/papel + trailing) para o footer."
@@ -12128,7 +12027,6 @@
     "name": "AppNavigationRailFilter",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.7.0",
     "summary": {
       "en": "Filter row for the rail's footer: icon, filter name and selected value.",
       "pt": "Linha de filtro para o rodapé do rail: ícone, nome do filtro e valor selecionado."
@@ -12250,7 +12148,6 @@
     "name": "AppFormWizard",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Multi-step form with an indicator (at the side on desktop, on top on mobile).",
       "pt": "Formulário multi-passo com indicador (lateral no desktop, topo no mobile)."
@@ -12345,7 +12242,6 @@
     "name": "AppTabView",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Horizontal tabs with a sliding indicator and lazy loading.",
       "pt": "Abas horizontais com indicador deslizante e carga preguiçosa."
@@ -12448,7 +12344,6 @@
     "name": "AppResizablePanel",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.8.0",
     "summary": {
       "en": "Panel whose width is dragged (in px) from one of its edges.",
       "pt": "Painel com largura arrastável (px) por uma das bordas."
@@ -12597,7 +12492,6 @@
     "name": "AppResizableSplit",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Two panels with a draggable divider (horizontal or vertical).",
       "pt": "Dois painéis com divisor arrastável (horizontal ou vertical)."
@@ -12716,7 +12610,6 @@
     "name": "AppWorkspaceTabs",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Browser-style tab bar (icon + title + close).",
       "pt": "Barra de abas estilo navegador (ícone + título + fechar)."
@@ -12814,7 +12707,6 @@
     "name": "AppOverlayAlert",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Alert card with a semantic color through a ColorSwatch (AppAlert's sibling).",
       "pt": "Card de alerta com cor semântica via ColorSwatch (irmão do AppAlert)."
@@ -12926,7 +12818,6 @@
     "name": "AppOverlayCard",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Floating card that intercepts the pointer (for floating over maps).",
       "pt": "Card flutuante que intercepta o ponteiro (para flutuar sobre mapas)."
@@ -13029,7 +12920,6 @@
     "name": "AppActionItem",
     "category": "molecule",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Action item (icon + text) on a clickable tinted surface.",
       "pt": "Item de ação (ícone + texto) numa superfície tingida clicável."
@@ -13131,7 +13021,6 @@
     "name": "AppDialog",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "The central card of a modal dialog (the floating surface).",
       "pt": "Card central de um dialog modal (a superfície flutuante)."
@@ -13304,7 +13193,6 @@
     "name": "AppDialogContent",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Standard dialog body: title, message and illustration.",
       "pt": "Corpo padrão de um dialog: título, mensagem e ilustração."
@@ -13403,7 +13291,6 @@
     "name": "AppShell",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.7.0",
     "summary": {
       "en": "Desktop workspace skeleton: rail, header, content in a card and a full-height side panel.",
       "pt": "Esqueleto do workspace desktop: rail, header, conteúdo em cartão e painel lateral de altura total."
@@ -13532,7 +13419,6 @@
     "name": "AppOmniSearch",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.7.0",
     "summary": {
       "en": "Global search with async autocomplete, results grouped by entity and `/` commands.",
       "pt": "Busca global com autocomplete assíncrono, resultados agrupados por entidade e comandos `/`."
@@ -13674,7 +13560,6 @@
     "name": "AppAssistantPanel",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.7.0",
     "summary": {
       "en": "Assistant side panel, always present: header, fixed banner, conversation and composer.",
       "pt": "Painel lateral do assistente, sempre presente: cabeçalho, faixa fixa, conversa e composer."
@@ -13809,7 +13694,6 @@
     "name": "AppScaffold",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Page layout: header · content · footer over the surface.",
       "pt": "Layout de página: header · conteúdo · footer sobre a surface."
@@ -13935,7 +13819,6 @@
     "name": "AppAuthSplitLayout",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Split layout for the authentication pages (login/OTP).",
       "pt": "Layout dividido das páginas de autenticação (login/OTP)."
@@ -14040,7 +13923,6 @@
     "name": "AppBottomSheet",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Floating panel anchored to the bottom (bottom sheet), optionally draggable.",
       "pt": "Painel flutuante ancorado na base (bottom sheet), opcionalmente arrastável."
@@ -14217,7 +14099,6 @@
     "name": "AppBottomSheetPage",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.7.0",
     "summary": {
       "en": "iOS-style modal page that rises to the top (peek), edge-to-edge.",
       "pt": "Página modal estilo iOS que sobe até o topo (peek), edge-to-edge."
@@ -14359,7 +14240,6 @@
     "name": "AppBottomSheetContent",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.6.0",
     "summary": {
       "en": "Standard bottom sheet body: title, message and illustration.",
       "pt": "Corpo padrão de um bottom sheet: título, mensagem e ilustração."
@@ -14454,7 +14334,6 @@
     "name": "AppSideSheet",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.7.0",
     "summary": {
       "en": "Floating side panel (the bottom sheet's horizontal sibling), responsive.",
       "pt": "Painel lateral flutuante (irmão horizontal do bottom sheet), responsivo."
@@ -14659,7 +14538,6 @@
     "name": "AppSideSheetPage",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@0.8.0",
     "summary": {
       "en": "The same surface as AppSideSheet, shown by a PERSISTENT route (SideSheetPageRoute) instead of an ephemeral one.",
       "pt": "A mesma superfície do AppSideSheet, exibida por uma rota PERSISTENTE (SideSheetPageRoute) em vez de uma efêmera."
@@ -14816,7 +14694,6 @@
     "name": "AppApiMethodBadge",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@1.4.0",
     "summary": {
       "en": "HTTP verb pill, tinted by the method's semantic role.",
       "pt": "Pílula do verbo HTTP, tingida pelo papel semântico do método."
@@ -14939,7 +14816,6 @@
     "name": "AppApiPath",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@1.4.0",
     "summary": {
       "en": "Endpoint path in mono, with the placeholders highlighted.",
       "pt": "Path de endpoint em mono, com os placeholders destacados."
@@ -15039,7 +14915,6 @@
     "name": "AppApiParamTable",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@1.4.0",
     "summary": {
       "en": "Request parameter table built on AppSimpleDataTable.",
       "pt": "Tabela de parâmetros de requisição sobre o AppSimpleDataTable."
@@ -15123,7 +14998,6 @@
     "name": "AppApiSchemaTree",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@1.4.0",
     "summary": {
       "en": "Field tree for a schema, with nodes that open level by level.",
       "pt": "Árvore de campos de um schema, com nós abríveis por nível."
@@ -15212,7 +15086,6 @@
     "name": "AppApiEndpointTile",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@1.4.0",
     "summary": {
       "en": "Collapsible endpoint card: verb, path, params, responses.",
       "pt": "Cartão colapsável de um endpoint: verbo, path, params, respostas."
@@ -15325,7 +15198,6 @@
     "name": "AppApiFlow",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@1.4.0",
     "summary": {
       "en": "A business flow as a numbered vertical timeline of calls.",
       "pt": "Fluxo de negócio como timeline vertical numerada de chamadas."
@@ -15416,7 +15288,6 @@
     "name": "AppApiDocsPanel",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@1.4.0",
     "summary": {
       "en": "API documentation in the context of one screen, in a single flow.",
       "pt": "Documentação da API no contexto de uma tela, num só fluxo."
@@ -15521,7 +15392,6 @@
     "name": "AppEntityDocPanel",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@1.4.0",
     "summary": {
       "en": "Conceptual documentation for an entity: what it is, what it relates to and who exchanges data with it.",
       "pt": "Documentação conceitual de uma entidade: o que é, com quem se relaciona e quem troca dados com ela."
@@ -15627,7 +15497,6 @@
     "name": "AppDocsWorkspace",
     "category": "organism",
     "status": "migrated",
-    "since": "flocks@1.4.0",
     "summary": {
       "en": "Documentation for one context in two columns: concept and API.",
       "pt": "Documentação de um contexto em duas colunas: conceito e API."

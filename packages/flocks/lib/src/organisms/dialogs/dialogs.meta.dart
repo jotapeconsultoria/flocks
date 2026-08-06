@@ -6,7 +6,6 @@ const AppComponentMeta appDialogMeta = AppComponentMeta(
   name: 'AppDialog',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'The central card of a modal dialog (the floating surface).',
     pt: 'Card central de um dialog modal (a superfície flutuante).',
@@ -165,7 +164,6 @@ const AppComponentMeta appDialogContentMeta = AppComponentMeta(
   name: 'AppDialogContent',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Standard dialog body: title, message and illustration.',
     pt: 'Corpo padrão de um dialog: título, mensagem e ilustração.',

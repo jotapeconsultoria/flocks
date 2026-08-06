@@ -6,7 +6,6 @@ const AppComponentMeta appShellMeta = AppComponentMeta(
   name: 'AppShell',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.7.0',
   summary: LocalizedText(
     en: 'Desktop workspace skeleton: rail, header, content in a card and a full-height side panel.',
     pt:

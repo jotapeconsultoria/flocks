@@ -6,7 +6,6 @@ const AppComponentMeta appExpansionTileMeta = AppComponentMeta(
   name: 'AppExpansionTile',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Expandable tile: a clickable header + an animated body.',
     pt: 'Tile expansível: cabeçalho clicável + corpo animado.',

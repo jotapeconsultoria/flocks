@@ -6,7 +6,6 @@ const AppComponentMeta appCopyButtonMeta = AppComponentMeta(
   name: 'AppCopyButton',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.5.0',
   summary: LocalizedText(
     en: 'Copy button with animated confirmation in the button itself (icon and tooltip).',
     pt:

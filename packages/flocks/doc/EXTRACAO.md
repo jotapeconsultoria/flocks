@@ -80,9 +80,10 @@ contra o churn.
 `0.x → 1.0.0` é formatura que se anuncia. `1.0.0 → 2.0.0 → 3.0.0` num trimestre
 é instabilidade, e não se retrata.
 
-Os `since: 'flocks@x.y.z'` do catálogo são marcos **internos** de migração,
-anteriores a qualquer publicação. A régua deles vai de `0.1.0` a `1.5.0`
-enquanto o pubspec dizia `1.0.0` — já não concordavam antes da extração.
+Os `since: 'flocks@x.y.z'` que o catálogo carregava eram marcos **internos** de
+migração, anteriores a qualquer publicação. A régua deles ia de `0.1.0` a
+`1.5.0` enquanto o pubspec dizia `1.0.0` — já não concordavam antes da
+extração. O campo saiu (ver a dívida abaixo).
 
 ### 5. Transição por dependência `git:`
 
@@ -163,9 +164,21 @@ Only" tornava o pacote impublicável.
   que citavam uma regra numerada só precisaram trocar o destino do "ver". Quem
   apontava para o plano genérico (`flocks.dart`, `organisms.dart`) é que teve
   de virar frase. Prioridade foram os `///`: são a cara do pacote no pub.dev.
-- **Os `since:` do catálogo** referenciam marcos internos que não correspondem a
-  release nenhuma (ver §4). Ou viram a versão publicada em que o componente
-  apareceu, ou saem.
+- ✅ **O `since:` saiu do catálogo** — resolvido em 2026-08-05. Referenciava
+  marcos internos que não correspondiam a release nenhuma (ver §4). Das duas
+  saídas ("ou viram a versão publicada, ou saem"), saíram: os 131 componentes
+  nascem juntos na `0.1.0`, então o campo carregaria valor idêntico em 131 de
+  131 entradas — zero informação —, e `flocks@0.1.0` já era marco *interno* de
+  2 componentes, de modo que depois de publicar a `0.1.0` real o mesmo valor
+  significaria duas coisas. O campo volta com significado quando o primeiro
+  componente pós-`0.1.0` nascer.
+
+  **O que a remoção ensinou sobre a superfície:** não eram só os `*.meta.dart`.
+  O `tool/serialize_meta.dart` não precisou de uma linha — ele delega tudo ao
+  `toJson()` do meta —, mas o campo também vivia no fixture de
+  `test/src/meta/app_component_meta_test.dart` e em
+  `tool/flocks_component.schema.json`, um schema que nenhum código lê e que por
+  isso envelheceria em silêncio.
 
 ## O passo que falta
 

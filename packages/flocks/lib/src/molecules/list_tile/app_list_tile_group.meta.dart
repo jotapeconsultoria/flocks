@@ -6,7 +6,6 @@ const AppComponentMeta appListTileGroupMeta = AppComponentMeta(
   name: 'AppListTileGroup',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.5.0',
   summary: LocalizedText(
     en: 'Groups list tiles into a card with a background/border + dividers.',
     pt: 'Agrupa list-tiles num card com fundo/borda + divisórias.',

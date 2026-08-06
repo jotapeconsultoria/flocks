@@ -6,7 +6,6 @@ const AppComponentMeta appAvatarMeta = AppComponentMeta(
   name: 'AppAvatar',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'Circular avatar with a network image and a fallback (text or icon).',
     pt: 'Avatar circular com imagem de rede e fallback (texto ou ícone).',

@@ -12,7 +12,6 @@ void main() {
         en: 'Filled primary action button.',
         pt: 'Botão preenchido de ação primária.',
       ),
-      since: 'flocks@0.3.0',
       whenToUse: LocalizedList(
         en: <String>['A prominent CTA'],
         pt: <String>['CTA de destaque'],

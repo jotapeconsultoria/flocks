@@ -6,7 +6,6 @@ const AppComponentMeta appTextMeta = AppComponentMeta(
   name: 'AppText',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.1.0',
   summary: LocalizedText(
     en: 'Design system text, theme-adapted and selectable.',
     pt: 'Texto do design system, adaptado ao tema e selecionável.',

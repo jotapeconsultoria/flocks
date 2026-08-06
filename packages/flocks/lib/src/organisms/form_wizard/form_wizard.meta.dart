@@ -6,7 +6,6 @@ const AppComponentMeta appFormWizardMeta = AppComponentMeta(
   name: 'AppFormWizard',
   category: ComponentCategory.organism,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Multi-step form with an indicator (at the side on desktop, on top on mobile).',
     pt:

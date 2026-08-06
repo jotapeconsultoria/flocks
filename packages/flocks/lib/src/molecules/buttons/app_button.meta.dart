@@ -6,7 +6,6 @@ const AppComponentMeta appButtonMeta = AppComponentMeta(
   name: 'AppButton',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.6.0',
   summary: LocalizedText(
     en: 'Action button (label/icon) that varies along the global AppStyle axis.',
     pt: 'Botão de ação (rótulo/ícone) que varia pelo eixo global AppStyle.',

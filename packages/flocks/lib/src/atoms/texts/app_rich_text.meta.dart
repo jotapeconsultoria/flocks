@@ -6,7 +6,6 @@ const AppComponentMeta appRichTextMeta = AppComponentMeta(
   name: 'AppRichText',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.1.0',
   summary: LocalizedText(
     en: 'Text with multiple inline styles, theme-adapted and selectable.',
     pt: 'Texto com múltiplos estilos inline, adaptado ao tema e selecionável.',

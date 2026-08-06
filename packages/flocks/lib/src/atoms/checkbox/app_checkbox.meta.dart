@@ -6,7 +6,6 @@ const AppComponentMeta appCheckboxMeta = AppComponentMeta(
   name: 'AppCheckbox',
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
-  since: 'flocks@0.2.0',
   summary: LocalizedText(
     en: 'Multi-selection checkbox (check/uncheck).',
     pt: 'Checkbox de seleção múltipla (marcar/desmarcar).',

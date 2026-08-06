@@ -6,7 +6,6 @@ const AppComponentMeta appFilterChipMeta = AppComponentMeta(
   name: 'AppFilterChip',
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
-  since: 'flocks@1.2.0',
   summary: LocalizedText(
     en: 'Applied-filter chip with a remove affordance.',
     pt: 'Chip de filtro aplicado, com afordância de remover.',
