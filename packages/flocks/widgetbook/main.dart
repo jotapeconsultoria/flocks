@@ -53,8 +53,12 @@ class FlocksWidgetbook extends StatelessWidget {
     );
   }
 
-  /// Pré-computa os 4 temas (marca × brilho). `AppThemeData.light/.dark` leem
+  /// Pré-computa os 6 temas (marca × brilho). `AppThemeData.light/.dark` leem
   /// `AppBrand.current`, então trocamos a marca antes de capturar cada tema.
+  ///
+  /// O default é `flocksBrand` — a marca do próprio design system, o que o
+  /// catálogo público representa. As marcas cliente ficam como opções: a troca
+  /// ao vivo é a prova da tese white-label.
   static List<WidgetbookTheme<AppThemeData>> _themes() {
     AppBrand.setBrand(jotapeBrand);
     final jotapeLight = AppThemeData.light;
@@ -62,8 +66,12 @@ class FlocksWidgetbook extends StatelessWidget {
     AppBrand.setBrand(zxtrackBrand);
     final zxtrackLight = AppThemeData.light;
     final zxtrackDark = AppThemeData.dark;
-    AppBrand.setBrand(jotapeBrand);
+    AppBrand.setBrand(flocksBrand);
+    final flocksLight = AppThemeData.light;
+    final flocksDark = AppThemeData.dark;
     return <WidgetbookTheme<AppThemeData>>[
+      WidgetbookTheme(name: 'Flocks · Claro', data: flocksLight),
+      WidgetbookTheme(name: 'Flocks · Escuro', data: flocksDark),
       WidgetbookTheme(name: 'Jotape · Claro', data: jotapeLight),
       WidgetbookTheme(name: 'Jotape · Escuro', data: jotapeDark),
       WidgetbookTheme(name: 'ZX · Claro', data: zxtrackLight),
