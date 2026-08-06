@@ -1,0 +1,7 @@
+# O oposto deliberado do robots.txt do Widgetbook: lá o conteúdo é
+# canvas-only e o Disallow evita indexar uma casca vazia; aqui o site É
+# a superfície indexável do Flocks.
+User-agent: *
+Allow: /
+
+Sitemap: https://flocks.live/sitemap.xml

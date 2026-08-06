@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flocks — um design system Flutter construído sobre widgets.dart</title>
+  <meta name="description" content="O Flocks é um design system Flutter construído sobre widgets.dart puro — sem Material, sem Cupertino. 131 componentes que se reestilizam por três eixos globais e vestem uma marca inteira a partir de uma única semente hex.">
+  <link rel="canonical" href="https://flocks.live/pt/">
+  <link rel="alternate" hreflang="en" href="https://flocks.live/">
+  <link rel="alternate" hreflang="pt-BR" href="https://flocks.live/pt/">
+  <link rel="alternate" hreflang="x-default" href="https://flocks.live/">
+  <meta name="theme-color" content="#d3daea" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111823" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="preload" href="/assets/fonts/SpaceGrotesk-Medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Poppins-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/style.css">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Flocks">
+  <meta property="og:title" content="Flocks — um design system Flutter construído sobre widgets.dart">
+  <meta property="og:description" content="Sem Material, sem Cupertino. 131 componentes, três eixos globais de estilo, white-label a partir de uma única semente hex.">
+  <meta property="og:url" content="https://flocks.live/pt/">
+  <meta property="og:image" content="https://flocks.live/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:locale:alternate" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="wordmark" href="/pt/">flocks</a>
+      <nav aria-label="Principal">
+        <a href="https://widgetbook.flocks.live">Componentes</a>
+        <a href="https://github.com/jotapeconsultoria/flocks">GitHub</a>
+        <a class="lang-switch" href="/" lang="en" hreflang="en">EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap">
+        <h1>Um design system Flutter construído sobre <em>widgets.dart</em></h1>
+        <p class="tagline">Sem Material, sem Cupertino. 131 componentes que se
+        reestilizam por três eixos globais e vestem uma marca inteira a partir
+        de uma única semente hex — offline, no primeiro
+        <code>flutter&nbsp;run</code>.</p>
+        <div class="cta-row">
+          <a class="button button-primary" href="https://widgetbook.flocks.live">Explore os componentes</a>
+          <a class="button button-secondary" href="https://github.com/jotapeconsultoria/flocks">Ver no GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Em números">
+      <div class="wrap">
+        <ul>
+          <li><span class="n">131</span> <span class="label">componentes</span></li>
+          <li><span class="n">295</span> <span class="label">exemplos vivos</span></li>
+          <li><span class="n">1.500+</span> <span class="label">testes</span></li>
+          <li><span class="n">2</span> <span class="label">idiomas</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section aria-labelledby="features-title">
+      <div class="wrap">
+        <h2 class="section-title" id="features-title">Opinado onde importa</h2>
+        <p class="section-lead">Cada promessa abaixo é cobrada por um teste que
+        roda em todo commit — não declarada num README e esquecida.</p>
+        <div class="features">
+          <article class="feature">
+            <span class="kicker">Arquitetura</span>
+            <h3>Zero Material — e é verificado</h3>
+            <p><code>lib/src</code> não importa <code>material.dart</code> nem
+            <code>cupertino.dart</code>. 21 suítes de arquitetura varrem o
+            código em todo teste, e a allow-list tem uma entrada. A caixa, o
+            ripple e o scaffold pertencem ao sistema.</p>
+          </article>
+          <article class="feature">
+            <span class="kicker">Tema</span>
+            <h3>Três eixos globais</h3>
+            <p>Um valor no tema reestiliza os 131 componentes de uma vez:
+            <code>AppStyle</code> (filled · outlined · elevated),
+            <code>AppRadiusMode</code> para todo canto, e um eixo de glass
+            para superfícies flutuantes.</p>
+          </article>
+          <article class="feature">
+            <span class="kicker">White-label</span>
+            <h3>Uma marca de um hex</h3>
+            <p>A paleta inteira — 11 stops por papel, claro e escuro — sai de
+            uma semente, derivada por tom HCT: perceptualmente uniforme, com
+            contraste consistente entre stops. Marca é objeto, não fork.</p>
+          </article>
+          <article class="feature">
+            <span class="kicker">Ícones</span>
+            <h3>Provedores plugáveis</h3>
+            <p>O core embarca só o contrato. O <code>flocks_phosphor</code>
+            traz 1.512 ícones × 6 pesos, em fonte e tree-shakeable; o
+            <code>flocks_material</code> é o adaptador de referência; a sua
+            CDN cabe na mesma interface.</p>
+          </article>
+          <article class="feature">
+            <span class="kicker">Acessibilidade</span>
+            <h3>Gates, não intenções</h3>
+            <p>O contraste de toda marca registrada é verificado contra WCAG
+            AA, marca × brilho, em teste. A animação honra o reduce-motion do
+            sistema, e nenhum alvo tocável é mudo para o leitor de tela.</p>
+          </article>
+          <article class="feature">
+            <span class="kicker">Docs</span>
+            <h3>Bilíngue por tipo</h3>
+            <p>Toda entrada do catálogo carrega sua prosa em inglês e em
+            português. <code>LocalizedText</code> não tem construtor
+            monolíngue, então um componente não entra no catálogo meio
+            traduzido.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="code-title">
+      <div class="wrap">
+        <h2 class="section-title" id="code-title">Uma semente, sem rede</h2>
+        <p class="section-lead">Isso é todo o setup. Os ícones, as ilustrações
+        e as fontes vêm dentro do pacote, então isto roda no primeiro
+        <code>flutter run</code>.</p>
+        <div class="code-card">
+<pre><code><span class="kw">import</span> <span class="st">'package:flocks/flocks.dart'</span>;
+
+<span class="kw">final</span> myBrand = <span class="ty">AppBrandConfig</span>(
+  clientSlug: <span class="st">'acme'</span>,
+  primaryColor: swatchFromSeed(<span class="kw">const</span> <span class="ty">Color</span>(<span class="st">0xFF4F46E5</span>)),
+);
+
+<span class="kw">void</span> main() =&gt; runApp(
+  <span class="ty">AppTheme</span>(
+    data: <span class="ty">AppThemeData</span>.forBrand(myBrand, dark: <span class="kw">false</span>),
+    child: <span class="kw">const</span> <span class="ty">MyApp</span>(),
+  ),
+);</code></pre>
+        </div>
+        <p class="after-code">Depois disso, cada componente lê o tema sozinho
+        — um botão é <code>AppButton(icon: AppIconToken.add, label: 'Novo
+        veículo', onPressed: _create)</code>, e a marca, o eixo de estilo e o
+        modo de radius já estão nele.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="install-title">
+      <div class="wrap">
+        <h2 class="section-title" id="install-title">Instalação</h2>
+        <div class="code-card">
+<pre><code>dependencies:
+  flocks: ^0.1.0</code></pre>
+        </div>
+        <aside class="install-note">
+          <p><strong>Ainda não publicado no pub.dev</strong> — a publicação
+          está a caminho. Até lá a linha acima não resolve, e o caminho de
+          entrada é a dependência git:</p>
+        </aside>
+        <div class="code-card">
+<pre><code>dependencies:
+  flocks:
+    git:
+      url: https://github.com/jotapeconsultoria/flocks.git
+      path: packages/flocks</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Licença MIT. As fontes são OFL&nbsp;1.1 e os ícones vêm do
+      Phosphor&nbsp;Icons sob MIT — os textos das licenças acompanham os
+      arquivos. Feito pela <a href="https://github.com/jotapeconsultoria">JotaPe</a>.</p>
+      <nav aria-label="Rodapé">
+        <a href="https://widgetbook.flocks.live">Widgetbook</a>
+        <a href="https://github.com/jotapeconsultoria/flocks">GitHub</a>
+        <a href="https://github.com/jotapeconsultoria/flocks/blob/main/LICENSE">Licença</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
