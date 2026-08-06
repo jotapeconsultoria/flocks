@@ -14,6 +14,19 @@ repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flock
 homepage: https://flocks.live
 issue_tracker: https://github.com/jotapeconsultoria/flocks/issues
 
+# Obrigatório para ser membro do `workspace:` da raiz — sem a linha, o
+# `pub get` de lá falha. E ela NÃO atrapalha a instalação avulsa, o que importa
+# aqui mais do que nos irmãos, porque a via deste pacote é `pub global
+# activate`. Medido em 2026-08-06, contra este pubspec:
+#
+# | cenário                                             | resultado |
+# |-----------------------------------------------------|-----------|
+# | `pub global activate` hospedado / por git            | resolve — o `_installInCache` do pub monta um pacote-dummy que DEPENDE deste, e em dependência o campo é ignorado (verificado ativando por git deste checkout, e simulando o dummy com uma dependência `path:` para uma cópia só com lib/ + bin/) |
+# | `pub global activate --source path <cópia solta>`    | falha: `activatePath` usa o diretório como entrypoint e procura raiz de workspace acima |
+# | `pub global activate --source path packages/flocks_mcp` (deste repo) | resolve — a raiz do workspace está acima |
+#
+# Ou seja: a única forma de esbarrar nisso é ativar por path uma cópia
+# arrancada do repositório, que não é caminho de instalação documentado.
 resolution: workspace
 
 environment:
