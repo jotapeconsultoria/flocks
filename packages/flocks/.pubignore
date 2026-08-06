@@ -1,0 +1,27 @@
+# O que NÃO vai no tarball publicado.
+#
+# Atenção: este arquivo SUBSTITUI o `.gitignore` no empacotamento — não soma.
+# O que está ignorado no git e não estiver listado aqui volta para o tarball,
+# então os artefatos de build precisam ser repetidos.
+
+# Artefatos de build, espelhando o `.gitignore`.
+.dart_tool/
+build/
+coverage/
+.flutter-plugins-dependencies
+.DS_Store
+*.log
+
+# O catálogo interativo. É ferramenta de quem desenvolve o pacote: roda a
+# partir do repositório, não de quem o instala.
+widgetbook/
+
+# Scaffolding intocado do `flutter create`. O pacote é uma biblioteca; não há
+# app web para servir.
+web/
+
+# Artefato de trabalho da migração, sem consumidor.
+doc/icon-mapping.csv
+
+# `doc/mcp/catalog.json` FICA de propósito: é o dado que o MCP serve, e parte
+# da proposta do pacote.
