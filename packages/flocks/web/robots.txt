@@ -1,0 +1,5 @@
+# Deliberado, nao acidente: o Widgetbook e canvas-only, sem conteudo
+# semantico. A superficie indexavel do Flocks e a galeria do site
+# (flocks.live/componentes). Ver ROADMAP.md, Fase B.
+User-agent: *
+Disallow: /

@@ -56,6 +56,8 @@ import 'use_cases/dropdown_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_dropdown_use_cases;
 import 'use_cases/expansion_tile_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_expansion_tile_use_cases;
+import 'use_cases/filter_chip_use_cases.dart'
+    as _asset_flocks_widgetbook_use_cases_filter_chip_use_cases;
 import 'use_cases/footers_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_footers_use_cases;
 import 'use_cases/form_wizard_use_cases.dart'
@@ -134,6 +136,8 @@ import 'use_cases/text_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_text_use_cases;
 import 'use_cases/time_picker_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_time_picker_use_cases;
+import 'use_cases/timeline_use_cases.dart'
+    as _asset_flocks_widgetbook_use_cases_timeline_use_cases;
 import 'use_cases/toggles_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_toggles_use_cases;
 import 'use_cases/tokens_use_cases.dart'
@@ -1290,6 +1294,28 @@ final directories = <_widgetbook.WidgetbookNode>[
                 builder:
                     _asset_flocks_widgetbook_use_cases_expansion_tile_use_cases
                         .expansionTileStates,
+              ),
+            ],
+          ),
+        ],
+      ),
+      _widgetbook.WidgetbookFolder(
+        name: 'filter_chip',
+        children: [
+          _widgetbook.WidgetbookComponent(
+            name: 'AppFilterChip',
+            useCases: [
+              _widgetbook.WidgetbookUseCase(
+                name: 'Catalog',
+                builder:
+                    _asset_flocks_widgetbook_use_cases_filter_chip_use_cases
+                        .appFilterChipCatalog,
+              ),
+              _widgetbook.WidgetbookUseCase(
+                name: 'Playground',
+                builder:
+                    _asset_flocks_widgetbook_use_cases_filter_chip_use_cases
+                        .appFilterChipPlayground,
               ),
             ],
           ),
@@ -2652,6 +2678,26 @@ final directories = <_widgetbook.WidgetbookNode>[
                 name: 'States',
                 builder: _asset_flocks_widgetbook_use_cases_tab_view_use_cases
                     .tabViewStates,
+              ),
+            ],
+          ),
+        ],
+      ),
+      _widgetbook.WidgetbookFolder(
+        name: 'timeline',
+        children: [
+          _widgetbook.WidgetbookComponent(
+            name: 'AppTimeline',
+            useCases: [
+              _widgetbook.WidgetbookUseCase(
+                name: 'Catalog',
+                builder: _asset_flocks_widgetbook_use_cases_timeline_use_cases
+                    .appTimelineCatalog,
+              ),
+              _widgetbook.WidgetbookUseCase(
+                name: 'Playground',
+                builder: _asset_flocks_widgetbook_use_cases_timeline_use_cases
+                    .appTimelinePlayground,
               ),
             ],
           ),
