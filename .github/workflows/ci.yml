@@ -1,18 +1,24 @@
 name: CI
 
-# CI dos três pacotes do Flocks. Herdada da `flutter-ui.yml` do monorepo de
+# CI dos quatro pacotes do Flocks. Herdada da `flutter-ui.yml` do monorepo de
 # origem, com a mesma divisão e as mesmas cicatrizes — o que mudou é que aqui
 # não há prefixo `tracked-app/`: a raiz do repo É a raiz do workspace.
 #
-# São DOIS jobs, e a divisão não é estética. O `checks` roda tudo menos golden,
-# em Linux, que é barato e paralelizável. O `goldens` roda só os golden, em
-# macOS, porque golden compara PIXEL e a rasterização de texto não é idêntica
-# entre plataformas: as 302 baselines foram geradas em macOS arm64 e só fecham
-# lá.
+# A divisão em jobs não é estética. O `checks` roda tudo menos golden, em
+# Linux, que é barato e paralelizável. O `goldens` roda só os golden, em macOS,
+# porque golden compara PIXEL e a rasterização de texto não é idêntica entre
+# plataformas: as 302 baselines foram geradas em macOS arm64 e só fecham lá.
+# `widgetbook` e `site` deployam em push na main. `mcpb-build` e `mcpb-release`
+# acordam em tag `v*` e empacotam o servidor MCP como `.mcpb` num GitHub
+# Release.
 
 on:
   push:
     branches: [main]
+    # O gatilho de release do `.mcpb` (jobs `mcpb-*`). Um push de tag também é
+    # `event_name == 'push'`, por isso os jobs de deploy filtram por
+    # `github.ref` — sem o filtro, tageá-la deployaria vitrine e site junto.
+    tags: ['v*']
   pull_request:
   workflow_dispatch:
 
@@ -152,7 +158,10 @@ jobs:
     # mínima. Caveat aceito: o job só sobe e sobrescreve — não apaga órfãos da
     # Storage Zone. Arquivo que o build parou de emitir continua servido até
     # alguém limpar à mão no painel.
-    if: github.event_name == 'push'
+    #
+    # `github.ref`, e não `event_name == 'push'`: push de TAG também é push, e
+    # o release do `.mcpb` não deve redeployar a vitrine.
+    if: github.ref == 'refs/heads/main'
     needs: [checks, goldens]
     runs-on: ubuntu-latest
     steps:
@@ -226,6 +235,236 @@ jobs:
           fi
           echo "Pull Zone ${zone_id} purgada."
 
+  mcpb-build:
+    name: mcpb (${{ matrix.binary }})
+    # Compila o servidor MCP como executável nativo, um por plataforma, para o
+    # bundle `.mcpb` (ROADMAP, Fase C3): a instalação de um clique no Claude
+    # Desktop, e a via de distribuição que não depende do pub.dev.
+    # `dart compile exe` NÃO cruza compilação — cada alvo compila no runner da
+    # própria plataforma, daí a matriz. O macOS arm64 é PINADO em `macos-26`
+    # como no `goldens`; o Intel usa `macos-15-intel`, runner standard e
+    # gratuito em repo público até a imagem se aposentar (~2027).
+    #
+    # Só acorda em tag `v*` (release) ou em dispatch manual (medição e ensaio,
+    # sem publicar): em PR o binário não é gate — o `protocol_e2e_test.dart`
+    # do `checks` já conversa com ele por stdio a cada PR.
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      # O nome COMPLETO do binário vive na matriz porque três pontas o
+      # compartilham: o `-o` do compile aqui, o `run.sh` que o monta com
+      # `uname` dentro do bundle, e o manifesto (no override win32). O
+      # `mcpb_manifest_test.dart` confere que este arquivo cita cada um.
+      matrix:
+        include:
+          - runner: macos-26
+            binary: flocks_mcp-darwin-arm64
+            arch: arm64
+          - runner: macos-15-intel
+            binary: flocks_mcp-darwin-x64
+            arch: x86_64
+          - runner: ubuntu-latest
+            binary: flocks_mcp-linux-x64
+            arch: x86_64
+          - runner: windows-latest
+            binary: flocks_mcp-windows-x64.exe
+            arch: x86_64
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Conferir a arquitetura do runner
+        # Mesma razão do guard do `goldens`: o NOME do binário afirma a
+        # arquitetura, e uma imagem promovida em silêncio produziria um
+        # `darwin-arm64` que é x64 por dentro — quebrando na máquina de quem
+        # instalou, não aqui.
+        shell: bash
+        run: |
+          atual=$(uname -m)
+          echo "runner: ${atual} · alvo: ${{ matrix.binary }}"
+          if [ "$atual" != "${{ matrix.arch }}" ]; then
+            echo "::error::O alvo ${{ matrix.binary }} espera ${{ matrix.arch }} e este runner é ${atual}. Alinhe o \`runs-on\` da matriz."
+            exit 1
+          fi
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.0
+          channel: stable
+          cache: true
+
+      - name: Resolver dependências (workspace)
+        # Flutter, e não só Dart, mesmo sendo o `flocks_mcp` Dart puro: o
+        # `resolution: workspace` resolve o workspace INTEIRO, e os pacotes
+        # irmãos declaram Flutter. Mesmo SDK e mesmo cache dos outros jobs.
+        run: flutter pub get
+
+      - name: Compilar (${{ matrix.binary }})
+        shell: bash
+        run: dart compile exe bin/flocks_mcp.dart -o ${{ matrix.binary }}
+        working-directory: packages/flocks_mcp
+
+      - name: Smoke test por stdio
+        # A prova de que ESTE binário sobe e fala JSON-RPC — por pipe real,
+        # não pelas funções. No EOF do stdin o servidor responde e sai sozinho
+        # (verificado no e2e), então o pipe não pende. A versão conferida vem
+        # do pubspec: é a que o `initialize` anuncia ao cliente.
+        shell: bash
+        run: |
+          set -euo pipefail
+          ver=$(grep -E '^version:' pubspec.yaml | awk '{print $2}')
+          out=$(printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"smoke","version":"0"}}}' \
+            | ./${{ matrix.binary }})
+          echo "$out"
+          case "$out" in
+            *'"name":"flocks_mcp"'*'"version":"'"$ver"'"'*) ;;
+            *)
+              echo "::error::O initialize não devolveu flocks_mcp ${ver}."
+              exit 1
+              ;;
+          esac
+        working-directory: packages/flocks_mcp
+
+      - uses: actions/upload-artifact@v4
+        # O artifact NÃO preserva permissões (tudo chega 644) — o `+x` volta
+        # no chmod do `mcpb-release`, antes do zip.
+        with:
+          name: ${{ matrix.binary }}
+          path: packages/flocks_mcp/${{ matrix.binary }}
+          if-no-files-found: error
+          retention-days: 7
+
+  mcpb-release:
+    name: mcpb (bundle + release)
+    # Monta o `.mcpb` — zip com `manifest.json` na raiz e binários em
+    # `server/` — e o anexa a um GitHub Release junto do SHA-256 e do
+    # `server.json` do MCP Registry. O empacotamento é `zip` explícito, SEM a
+    # CLI npm `@anthropic-ai/mcpb`: o pipeline não traz Node (mesma regra
+    # anti-supply-chain do `widgetbook`), e a validação que o `mcpb pack`
+    # faria vive no `test/mcpb_manifest_test.dart`, que roda no `checks` de
+    # todo PR. Runner LINUX de propósito (mcpb#235): zip montado no Windows
+    # perde os metadados Unix, e quem descompactar fora do Claude Desktop
+    # precisa deles.
+    #
+    # `needs: checks`, e não `goldens`: a suíte inteira do `flocks_mcp`
+    # (frescor do catálogo embarcado incluso) tem que estar verde para um
+    # release sair; golden compara pixel, e pixel não entra no binário.
+    #
+    # O Release sai por `gh`, first-party e pré-instalado — nenhuma action de
+    # terceiro toca o token, que só este job recebe com `contents: write`.
+    # Em dispatch (sem tag) o bundle sai como artifact: medir e ensaiar, sem
+    # publicar.
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    needs: [mcpb-build, checks]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: A tag é a versão do pubspec?
+        # Falha ANTES de montar qualquer coisa: uma tag `v0.2.0` sobre um
+        # pubspec 0.1.0 publicaria um binário que se apresenta com a versão
+        # errada no `initialize` — e o log de todo cliente mentiria por ela.
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          ver=$(grep -E '^version:' packages/flocks_mcp/pubspec.yaml | awk '{print $2}')
+          if [ "${GITHUB_REF_NAME}" != "v${ver}" ]; then
+            echo "::error::A tag ${GITHUB_REF_NAME} não bate com o pubspec do flocks_mcp (v${ver})."
+            exit 1
+          fi
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: flocks_mcp-*
+          path: binaries
+          merge-multiple: true
+
+      - name: Montar o bundle
+        run: |
+          set -euo pipefail
+          mkdir -p bundle/server
+          cp packages/flocks_mcp/mcpb/manifest.json bundle/manifest.json
+          cp packages/flocks_mcp/mcpb/run.sh bundle/server/run.sh
+          cp binaries/flocks_mcp-* bundle/server/
+          # O artifact chega sem `+x` (ver o upload); o Info-ZIP grava o modo
+          # no campo Unix do zip, e é ele que um `unzip` de verdade restaura.
+          # O Claude Desktop ignora o campo e extrai tudo 0600 (mcpb#294) —
+          # lá, quem devolve o bit é o `run.sh`; o chmod aqui é para todos os
+          # outros caminhos de extração.
+          chmod +x bundle/server/run.sh bundle/server/flocks_mcp-*
+          (cd bundle && zip -q -r ../flocks-mcp.mcpb .)
+          sha256sum flocks-mcp.mcpb > flocks-mcp.mcpb.sha256
+          cat flocks-mcp.mcpb.sha256
+
+      - name: Medir os dois desenhos de bundle
+        # O número que circula: o bundle único (o publicado) contra o que
+        # seriam três bundles por plataforma. Medido a cada release em vez de
+        # suposto uma vez — a decisão pelo único está no PR da Fase C3, e se a
+        # razão entre os números virar, é aqui que aparece.
+        run: |
+          set -euo pipefail
+          ls -la bundle/server/
+          du -h flocks-mcp.mcpb
+          for alvo in darwin linux windows; do
+            mkdir -p "medida-${alvo}/server"
+            cp bundle/manifest.json "medida-${alvo}/manifest.json"
+            cp bundle/server/run.sh "medida-${alvo}/server/run.sh"
+            cp bundle/server/flocks_mcp-"${alvo}"-* "medida-${alvo}/server/"
+            (cd "medida-${alvo}" && zip -q -r "../medida-${alvo}.mcpb" .)
+          done
+          du -h medida-*.mcpb
+          rm -rf medida-*
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.0
+          channel: stable
+          cache: true
+
+      - name: Gerar o server.json do registry
+        # O sha entra vindo do MESMO arquivo que o Release anexa — é o que
+        # impede o hash publicado de divergir do artefato. O registry não
+        # valida o hash; os CLIENTES validam antes de instalar.
+        run: |
+          set -euo pipefail
+          flutter pub get
+          sha=$(awk '{print $1}' flocks-mcp.mcpb.sha256)
+          (cd packages/flocks_mcp && dart run tool/generate_server_json.dart "$sha") > server.json
+          cat server.json
+
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          sha=$(awk '{print $1}' flocks-mcp.mcpb.sha256)
+          {
+            echo "MCP Bundle do \`flocks_mcp\` — o catálogo do Flocks servido a agentes por stdio. Instalação em dois cliques no Claude Desktop (baixar, abrir), com binários para macOS (arm64/x64), Linux (x64) e Windows (x64) selecionados pelo bundle."
+            echo
+            echo "SHA-256 do \`flocks-mcp.mcpb\` (o que um cliente MCP confere antes de instalar):"
+            echo
+            echo '```'
+            echo "${sha}"
+            echo '```'
+            echo
+            echo "O \`server.json\` anexo é o manifesto desta versão para o MCP Registry. Instruções completas em https://flocks.live/mcp/."
+          } > notes.md
+          gh release create "${GITHUB_REF_NAME}" \
+            flocks-mcp.mcpb flocks-mcp.mcpb.sha256 server.json \
+            --title "flocks_mcp ${GITHUB_REF_NAME}" \
+            --notes-file notes.md
+
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'workflow_dispatch'
+        with:
+          name: flocks-mcp-bundle
+          path: |
+            flocks-mcp.mcpb
+            flocks-mcp.mcpb.sha256
+            server.json
+          retention-days: 7
+
   site:
     name: site (deploy)
     # Publica a landing em flocks.live. Mesmo padrão anti-supply-chain do
@@ -242,7 +481,9 @@ jobs:
     # A senha de Storage Zone da Bunny é POR ZONA — `BUNNY_SITE_STORAGE_PASSWORD`
     # é da zona `flocks-site`, não confundir com a do widgetbook. Caveat aceito,
     # igual ao do widgetbook: o job só sobe e sobrescreve, não apaga órfãos.
-    if: github.event_name == 'push'
+    #
+    # `github.ref` pela mesma razão do `widgetbook`: push de tag não deploya.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

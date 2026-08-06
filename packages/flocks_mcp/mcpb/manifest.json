@@ -1,0 +1,56 @@
+{
+  "manifest_version": "0.3",
+  "name": "flocks_mcp",
+  "display_name": "Flocks MCP",
+  "version": "0.1.0",
+  "description": "Servidor MCP do Flocks — serve o catálogo de 131 componentes (props, uso, a11y) para agentes, por stdio.",
+  "author": {
+    "name": "JotaPe Tecnologia",
+    "url": "https://flocks.live"
+  },
+  "license": "MIT",
+  "homepage": "https://flocks.live/mcp/",
+  "documentation": "https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks_mcp",
+  "support": "https://github.com/jotapeconsultoria/flocks/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jotapeconsultoria/flocks"
+  },
+  "server": {
+    "type": "binary",
+    "entry_point": "server/run.sh",
+    "mcp_config": {
+      "command": "/bin/sh",
+      "args": [
+        "${__dirname}/server/run.sh"
+      ],
+      "platform_overrides": {
+        "win32": {
+          "command": "${__dirname}/server/flocks_mcp-windows-x64.exe",
+          "args": []
+        }
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "list_components",
+      "description": "List the components of Flocks, the Flutter design system this server documents — a widgets-only system that uses no Material and no Cupertino. Returns the id, name and one-line summary of every component, optionally narrowed to one category. Use it to discover what exists before writing UI code, or to check whether Flocks already covers a need. It returns summaries on purpose, not full specs: once you have picked an id, call get_component for the props and the usage rules."
+    },
+    {
+      "name": "get_component",
+      "description": "Return the full record of one Flocks component: every prop with its type, whether it is required and its default; when to use it and when not to; do and don't; accessibility behaviour; runnable code examples; and related component ids. This is the source of truth for props and usage — prefer it over inferring an API from the component name, because Flocks is not Material and its widgets do not share Material's parameter names. Needs a component id such as \"app_badge\"; call list_components or search_components if you do not have one."
+    },
+    {
+      "name": "search_components",
+      "description": "Search the Flocks component catalog by free text, matching component names, one-line summaries and full descriptions. Use it when you know the need but not the name — \"status pill\", \"empty state\", \"date field\". Matching ignores case and accents, so Portuguese prose is reachable from an unaccented query. Returns id, name and summary of every match, name matches first; call get_component on a result for the props and the usage rules."
+    }
+  ],
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32",
+      "linux"
+    ]
+  }
+}
