@@ -103,7 +103,8 @@ void main() {
       expect(
         embedded,
         real,
-        reason: 'Embarcados: $embedded · na fonte: $real. Rode `$kEmbedCommand`.',
+        reason:
+            'Embarcados: $embedded · na fonte: $real. Rode `$kEmbedCommand`.',
       );
     });
   });

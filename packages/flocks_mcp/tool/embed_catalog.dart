@@ -42,8 +42,7 @@ const String kEmbedCommand = 'dart run tool/embed_catalog.dart';
 /// nem concatenação de pedaços: as duas dependem de o conteúdo continuar se
 /// comportando. Hoje o catálogo não tem `$` nem `'''`; esta função é a que não
 /// precisa que isso continue verdade.
-String dartStringLiteral(String raw) =>
-    jsonEncode(raw).replaceAll(r'$', r'\$');
+String dartStringLiteral(String raw) => jsonEncode(raw).replaceAll(r'$', r'\$');
 
 /// O conteúdo exato que [kEmbeddedPath] deve ter, incluindo a quebra final.
 ///
