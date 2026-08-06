@@ -161,5 +161,5 @@ follows [SemVer](https://semver.org/).
 
 The first consolidated version of the design system inside the monorepo: tokens,
 theme, per-brand white-label, the global axes (`AppStyle`, `AppRadiusMode`,
-glass, motion, transparency) and 129 components across atoms/molecules/organisms,
+glass, motion, transparency) and 131 components across atoms/molecules/organisms,
 each with a `.doc.md`, a preview, a Widgetbook case and a test.
