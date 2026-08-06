@@ -1,6 +1,9 @@
-// Regras de conformidade dos componentes do Flocks ("Definition of Migrated",
-// `docs/FLOCKS_MIGRATION_PLAN.md` §4). Biblioteca pura: só descobre e reporta,
-// não imprime nem sai do processo.
+// Regras de conformidade dos componentes do Flocks: este arquivo É a
+// "Definition of Migrated". A lista nasceu em prosa, num documento interno de
+// migração; aqui ela é executável, e é a única versão que sobrou — as regras
+// numeradas citadas pelos dartdocs do pacote são as que `conformanceErrors`
+// cobra abaixo. Biblioteca pura: só descobre e reporta, não imprime nem sai do
+// processo.
 //
 // Vive aqui, e não em `lib/`, por dois motivos: usa `dart:io` (que quebraria um
 // build web se alguém a importasse por engano) e é ferramenta, não produto.

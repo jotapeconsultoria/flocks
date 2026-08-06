@@ -13,7 +13,9 @@ const Set<String> _materialCupertinoAllowlist = <String>{
   // deles na allow-list — os outros três violavam a regra em silêncio. Agora
   // todos consomem `appTextSelectionControls`.
   // Resíduo Gate 7: trocar por controls próprios (contextMenuButtonItems) exige
-  // validação de UX web/desktop. Rastreado em docs/FLOCKS_MIGRATION_PLAN.md.
+  // validação de UX web/desktop. Esta allow-list é o próprio rastro da dívida —
+  // enquanto a entrada estiver aqui, ela existe; feita a troca, a linha sai e o
+  // gate volta a valer para o arquivo.
   'foundation/selection/app_text_selection_controls.dart',
 };
 

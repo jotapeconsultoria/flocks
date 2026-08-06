@@ -5,8 +5,9 @@ import 'package:flutter/widgets.dart';
 ///
 /// Padroniza o uso de [Semantics] (role + estado + label) para que nenhum
 /// componente monte `Semantics` à mão. Fica sobre a camada `widgets`/
-/// `semantics` (sem Material/Cupertino). Ver Regra 8 em
-/// `docs/FLOCKS_MIGRATION_PLAN.md`.
+/// `semantics` (sem Material/Cupertino). Todo componente migrado descreve seu
+/// comportamento de acessibilidade em `a11y.en`/`a11y.pt` no `.meta.dart`, e
+/// `tool/component_conformance.dart` reprova quem deixar vazio (Regra 8).
 sealed class AppSemantics {
   const AppSemantics._();
 

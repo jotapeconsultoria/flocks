@@ -180,8 +180,9 @@ para impedir regressões: qualquer novo par/paleta que não conforme reprova o C
 
 ## Definition of Accessible
 
-Somar às 10 regras de "Definition of Migrated" (`FLOCKS_MIGRATION_PLAN.md`). Todo
-componente/marca novo:
+Somar à "Definition of Migrated" — as regras que `tool/component_conformance.dart`
+cobra e que as suítes de `test/architecture/` fazem valer. Todo componente/marca
+novo:
 
 1. Usa **apenas** pares de token cobertos pelo contrato (fill+onColor, texto em
    `onSurface`, borda/foco com 3:1). Não inventa par de cor sem entrada no

@@ -3,8 +3,10 @@
 /// Superfície pública do produto: design tokens, tema, brand (white-label),
 /// primitivos de foundation (estados de interação, foco, acessibilidade), a
 /// camada de motion (micro-interações) e os componentes (atoms/molecules/
-/// organisms), adicionados conforme a migração avança. Ver
-/// `docs/FLOCKS_MIGRATION_PLAN.md`.
+/// organisms). Um componente só entra aqui depois de cumprir a "Definition of
+/// Migrated" — catálogo, dartdoc, `.doc.md`, preview, use case no widgetbook e
+/// teste —, cobrada por `tool/component_conformance.dart` e pelas suítes de
+/// `test/architecture/`.
 library;
 
 export 'atoms.dart';

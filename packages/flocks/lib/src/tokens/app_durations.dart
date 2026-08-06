@@ -1,8 +1,9 @@
 /// Tokens de duração de animação do Flocks.
 ///
 /// Padroniza as durações usadas pelo design system, eliminando literais
-/// `Duration(milliseconds: ...)` espalhados. Ver Regra 10 em
-/// `docs/FLOCKS_MIGRATION_PLAN.md`.
+/// `Duration(milliseconds: ...)` espalhados. Passar por aqui é o que permite a
+/// todo componente migrado honrar `reducesMotion`, cobrado por
+/// `tool/component_conformance.dart` (Regra 10).
 sealed class AppDurations {
   /// 120ms — microinterações rápidas (press, hover).
   static const Duration fast = Duration(milliseconds: 120);

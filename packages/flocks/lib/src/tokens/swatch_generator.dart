@@ -31,8 +31,9 @@ const Map<int, double> _stopTones = <int, double>{
 ///
 /// Preserva matiz e croma da marca e varia apenas o tom, dando contraste
 /// consistente entre matizes — diferente de interpolar *lightness* em HSL. É a
-/// base para o tema claro E escuro derivarem das cores de branding (Regra 9 em
-/// `docs/FLOCKS_MIGRATION_PLAN.md`).
+/// base para o tema claro E escuro derivarem das cores de branding, o que todo
+/// componente migrado declara como `themeAware` e
+/// `tool/component_conformance.dart` cobra (Regra 9).
 ColorSwatch<int> swatchFromSeed(Color seed) => _swatch(seed, _stopTones);
 
 /// Tons da rampa **neutra**, que não é a mesma dos papéis cromáticos.

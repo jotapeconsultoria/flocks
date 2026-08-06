@@ -156,8 +156,10 @@ class CodeExample {
 /// It is the source of truth for the metadata an MCP server serves to AI tools
 /// (what a component is, when and how to use it) and for the per-component
 /// routes the site generates. Preferred over hand-written JSON because it is
-/// refactor-safe and derivable from the component's own enums and knobs. See
-/// Rule 6 in `docs/FLOCKS_MIGRATION_PLAN.md`.
+/// refactor-safe and derivable from the component's own enums and knobs. Every
+/// migrated component must declare its `props` — that is what the MCP serves —
+/// and `tool/component_conformance.dart` fails the build when one does not
+/// (Rule 6).
 class AppComponentMeta {
   /// Creates an [AppComponentMeta].
   const AppComponentMeta({

@@ -14,7 +14,8 @@ void main() {
       errors,
       isEmpty,
       reason:
-          'Conformidade de componentes (docs/FLOCKS_MIGRATION_PLAN.md §4):\n'
+          'Conformidade de componentes ("Definition of Migrated", as regras '
+          'em tool/component_conformance.dart):\n'
           '${errors.map((String e) => '  - $e').join('\n')}',
     );
   });

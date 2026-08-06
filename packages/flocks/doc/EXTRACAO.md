@@ -147,14 +147,22 @@ Only" tornava o pacote impublicável.
   `Directory('docs').createSync()`. Sem trocar essa linha, o `docs/`
   reapareceria sozinho no `flutter test` seguinte, e o aviso do pub junto.
   Numa renomeação de diretório, procure o gravador, não só os leitores.
-- **~10 referências a `docs/FLOCKS_MIGRATION_PLAN.md` estão penduradas**, em
-  `lib/flocks.dart`, `lib/meta.dart`, `lib/organisms.dart`,
-  `lib/src/meta/app_component_meta.dart`, `lib/src/foundation/a11y/`,
-  `lib/src/tokens/` e três testes. O arquivo **nunca veio para o pacote**: ele
-  mora em `tracked-app/docs/` no monorepo de origem, e é documento interno de
-  migração. Não foram reescritas para `doc/` de propósito — mudar o prefixo só
-  moveria o link quebrado de lugar. Ou o documento vem para cá (e é preciso
-  decidir se ele cabe num repo público), ou o caminho sai da prosa.
+- ✅ **As referências a `docs/FLOCKS_MIGRATION_PLAN.md` saíram da prosa** —
+  resolvido em 2026-08-05. Eram 12 (não ~10): 7 doc comments `///`, 3
+  comentários de código e 2 em markdown. O arquivo **nunca veio para o pacote**
+  — mora em `tracked-app/docs/` no monorepo de origem, e é documento interno de
+  migração. Das duas saídas ("ou o documento vem, ou o caminho sai da prosa"),
+  saiu o caminho, porque as regras que ele definia hoje são **executáveis**:
+  vivem em `tool/component_conformance.dart` e nas suítes de
+  `test/architecture/`. Cada referência passou a apontar para o que existe no
+  repo, ou virou a regra dita inline.
+
+  **O que a reescrita revelou:** a numeração das regras nunca dependeu do
+  documento. `conformanceErrors()` já cita "Regra 6", "Regra 8", "Regra 9" e
+  "Regra 10" nominalmente nas próprias mensagens de erro — então os dartdocs
+  que citavam uma regra numerada só precisaram trocar o destino do "ver". Quem
+  apontava para o plano genérico (`flocks.dart`, `organisms.dart`) é que teve
+  de virar frase. Prioridade foram os `///`: são a cara do pacote no pub.dev.
 - **Os `since:` do catálogo** referenciam marcos internos que não correspondem a
   release nenhuma (ver §4). Ou viram a versão publicada em que o componente
   apareceu, ou saem.
