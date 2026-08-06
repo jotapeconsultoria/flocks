@@ -4,8 +4,8 @@ Every relevant change to this package. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the numbering
 follows [SemVer](https://semver.org/).
 
-> **On the numbering.** Nothing here has ever been published. The versions below
-> `[1.0.0]` are *internal* migration milestones from the monorepo — they ran
+> **On the numbering.** Nothing below `[0.1.0]` was ever published. Those
+> versions are *internal* migration milestones from the monorepo — they ran
 > from `0.1.0` to `1.5.0` while the pubspec still said `1.0.0`, so they never
 > agreed with it in the first place. The component catalog used to carry the
 > same milestones in a `since:` field; it was dropped for that reason.
@@ -17,7 +17,7 @@ follows [SemVer](https://semver.org/).
 > surprise. It graduates to `1.0.0` once the API holds still through a few
 > outside adopters.
 
-## [Unreleased]
+## [0.1.0] - 2026-08-05
 
 ### Added
 
@@ -154,8 +154,6 @@ follows [SemVer](https://semver.org/).
   `flocksBrand`'s value — which pointed at the site's own CDN, putting our infra
   and our logo inside their product. Removing the field settles it by absence:
   there is no URL to copy and no network for the package to reach.
-
-### Pending
 
 ## [1.0.0]
 

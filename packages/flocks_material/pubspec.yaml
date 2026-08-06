@@ -4,7 +4,6 @@ description: "Ícones do Material Design como AppIconProvider do Flocks — a im
 # adaptador numa linha própria só criaria matriz de compatibilidade para
 # manter. Ver a justificativa do 0.x no pubspec do `flocks`.
 version: 0.1.0
-publish_to: none
 
 repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks_material
 homepage: https://flocks.live

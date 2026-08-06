@@ -12,9 +12,6 @@ A Flutter design system built on `widgets.dart` — no Material, no Cupertino.
 
 Start at [`packages/flocks/README.md`](packages/flocks/README.md).
 
-> **Not yet published on pub.dev.** That is the decided destination; until then
-> the way in is a git dependency, and the snippet is in the package README.
-
 ## Working on it
 
 This repo is a [pub workspace](https://dart.dev/go/pub-workspaces). Resolve from
@@ -25,8 +22,9 @@ flutter pub get
 ```
 
 That is what makes the two adapters resolve `flocks` against the local package
-instead of going to pub.dev, where it does not exist yet. `pub get` run *inside*
-one of the packages will fail for that reason — it is not a broken checkout.
+instead of the published one, so a change to the core is felt by the adapters in
+the same checkout. Each package carries `resolution: workspace`, so `pub get`
+run *inside* one of them will fail — it is not a broken checkout.
 
 ```bash
 dart format --output=none --set-exit-if-changed .   # formatação

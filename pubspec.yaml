@@ -1,10 +1,10 @@
 # Raiz do workspace — não é um pacote publicável, e não deve virar um.
 #
-# Existe por uma razão só: enquanto o `flocks` não está no pub.dev, os
-# adaptadores precisam resolvê-lo localmente. Eles declaram `flocks: ^1.0.0`
-# (sintaxe hospedada, apontando para o destino decidido), e é o `workspace:`
-# abaixo que faz o `pub` casar essa restrição com o membro local em vez de ir à
-# rede. Sem isso, `pub get` num clone deste repo falharia até a publicação.
+# Existe por uma razão só: os adaptadores declaram `flocks: ^0.1.0`, e é o
+# `workspace:` abaixo que faz o `pub` casar essa restrição com o membro local
+# em vez de ir à rede. Sem isso, um clone deste repo compilaria os adaptadores
+# contra a versão publicada, e uma mudança no core só apareceria para eles
+# depois do publish seguinte.
 #
 # O `example/` do flocks_phosphor entra na lista porque depende dos DOIS
 # pacotes locais — é o app que mede o tree-shaking das fontes, e precisa

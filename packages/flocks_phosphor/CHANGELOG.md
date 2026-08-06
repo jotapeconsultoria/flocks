@@ -4,13 +4,13 @@ Every relevant change to this package. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the numbering
 follows [SemVer](https://semver.org/).
 
-> **On the numbering.** Nothing here has ever been published, and this package
-> moves in lockstep with `flocks`. An earlier `2.0.0` counted the internal
-> rewrite from SVG to font — a milestone no external consumer ever saw, because
-> nothing was released. The public line starts at `0.1.0`, next to the core; the
-> `flocks` CHANGELOG explains why `0.x`.
+> **On the numbering.** Nothing before `0.1.0` was ever published, and this
+> package moves in lockstep with `flocks`. An earlier `2.0.0` counted the
+> internal rewrite from SVG to font — a milestone no external consumer ever saw,
+> because nothing was released. The public line starts at `0.1.0`, next to the
+> core; the `flocks` CHANGELOG explains why `0.x`.
 
-## [Unreleased]
+## [0.1.0] - 2026-08-05
 
 ### Added
 

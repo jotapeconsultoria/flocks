@@ -5,7 +5,6 @@ description: "Phosphor Icons para o Flocks: os 1.512 ícones nos 6 pesos, em fon
 # viu, porque nada foi publicado. Ver a justificativa do 0.x no pubspec do
 # `flocks`.
 version: 0.1.0
-publish_to: none
 
 repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks_phosphor
 homepage: https://flocks.live

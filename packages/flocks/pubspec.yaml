@@ -1,5 +1,5 @@
 name: flocks
-description: "Flocks — the Tracked design system: design tokens, theme and brand (white-label)."
+description: "Flocks — a Flutter design system built on widgets.dart: design tokens, theme and brand (white-label)."
 # 0.x, e não 1.0.0, por uma razão só: 1.0.0 no pub.dev é promessa sobre o
 # FUTURO, não atestado sobre o passado. O pacote tem 131 componentes testados e
 # documentados, mas nunca encarou um consumidor externo, levou um
@@ -10,11 +10,10 @@ description: "Flocks — the Tracked design system: design tokens, theme and bra
 # 0.x → 1.0.0 é formatura que se anuncia; 1.0.0 → 2.0.0 → 3.0.0 num trimestre é
 # instabilidade que não se retrata — no pub.dev só existe `retract`.
 #
-# Os `since: 'flocks@1.4.0'` do catálogo são marcos INTERNOS de migração,
-# anteriores a qualquer publicação, e já divergiam deste campo antes da
-# extração (a régua chega a 1.5.0 com o pubspec em 1.0.0). Ver CHANGELOG.
+# O catálogo carregava os mesmos marcos num campo `since:`; eram INTERNOS de
+# migração, anteriores a qualquer publicação, e já divergiam deste campo antes
+# da extração (a régua chegou a 1.5.0 com o pubspec em 1.0.0). Ver CHANGELOG.
 version: 0.1.0
-publish_to: none
 
 repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks
 homepage: https://flocks.live

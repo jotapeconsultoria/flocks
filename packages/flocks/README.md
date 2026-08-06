@@ -11,21 +11,6 @@ dependencies:
   flocks: ^0.1.0
 ```
 
-> The package is **not yet published** on pub.dev — that is the decided
-> destination, and the step-by-step is in [`doc/EXTRACAO.md`](doc/EXTRACAO.md).
-> Until then the line above does not resolve, and the way in is a git dependency:
->
-> ```yaml
-> dependencies:
->   flocks:
->     git:
->       url: https://github.com/jotapeconsultoria/flocks.git
->       path: packages/flocks
-> ```
->
-> `test/architecture/install_docs_test.dart` requires this notice to leave on the
-> same day `publish_to: none` does.
-
 ```dart
 import 'package:flocks/flocks.dart';
 
