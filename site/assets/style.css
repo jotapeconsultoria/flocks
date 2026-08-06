@@ -1,0 +1,480 @@
+/* flocks.live — landing.
+ *
+ * A paleta não é "inspirada" na marca: são os stops reais que
+ * `swatchFromSeed` deriva das sementes do flocks_brand.dart
+ * (#4F46E5 primário, #E5484D acento, #6B7280 neutro), por tom HCT.
+ * Papéis espelham o AppThemeData: página em neutral.300 (o
+ * kShellSeparationShade), cartão em neutral.50, texto em neutral.900.
+ * Tipografia é o AppBrandTypography da marca: Space Grotesk no
+ * display, Poppins no corpo. Radius coerente com AppRadiusMode.redondo.
+ */
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('fonts/SpaceGrotesk-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('fonts/SpaceGrotesk-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('fonts/Poppins-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light dark;
+
+  /* neutral: rampa derivada de #6B7280 */
+  --surface: #d3daea;      /* neutral.300 — o "shell" atrás dos cartões */
+  --card: #f9f9ff;         /* neutral.50 */
+  --card-alt: #f0f3ff;     /* neutral.100 */
+  --text: #1b222e;         /* neutral.900 */
+  --text-muted: #454c59;   /* neutral.700 */
+  --outline: rgb(88 95 108 / 28%); /* neutral.600 com alfa */
+
+  /* primary: rampa derivada de #4F46E5 */
+  --primary: #4f46e5;
+  --primary-strong: #3323cc; /* primary.700 — hover */
+  --on-primary: #f2efff;     /* primary.50 */
+  --primary-tint: #e2dfff;   /* primary.100 — fundos de chip */
+
+  /* secondary/acento: rampa derivada de #E5484D */
+  --accent: #b5242f;         /* secondary.600 — AA sobre cartão claro */
+
+  /* código: sempre escuro, nos neutros da própria rampa */
+  --code-bg: #1b222e;        /* neutral.900 */
+  --code-text: #e2e8f8;      /* neutral.200 */
+  --code-comment: #737a88;   /* neutral.500 */
+  --code-keyword: #a4a1ff;   /* primary.300 */
+  --code-string: #ffb3b0;    /* secondary.200 */
+  --code-type: #c3c0ff;      /* primary.200 */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: #111823;      /* neutral.950 */
+    --card: #1b222e;         /* neutral.900 */
+    --card-alt: #2c333f;     /* neutral.800 */
+    --text: #f0f3ff;         /* neutral.100 */
+    --text-muted: #a2a9b8;   /* neutral.400 */
+    --outline: rgb(115 122 136 / 40%); /* neutral.500 com alfa */
+
+    --primary: #8582ff;      /* primary.400 — legível sobre escuro */
+    --primary-strong: #a4a1ff; /* primary.300 — hover clareia */
+    --on-primary: #0f0069;   /* primary.900 */
+    --primary-tint: #1d00a5; /* primary.800 */
+
+    --accent: #ff8986;       /* secondary.300 */
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  background: var(--surface);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.wordmark {
+  font-family: 'Space Grotesk', 'Poppins', system-ui, sans-serif;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+a {
+  color: var(--primary);
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--primary-strong);
+}
+
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+code {
+  font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas,
+    monospace;
+  font-size: 0.92em;
+}
+
+/* código inline na prosa */
+p code,
+li code,
+h1 code,
+h2 code {
+  background: var(--card-alt);
+  border: 1px solid var(--outline);
+  border-radius: 6px;
+  padding: 0.08em 0.35em;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 10;
+  background: var(--primary);
+  color: var(--on-primary);
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.wrap {
+  max-width: 1080px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+}
+
+/* ---------- header ---------- */
+
+.site-header {
+  padding-block: 1.1rem;
+}
+
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.wordmark {
+  font-size: 1.5rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.wordmark:hover {
+  color: var(--text);
+}
+
+.site-header nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 2.5vw, 1.6rem);
+}
+
+.site-header nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.site-header nav a:hover {
+  color: var(--primary);
+}
+
+.lang-switch {
+  border: 1px solid var(--outline);
+  border-radius: 999px;
+  padding: 0.28rem 0.9rem;
+}
+
+/* ---------- hero ---------- */
+
+.hero {
+  padding-block: clamp(3rem, 9vw, 6.5rem) clamp(2.5rem, 6vw, 4rem);
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5.4vw, 3.4rem);
+  max-width: 21ch;
+  margin-inline: auto;
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--primary);
+}
+
+.hero .tagline {
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  color: var(--text-muted);
+  max-width: 56ch;
+  margin: 1.4rem auto 0;
+  text-wrap: pretty;
+}
+
+.cta-row {
+  display: flex;
+  gap: 0.9rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2.2rem;
+}
+
+.button {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 0.8rem 1.6rem;
+  transition: background 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.button-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.button-primary:hover {
+  background: var(--primary-strong);
+  color: var(--on-primary);
+}
+
+.button-secondary {
+  border: 1.5px solid var(--outline);
+  color: var(--text);
+}
+
+.button-secondary:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* ---------- faixa de números ---------- */
+
+.stats {
+  padding-block: 0.5rem 1rem;
+}
+
+.stats ul {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.9rem;
+}
+
+.stats li {
+  background: var(--card);
+  border: 1px solid var(--outline);
+  border-radius: 16px;
+  text-align: center;
+  padding: 1.2rem 1rem;
+}
+
+.stats .n {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+  color: var(--primary);
+}
+
+.stats .label {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+/* ---------- seções ---------- */
+
+section {
+  padding-block: clamp(2.2rem, 5vw, 3.5rem);
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+  margin-bottom: 0.6rem;
+}
+
+.section-lead {
+  color: var(--text-muted);
+  max-width: 62ch;
+  margin-bottom: 2rem;
+  text-wrap: pretty;
+}
+
+/* cards de destaques */
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.feature {
+  background: var(--card);
+  border: 1px solid var(--outline);
+  border-radius: 16px;
+  padding: 1.5rem 1.4rem;
+}
+
+.feature h3 {
+  font-size: 1.12rem;
+  margin-bottom: 0.55rem;
+}
+
+.feature p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.feature .kicker {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: var(--primary-tint);
+  border-radius: 999px;
+  padding: 0.18rem 0.7rem;
+  margin-bottom: 0.8rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .feature .kicker {
+    color: #c3c0ff; /* primary.200 sobre primary.800 */
+  }
+}
+
+/* ---------- blocos de código ---------- */
+
+.code-card {
+  background: var(--code-bg);
+  color: var(--code-text);
+  border-radius: 16px;
+  border: 1px solid var(--outline);
+  overflow-x: auto;
+  margin-block: 1.2rem;
+}
+
+.code-card pre {
+  padding: 1.3rem 1.5rem;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+.code-card .cm {
+  color: var(--code-comment);
+}
+.code-card .kw {
+  color: var(--code-keyword);
+}
+.code-card .st {
+  color: var(--code-string);
+}
+.code-card .ty {
+  color: var(--code-type);
+}
+
+.after-code {
+  color: var(--text-muted);
+  max-width: 62ch;
+}
+
+/* ---------- instalação ---------- */
+
+.install-note {
+  background: var(--card);
+  border: 1px solid var(--outline);
+  border-left: 4px solid var(--accent);
+  border-radius: 12px;
+  padding: 1.1rem 1.3rem;
+  margin-block: 1.2rem;
+  max-width: 720px;
+}
+
+.install-note p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.install-note strong {
+  color: var(--text);
+}
+
+/* ---------- footer ---------- */
+
+.site-footer {
+  border-top: 1px solid var(--outline);
+  margin-top: 2rem;
+  padding-block: 2.2rem 2.8rem;
+}
+
+.site-footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2.5rem;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.site-footer p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  max-width: 60ch;
+}
+
+.site-footer nav {
+  display: flex;
+  gap: 1.4rem;
+  flex-wrap: wrap;
+}
+
+.site-footer a {
+  font-size: 0.9rem;
+}

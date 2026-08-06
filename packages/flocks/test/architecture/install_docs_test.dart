@@ -74,6 +74,54 @@ void main() {
     );
   });
 
+  // A copy de /instalar do site sai deste mesmo texto — então o site entra no
+  // mesmo gate. As páginas vivem na raiz do repo (`site/`), fora do tarball:
+  // um checkout vindo do pub.dev não as tem, e o guard de existência abaixo é
+  // o que mantém a suíte verde lá sem afrouxar o gate aqui no repo.
+  //
+  // O marcador é por página porque a prosa é por idioma: a âncora inglesa
+  // numa página portuguesa nunca casaria e o gate ficaria verde por vacuidade
+  // — o mesmo motivo de o `kUnpublishedMarker` ter virado inglês com o README.
+  const Map<String, String> kSitePages = <String, String>{
+    '../../site/index.html': kUnpublishedMarker,
+    '../../site/pt/index.html': 'não publicado no pub.dev',
+  };
+
+  for (final MapEntry<String, String> page in kSitePages.entries) {
+    test('site: ${page.key} acompanha o estado de publicação', () {
+      final File file = File(page.key);
+      if (!file.existsSync()) {
+        return;
+      }
+      final String html = file.readAsStringSync();
+      expect(
+        html,
+        contains(kHostedDependency),
+        reason:
+            'A landing instrui a instalação e a copy sai do README — se a '
+            'dependência hospedada mudou, mude as duas juntas.',
+      );
+      if (blocked) {
+        expect(
+          html,
+          contains(page.value),
+          reason:
+              'O pubspec tem `publish_to: none`, então a instrução hospedada '
+              'da landing não resolve para ninguém. A página precisa do aviso '
+              '— senão o site publica uma instrução que não funciona.',
+        );
+      } else {
+        expect(
+          html,
+          isNot(contains(page.value)),
+          reason:
+              'O pacote foi publicado — o aviso de "ainda não publicado" da '
+              'landing virou mentira. Tire-o da página no mesmo commit.',
+        );
+      }
+    });
+  }
+
   // Havia aqui um quarto caso, exigindo que `resolution: workspace` e
   // `publish_to: none` andassem sempre juntos. Ele saiu na extração, e a
   // premissa dele — "um checkout avulso vindo do pub.dev não resolve com

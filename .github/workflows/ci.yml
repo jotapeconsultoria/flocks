@@ -206,3 +206,86 @@ jobs:
             exit 1
           fi
           echo "Pull Zone ${zone_id} purgada."
+
+  site:
+    name: site (deploy)
+    # Publica a landing em flocks.live. Mesmo padrão anti-supply-chain do
+    # `widgetbook` (find + curl explícitos, sem action de terceiro), com duas
+    # divergências deliberadas:
+    #
+    # 1. SEM `needs`: o site é HTML estático e não depende dos gates Dart —
+    #    um golden vermelho não deve segurar a correção de um typo da landing.
+    #    (O conteúdo dele TEM gate: `install_docs_test.dart` fiscaliza a copy
+    #    de instalação das duas páginas junto com a do README.)
+    # 2. Guarda de diff: sem build, todo push da main deployaria e purgaria o
+    #    edge à toa; o job só age quando `site/` mudou neste push.
+    #
+    # A senha de Storage Zone da Bunny é POR ZONA — `BUNNY_SITE_STORAGE_PASSWORD`
+    # é da zona `flocks-site`, não confundir com a do widgetbook. Caveat aceito,
+    # igual ao do widgetbook: o job só sobe e sobrescreve, não apaga órfãos.
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # HEAD^ existe para a guarda de diff abaixo
+
+      - name: Site mudou neste push?
+        id: changed
+        run: |
+          if git rev-parse HEAD^ >/dev/null 2>&1 \
+            && git diff --quiet HEAD^ HEAD -- site/; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "site/ intacto — nada a deployar."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Subir site para a Storage Zone
+        # Endpoint REGIONAL (br.), como no widgetbook: a zone vive em São
+        # Paulo e o host genérico da doc não aceita a escrita. Cada PUT tem o
+        # código HTTP conferido: upload parcial tem que ser vermelho.
+        if: steps.changed.outputs.changed == 'true'
+        shell: bash
+        env:
+          BUNNY_SITE_STORAGE_PASSWORD: ${{ secrets.BUNNY_SITE_STORAGE_PASSWORD }}
+        run: |
+          set -euo pipefail
+          cd site
+          total=0
+          while IFS= read -r -d '' f; do
+            path="${f#./}"
+            code=$(curl -sS -o /dev/null -w '%{http_code}' -X PUT \
+              -H "AccessKey: ${BUNNY_SITE_STORAGE_PASSWORD}" \
+              --data-binary "@${f}" \
+              "https://br.storage.bunnycdn.com/flocks-site/${path}")
+            if [ "$code" != "201" ]; then
+              echo "::error::PUT ${path} -> HTTP ${code}"
+              exit 1
+            fi
+            total=$((total + 1))
+          done < <(find . -type f -print0)
+          echo "Enviados ${total} arquivo(s) para flocks-site."
+
+      - name: Purgar cache da Pull Zone
+        if: steps.changed.outputs.changed == 'true'
+        shell: bash
+        env:
+          BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
+        run: |
+          set -euo pipefail
+          zone_id=$(curl -sS -H "AccessKey: ${BUNNY_API_KEY}" \
+            "https://api.bunny.net/pullzone" |
+            jq '[.[] | select(any(.Hostnames[]; .Value == "flocks.live"))][0].Id')
+          if [ -z "$zone_id" ] || [ "$zone_id" = "null" ]; then
+            echo "::error::Nenhuma Pull Zone com o hostname flocks.live."
+            exit 1
+          fi
+          code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST \
+            -H "AccessKey: ${BUNNY_API_KEY}" \
+            "https://api.bunny.net/pullzone/${zone_id}/purgeCache")
+          if [ "$code" != "204" ] && [ "$code" != "200" ]; then
+            echo "::error::Purge da zone ${zone_id} -> HTTP ${code}"
+            exit 1
+          fi
+          echo "Pull Zone ${zone_id} purgada."
