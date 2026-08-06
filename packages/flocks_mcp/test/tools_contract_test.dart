@@ -252,6 +252,23 @@ void main() {
       );
     });
 
+    test('query de várias palavras atravessa o snake_case do id', () {
+      // O caso que motivou a busca por termos: `"data table"` tem que achar o
+      // `app_data_table`. Com substring da frase inteira ele não achava — a
+      // fronteira cai num underscore —, e "data table" é literalmente como um
+      // modelo formula a pergunta.
+      final Map<String, Object?> out = call(
+        'search_components',
+        <String, Object?>{'query': 'data table'},
+      );
+      final List<String> ids = <String>[
+        for (final Object? c in out['components']! as List<Object?>)
+          (c! as Map<String, Object?>)['id']! as String,
+      ];
+      expect(ids, contains('app_data_table'));
+      expect(ids, contains('app_simple_data_table'));
+    });
+
     test('ignora acento, para a prosa portuguesa ser alcançável', () {
       final Map<String, Object?> comAcento = call(
         'search_components',

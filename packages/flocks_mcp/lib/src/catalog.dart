@@ -80,12 +80,14 @@ Object? resolveLang(Object? node, CatalogLang lang) {
   return node;
 }
 
-/// Dobra caixa e acentos, para a busca casar `"seleção"` com `"selecao"`.
+/// Normaliza para busca: caixa baixa, sem acento, e `_`/`-` viram espaço.
 ///
-/// Metade da prosa do catálogo é portuguesa, e sem a dobra `search_components`
-/// devolveria resultados diferentes conforme o teclado de quem pergunta — o
-/// tipo de comportamento que faz um consumidor concluir que a busca não
-/// funciona.
+/// As duas dobras respondem a erros que o consumidor comete de imediato.
+/// Metade da prosa do catálogo é portuguesa, e sem tirar o acento `"seleção"` e
+/// `"selecao"` dariam resultados diferentes conforme o teclado de quem
+/// pergunta. E os ids são snake_case: sem o `_` virar espaço, quem busca
+/// `"data table"` não acharia o `app_data_table` — que é exatamente como um
+/// modelo escreve a pergunta.
 String foldForSearch(String input) {
   const Map<String, String> accents = <String, String>{
     'á': 'a',
@@ -112,12 +114,32 @@ String foldForSearch(String input) {
     'ü': 'u',
     'ç': 'c',
     'ñ': 'n',
+    '_': ' ',
+    '-': ' ',
   };
   final StringBuffer out = StringBuffer();
   for (final String ch in input.toLowerCase().split('')) {
     out.write(accents[ch] ?? ch);
   }
   return out.toString();
+}
+
+/// Os termos de uma query, já normalizados.
+List<String> searchTerms(String query) => foldForSearch(
+  query,
+).split(RegExp(r'\s+')).where((String term) => term.isNotEmpty).toList();
+
+/// Se [haystack] contém TODOS os [terms].
+///
+/// Conjunção de termos, e não a frase inteira como substring: `"empty state"`
+/// tem que achar o `AppListEmpty` mesmo com as palavras separadas por outras no
+/// texto, e `"data table"` tem que achar o `app_data_table` mesmo com a
+/// fronteira caindo num underscore. Substring da frase inteira só acharia quem
+/// repetisse a prosa do catálogo literalmente — o que ninguém que ainda não
+/// leu o catálogo consegue fazer.
+bool matchesTerms(String haystack, List<String> terms) {
+  final String folded = foldForSearch(haystack);
+  return terms.every(folded.contains);
 }
 
 /// Distância de edição entre [a] e [b], usada para sugerir ids próximos.
@@ -241,11 +263,11 @@ class FlocksCatalog {
   /// descrição —, porque quem busca "badge" quer o `AppBadge` primeiro e não
   /// os oito componentes cuja descrição menciona badges.
   List<Map<String, Object?>> search(String query, {required CatalogLang lang}) {
-    // `trim` antes do teste de vazio: `query: "  "` é uma pergunta vazia com
-    // outra roupa, e devolver "0 resultados" para ela mandaria o consumidor
-    // concluir que o catálogo não tem nada — em vez de que ele não perguntou.
-    final String needle = foldForSearch(query.trim());
-    if (needle.isEmpty) {
+    // Query só de espaço é uma pergunta vazia com outra roupa, e devolver "0
+    // resultados" para ela mandaria o consumidor concluir que o catálogo não
+    // tem nada — em vez de que ele não perguntou.
+    final List<String> terms = searchTerms(query);
+    if (terms.isEmpty) {
       throw const CatalogQueryError(
         'search_components requires a non-empty "query". '
         'To browse instead of search, call list_components.',
@@ -256,14 +278,16 @@ class FlocksCatalog {
     final List<Map<String, Object?>> byDescription = <Map<String, Object?>>[];
     for (final Map<String, Object?> entry in entries) {
       final bool inName =
-          foldForSearch(entry['name']! as String).contains(needle) ||
-          foldForSearch(entry['id']! as String).contains(needle);
-      final bool inSummary = foldForSearch(
+          matchesTerms(entry['name']! as String, terms) ||
+          matchesTerms(entry['id']! as String, terms);
+      final bool inSummary = matchesTerms(
         _localized(entry, 'summary', lang),
-      ).contains(needle);
-      final bool inDescription = foldForSearch(
+        terms,
+      );
+      final bool inDescription = matchesTerms(
         _localized(entry, 'description', lang),
-      ).contains(needle);
+        terms,
+      );
       if (inName) {
         byName.add(_digest(entry, lang));
       } else if (inSummary) {

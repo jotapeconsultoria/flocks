@@ -43,6 +43,11 @@ dependencies:
   dart_mcp: ^0.5.2
 
 dev_dependencies:
+  # `StreamQueue`, usado pelo `test/protocol_e2e_test.dart` para ler as
+  # respostas do processo linha a linha. Vem transitivo pelo `dart_mcp`, mas o
+  # que se importa se declara: o dia em que o transporte mudar de package, o
+  # teste do transporte não deve quebrar por tabela.
+  async: ^2.13.0
   # `lints` e `test`, não `flutter_lints`/`flutter_test`: uma dev_dependency de
   # Flutter reintroduziria pelo porão o acoplamento que o `environment:` acima
   # existe para evitar.
