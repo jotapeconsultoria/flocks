@@ -120,3 +120,89 @@ jobs:
           path: packages/flocks/test/**/failures/**
           retention-days: 14
           if-no-files-found: ignore
+
+  widgetbook:
+    name: widgetbook (deploy)
+    # Publica o catálogo em widgetbook.flocks.live (ROADMAP, Fase B). Só em
+    # push na main — `pull_request` não deploya e não recebe os secrets — e só
+    # depois dos dois gates verdes: a vitrine sobe em lockstep com o código,
+    # nunca à frente dele.
+    #
+    # O upload é `find` + `curl` explícitos, sem action de terceiro: a Storage
+    # Zone é escrita com uma senha, e a superfície de supply chain fica a
+    # mínima. Caveat aceito: o job só sobe e sobrescreve — não apaga órfãos da
+    # Storage Zone. Arquivo que o build parou de emitir continua servido até
+    # alguém limpar à mão no painel.
+    if: github.event_name == 'push'
+    needs: [checks, goldens]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.0
+          channel: stable
+          cache: true
+
+      - name: Resolver dependências (workspace)
+        run: flutter pub get
+
+      - name: Gerar directories e buildar release
+        # O `main.directories.g.dart` é versionado, mas regerar aqui garante
+        # que o deploy reflete a fonte mesmo se alguém esqueceu o build_runner
+        # — o catálogo publicado nunca fica atrás das anotações.
+        run: |
+          dart run build_runner build --delete-conflicting-outputs
+          flutter build web --release -t widgetbook/main.dart
+        working-directory: packages/flocks
+
+      - name: Subir build para a Storage Zone
+        # Endpoint REGIONAL (br.) — a zone vive em São Paulo; o host genérico
+        # da doc não aceita a escrita. Cada PUT tem o código HTTP conferido:
+        # upload parcial tem que ser vermelho, não verde.
+        shell: bash
+        env:
+          BUNNY_STORAGE_PASSWORD: ${{ secrets.BUNNY_STORAGE_PASSWORD }}
+        run: |
+          set -euo pipefail
+          cd packages/flocks/build/web
+          total=0
+          while IFS= read -r -d '' f; do
+            path="${f#./}"
+            code=$(curl -sS -o /dev/null -w '%{http_code}' -X PUT \
+              -H "AccessKey: ${BUNNY_STORAGE_PASSWORD}" \
+              --data-binary "@${f}" \
+              "https://br.storage.bunnycdn.com/flocks-widgetbook/${path}")
+            if [ "$code" != "201" ]; then
+              echo "::error::PUT ${path} -> HTTP ${code}"
+              exit 1
+            fi
+            total=$((total + 1))
+          done < <(find . -type f -print0)
+          echo "Enviados ${total} arquivo(s) para flocks-widgetbook."
+
+      - name: Purgar cache da Pull Zone
+        # O `main.dart.js` não tem hash no nome e o edge cacheia por 1 ano —
+        # sem purge, o deploy só existiria na origem. A chave de conta só serve
+        # para isto; a escrita usa a senha da Storage Zone, acima.
+        shell: bash
+        env:
+          BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
+        run: |
+          set -euo pipefail
+          zone_id=$(curl -sS -H "AccessKey: ${BUNNY_API_KEY}" \
+            "https://api.bunny.net/pullzone" |
+            jq '[.[] | select(any(.Hostnames[]; .Value == "widgetbook.flocks.live"))][0].Id')
+          if [ -z "$zone_id" ] || [ "$zone_id" = "null" ]; then
+            echo "::error::Nenhuma Pull Zone com o hostname widgetbook.flocks.live."
+            exit 1
+          fi
+          code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST \
+            -H "AccessKey: ${BUNNY_API_KEY}" \
+            "https://api.bunny.net/pullzone/${zone_id}/purgeCache")
+          if [ "$code" != "204" ] && [ "$code" != "200" ]; then
+            echo "::error::Purge da zone ${zone_id} -> HTTP ${code}"
+            exit 1
+          fi
+          echo "Pull Zone ${zone_id} purgada."
