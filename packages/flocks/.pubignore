@@ -23,5 +23,11 @@ web/
 # Artefato de trabalho da migração, sem consumidor.
 doc/icon-mapping.csv
 
+# As imagens de referência dos testes de golden: 302 PNGs, 14,7 MB
+# comprimidos — 92% do tarball antes desta linha. Quem instala o pacote não
+# roda a suíte, e a suíte que as usa (`--tags golden`) roda a partir do
+# repositório. Os testes em si FICAM; só as imagens saem.
+goldens/
+
 # `doc/mcp/catalog.json` FICA de propósito: é o dado que o MCP serve, e parte
 # da proposta do pacote.
