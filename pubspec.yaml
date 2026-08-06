@@ -9,8 +9,15 @@
 # O `example/` do flocks_phosphor entra na lista porque depende dos DOIS
 # pacotes locais — é o app que mede o tree-shaking das fontes, e precisa
 # compilar contra o código deste checkout, não contra uma versão publicada.
+#
+# O `flocks_mcp` é o único membro que NÃO depende de Flutter — é Dart puro, de
+# propósito, porque se instala com `dart pub global activate`. Ele entra aqui
+# assim mesmo: é `dart analyze` e `dart format` da raiz varrendo o workspace
+# inteiro que o cobrem, e é o `pub get` daqui que resolve as deps dele num
+# clone. Ser membro não lhe impõe Flutter — o `environment:` de cada membro é
+# dele.
 name: flocks_workspace
-description: "Workspace do Flocks — o design system, e os adaptadores de ícone."
+description: "Workspace do Flocks — o design system, os adaptadores de ícone e o servidor MCP."
 publish_to: none
 
 environment:
@@ -20,5 +27,6 @@ environment:
 workspace:
   - packages/flocks
   - packages/flocks_material
+  - packages/flocks_mcp
   - packages/flocks_phosphor
   - packages/flocks_phosphor/example

@@ -1,0 +1,27 @@
+# `lints`, não `flutter_lints`: este pacote é Dart puro (ver o `environment:`
+# do pubspec). As regras extras abaixo são as mesmas dos irmãos, menos as que
+# só fazem sentido com widgets.
+include: package:lints/recommended.yaml
+
+linter:
+  rules:
+    - always_declare_return_types
+    - always_put_required_named_parameters_first
+    - avoid_print
+    - avoid_relative_lib_imports
+    - avoid_types_as_parameter_names
+    - cancel_subscriptions
+    - close_sinks
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - prefer_final_fields
+    - prefer_single_quotes
+    - sort_constructors_first
+    - sort_pub_dependencies
+
+analyzer:
+  exclude:
+    # `lib/src/catalog_data.g.dart` é o catálogo embarcado: um literal de ~490
+    # KB numa linha só. Analisá-lo não diz nada sobre o código e custa caro; o
+    # que o mantém honesto é o gate de frescor, não o analisador.
+    - "**/*.g.dart"

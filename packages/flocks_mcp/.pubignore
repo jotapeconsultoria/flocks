@@ -1,0 +1,22 @@
+# O que NÃO vai no tarball publicado.
+#
+# Atenção: este arquivo SUBSTITUI o `.gitignore` no empacotamento — não soma.
+# O que está ignorado no git e não estiver listado aqui volta para o tarball,
+# então os artefatos de build precisam ser repetidos.
+
+# Artefatos de build, espelhando o `.gitignore`.
+.dart_tool/
+build/
+coverage/
+.DS_Store
+*.log
+
+# O gerador do catálogo embarcado e o gate que o fiscaliza. Os dois leem
+# `../flocks/doc/mcp/catalog.json` — o pacote IRMÃO —, então só têm o que ler
+# a partir de um checkout deste repositório. Num tarball avulso eles seriam
+# testes que falham por falta de arquivo, o que é pior que não existirem.
+#
+# É a mesma razão pela qual o catálogo é embarcado em Dart: o binário
+# instalado por `dart pub global activate` é lib/ + bin/, e basta.
+tool/
+test/

@@ -1,0 +1,50 @@
+name: flocks_mcp
+description: "Servidor MCP do Flocks — serve o catálogo de 131 componentes (props, uso, a11y) para agentes, por stdio."
+# Em lockstep com o core, como os adaptadores: o que este servidor serve É o
+# catálogo do `flocks`, e uma linha de versão própria só criaria matriz de
+# compatibilidade entre servidor e catálogo. Ver a justificativa do 0.x no
+# pubspec do `flocks`.
+#
+# Publica DEPOIS do `flocks` (ROADMAP, Fase C2): a 0.1.0 do core é o que
+# estabiliza o schema do catálogo que este pacote embarca.
+version: 0.1.0
+publish_to: none
+
+repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks_mcp
+homepage: https://flocks.live
+issue_tracker: https://github.com/jotapeconsultoria/flocks/issues
+
+resolution: workspace
+
+environment:
+  # Mesmo piso de SDK dos irmãos, e DE PROPÓSITO sem a linha `flutter:` que
+  # eles têm. Declarar Flutter no environment faz o `pub` exigir o SDK do
+  # Flutter para resolver o pacote — e a via de instalação deste aqui é
+  # `dart pub global activate flocks_mcp`, com o Dart sozinho. O pacote é Dart
+  # puro justamente para caber nessa porta; a linha extra a fecharia.
+  sdk: ^3.12.0
+
+# O que `dart pub global activate flocks_mcp` põe no PATH.
+executables:
+  flocks_mcp:
+
+dependencies:
+  # O package oficial de MCP em Dart (labs.dart.dev). Escolhido sobre uma
+  # implementação à mão do JSON-RPC porque as deps dele são leves e Dart PURAS
+  # — `async`, `collection`, `json_rpc_2`, `meta`, `stream_channel`,
+  # `stream_transform`, nenhuma tocando Flutter — e porque o handshake do MCP
+  # negocia revisão de protocolo (2025-06-18, 2025-11-25, 2026-07-28): escrito
+  # à mão, ele pinaria uma revisão e envelheceria em silêncio.
+  #
+  # O pacote se declara experimental, e o caret em 0.x é a resposta: resolve
+  # para `>=0.5.2 <0.6.0`, então o BREAKING que já está no 0.6.0-wip não chega
+  # sozinho. Quem subir o pin tem o `test/protocol_e2e_test.dart` como canário
+  # — ele fala com o binário por stdin/stdout, não com as funções.
+  dart_mcp: ^0.5.2
+
+dev_dependencies:
+  # `lints` e `test`, não `flutter_lints`/`flutter_test`: uma dev_dependency de
+  # Flutter reintroduziria pelo porão o acoplamento que o `environment:` acima
+  # existe para evitar.
+  lints: ^6.0.0
+  test: ^1.25.0
