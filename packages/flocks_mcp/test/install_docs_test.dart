@@ -24,6 +24,16 @@ const String kUnpublishedMarker = 'not yet published';
 /// O comando de instalação que o README instrui.
 const String kActivateCommand = 'dart pub global activate flocks_mcp';
 
+/// As páginas /mcp do site, com o marcador de "não publicado" POR IDIOMA — a
+/// âncora inglesa numa página portuguesa nunca casaria e o gate ficaria verde
+/// por vacuidade (a mesma razão do gate do `flocks` sobre a landing). O gate
+/// mora AQUI, e não no `install_docs_test` do `flocks`, porque a copy é deste
+/// pacote: é a instrução que uma pessoa cola no `claude mcp add`.
+const Map<String, String> kSitePages = <String, String>{
+  '../../site/mcp/index.html': kUnpublishedMarker,
+  '../../site/pt/mcp/index.html': 'não publicado no pub.dev',
+};
+
 void main() {
   final String pubspec = File('pubspec.yaml').readAsStringSync();
   final String readme = File('README.md').readAsStringSync();
@@ -93,6 +103,72 @@ void main() {
         reason: 'A tool `$name` existe no código e não no README.',
       );
     }
+  });
+
+  test('a página /mcp do site instrui a instalação e cita as três tools', () {
+    // As duas páginas (raiz em inglês, /pt/) carregam o mesmo contrato do
+    // README: o comando de ativação e as três tools. O guard de existência é
+    // o do gate do `flocks`: `site/` fica fora do tarball, e um checkout
+    // vindo do pub.dev não tem as páginas para fiscalizar.
+    for (final String path in kSitePages.keys) {
+      final File file = File(path);
+      if (!file.existsSync()) {
+        continue;
+      }
+      final String html = file.readAsStringSync();
+      expect(
+        html,
+        contains(kActivateCommand),
+        reason: 'A página $path perdeu o comando de instalação.',
+      );
+      for (final Tool tool in flocksTools) {
+        expect(
+          html,
+          contains('<code>${tool.name}</code>'),
+          reason:
+              'A tool `${tool.name}` existe no código e não na página $path — '
+              'a tabela de tools envelheceu.',
+        );
+      }
+    }
+  });
+
+  test('enquanto não publicado, a página /mcp avisa — em cada idioma', () {
+    if (!blocked) {
+      return;
+    }
+    kSitePages.forEach((String path, String marker) {
+      final File file = File(path);
+      if (!file.existsSync()) {
+        return;
+      }
+      expect(
+        file.readAsStringSync(),
+        contains(marker),
+        reason:
+            'O pubspec tem `publish_to: none` e a página $path instrui '
+            '`$kActivateCommand` sem avisar que ele ainda não resolve.',
+      );
+    });
+  });
+
+  test('depois de publicado, o aviso sai da página /mcp — em cada idioma', () {
+    if (blocked) {
+      return;
+    }
+    kSitePages.forEach((String path, String marker) {
+      final File file = File(path);
+      if (!file.existsSync()) {
+        return;
+      }
+      expect(
+        file.readAsStringSync(),
+        isNot(contains(marker)),
+        reason:
+            'O `publish_to: none` saiu do pubspec e a página $path ainda '
+            'avisa que o pacote não está publicado — o aviso virou mentira.',
+      );
+    });
   });
 
   test('a versão que o servidor anuncia é a do pubspec', () {

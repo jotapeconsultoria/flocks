@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flocks MCP — the component catalog, served to agents</title>
+  <meta name="description" content="An MCP server that serves the Flocks catalog to coding agents: 131 components with props, usage rules and accessibility notes, over stdio, offline. Installs into Claude Desktop as a one-click bundle.">
+  <link rel="canonical" href="https://flocks.live/mcp/">
+  <link rel="alternate" hreflang="en" href="https://flocks.live/mcp/">
+  <link rel="alternate" hreflang="pt-BR" href="https://flocks.live/pt/mcp/">
+  <link rel="alternate" hreflang="x-default" href="https://flocks.live/mcp/">
+  <meta name="theme-color" content="#d3daea" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111823" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="preload" href="/assets/fonts/SpaceGrotesk-Medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Poppins-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/style.css">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Flocks">
+  <meta property="og:title" content="Flocks MCP — the component catalog, served to agents">
+  <meta property="og:description" content="131 components with props, usage rules and accessibility notes, served to coding agents over stdio. One-click install in Claude Desktop.">
+  <meta property="og:url" content="https://flocks.live/mcp/">
+  <meta property="og:image" content="https://flocks.live/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:locale:alternate" content="pt_BR">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="wordmark" href="/">flocks</a>
+      <nav aria-label="Main">
+        <a href="https://widgetbook.flocks.live">Components</a>
+        <a href="https://github.com/jotapeconsultoria/flocks">GitHub</a>
+        <a class="lang-switch" href="/pt/mcp/" lang="pt-BR" hreflang="pt-BR">PT</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap">
+        <h1>The Flocks catalog, served to <em>agents</em></h1>
+        <p class="tagline">An MCP server with the real contract of all 131
+        components — props, usage rules, accessibility notes, runnable
+        examples, in English and Portuguese. Local, over stdio, no network:
+        the catalog travels inside the binary.</p>
+        <div class="cta-row">
+          <a class="button button-primary" href="https://github.com/jotapeconsultoria/flocks/releases/latest/download/flocks-mcp.mcpb">Download for Claude Desktop (.mcpb)</a>
+          <a class="button button-secondary" href="https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks_mcp">View on GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="why-title">
+      <div class="wrap">
+        <h2 class="section-title" id="why-title">Why an agent needs it</h2>
+        <p class="section-lead">Flocks is built directly on
+        <code>widgets.dart</code> — no Material, no Cupertino. That is the
+        point of the system, and it is also what makes a model guess wrong:
+        asked to write a screen, it reaches for Material's parameter names,
+        because that is what Flutter looks like everywhere else, and the
+        result does not compile. This server hands it the real prop list
+        instead, from the same sources the site and the Widgetbook are
+        generated from.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="tools-title">
+      <div class="wrap">
+        <h2 class="section-title" id="tools-title">Three tools</h2>
+        <p class="section-lead">Every tool takes <code>lang</code>
+        (<code>en</code> or <code>pt</code>) — the catalog is bilingual at
+        the source, field by field, not translated.</p>
+        <div class="table-card">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Tool</th>
+                <th scope="col">Input</th>
+                <th scope="col">Returns</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>list_components</code></td>
+                <td><code>category?</code> (atom · molecule · organism)</td>
+                <td>id, name and summary of every component</td>
+              </tr>
+              <tr>
+                <td><code>get_component</code></td>
+                <td><code>id</code></td>
+                <td>the full record: props, when to use and when not to,
+                do/don't, accessibility, examples, related</td>
+              </tr>
+              <tr>
+                <td><code>search_components</code></td>
+                <td><code>query</code></td>
+                <td>every match across names, summaries and descriptions —
+                case- and accent-insensitive</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="install-title">
+      <div class="wrap">
+        <h2 class="section-title" id="install-title">Install</h2>
+
+        <h3 class="route-title">Claude Desktop — the bundle</h3>
+        <p class="route-lead">Download
+        <a href="https://github.com/jotapeconsultoria/flocks/releases/latest/download/flocks-mcp.mcpb"><code>flocks-mcp.mcpb</code></a>
+        and open it with Claude Desktop — double-click, or Settings →
+        Extensions. The bundle carries native executables for macOS
+        (arm64/x64), Linux (x64) and Windows (x64) and picks the right one at
+        launch; no Dart SDK involved. Each
+        <a href="https://github.com/jotapeconsultoria/flocks/releases">release</a>
+        publishes the bundle's SHA-256 next to the file.</p>
+
+        <h3 class="route-title">Claude Code</h3>
+        <div class="code-card">
+<pre><code>claude mcp add flocks -- flocks_mcp</code></pre>
+        </div>
+        <p class="route-lead">Assumes the <code>flocks_mcp</code> command is
+        on your <code>PATH</code> — that is what the activation below
+        provides.</p>
+
+        <h3 class="route-title">With the Dart SDK</h3>
+        <div class="code-card">
+<pre><code>dart pub global activate flocks_mcp</code></pre>
+        </div>
+        <aside class="install-note">
+          <p>The package is <strong>not yet published</strong> on pub.dev —
+          publication is underway. Until then the line above does not
+          resolve, and the way in is a git activation:</p>
+        </aside>
+        <div class="code-card">
+<pre><code>dart pub global activate --source git \
+  https://github.com/jotapeconsultoria/flocks.git \
+  --git-path packages/flocks_mcp</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>MIT License. Fonts are OFL&nbsp;1.1 and icons are from
+      Phosphor&nbsp;Icons under MIT — the license texts ship beside the
+      files. Built by <a href="https://github.com/jotapeconsultoria">JotaPe</a>.</p>
+      <nav aria-label="Footer">
+        <a href="https://widgetbook.flocks.live">Widgetbook</a>
+        <a href="https://github.com/jotapeconsultoria/flocks">GitHub</a>
+        <a href="https://github.com/jotapeconsultoria/flocks/blob/main/LICENSE">License</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
