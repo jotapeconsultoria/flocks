@@ -20,3 +20,9 @@ coverage/
 # instalado por `dart pub global activate` é lib/ + bin/, e basta.
 tool/
 test/
+
+# O esqueleto do MCP Bundle (.mcpb): manifesto e launcher. Quem instala pelo
+# pub.dev recebe o executável pelo `bin/`; o bundle é a OUTRA via de
+# distribuição, montada pelo job de release do CI a partir destes arquivos —
+# num tarball do pub eles seriam só peso morto.
+mcpb/

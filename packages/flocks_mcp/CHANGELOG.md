@@ -32,3 +32,11 @@ follows [SemVer](https://semver.org/).
   nearest ids it does know, and an invalid `lang` or `category` answers with the
   valid values. The consumer is a model, and a model corrects itself from a
   good error.
+- An MCP Bundle (`flocks-mcp.mcpb`), built by CI on every `v*` tag and attached
+  to the GitHub Release with its SHA-256: one archive with native executables
+  for macOS (arm64/x64), Linux (x64) and Windows (x64), installable into Claude
+  Desktop with two clicks and no Dart SDK. The manifest is generated from the
+  pubspec (`tool/generate_mcpb_manifest.dart`, gated by
+  `test/mcpb_manifest_test.dart`), and the release also attaches a generated
+  `server.json`, ready for a deliberate — not yet performed — MCP Registry
+  publication under `io.github.jotapeconsultoria/flocks-mcp`.

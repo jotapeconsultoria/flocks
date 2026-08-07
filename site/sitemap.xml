@@ -13,4 +13,16 @@
     <xhtml:link rel="alternate" hreflang="pt-BR" href="https://flocks.live/pt/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://flocks.live/"/>
   </url>
+  <url>
+    <loc>https://flocks.live/mcp/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://flocks.live/mcp/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://flocks.live/pt/mcp/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://flocks.live/mcp/"/>
+  </url>
+  <url>
+    <loc>https://flocks.live/pt/mcp/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://flocks.live/mcp/"/>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://flocks.live/pt/mcp/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://flocks.live/mcp/"/>
+  </url>
 </urlset>

@@ -426,6 +426,54 @@ section {
   max-width: 62ch;
 }
 
+/* ---------- tabela de tools (página /mcp) ---------- */
+
+.table-card {
+  background: var(--card);
+  border: 1px solid var(--outline);
+  border-radius: 16px;
+  overflow-x: auto;
+  margin-block: 1.2rem;
+}
+
+.table-card table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.table-card th {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.85rem 1.2rem;
+  border-bottom: 1px solid var(--outline);
+}
+
+.table-card td {
+  padding: 0.85rem 1.2rem;
+  border-bottom: 1px solid var(--outline);
+  color: var(--text-muted);
+  vertical-align: top;
+}
+
+.table-card tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---------- rotas de instalação (página /mcp) ---------- */
+
+.route-title {
+  font-size: 1.12rem;
+  margin: 2.2rem 0 0.5rem;
+}
+
+.route-lead {
+  color: var(--text-muted);
+  max-width: 62ch;
+  font-size: 0.95rem;
+}
+
 /* ---------- instalação ---------- */
 
 .install-note {
