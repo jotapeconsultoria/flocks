@@ -13,7 +13,7 @@ description: "Flocks — a Flutter design system built on widgets.dart: design t
 # O catálogo carregava os mesmos marcos num campo `since:`; eram INTERNOS de
 # migração, anteriores a qualquer publicação, e já divergiam deste campo antes
 # da extração (a régua chegou a 1.5.0 com o pubspec em 1.0.0). Ver CHANGELOG.
-version: 0.1.0
+version: 0.1.1
 
 repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks
 homepage: https://flocks.live
@@ -41,9 +41,22 @@ dependencies:
   # O analisador então proíbe usá-lo fora do pacote E exportá-lo no baril
   # público — a fronteira deixa de ser convenção e vira erro de compilação.
   meta: ^1.16.0
-  pointer_interceptor: ^0.10.1+2
   shimmer: ^3.0.0
   url_launcher: ^6.3.0
+  # Bindings de DOM sobre `dart:js_interop`, usadas SÓ pelo ramo web da fachada
+  # de interceptação de ponteiro (`src/foundation/pointer/`). Entraram como
+  # substitutas do `pointer_interceptor`, que saiu na 0.1.1: aquele era plugin
+  # federado endossando só `web` e `ios`, e o pana intersecta as plataformas de
+  # todo o fecho de dependências — uma linha rebaixava o flocks e os dois
+  # adaptadores a "Supports 2 of 6 platforms" no pub.dev.
+  #
+  # Esta NÃO reintroduz o teto: o `web` é Dart puro, sem sequer uma seção
+  # `flutter:` no pubspec, quanto mais um `plugin:`. Faixa larga de propósito —
+  # é a mesma que o `http` e o antigo `pointer_interceptor_web` usam, e a API
+  # consumida aqui (HTMLElement, Event, addEventListener) existe desde a 0.5.1.
+  # Estreitar só criaria conflito para quem já depende de `web` por outro
+  # caminho.
+  web: ">=0.5.1 <2.0.0"
 
 dev_dependencies:
   build_runner: ^2.4.0

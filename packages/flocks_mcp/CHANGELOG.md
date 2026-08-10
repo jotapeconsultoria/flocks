@@ -11,6 +11,21 @@ follows [SemVer](https://semver.org/).
 > explains why `0.x`. It published *after* `flocks`, because the core's `0.1.0`
 > is what settles the catalog schema this package embeds.
 
+## [0.1.1] - 2026-08-10
+
+### Fixed
+
+- **O `LICENSE` volta a ser reconhecível como MIT.** Ele trazia o texto SPDX
+  seguido de uma nota sobre o catálogo embarcado, e qualquer texto apensado
+  derruba a confiança do `license_detector`. Este pacote não está no pub.dev —
+  a nota vale para quem recebe o `.mcpb`, que leva o `LICENSE` dentro. A
+  explicação do catálogo está no README.
+
+### Changed
+
+- Versão em lockstep com o `flocks` 0.1.1, para o Release do bundle sair com a
+  licença corrigida.
+
 ## [0.1.0] - 2026-08-10
 
 ### Added

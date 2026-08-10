@@ -19,14 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Third-party assets bundled with this package keep their own licenses:
-
-- Fonts in `assets/fonts/` — Phosphor Icons, MIT. The six TTFs come from
-  `phosphor-icons/web` and the codepoints from `phosphor-icons/core`; the
-  license text of each ships beside them, as `LICENSE-phosphor-web` and
-  `LICENSE-phosphor-core`.
-- `vendor/phosphor_icons.json` — the icon catalog from `phosphor-icons/core`,
-  same MIT license as above, kept in-tree so the generator is reproducible.

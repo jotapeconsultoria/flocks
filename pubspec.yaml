@@ -6,9 +6,16 @@
 # contra a versão publicada, e uma mudança no core só apareceria para eles
 # depois do publish seguinte.
 #
-# O `example/` do flocks_phosphor entra na lista porque depende dos DOIS
-# pacotes locais — é o app que mede o tree-shaking das fontes, e precisa
-# compilar contra o código deste checkout, não contra uma versão publicada.
+# Os três `example/` entram na lista porque dependem dos pacotes locais e
+# precisam compilar contra o código DESTE checkout, não contra a versão
+# publicada — senão um exemplo poderia passar verde no CI usando uma API que a
+# branch acabou de mudar. O do flocks_phosphor é também o harness que mede o
+# tree-shaking das fontes.
+#
+# Eles não são enfeite de pontuação: `Package has an example` vale 10 pontos na
+# análise do pub.dev, e o `flocks` e o `flocks_material` os perderam na 0.1.0
+# por não terem um. Mas o motivo de existirem é anterior — um pacote sem
+# exemplo obriga quem chega a montar o primeiro `runApp` por tentativa.
 #
 # O `flocks_mcp` é o único membro que NÃO depende de Flutter — é Dart puro, de
 # propósito, porque se instala com `dart pub global activate`. Ele entra aqui
@@ -26,7 +33,9 @@ environment:
 
 workspace:
   - packages/flocks
+  - packages/flocks/example
   - packages/flocks_material
+  - packages/flocks_material/example
   - packages/flocks_mcp
   - packages/flocks_phosphor
   - packages/flocks_phosphor/example

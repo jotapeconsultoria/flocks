@@ -15,6 +15,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:async/async.dart';
+import 'package:flocks_mcp/src/server.dart' show kServerVersion;
 import 'package:test/test.dart';
 
 /// Quanto esperar por uma resposta antes de considerar o servidor pendurado.
@@ -148,7 +149,12 @@ void main() {
         final Map<String, Object?> info =
             result['serverInfo']! as Map<String, Object?>;
         expect(info['name'], 'flocks_mcp');
-        expect(info['version'], '0.1.0');
+        // Contra a constante, e não contra um literal: o que este teste tem a
+        // provar é que o BINÁRIO anuncia o que o código declara. Quem amarra a
+        // constante ao `version:` do pubspec são o `install_docs_test` e o
+        // `mcpb_manifest_test` — o triângulo continua fechado, e um literal a
+        // menos envelhece a cada bump.
+        expect(info['version'], kServerVersion);
         expect(result['protocolVersion'], isA<String>());
         expect(
           (result['capabilities']! as Map<String, Object?>)['tools'],

@@ -182,6 +182,44 @@ Only" tornava o pacote impublicável.
   `tool/flocks_component.schema.json`, um schema que nenhum código lê e que por
   isso envelheceria em silêncio.
 
+## O que o pub.dev cobrou no dia seguinte
+
+A publicação não termina no `dart pub publish`: a análise da pana volta cerca de
+uma hora depois, e ela mede coisas que nenhum gate deste repositório media. O
+`flocks_phosphor` voltou com **140/160**, e as três causas eram do core.
+
+| Cobrança | Causa | O que passou a valer |
+| --- | --- | --- |
+| `0/10` "No license was recognized" | O `LICENSE` trazia o MIT verbatim **seguido** de um bloco `---` de notas sobre assets de terceiros. O `license_detector` casa o arquivo INTEIRO contra o corpus SPDX: qualquer texto apensado derruba a confiança abaixo do limiar | Os cinco `LICENSE` do repo voltaram a ser exatamente o texto SPDX. As notas vivem no README — e as obrigações legais sempre estiveram cumpridas pelos textos que viajam ao lado do asset (`OFL.txt`, `assets/icons/LICENSE`) |
+| `10/20` "Supports 2 of 6 platforms" | `pointer_interceptor`, plugin federado que endossa só `web` e `ios`. A pana **intersecta** as plataformas de todo o fecho de dependências, então uma aresta rebaixava o core e os dois adaptadores | A interceptação virou ~20 linhas em `src/foundation/pointer/`, sobre `dart:js_interop` + `package:web`, e a dependência saiu. Web idêntico; **iOS perdido**, porque lá ela exigia `UIView` nativo — isto é, um plugin, que é o problema que se estava resolvendo |
+| "Not compatible with runtime wasm" | `if (dart.library.html)` no import condicional do loader de ícones. `dart:html` **não existe** no dart2wasm, então todo build `--wasm` caía no ramo default e arrastava `dart:io` | A condição virou `if (dart.library.io)`. Não era só nota: um app em wasm quebrava |
+
+Três lições que valem mais que a nota:
+
+- **Import condicional não esconde dependência.** A tentação era manter o
+  `pointer_interceptor` atrás de um `if`. Não funciona: a pana lê o
+  `pubspec.yaml`, não o grafo de imports. Só sair do pubspec conta.
+- **`dart.library.html` é um predicado morto.** Ele e `dart.library.js_interop`
+  são ambos verdadeiros no dart2js, o que faz o erro passar despercebido; só o
+  segundo vale também no dart2wasm. Virou gate em `architecture_test.dart`,
+  porque nenhum teste deste repositório roda num browser e a regressão seria
+  invisível.
+- **A ordem de publicação é carga estrutural.** A pana resolve as dependências
+  do pub.dev, não do workspace: rodada localmente, a do `flocks_phosphor` 0.1.1
+  ainda mediu contra o `flocks` **0.1.0** publicado e repetiu os dois defeitos
+  herdados. Os adaptadores só medem certo depois que o core está no ar — o que
+  a ordem `flocks` → adaptadores já garantia por outro motivo.
+
+A mesma análise expôs uma quarta coisa, anterior às três e de outra natureza: o
+`flocks` e o `flocks_material` não tinham `example/`, e isso são 10 pontos cada
+(`0/10 Package has an example`). Não era defeito, era ausência — mas com a
+versão sendo imutável, adiar significaria publicar duas vezes. Os dois exemplos
+entraram junto, como membros do workspace, pelo mesmo motivo que o do
+`flocks_phosphor` é membro: precisam compilar contra este checkout.
+
+Com eles, a medição local do `flocks` fecha em **150/150** (`--no-dartdoc`), ou
+seja 160/160 na escala do pub.dev.
+
 ## O passo que faltava
 
 ✅ **Publicado** — resolvido em 2026-08-10, na ordem que estava planejada:

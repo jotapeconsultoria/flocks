@@ -43,4 +43,8 @@ cd packages/flocks && flutter test --tags golden
 ## License
 
 MIT — see [LICENSE](LICENSE). Bundled third-party assets keep their own
-licenses, noted in each package's `LICENSE`.
+licenses: the fonts are SIL Open Font License 1.1 and the icons are
+[Phosphor Icons](https://phosphoricons.com) under MIT. Each license text ships
+beside the files it covers (`OFL.txt`, `assets/icons/LICENSE`,
+`assets/fonts/LICENSE-phosphor-*`), and each package's README says which apply
+to it.

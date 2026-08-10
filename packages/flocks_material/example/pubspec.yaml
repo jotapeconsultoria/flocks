@@ -1,0 +1,26 @@
+name: flocks_material_example
+description: "Exemplo do flocks_material — os mesmos AppIconToken, servidos pelos glifos do Material."
+version: 1.0.0
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.44.0"
+
+dependencies:
+  flocks: ^0.1.0
+  flocks_material: ^0.1.0
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  # Os glifos vêm da fonte MaterialIcons, que o Flutter embute — é esta linha
+  # que a traz para o bundle do app.
+  uses-material-design: true

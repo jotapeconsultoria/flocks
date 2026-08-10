@@ -10,6 +10,27 @@ follows [SemVer](https://semver.org/).
 > compatibility matrix to maintain. The public line starts at `0.1.0`, next to
 > the core; the `flocks` CHANGELOG explains why `0.x`.
 
+## [0.1.1] - 2026-08-10
+
+### Fixed
+
+- **A licença volta a ser reconhecida.** O `LICENSE` trazia o MIT verbatim
+  seguido de uma nota dizendo que o pacote não embute asset de terceiro, e o
+  `license_detector` casa o arquivo INTEIRO contra o corpus SPDX — bastavam
+  aquelas duas linhas para derrubar a confiança e o pub.dev reportar "No
+  license was recognized". O arquivo passa a ser exatamente o texto SPDX; a
+  nota está no README, onde já estava.
+- **Suporte de plataforma (2 → 6) e compatibilidade com wasm**, herdados do
+  `flocks` 0.1.1. Ver o CHANGELOG do core.
+
+### Added
+
+- **`example/`** — os mesmos dez `AppIconToken` do contrato, servidos pelos
+  glifos do Material. O que ele demonstra é a troca, não os desenhos: o
+  `main.dart` não sabe que existe Material, e trocar a única linha do
+  `iconProvider` por `PhosphorIconProvider()` redesenha tudo sem mexer na
+  árvore.
+
 ## [0.1.0] - 2026-08-05
 
 ### Added

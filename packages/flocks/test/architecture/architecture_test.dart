@@ -129,4 +129,68 @@ void main() {
           'AppBrand.setBrand. Offenders: $offenders',
     );
   });
+
+  // Os dois gates abaixo guardam a mesma coisa por dois lados: a nota de
+  // plataforma e de wasm do pacote no pub.dev, que na 0.1.0 estavam em 10/20 e
+  // "not compatible". Nenhum teste deste repositório roda num browser, então
+  // sem eles as duas regressões voltariam em silêncio absoluto.
+
+  test('nenhum import condicional decide por `dart.library.html`', () {
+    // `dart:html` NÃO existe no dart2wasm — a `libraries.json` do SDK só a
+    // declara no alvo dart2js. Um `if (dart.library.html)` é portanto FALSO em
+    // todo `flutter build web --wasm`, e o compilador cai no ramo default sem
+    // avisar ninguém. Foi exatamente assim que o `app_network_icon_provider`
+    // arrastou `dart:io` (via flutter_cache_manager) para dentro do grafo do
+    // wasm e deixou o pacote inteiro "not compatible with runtime wasm".
+    //
+    // Os predicados corretos são `dart.library.io` (verdadeiro na VM, falso nos
+    // DOIS backends web) e `dart.library.js_interop` (verdadeiro nos dois
+    // backends web, falso na VM). Escolha pelo que o ramo precisa.
+    // Comentário não compila, e este repositório explica as decisões na prosa —
+    // o comentário que conta POR QUE o predicado saiu cita o nome dele, e não
+    // pode se auto-acusar. Mesmo filtro do gate do `AppBrand.setBrand`.
+    final List<String> offenders = <String>[
+      for (final File f in dartFiles)
+        if (f
+            .readAsLinesSync()
+            .where((String l) => !l.trimLeft().startsWith('//'))
+            .any((String l) => l.contains('dart.library.html')))
+          rel(f),
+    ];
+    expect(
+      offenders,
+      isEmpty,
+      reason:
+          'Troque por `dart.library.io` ou `dart.library.js_interop` — '
+          '`dart.library.html` é falso no dart2wasm e escolhe o ramo errado '
+          'em silêncio. Offenders: $offenders',
+    );
+  });
+
+  test('o pubspec não depende de `pointer_interceptor`', () {
+    // Ele saiu na 0.1.1, e não pode voltar por conveniência. É plugin federado
+    // que endossa só `web` e `ios`; o pana INTERSECTA as plataformas de todo o
+    // fecho de dependências, então esta única linha rebaixava o `flocks` — e
+    // por herança o `flocks_phosphor` e o `flocks_material` — para "Supports 2
+    // of 6 platforms" na página do pub.dev, num design system que roda em toda
+    // parte. Import condicional não salva: o pana lê o pubspec, não os imports.
+    //
+    // O que ele fazia no browser vive agora em `src/foundation/pointer/`, em
+    // ~20 linhas de `dart:js_interop` + `package:web`. Se precisar da
+    // interceptação no iOS (que exige UIView nativo, logo um plugin), o caminho
+    // é o app consumidor declarar o pacote, não o Flocks.
+    // Só as linhas de DECLARAÇÃO: o comentário do `web:` logo acima conta esta
+    // história inteira e cita o nome, como a prosa deste repositório faz.
+    final List<String> declarations = File('pubspec.yaml')
+        .readAsLinesSync()
+        .where((String l) => !l.trimLeft().startsWith('#'))
+        .toList();
+    expect(
+      declarations.where((String l) => l.contains('pointer_interceptor')),
+      isEmpty,
+      reason:
+          'Voltar a depender de `pointer_interceptor` derruba a nota de '
+          'plataforma do flocks e dos dois adaptadores para 2 de 6.',
+    );
+  });
 }

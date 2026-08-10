@@ -138,5 +138,8 @@ todo app que dependa deste pacote.
 ## Licença
 
 Os ícones são do Phosphor Icons, MIT — as licenças dos dois repositórios de
-origem estão em [`assets/fonts/`](assets/fonts). O código deste pacote segue a
-licença do Flocks (MIT), em [LICENSE](LICENSE).
+origem estão em [`assets/fonts/`](assets/fonts), como `LICENSE-phosphor-web` e
+`LICENSE-phosphor-core`. O catálogo em `vendor/phosphor_icons.json` vem do
+`phosphor-icons/core` sob a mesma licença, e fica em árvore para o gerador ser
+reproduzível. O código deste pacote segue a licença do Flocks (MIT), em
+[LICENSE](LICENSE).

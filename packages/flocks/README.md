@@ -199,3 +199,9 @@ macOS, and never `--update-goldens` in bulk without looking at what changed.
 MIT — see [LICENSE](LICENSE). The fonts (`assets/fonts/`) are OFL 1.1 and the
 icons (`assets/icons/`) are from [Phosphor Icons](https://phosphoricons.com)
 under MIT; the license texts ship beside the files.
+
+`lib/src/foundation/pointer/pointer_interceptor_web.dart` is adapted from
+[`pointer_interceptor_web`](https://pub.dev/packages/pointer_interceptor_web)
+(flutter/packages) under BSD-3-Clause — Copyright 2013 The Flutter Authors. All
+rights reserved. The notice also sits at the top of that file, as BSD-3
+requires.
