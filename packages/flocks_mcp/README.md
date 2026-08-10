@@ -289,10 +289,19 @@ Publishing a version is:
 
 ```bash
 brew install mcp-publisher
+rm -f server.json
 mcp-publisher login github -token "$GITHUB_PAT"
-curl -LO https://github.com/jotapeconsultoria/flocks/releases/latest/download/server.json
+curl -LO https://github.com/jotapeconsultoria/flocks/releases/download/vX.Y.Z/server.json
 mcp-publisher publish
 ```
+
+Two things in that snippet are scar tissue. The `rm -f` is there because
+`curl -LO` **refuses to overwrite**: with a stale `server.json` in the
+directory, the download is silently skipped and the previous version is
+republished. And the URL names the tag instead of `latest`, because the release
+is built by CI *after* the tag is pushed — reaching for `latest` in that window
+downloads the previous release, which is how a 100-character `description`
+already fixed in this version can still come back as a `422`.
 
 **Use `-token`, not the interactive flow, for an organization namespace.** Bare
 `mcp-publisher login github` authenticates through *MCP Registry Login (Prod)*,
@@ -306,6 +315,17 @@ of the organization, which is what the registry requires. The 403 suggests
 making organization membership public — that is a dead end here, because the
 endpoint the registry calls reads *private* memberships, and public ones are a
 different list (`GET /users/{user}/orgs`).
+
+The 403 names its own cause: *"You have permission to publish:
+`io.github.<your-personal-account>/*`"* is what a token without `read:org`
+looks like from the registry's side — the login worked, the org was invisible.
+An empty `$GITHUB_PAT` produces it too, since `-token ""` falls back to the
+interactive flow. Before blaming permissions, check the variable is set and
+that the token is *classic*: a fine-grained token returns no `x-oauth-scopes`
+header from `https://api.github.com/user`, and that empty header is the
+verdict. Ownership itself is verifiable without the publisher —
+`gh api user/memberships/orgs` must list the organization with
+`role: admin` and `state: active`.
 
 Two limits worth knowing before a release, both learned the expensive way:
 `description` must be **at most 100 characters** (`test/server_json_test.dart`
