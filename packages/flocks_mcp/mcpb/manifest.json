@@ -3,7 +3,7 @@
   "name": "flocks_mcp",
   "display_name": "Flocks MCP",
   "version": "0.1.0",
-  "description": "Servidor MCP do Flocks — serve o catálogo de 131 componentes (props, uso, a11y) para agentes, por stdio.",
+  "description": "Servidor MCP que serve o catálogo de 131 componentes do Flocks (props, uso, a11y) a agentes.",
   "author": {
     "name": "JotaPe Tecnologia",
     "url": "https://flocks.live"

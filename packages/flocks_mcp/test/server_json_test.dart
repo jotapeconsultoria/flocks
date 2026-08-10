@@ -63,6 +63,33 @@ void main() {
     expect(server['version'], version);
   });
 
+  test('a description cabe no limite do registry', () {
+    // O registry recusa `description` acima de 100 caracteres, com um 422 na
+    // hora do `mcp-publisher publish` — e a description sai do pubspec, cujo
+    // outro consumidor é o pub.dev, que não tem esse teto. A 0.1.0 foi
+    // publicada no pub.dev com 104 e só descobriu o limite no registry,
+    // porque este gate fiscalizava a FORMA do arquivo e não o tamanho dos
+    // campos. O piso de 60 é do pub.dev (abaixo disso o pana reclama de
+    // description curta), então a janela é dos dois destinos, não de um.
+    final String description = server['description']! as String;
+    expect(
+      description.length,
+      lessThanOrEqualTo(100),
+      reason:
+          'O MCP Registry recusa acima de 100 caracteres. Encurte a '
+          '`description` do pubspec — descobrir isso no `mcp-publisher '
+          'publish` é descobrir depois de a versão já estar imutável no '
+          'pub.dev.',
+    );
+    expect(
+      description.length,
+      greaterThanOrEqualTo(60),
+      reason:
+          'O pub.dev reclama de description abaixo de 60 caracteres. Encurtar '
+          'para caber no registry não pode cair para o outro lado.',
+    );
+  });
+
   test('um sha fora do pattern do schema é recusado na geração', () {
     // O schema exige `^[a-f0-9]{64}$` — hex minúsculo. O registry não valida
     // o hash, os clientes validam: deixar um valor torto passar aqui é

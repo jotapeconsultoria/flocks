@@ -1,5 +1,9 @@
 name: flocks_mcp
-description: "Servidor MCP do Flocks — serve o catálogo de 131 componentes (props, uso, a11y) para agentes, por stdio."
+# Cabe em DOIS limites, e o menor deles não é o do pub.dev: o MCP Registry
+# recusa `description` acima de 100 caracteres (422 na publicação), e o pub.dev
+# reclama abaixo de 60. A janela é essa, e `test/server_json_test.dart` a
+# fiscaliza — a 0.1.0 saiu com 104 e só descobriu no `mcp-publisher publish`.
+description: "Servidor MCP que serve o catálogo de 131 componentes do Flocks (props, uso, a11y) a agentes."
 # Em lockstep com o core, como os adaptadores: o que este servidor serve É o
 # catálogo do `flocks`, e uma linha de versão própria só criaria matriz de
 # compatibilidade entre servidor e catálogo. Ver a justificativa do 0.x no
