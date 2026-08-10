@@ -9,20 +9,20 @@ com o que cada fase destrava dito ao lado.
 
 ## Estado
 
-Atualizado em 2026-08-07 — o que cada fase mediu está na seção dela.
+Atualizado em 2026-08-10 — o que cada fase mediu está na seção dela.
 
 | Fase | Estado |
 | --- | --- |
 | A0 — higiene pré-publicação | ✅ concluída (refs, `since:`, CHANGELOGs, `.pubignore`, contagem) |
-| A1 — o corte e o publish | 🔶 corte pronto em commit local; **publicação bloqueada pela moderação de nome do pub.dev** (`flocks` vs `flock` — pacote abandonado desde 2019, dart3-incompatible). Exceção solicitada ao suporte, follow-up enviado em 2026-08-06. O corte não sobe antes do publish para o README não mentir |
-| A2 — consumidores `git:` → hosted | ⬜ bloqueada pela A1 |
-| B — Widgetbook hospedado | ✅ no ar em `widgetbook.flocks.live` (2026-08-06): release de 43 MB com `main.dart.js` de 4,2 MB contra 58 MB do debug; deploy no CI com `needs` nos dois gates e purge; contagem de use cases virou artefato gerado com gate (`doc/widgetbook_use_cases.json`, 295 — a regeneração recuperou 4 use cases fora do catálogo) |
-| Site — landing | ✅ no ar em `flocks.live` (2026-08-06, PR #2): bilíngue com raiz em inglês e `/pt/`, `hreflang` recíproco, deployada deste repo, linkando o Widgetbook. A copy respeita o estado real ("not yet published", instalação por `git:`) — quando a A1 sair, a landing atualiza junto. A rota `/mcp` está no ar nos dois idiomas (2026-08-07), fiscalizada pelo `install_docs_test`; `/componentes` ainda não existe |
-| C1 — contrato MCP | ✅ definido e documentado no README do `flocks_mcp` (PR #3): três tools (`list_components`, `get_component`, `search_components`), `lang: en\|pt`, erros como `isError` dentro do resultado — para o modelo ler e se corrigir |
-| C2 — `flocks_mcp` | ✅ na main (PR #3): Dart puro, stdio, catálogo embarcado com gate de frescor (terceira aplicação do padrão), 34 testes incluindo protocolo ponta a ponta contra o binário — e verificado em sessão real de agente, servindo a ficha bilíngue. **Publicação no pub.dev atrás da A1** |
-| C3 — distribuição MCP (`.mcpb` + Registry) | 🔶 pronta e armada (PR #5): bundle `.mcpb` e listagem no MCP Registry preparados no CI, gated por tag — **a tag `v0.1.0` dispara o primeiro Release**. Aguarda a A1 para o gatilho fazer sentido |
-| D — obrigações da demo | ⬜ o helper de export do `AppBrandConfig` pode vir antes do app do site |
-| E — guia de migração | ⬜ depende da A1 |
+| A1 — o corte e o publish | ✅ **publicado em 2026-08-10**: `flocks`, `flocks_phosphor` e `flocks_material` em 0.1.0 no pub.dev, sob exceção de nome concedida pelo suporte (caso `flock`), os três no publisher verificado `jotapeconsultoria.com.br` desde o primeiro publish. Tag `v0.1.0` na main |
+| A2 — consumidores `git:` → hosted | ✅ concluída (2026-08-10): consumidores de origem resolvem do pub.dev, override de git removido |
+| B — Widgetbook hospedado | ✅ no ar em `widgetbook.flocks.live` (2026-08-06): release de 43 MB com `main.dart.js` de 4,2 MB contra 58 MB do debug; deploy no CI com `needs` nos dois gates e purge; contagem de use cases virou artefato gerado com gate (`doc/widgetbook_use_cases.json`, 295) |
+| Site — landing | ✅ no ar em `flocks.live` com a copy pós-publicação nos dois idiomas (2026-08-10), `/mcp` bilíngue no ar, tudo fiscalizado pelo `install_docs_test`; `/componentes` ainda não existe |
+| C1 — contrato MCP | ✅ definido e documentado no README do `flocks_mcp`: três tools, `lang: en\|pt`, erros como `isError` dentro do resultado |
+| C2 — `flocks_mcp` | ✅ na main, verificado em sessão real de agente. **Publicação no pub.dev é a próxima pendência** (o XOR do aviso é fiscalizado por teste próprio) |
+| C3 — distribuição MCP | 🔶 **Release `flocks_mcp v0.1.0` no ar** (4 binários + `.mcpb`, disparado pela tag); falta a listagem no MCP Registry (`mcp-publisher publish`), junto com a publicação do C2 |
+| D — demo | ⬜ **desbloqueada** — o site está no ar em `flocks.live`, a demo pode nascer a qualquer momento. As obrigações do pacote (dashboard + CRUD só de Flocks, `swatchFromSeed` real, export do `AppBrandConfig` — helper novo) valem como spec; o padrão de hospedagem do Widgetbook (app próprio, deployado deste repo) serve de molde |
+| E — guia de migração | ⬜ **desbloqueada** — a instalação real que o guia instrui existe desde 2026-08-10 |
 
 Os números daqui foram medidos em 2026-08-05, não supostos:
 
@@ -206,8 +206,8 @@ instalação real.
 A (publicar)  ──destrava──▶  C2 (servidor MCP), E (guia), consumo hosted
 B (widgetbook)               paralela à A, independente
 C1 (contrato MCP)            paralelo, barato, antes de C2
-D (demo)                     depende do app do site existir; o helper de
-                             export do AppBrandConfig pode vir antes
+D (demo)                     desbloqueada — o site está no ar; o helper de
+                             export do AppBrandConfig entra junto
 E (guia)                     depende de A
 ```
 
