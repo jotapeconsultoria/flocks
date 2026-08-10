@@ -21,7 +21,7 @@ Atualizado em 2026-08-10 — o que cada fase mediu está na seção dela.
 | C1 — contrato MCP | ✅ definido e documentado no README do `flocks_mcp`: três tools, `lang: en\|pt`, erros como `isError` dentro do resultado |
 | C2 — `flocks_mcp` | ✅ na main, verificado em sessão real de agente. **Publicação no pub.dev é a próxima pendência** (o XOR do aviso é fiscalizado por teste próprio) |
 | C3 — distribuição MCP | 🔶 **Release `flocks_mcp v0.1.0` no ar** (4 binários + `.mcpb`, disparado pela tag); falta a listagem no MCP Registry (`mcp-publisher publish`), junto com a publicação do C2 |
-| D — obrigações da demo | ⬜ o helper de export do `AppBrandConfig` pode vir antes do app do site |
+| D — demo | ⬜ **desbloqueada** — o site está no ar em `flocks.live`, a demo pode nascer a qualquer momento. As obrigações do pacote (dashboard + CRUD só de Flocks, `swatchFromSeed` real, export do `AppBrandConfig` — helper novo) valem como spec; o padrão de hospedagem do Widgetbook (app próprio, deployado deste repo) serve de molde |
 | E — guia de migração | ⬜ **desbloqueada** — a instalação real que o guia instrui existe desde 2026-08-10 |
 
 Os números daqui foram medidos em 2026-08-05, não supostos:
@@ -206,8 +206,8 @@ instalação real.
 A (publicar)  ──destrava──▶  C2 (servidor MCP), E (guia), consumo hosted
 B (widgetbook)               paralela à A, independente
 C1 (contrato MCP)            paralelo, barato, antes de C2
-D (demo)                     depende do app do site existir; o helper de
-                             export do AppBrandConfig pode vir antes
+D (demo)                     desbloqueada — o site está no ar; o helper de
+                             export do AppBrandConfig entra junto
 E (guia)                     depende de A
 ```
 
