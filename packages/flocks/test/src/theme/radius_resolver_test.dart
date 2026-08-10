@@ -149,6 +149,48 @@ void main() {
     });
   });
 
+  group('contentSurfaceRadius', () {
+    BorderRadius contentFor(AppRadiusMode mode, [AppRadiusMode? override]) =>
+        AppRadiusTheme(mode: mode).contentSurfaceRadius(override);
+
+    test(
+      'reto/redondo/padrao seguem a escada GERAL (card pode ser pequeno)',
+      () {
+        for (final AppRadiusMode m in <AppRadiusMode>[
+          AppRadiusMode.reto,
+          AppRadiusMode.redondo,
+          AppRadiusMode.padrao,
+        ]) {
+          expect(
+            _r(contentFor(m)),
+            _r(AppRadiusTheme(mode: m).resolve()),
+            reason:
+                'Só o `circular` é patológico: nos demais modos o card não deve '
+                'herdar o canto de um bottom sheet ($m).',
+          );
+        }
+      },
+    );
+
+    test('circular NÃO satura em oval — pousa no teto de superfície', () {
+      expect(_r(contentFor(AppRadiusMode.circular)), kSurfaceCircularRadius);
+      // A escada geral devolveria a sentinela, que o Flutter satura em metade
+      // do lado menor: é ela que come o conteúdo de um card alto.
+      expect(
+        _r(const AppRadiusTheme(mode: AppRadiusMode.circular).resolve()),
+        greaterThan(1000),
+      );
+    });
+
+    test('override local vence o modo global', () {
+      expect(_r(contentFor(AppRadiusMode.circular, AppRadiusMode.reto)), 0);
+      expect(
+        _r(contentFor(AppRadiusMode.reto, AppRadiusMode.circular)),
+        kSurfaceCircularRadius,
+      );
+    });
+  });
+
   group('surfaceCornerRadius', () {
     double surfaceFor(AppRadiusMode mode, [AppRadiusMode? override]) =>
         AppRadiusTheme(mode: mode).surfaceCornerRadius(override);

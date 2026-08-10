@@ -23,6 +23,10 @@ A marca aprende a se escrever. É a única feature de pacote que o ROADMAP prev�
 e ela existe para a demo do site: sem isto o visitante vê a marca dele nos 131
 componentes e vai embora; com isto ele leva o arquivo que reproduz o que viu.
 
+E a demo já pagou o primeiro dividendo: montar duas telas inteiras sobre o eixo
+de forma revelou que uma superfície grande em `circular` cortava o próprio
+conteúdo — um defeito que nenhum use case isolado tinha exercitado.
+
 ### Added
 
 - **`toDartSnippet` escreve uma `AppBrandConfig` como código Dart colável.** É
@@ -52,6 +56,25 @@ componentes e vai embora; com isto ele leva o arquivo que reproduz o que viu.
   despejar os 11 stops justamente no papel onde a saída precisa continuar
   legível. `kSwatchStops` veio junto, pelo mesmo motivo de quem percorre um
   swatch: um `ColorSwatch` não expõe as próprias chaves.
+
+### Fixed
+
+- **Uma superfície grande em `circular` parou de cortar o próprio conteúdo.**
+  `AppCard` e o cartão de conteúdo do `AppShell` resolviam a forma pela escada
+  GERAL, em que `circular` significa "metade do lado menor". Num chip isso é a
+  pílula que se espera; num cartão de gráfico de 400 px é uma elipse de 180 px de
+  raio cujo canto passa por cima do header — o título "Recurring revenue"
+  aparecia como "urring revenue". Os dois passaram a usar `contentSurfaceRadius`,
+  uma escada nova que fica ENTRE `resolve` e `surfaceCornerRadius`: idêntica à
+  geral em `reto`/`redondo`/`padrao` (um cartão pequeno não deve herdar o canto
+  de um bottom sheet) e com teto em `circular`.
+
+  O gate é `test/architecture/surface_clip_test.dart`, e ele é geométrico em vez
+  de tipográfico: pinta a área de conteúdo e exige que os quatro cantos dela
+  continuem pintados. Não depende de fonte, tema nem baseline — só do clip.
+
+  Descoberto pela demo da Fase D, que é a primeira coisa a exercitar o eixo de
+  forma inteiro com conteúdo real em cima.
 
 ## [0.1.1] - 2026-08-10
 
