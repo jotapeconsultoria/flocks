@@ -13,18 +13,34 @@ follows [SemVer](https://semver.org/).
 
 ## [0.1.1] - 2026-08-10
 
+### Added
+
+- An `example/`, with the three ways in: registering the command with an agent,
+  the same conversation by hand over a pipe (newline-delimited JSON-RPC, for
+  when a client misbehaves and you need to know which side is wrong), and
+  `FlocksCatalog` used directly from Dart. Every output shown there was
+  captured from a real run, not written from memory. It is also the last of the
+  five pub.dev checks: `0.1.0` scored 150/160, and "no example found" was the
+  whole gap.
+
 ### Fixed
 
 - **O `LICENSE` volta a ser reconhecível como MIT.** Ele trazia o texto SPDX
   seguido de uma nota sobre o catálogo embarcado, e qualquer texto apensado
-  derruba a confiança do `license_detector`. Este pacote não está no pub.dev —
-  a nota vale para quem recebe o `.mcpb`, que leva o `LICENSE` dentro. A
-  explicação do catálogo está no README.
+  derruba a confiança do `license_detector` — que é justamente quem pontua a
+  licença no pub.dev, onde a `0.1.0` deste pacote já está. A explicação do
+  catálogo está no README, e o `.mcpb` continua levando o `LICENSE` dentro.
 
 ### Changed
 
 - Versão em lockstep com o `flocks` 0.1.1, para o Release do bundle sair com a
   licença corrigida.
+- The package `description` is shorter — 92 characters, down from 104. The MCP
+  Registry refuses anything above 100 and answers `422` at publish time; pub.dev
+  has no such ceiling and had already accepted the longer one, so `0.1.0` keeps
+  it there for good. The window now belongs to both destinations, and
+  `test/server_json_test.dart` gates it from both sides: at most 100 for the
+  registry, at least 60 before pub.dev starts calling the description too short.
 
 ## [0.1.0] - 2026-08-10
 
