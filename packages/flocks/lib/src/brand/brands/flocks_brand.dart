@@ -61,25 +61,4 @@ final ColorSwatch<int> _neutralLight = neutralSwatchFromSeed(
 /// No escuro a rampa inverte: o stop 50 é o mais ESCURO. Reconstruir espelhando
 /// os stops mantém a semântica que o resto do tema espera (`s50` = fundo,
 /// `s900` = conteúdo) sem duplicar a escolha de cor.
-final ColorSwatch<int> _neutralDark = _flipped(_neutralLight);
-
-/// Espelha um swatch: o valor do stop mais claro vai para o mais escuro.
-ColorSwatch<int> _flipped(ColorSwatch<int> swatch) {
-  const List<int> stops = <int>[
-    50,
-    100,
-    200,
-    300,
-    400,
-    500,
-    600,
-    700,
-    800,
-    900,
-    950,
-  ];
-  return ColorSwatch<int>(swatch.toARGB32(), <int, Color>{
-    for (int i = 0; i < stops.length; i++)
-      stops[i]: swatch[stops[stops.length - 1 - i]]!,
-  });
-}
+final ColorSwatch<int> _neutralDark = flippedSwatch(_neutralLight);
