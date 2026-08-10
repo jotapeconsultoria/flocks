@@ -2,7 +2,6 @@ import 'package:flocks/flocks.dart';
 import 'package:flutter/widgets.dart';
 
 import '../data/demo_data.dart';
-import '../surface_radius.dart';
 
 /// A janela de tempo que os gráficos mostram.
 enum _Range {
@@ -23,10 +22,9 @@ enum _Range {
 /// tabela paginada ainda se leem quando estão todos na mesma tela — e é aí que
 /// hierarquia tipográfica, contraste e densidade ou funcionam ou não.
 ///
-/// Nenhum widget aqui recebe cor ou sombra por parâmetro. Tudo que muda quando o
-/// visitante mexe no painel de marca muda porque os componentes leem o tema
-/// sozinhos. A única exceção é o raio dos cartões grandes, e ele também vem do
-/// tema — ver `demoSurfaceRadius`.
+/// Nenhum widget aqui recebe cor, raio ou sombra por parâmetro. Tudo que muda
+/// quando o visitante mexe no painel de marca muda porque os componentes leem o
+/// tema sozinhos.
 class DashboardScreen extends StatefulWidget {
   /// Cria a tela.
   const DashboardScreen({required this.accounts, super.key});
@@ -78,7 +76,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           const SizedBox(height: AppSpacings.s12),
           if (visible.isEmpty)
             AppCard(
-              radius: demoSurfaceRadius(context),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: AppSpacings.s32),
                 child: AppListEmpty(
@@ -359,7 +356,6 @@ class _Charts extends StatelessWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         final bool wide = constraints.maxWidth > 900;
         final Widget trend = AppCard(
-          radius: demoSurfaceRadius(context),
           child: AppChartShell(
             title: 'Recurring revenue',
             subtitle: 'In thousands of dollars',
@@ -391,7 +387,6 @@ class _Charts extends StatelessWidget {
         );
 
         final Widget mix = AppCard(
-          radius: demoSurfaceRadius(context),
           child: AppChartShell(
             title: 'Plan mix',
             subtitle: 'Accounts per plan',
@@ -411,7 +406,6 @@ class _Charts extends StatelessWidget {
         );
 
         final Widget signupsChart = AppCard(
-          radius: demoSurfaceRadius(context),
           child: AppChartShell(
             title: 'New accounts',
             subtitle: 'Signed per month',

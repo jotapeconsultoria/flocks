@@ -86,7 +86,7 @@ class DemoAppState extends State<DemoApp> {
               builder: (BuildContext context, BoxConstraints constraints) =>
                   constraints.maxWidth < kMinShellWidth
                   ? const _TooNarrow()
-                  : _shell(theme),
+                  : _shell(),
             ),
           ),
         ),
@@ -94,21 +94,7 @@ class DemoAppState extends State<DemoApp> {
     );
   }
 
-  Widget _shell(AppThemeData theme) => AppShell(
-    // O raio do cartão de conteúdo vem de `surfaceCornerRadius`, que é a escada
-    // do pacote para SUPERFÍCIES: 0 em `reto`, 24 em `redondo`/`padrao`, 48 em
-    // `circular`. O default do `AppShell` usa a escada geral, e num cartão do
-    // tamanho da tela o modo `circular` significa "metade do lado menor" — ou
-    // seja, um círculo de várias centenas de pixels que engole o dashboard
-    // inteiro. O dartdoc de `surfaceCornerRadius` diz isso com todas as letras
-    // ("oval — pousa em kSurfaceCircularRadius"); é a mesma correção, aplicada
-    // no lugar onde este app pode aplicá-la.
-    //
-    // O eixo continua valendo: trocar a forma ainda muda este cartão. O que ele
-    // não faz mais é virar uma bolha.
-    contentRadius: BorderRadius.circular(
-      theme.radiusTheme.surfaceCornerRadius(),
-    ),
+  Widget _shell() => AppShell(
     // O rail nasce COLAPSADO, e a razão é aritmética: um rail
     // expandido de 232 px mais o painel de marca de 360 somam 592 px
     // de cromo, e num laptop de 1280 isso deixa a tabela do dashboard

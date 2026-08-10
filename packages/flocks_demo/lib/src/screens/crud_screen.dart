@@ -4,7 +4,6 @@ import 'package:flocks/flocks.dart';
 import 'package:flutter/widgets.dart';
 
 import '../data/demo_data.dart';
-import '../surface_radius.dart';
 
 /// Em que estado a lista está.
 ///
@@ -306,7 +305,6 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) => switch (state) {
     _ListState.loading => const _LoadingList(),
     _ListState.failed => AppCard(
-      radius: demoSurfaceRadius(context),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: AppSpacings.s16),
         child: Column(
@@ -330,7 +328,6 @@ class _Body extends StatelessWidget {
       ),
     ),
     _ListState.empty || _ListState.loaded when rows.isEmpty => AppCard(
-      radius: demoSurfaceRadius(context),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: AppSpacings.s32),
         child: AppListEmpty(
@@ -361,7 +358,6 @@ class _LoadingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AppCard(
-    radius: demoSurfaceRadius(context),
     child: Column(
       children: <Widget>[
         for (int i = 0; i < 5; i++) ...<Widget>[
