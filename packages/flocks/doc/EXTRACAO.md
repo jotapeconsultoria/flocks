@@ -6,9 +6,10 @@ monorepo da Tracked, para o repositório próprio
 [`jotapeconsultoria/flocks`](https://github.com/jotapeconsultoria/flocks), junto
 com `flocks_phosphor` e `flocks_material`.
 
-Falta um passo: **publicar no pub.dev**. Ele é irreversível — lá só existe
-`retract`, não delete — e por isso é passo separado, depois que o repo novo
-estabilizar.
+Faltava um passo, e ele aconteceu em **2026-08-10**: os três estão publicados no
+pub.dev, na `0.1.0`, sob o publisher verificado `jotapeconsultoria.com.br`. Era
+irreversível — lá só existe `retract`, não delete — e por isso foi passo
+separado, depois que o repo novo estabilizou.
 
 ## O estado de hoje
 
@@ -17,8 +18,9 @@ estabilizar.
 | Repositório | Próprio, público, os três pacotes em `packages/` |
 | Resolução | Pub workspace, com o `pubspec.yaml` da raiz |
 | Versão | `0.1.0`, os três em lockstep |
-| `publish_to` | `none` — ainda não publicado |
-| Consumo pelo monorepo | Dependência `git:`, fixada por commit no `pubspec.lock` |
+| `publish_to` | Fora dos três publicáveis; a raiz (workspace) e o `flocks_mcp` mantêm `none` |
+| Publicação | pub.dev, `0.1.0`, publisher `jotapeconsultoria.com.br`, tag `v0.1.0` |
+| Consumo pelo monorepo | Ainda `git:` fixada por commit — migrar para hospedada é o passo seguinte |
 | Licença | MIT em cada pacote, e na raiz |
 | CI | `.github/workflows/ci.yml`, dois jobs (Linux e macOS) |
 
@@ -180,13 +182,35 @@ Only" tornava o pacote impublicável.
   `tool/flocks_component.schema.json`, um schema que nenhum código lê e que por
   isso envelheceria em silêncio.
 
-## O passo que falta
+## O passo que faltava
 
-Publicar. Na ordem:
+✅ **Publicado** — resolvido em 2026-08-10, na ordem que estava planejada:
 
-1. cortar `[Unreleased]` do `CHANGELOG.md` numa seção `[0.1.0]`;
-2. tirar `publish_to: none` dos três pubspecs e o aviso de "not yet published"
-   do README — no mesmo commit, que é o que o `install_docs_test.dart` cobra;
+1. `[Unreleased]` virou `[0.1.0] - 2026-08-05` no `CHANGELOG.md`;
+2. `publish_to: none` saiu dos três pubspecs junto com o aviso de "not yet
+   published" do README, no mesmo commit — que é o que o `install_docs_test.dart`
+   cobra;
 3. `dart pub publish` em cada pacote, o `flocks` primeiro (os adaptadores
-   dependem dele por versão);
-4. migrar os 5 consumidores do monorepo de `git:` para dependência hospedada.
+   dependem dele por versão). Os três foram para o publisher verificado
+   `jotapeconsultoria.com.br` no primeiro publish, de modo que nunca existiu
+   versão sob uploader pessoal. O corte é a tag `v0.1.0`;
+4. ⬜ migrar os 5 consumidores do monorepo de `git:` para dependência hospedada
+   — **ainda pendente**, e acontece no repositório da Tracked, não neste.
+
+**O que quase escapou:** o passo 1 fala do `CHANGELOG.md` no singular porque foi
+escrito quando só o core tinha um. `flocks_phosphor` e `flocks_material` ganharam
+os seus na higiene pré-publicação, e ganharam abrindo em `## [Unreleased]` — o
+mesmo padrão do core. Publicar sem cortá-los teria posto "Unreleased" como
+primeira seção da página dos dois adaptadores no pub.dev, num lançamento cuja
+versão é justamente `0.1.0`. Quando um plano cita um arquivo no singular,
+confira se ele ainda é único na hora de executar.
+
+**A superfície era maior que os READMEs:** o aviso de "não publicado" também
+estava em `site/index.html` e `site/pt/index.html`, que nasceram depois deste
+plano. O `install_docs_test.dart` fiscaliza o README e o pubspec por XOR, então
+ele teria passado verde com o site mentindo. Teste não cobre superfície que não
+existia quando o teste foi escrito.
+
+**Nota sobre o `flocks_mcp`:** ele mantém `publish_to: none` de propósito e não
+está no pub.dev. A distribuição dele é o `.mcpb` anexado ao GitHub Release, e é
+a tag que a arma — outro canal, outra decisão, registrada fora deste documento.
