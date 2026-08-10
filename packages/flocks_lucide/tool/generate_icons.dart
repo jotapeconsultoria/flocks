@@ -137,7 +137,7 @@ String _iconsSource(LucideCatalog catalog) {
     ..writeln(_doc('Os ${_ptNumber(total)} ícones do Lucide.'))
     ..writeln('///')
     ..writeln('/// ```dart')
-    ..writeln('/// const LucideIcon($kClassName.storefront)')
+    ..writeln('/// const LucideIcon($kClassName.store)')
     ..writeln('/// ```')
     ..writeln('///')
     ..writeln(

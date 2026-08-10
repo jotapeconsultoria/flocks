@@ -1,6 +1,6 @@
 # Roadmap — distribuição e adoção
 
-O pacote está maduro: 131 componentes migrados, 21 suítes de arquitetura, 1593
+O pacote está maduro: 131 componentes migrados, 23 suítes de arquitetura, 1625
 testes passando sem os goldens, catálogo bilíngue com gate de frescor. Um
 roadmap que listasse "mais componentes" estaria lendo o problema errado. O que
 falta é **distribuição** (publicar, hospedar, servir) e **adoção** (demo, guia
@@ -15,16 +15,16 @@ Atualizado em 2026-08-10 — o que cada fase mediu está na seção dela.
 | --- | --- |
 | A0 — higiene pré-publicação | ✅ concluída (refs, `since:`, CHANGELOGs, `.pubignore`, contagem) |
 | A1 — o corte e o publish | ✅ **publicado em 2026-08-10**: `flocks`, `flocks_phosphor` e `flocks_material` em 0.1.0 no pub.dev, sob exceção de nome concedida pelo suporte (caso `flock`), os três no publisher verificado `jotapeconsultoria.com.br` desde o primeiro publish. Tag `v0.1.0` na main. No mesmo dia veio a **0.1.1**, com o que a pana cobrou (LICENSE reconhecível, plataformas, `example/`), e a tag `v0.1.1` |
-| A1.1 — o que a pana cobrou | ✅ **publicado em 2026-08-10**: a análise da `0.1.0` voltou com 140/160 e apontou três defeitos — `LICENSE` com texto apensado (licença não reconhecida), `pointer_interceptor` derrubando o suporte de plataforma para 2 de 6, e `if (dart.library.html)` tornando o pacote incompatível com wasm. Os três foram consertados e, junto, os `example/` que faltavam ao `flocks` e ao `flocks_material` (10 pontos cada). A `0.1.1` está no ar nos quatro, com a tag `v0.1.1`. Primeira nota a sair: `flocks_mcp` em **160/160**; os outros três ainda em reanálise, que leva cerca de uma hora e devolve `0/0` enquanto corre. Detalhe e lições em [`EXTRACAO.md`](packages/flocks/doc/EXTRACAO.md) |
+| A1.1 — o que a pana cobrou | ✅ **publicado em 2026-08-10**: a análise da `0.1.0` voltou com 140/160 e apontou três defeitos — `LICENSE` com texto apensado (licença não reconhecida), `pointer_interceptor` derrubando o suporte de plataforma para 2 de 6, e `if (dart.library.html)` tornando o pacote incompatível com wasm. Os três foram consertados e, junto, os `example/` que faltavam ao `flocks` e ao `flocks_material` (10 pontos cada). A `0.1.1` está no ar nos quatro, com a tag `v0.1.1`. A reanálise fechou: **os quatro em 160/160**. A API devolve `0/0` enquanto ela corre — é análise pendente, não nota zero. Detalhe e lições em [`EXTRACAO.md`](packages/flocks/doc/EXTRACAO.md) |
 | A2 — consumidores `git:` → hosted | ✅ concluída (2026-08-10): consumidores de origem resolvem do pub.dev, override de git removido |
 | B — Widgetbook hospedado | ✅ no ar em `widgetbook.flocks.live` (2026-08-06): release de 43 MB com `main.dart.js` de 4,2 MB contra 58 MB do debug; deploy no CI com `needs` nos dois gates e purge; contagem de use cases virou artefato gerado com gate (`doc/widgetbook_use_cases.json`, 295) |
 | Site — landing | ✅ no ar em `flocks.live` com a copy pós-publicação nos dois idiomas (2026-08-10), `/mcp` bilíngue no ar, tudo fiscalizado pelo `install_docs_test`; `/componentes` ainda não existe |
 | C1 — contrato MCP | ✅ definido e documentado no README do `flocks_mcp`: três tools, `lang: en\|pt`, erros como `isError` dentro do resultado |
 | C2 — `flocks_mcp` | ✅ **publicado em 2026-08-10**: no pub.dev sob o publisher verificado `jotapeconsultoria.com.br`, verificado em sessão real de agente, e em **160/160** na pana desde a `0.1.1`. O aviso de não-publicado saiu no mesmo commit que o `publish_to: none`, nas quatro superfícies que o XOR do teste próprio fiscaliza |
 | C3 — distribuição MCP | ✅ **concluída em 2026-08-10**: Release do `flocks_mcp` (4 binários + `.mcpb`, disparado pela tag) e listagem no MCP Registry sob `io.github.jotapeconsultoria/flocks-mcp`, com o `server.json` gerado apontando para o `.mcpb` daquele Release. Republicada na `0.1.1` no mesmo dia — confirmada `isLatest` na API do registry. A `description` teve de cair para 92 caracteres: o registry recusa acima de 100 e o pub.dev não tem esse teto — gate novo em `server_json_test.dart`. As armadilhas do `publish` (o `curl -LO` que não sobrescreve, o `latest` que ainda é a release anterior, o 403 de token sem `read:org`) estão no README do pacote |
-| D — demo | ⬜ **desbloqueada** — o site está no ar em `flocks.live`, a demo pode nascer a qualquer momento. As obrigações do pacote (dashboard + CRUD só de Flocks, `swatchFromSeed` real, export do `AppBrandConfig` — helper novo) valem como spec; o padrão de hospedagem do Widgetbook (app próprio, deployado deste repo) serve de molde |
+| D — demo | ✅ **no ar em 2026-08-10** em `flocks.live/demo/`: pacote `flocks_demo` (membro do workspace, `publish_to: none` — é vitrine, não biblioteca), dashboard e CRUD só de componentes Flocks, estado na URL, logo client-side, e o `toDartSnippet` que escreve a marca em Dart colável. Deployada pelo CI deste repo, sob prefixo próprio da zone do site, com casca semântica indexável. **Pendência**: o snippet emite `flippedSwatch`, que só existe na `[Unreleased]` do `flocks` — enquanto a 0.1.2 não sai, o código exportado não compila contra o pub.dev |
 | E — guia de migração | ⬜ **desbloqueada** — a instalação real que o guia instrui existe desde 2026-08-10 |
-| F — providers de ícone (`flocks_cupertino`, `flocks_lucide`) | ⬜ aprovada em 2026-08-10, licenças verificadas (MIT / ISC); paralela, não fura a fila de D e E |
+| F — providers de ícone (`flocks_cupertino`, `flocks_lucide`) | ✅ **implementados em 2026-08-10**: `flocks_cupertino` no molde do `flocks_material` (glifos do pacote `cupertino_icons`, MIT — **não** os SF Symbols da Apple) e `flocks_lucide` no molde do `flocks_phosphor` (fonte vendorada, ISC, 853.920 → 19.624 bytes com `--tree-shake-icons`). O teste de contrato cruzado cobre os quatro adaptadores. **Pendência**: os dois seguem com `publish_to: none` — falta o primeiro publish |
 
 Os números daqui foram medidos em 2026-08-05, não supostos:
 
@@ -180,8 +180,10 @@ acontecer antes de o MCP nascer do que depois.
 ## Fase D — demo (flocks.live/demo)
 
 A demo aplica a marca do visitante — semente hex e logo, processados
-client-side — a um dashboard e um CRUD completos. A implementação mora no app
-do site; o que é **obrigação deste repo**:
+client-side — a um dashboard e um CRUD completos. A implementação mora **neste
+repo**, no pacote `flocks_demo`, buildada e deployada pelo mesmo CI que serve o
+site e o Widgetbook — o site, que é estático, não tinha app Flutter onde
+hospedá-la. O que o pacote entrega:
 
 - as duas telas compostas exclusivamente de componentes Flocks — leitura densa
   e escrita com formulário, as duas coisas que um design system precisa provar;

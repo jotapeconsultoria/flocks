@@ -29,7 +29,7 @@ import 'lucide_icon.dart';
 /// só o glifo citado:
 ///
 /// ```dart
-/// const LucideIcon(FlocksLucide.storefront)
+/// const LucideIcon(FlocksLucide.store)
 /// ```
 ///
 /// Quando um ícone precisa mesmo chegar por *slug* — porque quem chama é um
@@ -38,7 +38,7 @@ import 'lucide_icon.dart';
 ///
 /// ```dart
 /// const LucideIconProvider(
-///   extraIcons: <String, IconData>{'storefront': FlocksLucide.storefront},
+///   extraIcons: <String, IconData>{'storefront': FlocksLucide.store},
 /// )
 /// ```
 ///

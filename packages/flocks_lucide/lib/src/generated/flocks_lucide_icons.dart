@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 /// Os 2.025 ícones do Lucide.
 ///
 /// ```dart
-/// const LucideIcon(FlocksLucide.storefront)
+/// const LucideIcon(FlocksLucide.store)
 /// ```
 ///
 /// A classe é anotada com `@staticIconProvider`, e é isso que mantém o pacote
