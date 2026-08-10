@@ -18,9 +18,9 @@ novo estabilizou.
 |---|---|
 | Repositório | Próprio, público; os três da extração em `packages/`, mais o `flocks_mcp`, que nasceu aqui |
 | Resolução | Pub workspace, com o `pubspec.yaml` da raiz |
-| Versão | `0.1.1` nos pubspecs, os quatro em lockstep — `0.1.0` é o que está no ar |
+| Versão | `0.1.1`, os quatro em lockstep |
 | `publish_to` | Fora dos pacotes publicáveis; só a raiz (workspace) mantém `none` |
-| Publicação | pub.dev, `0.1.0`, publisher `jotapeconsultoria.com.br`, tag `v0.1.0`. A `0.1.1` está cortada e ainda não publicada |
+| Publicação | pub.dev, `0.1.1`, publisher `jotapeconsultoria.com.br`, tag `v0.1.1`. A `0.1.0` saiu de manhã; a `0.1.1`, no fim do dia, com o que a pana cobrou |
 | Consumo pelo monorepo | Hospedado, `^0.1.0` — a dependência `git:` e o override saíram em 2026-08-10 |
 | Licença | MIT em cada pacote, e na raiz |
 | CI | `.github/workflows/ci.yml`, dois jobs (Linux e macOS) |
