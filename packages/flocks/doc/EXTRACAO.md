@@ -7,20 +7,21 @@ monorepo da Tracked, para o repositório próprio
 com `flocks_phosphor` e `flocks_material`.
 
 Faltava um passo, e ele aconteceu em **2026-08-10**: os três estão publicados no
-pub.dev, na `0.1.0`, sob o publisher verificado `jotapeconsultoria.com.br`. Era
-irreversível — lá só existe `retract`, não delete — e por isso foi passo
-separado, depois que o repo novo estabilizou.
+pub.dev, na `0.1.0`, sob o publisher verificado `jotapeconsultoria.com.br` — e o
+`flocks_mcp`, que nasceu neste repo, no mesmo dia. Era irreversível — lá só
+existe `retract`, não delete — e por isso foi passo separado, depois que o repo
+novo estabilizou.
 
 ## O estado de hoje
 
 | | |
 |---|---|
-| Repositório | Próprio, público, os três pacotes em `packages/` |
+| Repositório | Próprio, público; os três da extração em `packages/`, mais o `flocks_mcp`, que nasceu aqui |
 | Resolução | Pub workspace, com o `pubspec.yaml` da raiz |
-| Versão | `0.1.0`, os três em lockstep |
+| Versão | `0.1.1` nos pubspecs, os quatro em lockstep — `0.1.0` é o que está no ar |
 | `publish_to` | Fora dos pacotes publicáveis; só a raiz (workspace) mantém `none` |
-| Publicação | pub.dev, `0.1.0`, publisher `jotapeconsultoria.com.br`, tag `v0.1.0` |
-| Consumo pelo monorepo | Ainda `git:` fixada por commit — migrar para hospedada é o passo seguinte |
+| Publicação | pub.dev, `0.1.0`, publisher `jotapeconsultoria.com.br`, tag `v0.1.0`. A `0.1.1` está cortada e ainda não publicada |
+| Consumo pelo monorepo | Hospedado, `^0.1.0` — a dependência `git:` e o override saíram em 2026-08-10 |
 | Licença | MIT em cada pacote, e na raiz |
 | CI | `.github/workflows/ci.yml`, dois jobs (Linux e macOS) |
 
@@ -59,14 +60,15 @@ Medido em 2026-08-05, o que o `pub` faz de fato:
 
 Ou seja: ela só atrapalha `pub get` rodado dentro do pacote quando não há raiz
 de workspace acima — e aqui há. É justamente ela que faz os adaptadores
-resolverem `flocks` no membro local enquanto o pacote não está no pub.dev.
-Tirá-la quebra o `pub get` da raiz; publicar não depende dela em nada.
+resolverem `flocks` no membro local, e não na versão publicada, enquanto se
+trabalha neles. Tirá-la quebra o `pub get` da raiz; publicar não depende dela
+em nada.
 
 Consequência: o quarto caso do `install_docs_test.dart`, que exigia
 `resolution: workspace` e `publish_to: none` andando juntos, **foi apagado**. A
 premissa só valia enquanto o pacote morava no workspace de outro projeto, e ele
 reprovaria o estado intermediário — extraído, não publicado, consumido por
-`git:` — que é exatamente o plano. Os outros três casos continuam de pé e
+`git:` — que foi exatamente o plano entre 05/08 e 10/08. Os outros três casos continuam de pé e
 guardam o risco real: README e pubspec não podem se contradizer sobre como
 instalar.
 
@@ -87,18 +89,21 @@ migração, anteriores a qualquer publicação. A régua deles ia de `0.1.0` a
 `1.5.0` enquanto o pubspec dizia `1.0.0` — já não concordavam antes da
 extração. O campo saiu (ver a dívida abaixo).
 
-### 5. Transição por dependência `git:`
+### 5. Transição por dependência `git:` — encerrada em 2026-08-10
 
-Os 5 consumidores do monorepo (`tracked_shared_pkg` e os 4 apps) apontam para o
-repo novo por `git:` até a publicação.
+Enquanto durou, os 5 consumidores do monorepo (`tracked_shared_pkg` e os 4 apps)
+apontaram para o repo novo por `git:`. Hoje resolvem `^0.1.0` do pub.dev, e o
+`dependency_overrides` da raiz de lá foi apagado — publicar era, por definição,
+apagar o override.
 
-Isto substitui o plano anterior de `pubspec_overrides.yaml` apontando para um
+Isto substituiu o plano anterior de `pubspec_overrides.yaml` apontando para um
 checkout local, que exigiria de cada máquina e de cada runner de CI ter o repo
-clonado ao lado, no caminho certo. A dependência `git:` não exige nada disso.
+clonado ao lado, no caminho certo. A dependência `git:` não exigia nada disso.
 
-**Fricção conhecida, e é o que dá prazo à publicação:** `git:` fixa um commit no
-`pubspec.lock`, então atualizar o Flocks passa a exigir bump de ref no monorepo.
-Tolerável como transição, ruim como permanente.
+**A fricção era o que dava prazo à publicação:** `git:` fixa um commit no
+`pubspec.lock`, então atualizar o Flocks passava a exigir bump de ref no
+monorepo. Tolerável como transição, ruim como permanente — e foi por isso que a
+transição teve prazo.
 
 ## CI
 
@@ -232,8 +237,9 @@ seja 160/160 na escala do pub.dev.
    dependem dele por versão). Os três foram para o publisher verificado
    `jotapeconsultoria.com.br` no primeiro publish, de modo que nunca existiu
    versão sob uploader pessoal. O corte é a tag `v0.1.0`;
-4. ⬜ migrar os 5 consumidores do monorepo de `git:` para dependência hospedada
-   — **ainda pendente**, e acontece no repositório da Tracked, não neste.
+4. ✅ os consumidores do monorepo migraram de `git:` para dependência hospedada,
+   e o `dependency_overrides` da raiz de lá foi apagado — publicar era, por
+   definição, apagar o override. Aconteceu no repositório da Tracked, não neste.
 
 **O que quase escapou:** o passo 1 fala do `CHANGELOG.md` no singular porque foi
 escrito quando só o core tinha um. `flocks_phosphor` e `flocks_material` ganharam
