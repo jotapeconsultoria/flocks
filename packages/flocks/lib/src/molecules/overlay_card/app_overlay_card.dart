@@ -1,9 +1,16 @@
 import 'package:flutter/widgets.dart';
-import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 import '../../atoms/glass/app_glass_surface.dart';
 import '../../theme/theme.dart';
 import '../../tokens/tokens.dart';
+// A condição é `dart.library.js_interop`, e NÃO `dart.library.html`: as duas
+// valem no dart2js, mas `dart:html` não existe no dart2wasm. Com o predicado
+// antigo, todo `flutter build web --wasm` cairia no stub e a interceptação
+// sumiria em silêncio — o pior tipo de regressão, porque nenhum teste deste
+// repositório roda no browser.
+import '../../foundation/pointer/pointer_interceptor_stub.dart'
+    if (dart.library.js_interop) '../../foundation/pointer/pointer_interceptor_web.dart'
+    as pointer;
 
 /// Card flutuante com [child] livre, que **intercepta o ponteiro** (bloqueia
 /// cliques de vazarem para uma *platform view* embaixo, ex.: um mapa no web).
@@ -13,8 +20,9 @@ import '../../tokens/tokens.dart';
 /// [accentColor] destaca a borda (no modo `outlined`). Todas as cores vêm do
 /// tema → adapta a claro/escuro e às marcas.
 ///
-/// Diferente do [AppCard], este embrulha o conteúdo num `PointerInterceptor` —
-/// use-o quando o card flutua sobre um mapa/vídeo e o clique não pode vazar.
+/// Diferente do [AppCard], este embrulha o conteúdo na interceptação de
+/// ponteiro — use-o quando o card flutua sobre um mapa/vídeo e o clique não
+/// pode vazar. A interceptação é real no web e passa-direto fora dele.
 final class AppOverlayCard extends StatelessWidget {
   /// Cria um [AppOverlayCard].
   const AppOverlayCard({
@@ -71,11 +79,13 @@ final class AppOverlayCard extends StatelessWidget {
     final EdgeInsetsGeometry pad =
         padding ?? const EdgeInsets.all(AppSpacings.s16);
 
-    // O `PointerInterceptor` fica SEMPRE mais externo: cobre o rect visível do
-    // card e bloqueia o clique de vazar para a platform view (mapa) embaixo — o
-    // `BackdropFilter`/`RepaintBoundary` do vidro moram dentro dele.
-    return PointerInterceptor(
-      child: glassOn
+    // A interceptação fica SEMPRE mais externa: cobre o rect visível do card e
+    // bloqueia o clique de vazar para a platform view (mapa) embaixo — o
+    // `BackdropFilter`/`RepaintBoundary` do vidro moram dentro dela. No web é um
+    // `<div>` vazio montado atrás do conteúdo; fora do web devolve o filho
+    // intocado, e é por isso que os goldens (que rodam na VM) não se mexem.
+    return pointer.interceptPointer(
+      glassOn
           ? AppGlassSurface(borderRadius: br, padding: pad, child: child)
           : DecoratedBox(
               decoration: styleBoxDecoration(

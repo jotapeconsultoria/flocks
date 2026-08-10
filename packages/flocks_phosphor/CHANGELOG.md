@@ -10,6 +10,21 @@ follows [SemVer](https://semver.org/).
 > because nothing was released. The public line starts at `0.1.0`, next to the
 > core; the `flocks` CHANGELOG explains why `0.x`.
 
+## [0.1.1] - 2026-08-10
+
+### Fixed
+
+- **A licença volta a ser reconhecida.** O `LICENSE` trazia o MIT verbatim
+  seguido de um bloco de notas sobre os assets do Phosphor, e o
+  `license_detector` casa o arquivo INTEIRO contra o corpus SPDX — o texto
+  apensado derrubava a confiança e o pub.dev reportava "No license was
+  recognized". O arquivo passa a ser exatamente o texto SPDX; as notas de
+  origem estão no README, e as licenças dos dois repositórios continuam
+  viajando em `assets/fonts/`, onde sempre estiveram.
+- **Suporte de plataforma (2 → 6) e compatibilidade com wasm**, herdados do
+  `flocks` 0.1.1: este pacote nunca teve nada de web em `lib/`, mas carregava
+  os dois defeitos do core pela dependência. Ver o CHANGELOG do `flocks`.
+
 ## [0.1.0] - 2026-08-05
 
 ### Added

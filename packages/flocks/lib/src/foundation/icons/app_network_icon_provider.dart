@@ -3,8 +3,17 @@ import 'package:flutter/widgets.dart';
 import '../../theme/theme.dart';
 import 'app_icon_provider.dart';
 import 'icon_error_placeholder.dart';
-import 'network_icon_loader_io.dart'
-    if (dart.library.html) 'network_icon_loader_web.dart'
+// O ramo DEFAULT é o web, e `dart:io` é o que se ESCOLHE — o inverso do que
+// estava aqui. `dart.library.html` era o predicado errado: `dart:html` não
+// existe no dart2wasm, então todo build `--wasm` caía no default de então
+// (`network_icon_loader_io.dart`) e arrastava `dart:io` para um alvo que não o
+// tem. Era o que tornava o pacote inteiro "not compatible with runtime wasm" no
+// pub.dev, e o que quebraria um app em wasm em runtime.
+//
+// `dart.library.io` é verdadeiro na VM e falso nos DOIS backends web (dart2js e
+// dart2wasm), então cada alvo passa a receber o loader que sempre foi o dele.
+import 'network_icon_loader_web.dart'
+    if (dart.library.io) 'network_icon_loader_io.dart'
     as loader;
 
 /// Busca o SVG num CDN, com cache em disco no nativo e cache do browser na web.

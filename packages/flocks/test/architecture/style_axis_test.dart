@@ -19,7 +19,11 @@ const Map<String, String> kStyleAxisNotAContainer = <String, String>{
   // `atoms/icons` saiu daqui: o placeholder de erro foi para
   // `foundation/icons/`, junto com o carregamento, quando o ícone virou eixo.
   // O `AppIcon` não pinta mais caixa nenhuma — só delega ao provider.
-  'atoms/illustrations': 'placeholder de asset que falhou ao carregar',
+  // `atoms/illustrations` saiu daqui na 0.1.1: o placeholder de erro morava no
+  // par `app_illustration_{io,web}.dart`, que era código MORTO — nada os
+  // importava e o barril não os exportava. Eles foram apagados junto com a
+  // correção de wasm (o `_io` carregava um `dart:io`), e com eles saiu a última
+  // pintura da pasta. Os providers vivos estão em `foundation/illustrations/`.
   'atoms/loadings': 'barrier do overlay e faixa do shimmer',
   'atoms/swatch': 'amostra de cor — a cor É o conteúdo, não um tratamento',
   'molecules/breadcrumb': 'véu de hover e anel de foco (estado, não container)',

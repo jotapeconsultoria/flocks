@@ -17,6 +17,66 @@ follows [SemVer](https://semver.org/).
 > surprise. It graduates to `1.0.0` once the API holds still through a few
 > outside adopters.
 
+## [0.1.1] - 2026-08-10
+
+Três defeitos que só a análise do pub.dev revelou, no dia seguinte à
+publicação. Nenhum deles se conserta na `0.1.0`: lá o tarball é imutável.
+
+### Fixed
+
+- **A licença volta a ser reconhecida.** O `LICENSE` trazia o MIT verbatim
+  seguido de um bloco de notas sobre assets de terceiros, e o
+  `license_detector` casa o arquivo INTEIRO contra o corpus SPDX — o texto
+  apensado derrubava a confiança abaixo do limiar e o pub.dev reportava "No
+  license was recognized", 0 de 10 pontos. O arquivo passa a ser exatamente o
+  texto SPDX. As notas de terceiros continuam no README, e as obrigações
+  legais sempre estiveram cumpridas pelos textos que viajam ao lado de cada
+  asset (`OFL.txt`, `assets/icons/LICENSE`).
+- **O pacote compila em WebAssembly.** `app_network_icon_provider.dart`
+  escolhia o ramo do loader de ícones com `if (dart.library.html)`, e
+  `dart:html` não existe no dart2wasm: todo build `--wasm` caía no ramo
+  default e arrastava `dart:io` (via `flutter_cache_manager`) para um alvo que
+  não o tem. A condição virou `if (dart.library.io)`, que é verdadeira na VM e
+  falsa nos dois backends web. Não era só nota: um app em wasm quebrava.
+- **Suporte de plataforma volta a 6 de 6.** Ver abaixo.
+
+### Changed
+
+- **A interceptação de ponteiro passou a morar no pacote**, em
+  `src/foundation/pointer/`, e a dependência `pointer_interceptor` saiu. Ela
+  era um plugin federado que endossa só `web` e `ios`, e o pana intersecta as
+  plataformas de todo o fecho de dependências: aquela única linha rebaixava o
+  `flocks` — e por herança o `flocks_phosphor` e o `flocks_material` — a
+  "Supports 2 of 6 platforms (iOS, Web)" na página do pub.dev, num design
+  system que roda em toda parte. Import condicional não resolveria: o pana lê
+  o pubspec, não o grafo de imports.
+
+  No web o comportamento é o mesmo, pelo mesmo mecanismo (um `<div>` vazio
+  montado atrás do conteúdo, agora sobre `dart:js_interop` + `package:web`, e
+  portanto wasm-compatível). **O que se perdeu foi a interceptação no iOS**:
+  ela dependia de um `UIView` nativo, e código nativo é justamente o que um
+  pacote Dart puro não pode carregar sem virar plugin — que é o problema que
+  se estava resolvendo. Um app iOS que precise disso pode declarar
+  `pointer_interceptor` por conta própria e embrulhar o `AppOverlayCard`.
+
+  A API pública de `AppOverlayCard` não mudou: mesmos parâmetros, mesmo nome,
+  mesmos pixels (os 4 goldens não se mexeram).
+
+### Added
+
+- **`example/`** — a tese do pacote numa tela só: uma semente de cor e os eixos
+  globais alternáveis ao vivo, com o card e os botões restilizando juntos. O
+  pacote não tinha exemplo, o que custava 10 pontos na análise do pub.dev
+  (`0/10 Package has an example`) e, pior, obrigava quem chegava a montar o
+  primeiro `runApp` por tentativa.
+
+### Removed
+
+- `lib/src/atoms/illustrations/app_illustration_{io,web}.dart` — código morto
+  desde que os providers de ilustração foram para `foundation/illustrations/`:
+  nada os importava e o barril não os exportava. O `_io` carregava o segundo
+  `dart:io` do pacote.
+
 ## [0.1.0] - 2026-08-05
 
 ### Added

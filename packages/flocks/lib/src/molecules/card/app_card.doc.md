@@ -39,10 +39,10 @@ floating panels.
 
 ## Pointer interception
 
-It does not embed a `PointerInterceptor`. If the card floats over a *platform
-view* (a map on the web, say) and clicks must not leak, the **caller** wraps it
-in the interceptor — that is not a design primitive's job (it keeps `flocks` free
-of the web dependency).
+It does not intercept the pointer. If the card floats over a *platform view* (a
+map on the web, say) and clicks must not leak, reach for `AppOverlayCard`, which
+is this card plus the interception — a primitive should not pay for a mechanism
+most of its uses never need.
 
 ## Accessibility (Rule 8)
 

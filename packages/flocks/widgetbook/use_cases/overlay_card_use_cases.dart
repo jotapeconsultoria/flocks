@@ -6,7 +6,7 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 import 'wb_helpers.dart';
 
 // ---------------------------------------------------------------------------
-// AppOverlayCard — card flutuante com PointerInterceptor.
+// AppOverlayCard — card flutuante que intercepta o ponteiro.
 // ---------------------------------------------------------------------------
 
 @widgetbook.UseCase(name: 'Playground', type: AppOverlayCard)

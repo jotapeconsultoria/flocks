@@ -13,12 +13,12 @@ const AppComponentMeta appOverlayCardMeta = AppComponentMeta(
         'mapas).',
   ),
   description: LocalizedText(
-    en: 'Like AppCard, but it wraps the content in a PointerInterceptor — it stops clicks from leaking to a platform view underneath (e.g. a map on the web). A surfaceContainer surface on the AppStyle (elevated by default) and AppRadiusMode axes; colors 100% from the theme.',
+    en: 'Like AppCard, but it wraps the content in pointer interception — it stops clicks from leaking to a platform view underneath (e.g. a map on the web). A surfaceContainer surface on the AppStyle (elevated by default) and AppRadiusMode axes; colors 100% from the theme.',
     pt:
-        'Como o AppCard, mas embrulha o conteúdo num PointerInterceptor — bloqueia '
-        'cliques de vazarem para uma platform view embaixo (ex.: mapa no web). '
-        'Superfície surfaceContainer nos eixos AppStyle (default elevated) e '
-        'AppRadiusMode; cores 100% do tema.',
+        'Como o AppCard, mas embrulha o conteúdo na interceptação de ponteiro — '
+        'bloqueia cliques de vazarem para uma platform view embaixo (ex.: mapa '
+        'no web). Superfície surfaceContainer nos eixos AppStyle (default '
+        'elevated) e AppRadiusMode; cores 100% do tema.',
   ),
   whenToUse: LocalizedList(
     en: <String>[
