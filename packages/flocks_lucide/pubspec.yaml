@@ -1,0 +1,49 @@
+name: flocks_lucide
+description: "Lucide Icons para o Flocks: os ícones em fonte, com tree-shaking, num peso só."
+# Em lockstep com o core, como os outros adaptadores: o contrato
+# (`AppIconProvider`) mora lá, e um adaptador numa linha própria só criaria
+# matriz de compatibilidade para manter. A linha pública deste pacote começa em
+# 0.1.0 porque ele nunca foi publicado — o `flocks` já está em 0.1.1.
+version: 0.1.0
+# Sai no dia da primeira publicação, junto com o aviso do README. O
+# `test/install_docs_test.dart` cobra que os dois andem juntos.
+publish_to: none
+
+repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks_lucide
+homepage: https://flocks.live
+issue_tracker: https://github.com/jotapeconsultoria/flocks/issues
+
+resolution: workspace
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.44.0"
+
+dependencies:
+  flocks: ^0.1.0
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  # Só `tool/` e `test/` a usam, para conferir o digest do que foi vendorizado.
+  # Como dev, ela não entra no bundle de quem instala o pacote.
+  crypto: ^3.0.6
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  # Uma TTF, ~834 KB, de `lucide-static` numa versão fixada (ver
+  # `tool/lucide_catalog.dart`). Fonte, e não SVG, pela mesma razão do
+  # `flocks_phosphor`: o Flutter NÃO faz tree-shaking de asset — todo SVG
+  # declarado aqui iria inteiro para o bundle de quem instalasse o pacote,
+  # usasse ele vinte ícones ou mil. Fonte ele SABE podar: o `--tree-shake-icons`
+  # lê os `IconData` constantes do app e remonta a TTF só com os glifos citados.
+  #
+  # Um peso só: o Lucide é desenhado em stroke, e a espessura é propriedade do
+  # SVG, não uma família à parte. Não há a matriz de seis do Phosphor a
+  # replicar.
+  fonts:
+    - family: Lucide
+      fonts:
+        - asset: assets/fonts/lucide.ttf

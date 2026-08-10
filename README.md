@@ -4,15 +4,18 @@ A Flutter design system built on `widgets.dart` — no Material, no Cupertino.
 
 [flocks.live](https://flocks.live)
 
-All four packages are published on pub.dev under the
+Four of the six packages are published on pub.dev under the
 [jotapeconsultoria.com.br](https://pub.dev/publishers/jotapeconsultoria.com.br)
-verified publisher.
+verified publisher. The two newest icon adapters are not yet published —
+publishing them is a move of its own.
 
 | Package | What it is |
 |---|---|
 | [`flocks`](packages/flocks) · [pub.dev](https://pub.dev/packages/flocks) | The design system: tokens, theme, white-label brand, and the components. |
 | [`flocks_phosphor`](packages/flocks_phosphor) · [pub.dev](https://pub.dev/packages/flocks_phosphor) | [Phosphor Icons](https://phosphoricons.com) as an `AppIconProvider` — six weights, shipped as fonts so the tree-shaker can prune them. |
 | [`flocks_material`](packages/flocks_material) · [pub.dev](https://pub.dev/packages/flocks_material) | Material Design icons as an `AppIconProvider`. The reference implementation of the axis. |
+| [`flocks_cupertino`](packages/flocks_cupertino) · *not yet published* | The [`cupertino_icons`](https://pub.dev/packages/cupertino_icons) glyphs as an `AppIconProvider` — the iOS visual vocabulary, under MIT. Not Apple's SF Symbols. |
+| [`flocks_lucide`](packages/flocks_lucide) · *not yet published* | [Lucide](https://lucide.dev) as an `AppIconProvider` — one stroke weight, shipped as a font so the tree-shaker can prune it. |
 | [`flocks_mcp`](packages/flocks_mcp) · [pub.dev](https://pub.dev/packages/flocks_mcp) | The component catalog served to agents over MCP. Also on the [MCP Registry](https://registry.modelcontextprotocol.io) and as an `.mcpb` bundle in each [release](https://github.com/jotapeconsultoria/flocks/releases/latest). |
 
 No version numbers in that table on purpose: nothing here gates a hand-written

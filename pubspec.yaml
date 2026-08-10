@@ -34,6 +34,8 @@ environment:
 workspace:
   - packages/flocks
   - packages/flocks/example
+  - packages/flocks_cupertino
+  - packages/flocks_cupertino/example
   # A demo de white-label (ROADMAP, Fase D). Entra aqui pelas mesmas duas razões
   # dos `example/`: ela depende do `flocks` e precisa compilar contra ESTE
   # checkout, senão a vitrine que vende o pacote poderia passar verde usando uma
@@ -45,6 +47,8 @@ workspace:
   # Não tem `example/` próprio: ela É o exemplo, e `publish_to: none` a mantém
   # fora do pub.dev.
   - packages/flocks_demo
+  - packages/flocks_lucide
+  - packages/flocks_lucide/example
   - packages/flocks_material
   - packages/flocks_material/example
   - packages/flocks_mcp
