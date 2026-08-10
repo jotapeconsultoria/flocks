@@ -9,21 +9,9 @@ source rather than translated.
 dart pub global activate flocks_mcp
 ```
 
-> The package is **not yet published** on pub.dev — that is the decided
-> destination, and it goes out after `flocks` itself, because the core's
-> `0.1.0` is what settles the catalog schema this server embeds. Until then the
-> line above does not resolve, and the way in is a git activation:
->
-> ```bash
-> dart pub global activate --source git https://github.com/jotapeconsultoria/flocks.git --git-path packages/flocks_mcp
-> ```
->
-> `test/install_docs_test.dart` requires this notice to leave on the same day
-> `publish_to: none` does.
-
 Then register it with your client — see [Installation](#installation). Or skip
 the Dart SDK entirely: the [`.mcpb` bundle](#installation) installs into Claude
-Desktop with two clicks, today, and does not wait on pub.dev.
+Desktop with two clicks, and needs neither the Dart toolchain nor pub.dev.
 
 ## Why it exists
 
@@ -168,8 +156,8 @@ from the latest release and open it with Claude Desktop — double-click, or
 Settings → Extensions → Advanced settings → Install Extension… The bundle
 carries native executables for macOS (arm64 and x64), Linux (x64) and Windows
 (x64) and selects the right one at launch; no Dart SDK is involved, and no
-pub.dev either, so this is the install path that does not wait on publication.
-Every release publishes the bundle's SHA-256 next to the file —
+pub.dev either, so this is the install path for a machine without the Dart
+toolchain. Every release publishes the bundle's SHA-256 next to the file —
 `shasum -a 256 -c flocks-mcp.mcpb.sha256` verifies the download.
 
 On macOS the executable inside the bundle is ad-hoc signed, not notarized. The
@@ -207,7 +195,8 @@ claude mcp add flocks -- flocks_mcp
 }
 ```
 
-Before publication, point `command` at the checkout instead:
+To run a change that is not released yet, point `command` at a checkout
+instead:
 
 ```json
 {

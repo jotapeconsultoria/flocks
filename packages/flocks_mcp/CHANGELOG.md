@@ -4,15 +4,14 @@ Every relevant change to this package. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the numbering
 follows [SemVer](https://semver.org/).
 
-> **On the numbering.** Nothing here has ever been published, and this package
-> moves in lockstep with `flocks`: what it serves *is* the `flocks` component
-> catalog, and a version line of its own would only create a compatibility
-> matrix between server and catalog. The public line starts at `0.1.0`, next to
-> the core; the `flocks` CHANGELOG explains why `0.x`. It publishes *after*
-> `flocks`, because the core's `0.1.0` is what settles the catalog schema this
-> package embeds.
+> **On the numbering.** This package moves in lockstep with `flocks`: what it
+> serves *is* the `flocks` component catalog, and a version line of its own
+> would only create a compatibility matrix between server and catalog. The
+> public line starts at `0.1.0`, next to the core; the `flocks` CHANGELOG
+> explains why `0.x`. It published *after* `flocks`, because the core's `0.1.0`
+> is what settles the catalog schema this package embeds.
 
-## [Unreleased]
+## [0.1.0] - 2026-08-10
 
 ### Added
 
@@ -38,5 +37,5 @@ follows [SemVer](https://semver.org/).
   Desktop with two clicks and no Dart SDK. The manifest is generated from the
   pubspec (`tool/generate_mcpb_manifest.dart`, gated by
   `test/mcpb_manifest_test.dart`), and the release also attaches a generated
-  `server.json`, ready for a deliberate — not yet performed — MCP Registry
-  publication under `io.github.jotapeconsultoria/flocks-mcp`.
+  `server.json`, ready for a deliberate MCP Registry publication under
+  `io.github.jotapeconsultoria/flocks-mcp`.

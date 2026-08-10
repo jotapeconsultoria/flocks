@@ -18,7 +18,7 @@ separado, depois que o repo novo estabilizou.
 | Repositório | Próprio, público, os três pacotes em `packages/` |
 | Resolução | Pub workspace, com o `pubspec.yaml` da raiz |
 | Versão | `0.1.0`, os três em lockstep |
-| `publish_to` | Fora dos três publicáveis; a raiz (workspace) e o `flocks_mcp` mantêm `none` |
+| `publish_to` | Fora dos pacotes publicáveis; só a raiz (workspace) mantém `none` |
 | Publicação | pub.dev, `0.1.0`, publisher `jotapeconsultoria.com.br`, tag `v0.1.0` |
 | Consumo pelo monorepo | Ainda `git:` fixada por commit — migrar para hospedada é o passo seguinte |
 | Licença | MIT em cada pacote, e na raiz |
@@ -211,6 +211,8 @@ plano. O `install_docs_test.dart` fiscaliza o README e o pubspec por XOR, então
 ele teria passado verde com o site mentindo. Teste não cobre superfície que não
 existia quando o teste foi escrito.
 
-**Nota sobre o `flocks_mcp`:** ele mantém `publish_to: none` de propósito e não
-está no pub.dev. A distribuição dele é o `.mcpb` anexado ao GitHub Release, e é
-a tag que a arma — outro canal, outra decisão, registrada fora deste documento.
+**Nota sobre o `flocks_mcp`:** ele ficou de fora deste corte de propósito e
+publicou depois, quando a 0.1.0 do core já tinha estabilizado o schema do
+catálogo que ele embarca. E o pub.dev não é o único canal dele: o `.mcpb`
+anexado ao GitHub Release é a outra via, armada pela tag — outro canal, outra
+decisão, registrada fora deste documento.

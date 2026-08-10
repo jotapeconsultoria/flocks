@@ -5,10 +5,9 @@ description: "Servidor MCP do Flocks — serve o catálogo de 131 componentes (p
 # compatibilidade entre servidor e catálogo. Ver a justificativa do 0.x no
 # pubspec do `flocks`.
 #
-# Publica DEPOIS do `flocks` (ROADMAP, Fase C2): a 0.1.0 do core é o que
-# estabiliza o schema do catálogo que este pacote embarca.
+# Publicou DEPOIS do `flocks` (ROADMAP, Fase C2): a 0.1.0 do core é o que
+# estabilizou o schema do catálogo que este pacote embarca.
 version: 0.1.0
-publish_to: none
 
 repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks_mcp
 homepage: https://flocks.live
