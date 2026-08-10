@@ -1,6 +1,6 @@
 # Roadmap — distribuição e adoção
 
-O pacote está maduro: 131 componentes migrados, 20 suítes de arquitetura, 1585
+O pacote está maduro: 131 componentes migrados, 21 suítes de arquitetura, 1593
 testes passando sem os goldens, catálogo bilíngue com gate de frescor. Um
 roadmap que listasse "mais componentes" estaria lendo o problema errado. O que
 falta é **distribuição** (publicar, hospedar, servir) e **adoção** (demo, guia
@@ -24,6 +24,7 @@ Atualizado em 2026-08-10 — o que cada fase mediu está na seção dela.
 | C3 — distribuição MCP | ✅ **concluída em 2026-08-10**: Release `flocks_mcp v0.1.0` (4 binários + `.mcpb`, disparado pela tag) e listagem no MCP Registry sob `io.github.jotapeconsultoria/flocks-mcp`, com o `server.json` gerado apontando para o `.mcpb` daquele Release. A `description` teve de cair para 92 caracteres: o registry recusa acima de 100 e o pub.dev não tem esse teto — gate novo em `server_json_test.dart` |
 | D — demo | ⬜ **desbloqueada** — o site está no ar em `flocks.live`, a demo pode nascer a qualquer momento. As obrigações do pacote (dashboard + CRUD só de Flocks, `swatchFromSeed` real, export do `AppBrandConfig` — helper novo) valem como spec; o padrão de hospedagem do Widgetbook (app próprio, deployado deste repo) serve de molde |
 | E — guia de migração | ⬜ **desbloqueada** — a instalação real que o guia instrui existe desde 2026-08-10 |
+| F — providers de ícone (`flocks_cupertino`, `flocks_lucide`) | ⬜ aprovada em 2026-08-10, licenças verificadas (MIT / ISC); paralela, não fura a fila de D e E |
 
 Os números daqui foram medidos em 2026-08-05, não supostos:
 
@@ -201,6 +202,27 @@ gates de arquitetura que o adotante cola no repo dele — a parte que nenhum
 outro design system entrega. Depende da publicação, porque o guia instrui
 instalação real.
 
+## Fase F — mais dois providers de ícone
+
+O contrato `AppIconProvider` foi desenhado para pluralidade, e o teste de
+contrato cruzado absorve adaptadores novos de graça. Dois entram na fila,
+cada um copiando um molde que já existe no repo:
+
+- **`flocks_cupertino`** (molde `flocks_material`): adapter fino sobre o
+  pacote `cupertino_icons` — **MIT, verificado em 2026-08-10**. Precisão
+  obrigatória na prosa: são os ícones do pacote MIT, **não** os SF Symbols
+  da Apple, que não podem ser redistribuídos.
+- **`flocks_lucide`** (molde `flocks_phosphor`): release pinada do Lucide
+  vendorada SVG→fonte — **ISC, verificado em 2026-08-10**, sem cláusula
+  contra redistribuição em pacote (a armadilha que eliminou unDraw e
+  Streamline). Um peso só (stroke), sem a matrix de 6 do phosphor.
+
+Um `flocks_cupertino` ao lado do `flocks_material` não contradiz a tese do
+zero-Material/Cupertino **no core** — ele a prova: o eixo de ícone é plural
+de verdade. E cada adaptador é uma porta de descoberta no pub.dev. Restrição
+de fila: trabalho paralelo e barato, mas **não fura a prioridade de D e E**,
+que são os motores de adoção.
+
 ## Ordem e dependências
 
 ```
@@ -210,6 +232,7 @@ C1 (contrato MCP)            paralelo, barato, antes de C2
 D (demo)                     desbloqueada — o site está no ar; o helper de
                              export do AppBrandConfig entra junto
 E (guia)                     depende de A
+F (icon providers)           paralela e barata; atrás de D e E em prioridade
 ```
 
 ## O que este roadmap não cobre
