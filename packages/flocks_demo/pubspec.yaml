@@ -1,0 +1,44 @@
+# A demo de white-label do Flocks — o app que roda em flocks.live/demo/.
+#
+# `publish_to: none` porque isto é uma vitrine, não uma biblioteca: o que se
+# publica no pub.dev é o `flocks`, e a demo existe para vendê-lo.
+#
+# Sobre as dependências: são três, e a lista curta é um requisito, não um
+# acaso. A demo demonstra que o Flocks funciona OFFLINE, então ela mesma não
+# pode ter cliente HTTP — `test/architecture_test.dart` reprova o pubspec que
+# declarar um. É esse mesmo teste que sustenta a promessa de que o logo do
+# visitante nunca sai da aba dele.
+name: flocks_demo
+description: "Demo de white-label do Flocks: a marca do visitante aplicada a um dashboard e um CRUD, client-side."
+version: 1.0.0
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.44.0"
+
+dependencies:
+  flocks: ^0.1.0
+  flutter:
+    sdk: flutter
+  # O logo do visitante é renderizado dos BYTES, sem URL nenhuma (nem `blob:`).
+  # Para raster isso é o `Image.memory` do próprio `widgets.dart`; para SVG é o
+  # `SvgPicture.memory` daqui. O `flocks` já depende deste pacote — declarar
+  # direto é o que o `depend_on_referenced_packages` pede de quem o importa.
+  flutter_svg: ^2.2.3
+  # Bindings de DOM sobre `dart:js_interop`, usadas SÓ pelo ramo web de
+  # `src/state/browser_web.dart` — reescrever a query da URL e abrir o seletor
+  # de arquivo. Mesma faixa que o `flocks` declara, pelo mesmo motivo: é Dart
+  # puro, sem seção `flutter:` no pubspec, então não impõe teto de plataforma.
+  #
+  # Não é um cliente HTTP e não abre um: o `architecture_test` deste pacote
+  # confere a lista inteira de dependências, e esta é a única que chega perto do
+  # navegador.
+  web: ">=0.5.1 <2.0.0"
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter

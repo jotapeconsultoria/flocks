@@ -34,6 +34,17 @@ environment:
 workspace:
   - packages/flocks
   - packages/flocks/example
+  # A demo de white-label (ROADMAP, Fase D). Entra aqui pelas mesmas duas razões
+  # dos `example/`: ela depende do `flocks` e precisa compilar contra ESTE
+  # checkout, senão a vitrine que vende o pacote poderia passar verde usando uma
+  # API que a branch acabou de mudar. E é a membresia que a põe no alcance do
+  # `dart analyze` e do `dart format` da raiz — o que importa mais aqui do que
+  # nos outros membros, porque é o `analyze` que prova que o snippet exportado
+  # compila.
+  #
+  # Não tem `example/` próprio: ela É o exemplo, e `publish_to: none` a mantém
+  # fora do pub.dev.
+  - packages/flocks_demo
   - packages/flocks_material
   - packages/flocks_material/example
   - packages/flocks_mcp
