@@ -1,0 +1,34 @@
+name: flocks_cupertino
+description: "Ícones do cupertino_icons como AppIconProvider do Flocks — o vocabulário visual do iOS, sob MIT."
+# Em lockstep com o core, como os outros adaptadores: o contrato
+# (`AppIconProvider`) mora lá, e um adaptador numa linha própria só criaria
+# matriz de compatibilidade para manter. A linha pública deste pacote começa em
+# 0.1.0 porque ele nunca foi publicado — o `flocks` já está em 0.1.1.
+version: 0.1.0
+# Sai no dia da primeira publicação, junto com o aviso do README. O
+# `test/install_docs_test.dart` cobra que os dois andem juntos.
+publish_to: none
+
+repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks_cupertino
+homepage: https://flocks.live
+issue_tracker: https://github.com/jotapeconsultoria/flocks/issues
+
+resolution: workspace
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.44.0"
+
+dependencies:
+  # Os glifos vêm daqui, e não do Flutter: a fonte `CupertinoIcons.ttf` é
+  # declarada no pubspec deste pacote, sob MIT. Os `IconData` que a referenciam
+  # é que moram no framework, em `package:flutter/cupertino.dart`.
+  cupertino_icons: ^1.0.9
+  flocks: ^0.1.0
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter

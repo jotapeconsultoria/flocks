@@ -59,10 +59,14 @@ jobs:
         run: dart run tool/validate_components.dart
         working-directory: packages/flocks
 
-      # Os dois adaptadores rodam separados, e não são formalidade: é aqui que
+      # Os quatro adaptadores rodam separados, e não são formalidade: é aqui que
       # vive o teste de contrato cruzado ("todo `AppIconToken` tem mapeamento em
-      # todo adaptador"). Ele é a razão de os três pacotes estarem num repo só —
+      # todo adaptador"). Ele é a razão de os pacotes estarem num repo só —
       # separados, só rodaria depois de publicar.
+      #
+      # Cada adaptador carrega a sua própria cópia da asserção: não há registro
+      # central de providers a estender, e é a soma destes steps que faz o
+      # contrato ser cobrado em todos.
       - name: Testes (flocks_phosphor)
         run: flutter test
         working-directory: packages/flocks_phosphor
@@ -70,6 +74,17 @@ jobs:
       - name: Testes (flocks_material)
         run: flutter test
         working-directory: packages/flocks_material
+
+      - name: Testes (flocks_cupertino)
+        run: flutter test
+        working-directory: packages/flocks_cupertino
+
+      # Além do contrato, este roda os gates da fonte vendorizada: o gerado
+      # contra o catálogo, o catálogo contra o pin, o sha256 dos artefatos em
+      # disco e o glifo de cada codepoint na TTF.
+      - name: Testes (flocks_lucide)
+        run: flutter test
+        working-directory: packages/flocks_lucide
 
       # `dart test`, e não `flutter test`: o `flocks_mcp` é Dart puro, sem
       # `flutter:` no `environment` — é isso que o mantém instalável por

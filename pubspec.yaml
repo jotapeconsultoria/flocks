@@ -34,6 +34,10 @@ environment:
 workspace:
   - packages/flocks
   - packages/flocks/example
+  - packages/flocks_cupertino
+  - packages/flocks_cupertino/example
+  - packages/flocks_lucide
+  - packages/flocks_lucide/example
   - packages/flocks_material
   - packages/flocks_material/example
   - packages/flocks_mcp
