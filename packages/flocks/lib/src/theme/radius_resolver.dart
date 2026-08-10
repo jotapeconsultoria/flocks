@@ -135,6 +135,25 @@ extension AppRadiusThemeResolve on AppRadiusTheme {
     return BorderRadius.circular(r);
   }
 
+  /// Resolve o [BorderRadius] de um **container de superfície de tamanho livre**
+  /// — o `AppCard` e quem o compõe. Fica ENTRE o [resolve] genérico e o
+  /// [surfaceCornerRadius]:
+  ///
+  /// - `reto`/`redondo`/`padrao`: idêntico ao [resolve]. Um card pode ser
+  ///   pequeno (um resumo de duas linhas) e não deve herdar o canto de um
+  ///   bottom sheet.
+  /// - `circular`: NÃO satura em metade do lado menor — pousa em
+  ///   [kSurfaceCircularRadius]. É o modo em que um card alto (um gráfico de
+  ///   400px) vira uma elipse cujo canto come o próprio título.
+  ///
+  /// Passe o [override] local (`radiusMode:`) para vencer o global.
+  BorderRadius contentSurfaceRadius([AppRadiusMode? override]) {
+    final AppRadiusMode m = override ?? mode;
+    return m == AppRadiusMode.circular
+        ? BorderRadius.circular(kSurfaceCircularRadius)
+        : resolve(override: m);
+  }
+
   /// Raio (px) das **superfícies grandes** (bottom sheet, side sheet, dialog).
   /// Mesma filosofia do [tileRadius] numa escala maior: `circular` não satura em
   /// oval — pousa em [kSurfaceCircularRadius]. `reto` = 0; `redondo`/`padrao` =

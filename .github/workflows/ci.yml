@@ -105,6 +105,18 @@ jobs:
         run: dart test
         working-directory: packages/flocks_mcp
 
+      # A demo é um app, não uma biblioteca, e a suíte dela cobre o que nenhuma
+      # outra do repo cobre: o gate de rede que sustenta a promessa de que o
+      # logo do visitante não sai da aba dele, o teste de arquitetura que
+      # substitui aqui o do core (que só varre `lib/src` do `flocks`), as
+      # invariantes do contrato de URL, e um gate de layout que monta as duas
+      # telas em quatro viewports × duas tipografias — porque a FONTE é um eixo
+      # que o visitante controla, e uma linha que cabia com Poppins estoura com
+      # Space Grotesk.
+      - name: Testes (flocks_demo)
+        run: flutter test
+        working-directory: packages/flocks_demo
+
   goldens:
     name: goldens (macOS)
     # Runner PINADO, não `macos-latest`: trocar a imagem troca o rasterizador
@@ -239,6 +251,145 @@ jobs:
             jq '[.[] | select(any(.Hostnames[]; .Value == "widgetbook.flocks.live"))][0].Id')
           if [ -z "$zone_id" ] || [ "$zone_id" = "null" ]; then
             echo "::error::Nenhuma Pull Zone com o hostname widgetbook.flocks.live."
+            exit 1
+          fi
+          code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST \
+            -H "AccessKey: ${BUNNY_API_KEY}" \
+            "https://api.bunny.net/pullzone/${zone_id}/purgeCache")
+          if [ "$code" != "204" ] && [ "$code" != "200" ]; then
+            echo "::error::Purge da zone ${zone_id} -> HTTP ${code}"
+            exit 1
+          fi
+          echo "Pull Zone ${zone_id} purgada."
+
+  demo:
+    name: demo (deploy)
+    # Publica a demo de white-label em flocks.live/demo/ (ROADMAP, Fase D).
+    # Mesmo molde do `widgetbook` — só em push na main, depois dos dois gates
+    # verdes, upload por find+curl explícito sem action de terceiro — com uma
+    # diferença que exige cuidado: esta NÃO tem host próprio.
+    #
+    # Ela vai para a MESMA Storage Zone do site (`flocks-site`), sob o prefixo
+    # `demo/`. O job `site` sobe `site/` para a RAIZ dessa zone, e os dois
+    # convivem porque nenhum dos dois apaga órfãos e porque o prefixo aqui é
+    # LITERAL na URL do curl: não há caminho por onde este job escreva fora de
+    # `demo/`, nem mesmo se o build emitir um arquivo com nome esquisito.
+    #
+    # `needs` nos dois gates, ao contrário do `site`: o site é HTML estático e
+    # não depende do Dart, mas a demo É o Dart — publicá-la à frente de um teste
+    # vermelho seria publicar a vitrine de um design system quebrado.
+    if: github.ref == 'refs/heads/main'
+    needs: [checks, goldens]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.0
+          channel: stable
+          cache: true
+
+      - name: Resolver dependências (workspace)
+        run: flutter pub get
+
+      - name: Buildar release
+        # `--base-href /demo/` porque a demo é servida num subcaminho, e não na
+        # raiz de um host próprio como o Widgetbook. O `web/index.html` mantém o
+        # placeholder `$FLUTTER_BASE_HREF` justamente para isto: fixar `/demo/`
+        # no arquivo quebraria o `flutter run -d chrome` do desenvolvimento sem
+        # mudar nada no que é publicado.
+        #
+        # `--no-web-resources-cdn` NÃO é otimização — é a correção de um defeito
+        # que só apareceu ao abrir a demo num navegador de verdade e ler as
+        # requisições. O default do Flutter (`--web-resources-cdn`, ligado) puxa
+        # `canvaskit.js` e `canvaskit.wasm` de `www.gstatic.com` a cada
+        # carregamento. Numa demo cuja tese é "funciona offline, sem CDN, sem
+        # conta de terceiro", isso é a própria tese sendo desmentida na aba de
+        # rede — e uma requisição a um servidor do Google que o visitante não
+        # pediu. Com a flag, o `canvaskit/` que já vai no build é servido da
+        # nossa Storage Zone, e a demo passa a não contactar host nenhum.
+        #
+        # `test/architecture_test.dart` do flocks_demo confere que esta flag
+        # continua aqui: um gate estático, porque o gate de runtime roda na VM
+        # e não enxerga o bootstrap JS que faz esse download.
+        run: flutter build web --release --base-href /demo/ --no-web-resources-cdn
+        working-directory: packages/flocks_demo
+
+      - name: Podar o que nunca é servido, e medir
+        # Os `.symbols` são tabelas de deobfuscação de stack trace: 8,3 MB que
+        # nenhum navegador pede jamais. Eles vão para a Storage Zone só porque
+        # estão na pasta, e sair daqui não custa nada nem tira funcionalidade.
+        #
+        # Sobre o número: a anti-referência é o Widgetbook (43 MB, `main.dart.js`
+        # de 4,2 MB). Comparar os totais engana, porque o grosso dos dois é o
+        # runtime do Flutter, que traz TODAS as variantes de renderer e só uma é
+        # baixada. O que separa os dois é o código: 2,1 MB contra 4,2 MB. Por
+        # isso o passo reporta os dois números, e o do boot — o que o visitante
+        # realmente espera — em vez de só o total do diretório.
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd packages/flocks_demo/build/web
+          before=$(du -sh . | cut -f1)
+          find . -name '*.symbols' -delete
+          total=$(du -sh . | cut -f1)
+          main=$(du -h main.dart.js | cut -f1)
+          boot=$(du -ch index.html flutter_bootstrap.js flutter.js \
+            main.dart.js canvaskit/canvaskit.js canvaskit/canvaskit.wasm \
+            assets/packages/flocks/assets/fonts/*/*.ttf 2>/dev/null |
+            tail -1 | cut -f1)
+          echo "Demo: ${total} publicados (${before} antes de podar symbols)."
+          echo "main.dart.js ${main} · boot típico ~${boot}"
+          {
+            echo "### Demo"
+            echo "- publicado: **${total}** (${before} antes de podar symbols)"
+            echo "- \`main.dart.js\`: **${main}** (Widgetbook: 4,2 MB)"
+            echo "- boot típico (canvaskit + fontes): ~${boot}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Subir build para a Storage Zone, sob demo/
+        # Endpoint REGIONAL (br.), como nos outros dois: a zone vive em São
+        # Paulo e o host genérico da doc não aceita a escrita. Cada PUT tem o
+        # código HTTP conferido: upload parcial tem que ser vermelho.
+        #
+        # A senha é a da zona `flocks-site` — a MESMA do job `site`, porque é a
+        # mesma zona. Não confundir com a do widgetbook, que é de outra.
+        shell: bash
+        env:
+          BUNNY_SITE_STORAGE_PASSWORD: ${{ secrets.BUNNY_SITE_STORAGE_PASSWORD }}
+        run: |
+          set -euo pipefail
+          cd packages/flocks_demo/build/web
+          total=0
+          while IFS= read -r -d '' f; do
+            path="${f#./}"
+            code=$(curl -sS -o /dev/null -w '%{http_code}' -X PUT \
+              -H "AccessKey: ${BUNNY_SITE_STORAGE_PASSWORD}" \
+              --data-binary "@${f}" \
+              "https://br.storage.bunnycdn.com/flocks-site/demo/${path}")
+            if [ "$code" != "201" ]; then
+              echo "::error::PUT demo/${path} -> HTTP ${code}"
+              exit 1
+            fi
+            total=$((total + 1))
+          done < <(find . -type f -print0)
+          echo "Enviados ${total} arquivo(s) para flocks-site sob demo/."
+
+      - name: Purgar cache da Pull Zone
+        # Mesma zona do site, então o purge é o mesmo hostname. O `main.dart.js`
+        # não tem hash no nome e o edge cacheia por um ano — sem purge, o deploy
+        # só existiria na origem.
+        shell: bash
+        env:
+          BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
+        run: |
+          set -euo pipefail
+          zone_id=$(curl -sS -H "AccessKey: ${BUNNY_API_KEY}" \
+            "https://api.bunny.net/pullzone" |
+            jq '[.[] | select(any(.Hostnames[]; .Value == "flocks.live"))][0].Id')
+          if [ -z "$zone_id" ] || [ "$zone_id" = "null" ]; then
+            echo "::error::Nenhuma Pull Zone com o hostname flocks.live."
             exit 1
           fi
           code=$(curl -sS -o /dev/null -w '%{http_code}' -X POST \

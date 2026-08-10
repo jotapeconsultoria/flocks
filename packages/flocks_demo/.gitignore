@@ -1,0 +1,4 @@
+# Artefatos de build deste app. O `.gitignore` da raiz já cobre `**/build/`;
+# este existe para o caso de alguém rodar o pacote isolado.
+build/
+.dart_tool/

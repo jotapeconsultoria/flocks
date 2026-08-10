@@ -191,7 +191,10 @@ final class _AppShellContentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme.of(context);
-    final borderRadius = radius ?? theme.radiusTheme.resolve();
+    // Escada de superfície: o cartão ocupa a janela inteira, então a escada
+    // geral em `circular` o transformaria numa elipse que corta a própria
+    // página. Ver `contentSurfaceRadius`.
+    final borderRadius = radius ?? theme.radiusTheme.contentSurfaceRadius();
 
     return Padding(
       padding: margin,

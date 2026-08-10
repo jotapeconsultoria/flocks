@@ -105,7 +105,7 @@ void main() {
       expect(r.topLeft.x, 0);
     });
 
-    testWidgets('radiusMode global circular flui (content-sized → pílula)', (
+    testWidgets('radiusMode global circular pousa no teto de superfície', (
       tester,
     ) async {
       final AppThemeData data = AppThemeData.light.copyWith(
@@ -113,8 +113,15 @@ void main() {
       );
       await tester.pumpWidget(_host(data, const AppCard(child: Text('x'))));
       final BorderRadius r = _cardDeco(tester).borderRadius! as BorderRadius;
-      // Content-sized + circular → sentinela grande (Flutter satura no render).
-      expect(r.topLeft.x, greaterThan(1000));
+      // O card é uma SUPERFÍCIE: `circular` não pode virar "metade do lado
+      // menor", senão um card alto (um gráfico) vira elipse e o canto come o
+      // próprio header. Pousa em kSurfaceCircularRadius.
+      //
+      // Isto NÃO tira a pílula do card pequeno: num card de 40px de altura o
+      // próprio Flutter reduz o raio para metade do lado menor (20) ao pintar,
+      // e a silhueta fica idêntica à da sentinela antiga. O teto só limita o
+      // quanto um card GRANDE arredonda.
+      expect(r.topLeft.x, kSurfaceCircularRadius);
     });
 
     testWidgets('radius cru vence radiusMode e o global', (tester) async {

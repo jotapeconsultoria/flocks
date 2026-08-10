@@ -11,7 +11,11 @@ import '../../tokens/app_style.dart';
 ///
 /// Superfície `surfaceContainer` que participa do eixo global de estilo
 /// ([AppStyle]) — `filled` (chapado), `outlined` (borda `outline`) ou `elevated`
-/// (sombra simétrica) — e do eixo global de forma (`radiusTheme`). Como os
+/// (sombra simétrica) — e do eixo global de forma (`radiusTheme`), este pela
+/// escada de **superfície de tamanho livre** (`contentSurfaceRadius`): em
+/// `circular` o canto pousa num teto em vez de virar "metade do lado menor",
+/// senão um card alto vira elipse e corta o próprio conteúdo. Um card pequeno
+/// continua lendo como pílula — quem satura ali é o próprio Flutter. Como os
 /// demais containers do DS (ex.: `AppExpansionTile`/`AppAlert`), o default
 /// **segue o global** `styleTheme.style`; passe [style] para sobrescrever por
 /// uso (painéis flutuantes fixam `elevated`).
@@ -110,8 +114,12 @@ final class AppCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppThemeData theme = AppTheme.of(context);
     final AppColorTheme colors = theme.colorTheme;
+    // Escada de SUPERFÍCIE de tamanho livre, não a geral: o card é
+    // content-sized, então `circular` saturaria em metade do lado menor e um
+    // card alto (um gráfico) viraria uma elipse cujo canto come o próprio
+    // header. Ver `contentSurfaceRadius`.
     final BorderRadius r =
-        radius ?? theme.radiusTheme.resolve(override: radiusMode);
+        radius ?? theme.radiusTheme.contentSurfaceRadius(radiusMode);
     final AppStyle s = style ?? theme.styleTheme.style;
     final EdgeInsetsGeometry pad =
         padding ?? const EdgeInsets.all(AppSpacings.s16);

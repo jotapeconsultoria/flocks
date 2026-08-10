@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    Substituído por `--base-href /demo/` no build do CI. O placeholder fica
+    porque `flutter run -d chrome` serve na raiz durante o desenvolvimento, e
+    fixar `/demo/` aqui quebraria isso sem mudar nada no que é publicado.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flocks demo — wear your brand on 131 components</title>
+  <meta name="description" content="Type your brand colour, drop in your logo, and watch a dashboard and a CRUD built from 131 Flutter components wear your identity. Then copy the Dart that reproduces it.">
+  <link rel="canonical" href="https://flocks.live/demo/">
+  <meta name="theme-color" content="#d3daea" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111823" media="(prefers-color-scheme: dark)">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Flocks demo">
+  <link rel="manifest" href="manifest.json">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Flocks">
+  <meta property="og:title" content="Flocks demo — wear your brand on 131 components">
+  <meta property="og:description" content="One hex seed dresses a whole dashboard and CRUD. Your logo never leaves the tab.">
+  <meta property="og:url" content="https://flocks.live/demo/">
+  <meta property="og:image" content="https://flocks.live/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <style>
+    /*
+      A casca só existe até o primeiro frame do Flutter. Ela é conteúdo real
+      para quem não executa JS — e é por isso que ela não é `display:none` com
+      texto escondido, o que seria cloaking.
+    */
+    #seo-shell {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      margin: 0 auto;
+      max-width: 42rem;
+      padding: 3rem 1.5rem;
+    }
+    #seo-shell h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 1rem; }
+    #seo-shell ul { padding-left: 1.25rem; }
+    #seo-shell li { margin-bottom: .25rem; }
+    @media (prefers-color-scheme: dark) {
+      body { background: #111823; color: #e8ecf6; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    A casca semântica. Um crawler não executa JS: sem ela, /demo/ é uma página
+    em branco para o Google, e a demo é justamente a peça que o site tem de
+    conseguir indexar. (O Widgetbook faz o oposto — é canvas-only DE PROPÓSITO,
+    e tem `Disallow` no robots.)
+
+    Não é texto de enfeite: é a descrição fiel do que o app faz, incluindo os
+    eixos, para que o que o buscador lê seja o que o visitante encontra.
+  -->
+  <div id="seo-shell">
+    <h1>Flocks demo — wear your brand on 131 components</h1>
+    <p>
+      Flocks is a Flutter design system built on plain <code>widgets.dart</code>
+      — no Material, no Cupertino. This demo applies <em>your</em> brand to a
+      dense dashboard and a full CRUD, both assembled exclusively from its
+      components, and hands you the Dart that reproduces what you see.
+    </p>
+    <p>Everything runs in your browser. These are the axes you can change:</p>
+    <ul>
+      <li><strong>Brand colour</strong> — one hex seed derives the entire palette, light and dark, through HCT tone.</li>
+      <li><strong>Container style</strong> — filled, outlined or elevated, applied globally.</li>
+      <li><strong>Corner shape</strong> — square, rounded, pill or per-component default.</li>
+      <li><strong>Typeface</strong> — Poppins or Space Grotesk, both shipped with the package.</li>
+      <li><strong>Dark theme</strong> — derived from the same seed, not a second palette.</li>
+      <li><strong>Your logo</strong> — held in memory only. It is never uploaded, and the shareable link does not carry it.</li>
+    </ul>
+    <p>
+      The link in your address bar carries the colour, the typeface and the
+      axes, so a look can be shared. It never carries the logo.
+    </p>
+    <p>
+      <a href="https://flocks.live/">flocks.live</a> ·
+      <a href="https://widgetbook.flocks.live">Component catalogue</a> ·
+      <a href="https://github.com/jotapeconsultoria/flocks">Source on GitHub</a>
+    </p>
+  </div>
+
+  <script>
+    // O bootstrap do Flutter NÃO limpa o body — ele monta ao lado. Sem esta
+    // remoção, a casca ficaria visível por baixo do app depois que ele sobe.
+    window.addEventListener('flutter-first-frame', function () {
+      var shell = document.getElementById('seo-shell');
+      if (shell) shell.remove();
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

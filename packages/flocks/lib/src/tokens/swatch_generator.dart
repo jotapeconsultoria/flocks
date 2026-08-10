@@ -5,6 +5,26 @@ import 'package:material_color_utilities/hct/hct.dart' show Hct;
 
 import 'contrast.dart' show kAaNormal, toneDelta;
 
+/// Os 11 stops de um swatch do Flocks, do mais claro (50) ao mais escuro (950).
+///
+/// É a mesma escada nas duas rampas — a cromática de [swatchFromSeed] e a neutra
+/// de [neutralSwatchFromSeed] —, o que muda entre elas é o TOM de cada stop, não
+/// quais stops existem. Público porque quem percorre um swatch precisa da lista:
+/// um `ColorSwatch` não expõe as próprias chaves.
+const List<int> kSwatchStops = <int>[
+  50,
+  100,
+  200,
+  300,
+  400,
+  500,
+  600,
+  700,
+  800,
+  900,
+  950,
+];
+
 /// Tons (HCT tone, 0–100) de cada stop do swatch, do mais claro (50) ao mais
 /// escuro (950) — mesma convenção dos swatches de `AppColors`.
 ///
@@ -73,6 +93,23 @@ const Map<int, double> _neutralStopTones = <int, double>{
 /// uma rampa colorida.
 ColorSwatch<int> neutralSwatchFromSeed(Color seed) =>
     _swatch(seed, _neutralStopTones);
+
+/// Espelha um swatch: o valor do stop mais claro vai para o mais escuro.
+///
+/// É como a rampa neutra ESCURA de uma marca se obtém da clara. O tema espera de
+/// toda rampa neutra a mesma semântica — `s50` é o fundo, `s900` é o conteúdo —
+/// e no escuro isso significa que o `s50` precisa ser o tom mais escuro. Refletir
+/// a rampa mantém essa semântica sem duplicar a escolha de cor: uma semente
+/// gera as duas pontas.
+///
+/// O `value` do resultado é o do swatch de origem, ou seja, a semente sobrevive
+/// ao espelhamento — é o que permite a uma marca gerada por semente continuar
+/// se descrevendo pela semente depois de refletida.
+ColorSwatch<int> flippedSwatch(ColorSwatch<int> swatch) =>
+    ColorSwatch<int>(swatch.toARGB32(), <int, Color>{
+      for (int i = 0; i < kSwatchStops.length; i++)
+        kSwatchStops[i]: swatch[kSwatchStops[kSwatchStops.length - 1 - i]]!,
+    });
 
 ColorSwatch<int> _swatch(Color seed, Map<int, double> tones) {
   final Hct base = Hct.fromInt(seed.toARGB32());

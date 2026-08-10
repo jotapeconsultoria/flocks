@@ -17,6 +17,65 @@ follows [SemVer](https://semver.org/).
 > surprise. It graduates to `1.0.0` once the API holds still through a few
 > outside adopters.
 
+## [Unreleased]
+
+A marca aprende a se escrever. É a única feature de pacote que o ROADMAP prevê,
+e ela existe para a demo do site: sem isto o visitante vê a marca dele nos 131
+componentes e vai embora; com isto ele leva o arquivo que reproduz o que viu.
+
+E a demo já pagou o primeiro dividendo: montar duas telas inteiras sobre o eixo
+de forma revelou que uma superfície grande em `circular` cortava o próprio
+conteúdo — um defeito que nenhum use case isolado tinha exercitado.
+
+### Added
+
+- **`toDartSnippet` escreve uma `AppBrandConfig` como código Dart colável.** É
+  uma extension, não um método: a classe documenta no próprio dartdoc o que ela
+  deliberadamente não guarda, e gerar código não é responsabilidade de uma
+  configuração. Também não é um `Codec` — o nome vem de `dart:convert` e promete
+  um `decode` simétrico que não existe aqui, porque o decode desta serialização
+  é o compilador Dart.
+
+  A saída traz **só o que difere do padrão**: eixo em `standard` não aparece,
+  papel de cor ausente também não. Cada swatch sai pela função que o reconstrói
+  (`swatchFromSeed`, `neutralSwatchFromSeed`, `flippedSwatch`) sempre que a
+  semente o reconstrói **de fato** — o gerador confere antes de escolher a forma
+  curta, e um swatch escrito à mão, que não tem semente que o descreva, cai no
+  literal de 11 stops. Serialização que não faz ida e volta é serialização
+  errada, e a alternativa (assumir a semente) devolveria uma paleta diferente da
+  que entrou.
+
+  O gate mora em `test/architecture/brand_snippet_freshness_test.dart` e o
+  artefato em `test/support/exported_brand_snippet.dart` — um `.dart` de
+  verdade, e não um `.txt`, para que o `dart analyze` da raiz prove de graça
+  aquilo que um teste de string não alcança: que o snippet **compila**.
+
+- **`flippedSwatch` espelha um swatch**, que é como a rampa neutra escura de uma
+  marca se obtém da clara. A função já existia, privada, dentro da `flocksBrand`;
+  virou pública porque um snippet que a usasse sem poder nomeá-la teria de
+  despejar os 11 stops justamente no papel onde a saída precisa continuar
+  legível. `kSwatchStops` veio junto, pelo mesmo motivo de quem percorre um
+  swatch: um `ColorSwatch` não expõe as próprias chaves.
+
+### Fixed
+
+- **Uma superfície grande em `circular` parou de cortar o próprio conteúdo.**
+  `AppCard` e o cartão de conteúdo do `AppShell` resolviam a forma pela escada
+  GERAL, em que `circular` significa "metade do lado menor". Num chip isso é a
+  pílula que se espera; num cartão de gráfico de 400 px é uma elipse de 180 px de
+  raio cujo canto passa por cima do header — o título "Recurring revenue"
+  aparecia como "urring revenue". Os dois passaram a usar `contentSurfaceRadius`,
+  uma escada nova que fica ENTRE `resolve` e `surfaceCornerRadius`: idêntica à
+  geral em `reto`/`redondo`/`padrao` (um cartão pequeno não deve herdar o canto
+  de um bottom sheet) e com teto em `circular`.
+
+  O gate é `test/architecture/surface_clip_test.dart`, e ele é geométrico em vez
+  de tipográfico: pinta a área de conteúdo e exige que os quatro cantos dela
+  continuem pintados. Não depende de fonte, tema nem baseline — só do clip.
+
+  Descoberto pela demo da Fase D, que é a primeira coisa a exercitar o eixo de
+  forma inteiro com conteúdo real em cima.
+
 ## [0.1.1] - 2026-08-10
 
 Três defeitos que só a análise do pub.dev revelou, no dia seguinte à
