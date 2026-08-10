@@ -15,12 +15,12 @@ separado, depois que o repo novo estabilizou.
 
 | | |
 |---|---|
-| Repositório | Próprio, público, os três pacotes em `packages/` |
+| Repositório | Próprio, público; os três da extração em `packages/`, mais o `flocks_mcp`, que nasceu aqui |
 | Resolução | Pub workspace, com o `pubspec.yaml` da raiz |
-| Versão | `0.1.0`, os três em lockstep |
+| Versão | `0.1.0`, os três da extração em lockstep |
 | `publish_to` | Fora dos pacotes publicáveis; só a raiz (workspace) mantém `none` |
 | Publicação | pub.dev, `0.1.0`, publisher `jotapeconsultoria.com.br`, tag `v0.1.0` |
-| Consumo pelo monorepo | Ainda `git:` fixada por commit — migrar para hospedada é o passo seguinte |
+| Consumo pelo monorepo | Hospedado, `^0.1.0` — a dependência `git:` e o override saíram em 2026-08-10 |
 | Licença | MIT em cada pacote, e na raiz |
 | CI | `.github/workflows/ci.yml`, dois jobs (Linux e macOS) |
 
@@ -232,8 +232,9 @@ seja 160/160 na escala do pub.dev.
    dependem dele por versão). Os três foram para o publisher verificado
    `jotapeconsultoria.com.br` no primeiro publish, de modo que nunca existiu
    versão sob uploader pessoal. O corte é a tag `v0.1.0`;
-4. ⬜ migrar os 5 consumidores do monorepo de `git:` para dependência hospedada
-   — **ainda pendente**, e acontece no repositório da Tracked, não neste.
+4. ✅ os consumidores do monorepo migraram de `git:` para dependência hospedada,
+   e o `dependency_overrides` da raiz de lá foi apagado — publicar era, por
+   definição, apagar o override. Aconteceu no repositório da Tracked, não neste.
 
 **O que quase escapou:** o passo 1 fala do `CHANGELOG.md` no singular porque foi
 escrito quando só o core tinha um. `flocks_phosphor` e `flocks_material` ganharam
