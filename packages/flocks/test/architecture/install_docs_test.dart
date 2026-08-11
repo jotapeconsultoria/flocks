@@ -162,12 +162,24 @@ void main() {
   // gate nenhum, `404.html` não aparecia em teste algum, e a nav das duas
   // homes não era comparada por nada.
   //
-  // A CICATRIZ, medida: em 2026-08-10 a home em inglês passou ~3h30 servindo a
-  // nav SEM o link `/demo/`, com o job de deploy VERDE (ver `ROADMAP.md`, linha
-  // do Site). O deploy foi consertado depois — passou a comparar byte a byte o
-  // que o edge devolve —, mas ele confere o que SUBIU, não o que a página
-  // deveria conter. Se a nav subir errada, ele confirma o erro com precisão.
-  // Quem pega isso é um gate de paridade, e é o que entra aqui.
+  // O QUE ESTES GATES NÃO SÃO: eles não são a resposta ao incidente de
+  // 2026-08-10, em que `flocks.live/` serviu ~3h30 uma home sem o link
+  // `/demo/`. Aquilo não foi divergência no repo — `git log -S'href="/demo/"'`
+  // sobre as duas homes devolve UM commit, o `31c22ad`, que pôs o link nas
+  // quatro páginas de uma vez. A fonte estava certa e o que falhou foi a
+  // entrega: Storage Zone geo-replicada servindo o objeto anterior com
+  // `cdn-cache: MISS` (o mecanismo está no `ROADMAP.md`, linha do Site). Essa
+  // classe é do job `site`, que hoje compara byte a byte o que o edge devolve
+  // com o que subiu; nenhum teste desta suíte a alcança, porque nenhum teste
+  // desta suíte faz HTTP.
+  //
+  // O que justifica o gate de paridade é mais simples e não precisa de
+  // incidente: a nav bilíngue é mantida À MÃO em dois arquivos que ninguém
+  // obriga a andarem juntos. Nada no repo comparava um com o outro, então
+  // acrescentar um item de menu num idioma e esquecer o outro passava verde —
+  // e continuaria passando até alguém abrir as duas páginas lado a lado. É
+  // exatamente o mesmo motivo do gate de contagem: o que se mantém à mão em
+  // dois lugares diverge, e diverge em silêncio.
   //
   // TUDO É DERIVADO DOS ARQUIVOS. Nenhuma lista de páginas, nenhuma lista de
   // URLs, nem o domínio, estão escritos aqui — o modo de falha que estes gates
@@ -364,10 +376,11 @@ void main() {
     }, skip: foraDoRepo);
 
     test('cada par de idioma navega igual', () {
-      // O gate que a cicatriz de 2026-08-10 pede. Os pares saem da ÁRVORE
-      // (`site/pt/**/index.html` casado com `site/<resto>/index.html`), e não
-      // de uma lista aqui: hoje isso produz sozinho os dois pares que existem,
-      // e produz o terceiro no dia em que criarem `/instalar/`.
+      // Duas navs escritas à mão, uma por idioma, que nada obrigava a andarem
+      // juntas. Os pares saem da ÁRVORE (`site/pt/**/index.html` casado com
+      // `site/<resto>/index.html`), e não de uma lista aqui: hoje isso produz
+      // sozinho os dois pares que existem, e produz o terceiro no dia em que
+      // criarem `/instalar/`.
       //
       // A comparação é por chave normalizada, não por HTML: texto e
       // `aria-label` mudam de idioma por definição (`Components`/`Componentes`,
@@ -414,9 +427,8 @@ void main() {
                 'O <nav> #$i diverge entre os idiomas.\n'
                 '  ${par.primario.rel}: ${primario[i]}\n'
                 '  ${par.secundario.rel}: ${secundario[i]}\n'
-                'Foi exatamente assim que a home em inglês passou ~3h30 '
-                'servindo a nav sem o link /demo/ em 2026-08-10, com o job de '
-                'deploy verde.',
+                'As duas navs são escritas à mão, uma por arquivo: mexeu numa, '
+                'mexa na outra no mesmo commit.',
           );
         }
       }
