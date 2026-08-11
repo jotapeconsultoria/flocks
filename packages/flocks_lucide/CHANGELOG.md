@@ -8,9 +8,9 @@ follows [SemVer](https://semver.org/).
 > contract (`AppIconProvider`) lives there, and an adapter on a version line of
 > its own would only create a compatibility matrix to maintain. Its own public
 > line starts at `0.1.0` because nothing here was ever published — the core is
-> already at `0.1.1`. The `flocks` CHANGELOG explains why `0.x`.
+> already at `0.1.2`. The `flocks` CHANGELOG explains why `0.x`.
 
-## [0.1.0] - 2026-08-10
+## [0.1.0] - 2026-08-11
 
 ### Added
 

@@ -10,7 +10,7 @@ follows [SemVer](https://semver.org/).
 > compatibility matrix to maintain. The public line starts at `0.1.0`, next to
 > the core; the `flocks` CHANGELOG explains why `0.x`.
 
-## [0.1.2] - 2026-08-10
+## [0.1.2] - 2026-08-11
 
 **Nada mudou neste pacote.** O número acompanha o `flocks` 0.1.2 pela razão que
 o bloco acima dá: o contrato mora no core, e um adaptador numa linha própria só
@@ -42,7 +42,7 @@ CHANGELOG do `flocks`.
   `iconProvider` por `PhosphorIconProvider()` redesenha tudo sem mexer na
   árvore.
 
-## [0.1.0] - 2026-08-05
+## [0.1.0] - 2026-08-10
 
 ### Added
 
