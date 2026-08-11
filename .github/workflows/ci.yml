@@ -1,8 +1,10 @@
 name: CI
 
-# CI dos quatro pacotes do Flocks. Herdada da `flutter-ui.yml` do monorepo de
-# origem, com a mesma divisão e as mesmas cicatrizes — o que mudou é que aqui
-# não há prefixo `tracked-app/`: a raiz do repo É a raiz do workspace.
+# CI dos sete pacotes do Flocks — o core, os quatro adaptadores de ícone, o
+# servidor MCP e a demo, um step de suíte para cada um no `checks`. Herdada da
+# `flutter-ui.yml` do monorepo de origem, com a mesma divisão e as mesmas
+# cicatrizes — o que mudou é que aqui não há prefixo `tracked-app/`: a raiz do
+# repo É a raiz do workspace.
 #
 # A divisão em jobs não é estética. O `checks` roda tudo menos golden, em
 # Linux, que é barato e paralelizável. O `goldens` roda só os golden, em macOS,
@@ -344,6 +346,7 @@ jobs:
         # O `main.dart.js` não tem hash no nome e o edge cacheia por 1 ano —
         # sem purge, o deploy só existiria na origem. A chave de conta só serve
         # para isto; a escrita usa a senha da Storage Zone, acima.
+        id: purge
         shell: bash
         env:
           BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
@@ -363,7 +366,54 @@ jobs:
             echo "::error::Purge da zone ${zone_id} -> HTTP ${code}"
             exit 1
           fi
+          # O passo seguinte repurga entre tentativas, e precisa do id sem
+          # redescobri-lo por hostname a cada volta.
+          echo "zone_id=${zone_id}" >> "$GITHUB_OUTPUT"
           echo "Pull Zone ${zone_id} purgada."
+
+      - name: Conferir que o edge serve o que subiu
+        # O mesmo gate do `site`, pelo mesmo script — e aqui ele faltava por
+        # inteiro: este job purgava a Pull Zone um segundo depois do último PUT e
+        # terminava VERDE sem olhar o que widgetbook.flocks.live passou a servir,
+        # que é o gesto exato que o script narra como causa do incidente de
+        # 2026-08-10.
+        #
+        # A lista é o `index.html` e os `*.js` que o build emite na raiz — o
+        # bootstrap, o loader, o `main.dart.js`, o service worker se houver.
+        # Derivada, e não fixa: um rename do Flutter num upgrade não pode fazer o
+        # passo conferir nada em silêncio. São eles porque são os que mudam em
+        # TODO deploy e os que o edge cacheia por um ano sem hash no nome — a
+        # razão de o purge existir. O resto do build são 43 MB de canvaskit e
+        # fontes que não mudam entre deploys: conferi-los byte a byte custaria
+        # ~390 MB de download nas oito tentativas do orçamento, sem cobrir risco
+        # novo.
+        shell: bash
+        env:
+          BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
+          ZONE_ID: ${{ steps.purge.outputs.zone_id }}
+          EDGE_DICA: >-
+            Réplica divergente na Storage Zone flocks-widgetbook é o suspeito —
+            confira no painel da Bunny antes de re-rodar o job.
+        run: |
+          set -euo pipefail
+          dir=packages/flocks/build/web
+          if [ ! -f "${dir}/index.html" ]; then
+            echo "::error::${dir}/index.html não existe — o build mudou de forma e este gate ficaria conferindo o vazio."
+            exit 1
+          fi
+          pares=''
+          while IFS= read -r -d '' f; do
+            rel="${f#"${dir}"/}"
+            url="/${rel}"
+            case "$url" in
+              */index.html) url="${url%index.html}" ;;
+            esac
+            pares="${pares}${url}|${f} "
+          done < <(find "$dir" -maxdepth 1 -type f \
+            \( -name 'index.html' -o -name '*.js' \) -print0)
+          printf '%s' "$pares" |
+            bash .github/scripts/conferir-edge.sh \
+              https://widgetbook.flocks.live "${ZONE_ID}"
 
   demo:
     name: demo (deploy)
@@ -483,6 +533,7 @@ jobs:
         # Mesma zona do site, então o purge é o mesmo hostname. O `main.dart.js`
         # não tem hash no nome e o edge cacheia por um ano — sem purge, o deploy
         # só existiria na origem.
+        id: purge
         shell: bash
         env:
           BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
@@ -502,7 +553,48 @@ jobs:
             echo "::error::Purge da zone ${zone_id} -> HTTP ${code}"
             exit 1
           fi
+          # O passo seguinte repurga entre tentativas, e precisa do id sem
+          # redescobri-lo por hostname a cada volta.
+          echo "zone_id=${zone_id}" >> "$GITHUB_OUTPUT"
           echo "Pull Zone ${zone_id} purgada."
+
+      - name: Conferir que o edge serve o que subiu
+        # O mesmo gate do `site`, pelo mesmo script — e este job é o que mais
+        # precisava dele: escreve na MESMA Storage Zone do site e purga a MESMA
+        # Pull Zone, um segundo depois do último PUT, e até aqui terminava VERDE
+        # sem olhar o que `flocks.live/demo/` passou a servir.
+        #
+        # A lista é o `index.html` e os `*.js` da raiz do build, derivada e não
+        # fixa, pela mesma razão do widgetbook: são os que mudam em todo deploy e
+        # os que o edge cacheia por um ano sem hash no nome, e um rename do
+        # Flutter não pode fazer o passo conferir o vazio. As URLs levam o
+        # prefixo `/demo/`, que é o `--base-href` do build.
+        shell: bash
+        env:
+          BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
+          ZONE_ID: ${{ steps.purge.outputs.zone_id }}
+          EDGE_DICA: >-
+            Réplica divergente na Storage Zone flocks-site é o suspeito — confira
+            no painel da Bunny antes de re-rodar o job.
+        run: |
+          set -euo pipefail
+          dir=packages/flocks_demo/build/web
+          if [ ! -f "${dir}/index.html" ]; then
+            echo "::error::${dir}/index.html não existe — o build mudou de forma e este gate ficaria conferindo o vazio."
+            exit 1
+          fi
+          pares=''
+          while IFS= read -r -d '' f; do
+            rel="${f#"${dir}"/}"
+            url="/demo/${rel}"
+            case "$url" in
+              */index.html) url="${url%index.html}" ;;
+            esac
+            pares="${pares}${url}|${f} "
+          done < <(find "$dir" -maxdepth 1 -type f \
+            \( -name 'index.html' -o -name '*.js' \) -print0)
+          printf '%s' "$pares" |
+            bash .github/scripts/conferir-edge.sh https://flocks.live "${ZONE_ID}"
 
   mcpb-build:
     name: mcpb (${{ matrix.binary }})
@@ -649,12 +741,25 @@ jobs:
           merge-multiple: true
 
       - name: Montar o bundle
+        # A lista de `cp` daqui É o conteúdo do `.mcpb`, e tem gate: o
+        # `test/mcpb_manifest_test.dart` do flocks_mcp lê este passo e compara os
+        # destinos com o esqueleto que o bundle promete. Acrescentar arquivo sem
+        # declarar lá, ou tirar um de lá, reprova no `checks` de todo PR.
         run: |
           set -euo pipefail
           mkdir -p bundle/server
           cp packages/flocks_mcp/mcpb/manifest.json bundle/manifest.json
           cp packages/flocks_mcp/mcpb/run.sh bundle/server/run.sh
           cp binaries/flocks_mcp-* bundle/server/
+          # O LICENSE vai DENTRO do zip porque este é o único caminho pelo qual
+          # os quatro binários compilados chegam a alguém: quem instala pelo
+          # Claude Desktop baixa o `.mcpb` de um GitHub Release e nunca passa
+          # pelo pub.dev nem pelo repo. Distribuir binário MIT sem o texto da
+          # licença é descumprir a própria licença, e o `manifest.json` declara
+          # `"license": "MIT"` — a declaração e o arquivo saem juntos ou a
+          # declaração é promessa vazia. O `v0.1.1` saiu com 7 entradas no zip e
+          # nenhuma era esta.
+          cp packages/flocks_mcp/LICENSE bundle/LICENSE
           # O artifact chega sem `+x` (ver o upload); o Info-ZIP grava o modo
           # no campo Unix do zip, e é ele que um `unzip` de verdade restaura.
           # O Claude Desktop ignora o campo e extrai tudo 0600 (mcpb#294) —
@@ -670,6 +775,11 @@ jobs:
         # seriam três bundles por plataforma. Medido a cada release em vez de
         # suposto uma vez — a decisão pelo único está no PR da Fase C3, e se a
         # razão entre os números virar, é aqui que aparece.
+        #
+        # Os `medida-*` levam o MESMO esqueleto do bundle publicado, `LICENSE`
+        # incluso: um bundle por plataforma também teria de carregar a licença
+        # (a obrigação é por cópia distribuída), e medir sem ela seria comparar
+        # o publicado com um hipotético mais magro do que ele poderia ser.
         run: |
           set -euo pipefail
           ls -la bundle/server/
@@ -677,6 +787,7 @@ jobs:
           for alvo in darwin linux windows; do
             mkdir -p "medida-${alvo}/server"
             cp bundle/manifest.json "medida-${alvo}/manifest.json"
+            cp bundle/LICENSE "medida-${alvo}/LICENSE"
             cp bundle/server/run.sh "medida-${alvo}/server/run.sh"
             cp bundle/server/flocks_mcp-"${alvo}"-* "medida-${alvo}/server/"
             (cd "medida-${alvo}" && zip -q -r "../medida-${alvo}.mcpb" .)
@@ -815,6 +926,10 @@ jobs:
         # Endpoint REGIONAL (br.), como no widgetbook: a zone vive em São
         # Paulo e o host genérico da doc não aceita a escrita. Cada PUT tem o
         # código HTTP conferido: upload parcial tem que ser vermelho.
+        #
+        # O `total` sai como output porque o último passo confere a lista dele
+        # contra a que subiu aqui — é o que impede os dois `find` de divergirem.
+        id: upload
         if: steps.changed.outputs.changed == 'true'
         shell: bash
         env:
@@ -836,6 +951,7 @@ jobs:
             total=$((total + 1))
           done < <(find . -type f -print0)
           echo "Enviados ${total} arquivo(s) para flocks-site."
+          echo "total=${total}" >> "$GITHUB_OUTPUT"
 
       - name: Purgar cache da Pull Zone
         id: purge
@@ -865,97 +981,59 @@ jobs:
           echo "Pull Zone ${zone_id} purgada."
 
       - name: Conferir que o edge serve o que subiu
-        # ESTE é o gate que faltava, e a razão dele tem data e cronômetro:
-        # 2026-08-10, o dia em que `flocks.live/` ficou ~3h30 servindo uma home
-        # sem o link "Demo" com este job VERDE. A linha do tempo, medida:
+        # O laço vive em `.github/scripts/conferir-edge.sh` — narrativa do
+        # incidente de 2026-08-10, orçamento de espera e repurge estão lá,
+        # porque os três jobs que purgam esta Pull Zone usam o MESMO laço e um
+        # gate só vale se for igual nos três.
         #
-        #   21:46:29-40  os 18 arquivos de site/ sobem, cada PUT com 201.
-        #   21:46:41     a Pull Zone é purgada — UM SEGUNDO depois do último PUT.
-        #   22:03:22     só então o `index.html` materializa nas réplicas.
-        #   até 00:55    `flocks.live/` ainda servia a versão de 14:08, sem o
-        #                link, vinda da réplica DE-768 — e com `cdn-cache: MISS`,
-        #                isto é, buscando na origem e recebendo bytes velhos.
-        #                No mesmo instante `flocks.live/index.html` já servia a
-        #                de 22:03, de outra réplica. A mesma zone, duas verdades.
-        #   ~01:20       convergiu sozinho: `/` passou a vir de DE-634, com 22:03.
+        # O que é específico daqui é a LISTA. Ela sai do mesmo `find site -type
+        # f` do upload, e não de URLs escolhidas à mão: o passo nasceu conferindo
+        # 4 dos 18 arquivos que sobem, e uma réplica divergente no
+        # `assets/style.css` (10.323 B, sem hash no nome, cacheado por um ano)
+        # deixaria o site sem estilo com este job VERDE — a mesma classe de falha
+        # que o script narra, num arquivo que ninguém tinha listado.
         #
-        # Duas lições estão embutidas na forma deste passo. A primeira: purgar
-        # cedo é PIOR que não purgar — limpa o edge enquanto a origem ainda tem
-        # os bytes velhos, e o edge recacheia o velho pelo TTL inteiro. Daí
-        # comparar, repurgar, esperar, comparar de novo. A segunda: conferir o
-        # código HTTP do PUT não é conferir o deploy. O upload estava perfeito; o
-        # que estava errado era o que o visitante recebia.
-        #
-        # A comparação é BYTE A BYTE contra o arquivo que acabou de subir, e não
-        # contra um marcador escolhido à mão: marcador é uma segunda coisa para
-        # manter em sincronia, e o que interessa é a igualdade. Sem cache-buster
-        # na URL, de propósito — a URL conferida tem de ser a que o visitante
-        # abre, porque foi exatamente entre `/` e `/index.html` que a divergência
-        # se esconde.
-        #
-        # VERMELHO AQUI NÃO SIGNIFICA "quebrado para sempre": significa que o
-        # edge ainda não convergiu. O conserto normal é re-rodar, ou disparar o
-        # workflow com `force_site`. Se persistir por vários ciclos, então sim é
-        # réplica divergente e o lugar de olhar é o painel da Bunny.
+        # Duas exclusões, as únicas: `404.html` não tem URL própria (a Pull Zone
+        # o serve como corpo de erro) e `assets/og.html` é o fonte de onde o
+        # `og-image.png` foi rasterizado, publicado só para quem quiser refazer
+        # a imagem. Elas são CONTADAS, e a soma tem de fechar com o total do
+        # upload: é isso que impede os dois `find` de divergirem em silêncio.
         if: steps.changed.outputs.changed == 'true'
         shell: bash
         env:
           BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
           ZONE_ID: ${{ steps.purge.outputs.zone_id }}
+          ENVIADOS: ${{ steps.upload.outputs.total }}
+          EDGE_DICA: >-
+            Réplica divergente na Storage Zone flocks-site é o suspeito —
+            confira no painel da Bunny antes de re-rodar com force_site.
         run: |
-          set -o pipefail
+          set -euo pipefail
           # "URL que o visitante abre|arquivo que a serve", um par por linha.
-          # Pares numa string com word-splitting, e não array associativo:
-          # `declare -A` é bash 4+, e assim isto também roda na mão de quem
-          # depura no macOS. `404.html` fica fora — não tem URL própria.
-          pending='/|site/index.html
-          /pt/|site/pt/index.html
-          /mcp/|site/mcp/index.html
-          /pt/mcp/|site/pt/mcp/index.html'
-          total=$(printf '%s\n' $pending | grep -c .)
-          # ~22 minutos de orçamento, escalonados. O número vem da medição, não
-          # do gosto: a replicação levou 17 minutos para fechar na maioria das
-          # réplicas, então um teto de 10 reprovaria um deploy que ia ficar bom.
-          # Não estica até as 3h30 que o caso do `/` levou porque ali o que
-          # segurava era o edge cacheando bytes velhos, e é justamente isso que o
-          # repurge deste laço desfaz. O job só roda quando `site/` muda — cinco
-          # commits na história do repo —, então o minuto de runner é barato.
-          delays='15 30 60 120 180 300 300 300'
-          attempt=0
-          while : ; do
-            still=''
-            for pair in $pending; do
-              url=${pair%%|*}
-              file=${pair##*|}
-              want=$(sha256sum "$file" | cut -d' ' -f1)
-              if curl -sSf -o /tmp/edge.body "https://flocks.live${url}"; then
-                got=$(sha256sum /tmp/edge.body | cut -d' ' -f1)
-              else
-                got='(a busca falhou)'
-              fi
-              if [ "$got" = "$want" ]; then
-                echo "confere: ${url}"
-              else
-                echo "divergente: ${url} (edge=${got} repo=${want})"
-                still="${still}${pair} "
-              fi
-            done
-            pending=$still
-            if [ -z "$pending" ]; then
-              echo "As ${total} páginas conferem byte a byte com site/."
-              break
-            fi
-            set -- $delays
-            if [ "$attempt" -ge "$#" ]; then
-              echo "::error::O edge não passou a servir o que subiu: ${pending}"
-              echo "::error::Réplica divergente na Storage Zone flocks-site é o suspeito — confira no painel da Bunny antes de re-rodar com force_site."
-              exit 1
-            fi
-            shift "$attempt"
-            wait_for=$1
-            attempt=$((attempt + 1))
-            curl -sS -o /dev/null -X POST -H "AccessKey: ${BUNNY_API_KEY}" \
-              "https://api.bunny.net/pullzone/${ZONE_ID}/purgeCache" || true
-            echo "Repurgado; aguardando ${wait_for}s (tentativa ${attempt})."
-            sleep "$wait_for"
-          done
+          pares=''
+          excluidos=0
+          while IFS= read -r -d '' f; do
+            rel="${f#site/}"
+            case "$rel" in
+              404.html | assets/og.html)
+                excluidos=$((excluidos + 1))
+                continue
+                ;;
+            esac
+            url="/${rel}"
+            # `site/pt/index.html` é servido em `/pt/`, e é entre as duas formas
+            # que a divergência de 2026-08-10 se escondeu: conferir `/pt/` é
+            # conferir o que o visitante abre.
+            case "$url" in
+              */index.html) url="${url%index.html}" ;;
+            esac
+            pares="${pares}${url}|${f} "
+          done < <(find site -type f -print0)
+          n=$(printf '%s\n' $pares | grep -c .)
+          if [ "$((n + excluidos))" != "${ENVIADOS}" ]; then
+            echo "::error::A lista de conferência (${n} pares + ${excluidos} exclusões) não fecha com os ${ENVIADOS} arquivos que subiram — o find deste passo divergiu do find do upload."
+            exit 1
+          fi
+          echo "${n} URL(s) a conferir, ${excluidos} exclusão(ões), ${ENVIADOS} arquivo(s) no ar."
+          printf '%s' "$pares" |
+            bash .github/scripts/conferir-edge.sh https://flocks.live "${ZONE_ID}"
