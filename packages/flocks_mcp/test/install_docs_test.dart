@@ -34,9 +34,28 @@ const Map<String, String> kSitePages = <String, String>{
   '../../site/pt/mcp/index.html': 'não publicado no pub.dev',
 };
 
+/// O README do `example/`, que é a aba Example do pub.dev.
+///
+/// Ele documenta o handshake do `initialize`, e o `.pubignore` NÃO tira o
+/// `example/` do tarball: aquele bloco de JSON é a primeira saída que um
+/// adotante lê. Era a única cópia da versão sem gate — as três que têm são o
+/// pubspec, `kServerVersion` e `mcpb/manifest.json`, e nenhuma delas é um JSON
+/// dentro de um markdown. Foi por essa fresta que a `0.1.1` saiu com um
+/// `serverInfo` anunciando `0.1.0`.
+const String kExampleReadmePath = 'example/README.md';
+
+/// Onde a versão aparece no handshake documentado.
+///
+/// `serverInfo` não tem objeto aninhado, então `[^}]*` basta e o padrão não
+/// precisa de um parser de JSON só para achar um campo.
+final RegExp kAnnouncedVersion = RegExp(
+  r'"serverInfo":\s*\{[^}]*"version":\s*"([^"]+)"',
+);
+
 void main() {
   final String pubspec = File('pubspec.yaml').readAsStringSync();
   final String readme = File('README.md').readAsStringSync();
+  final String exampleReadme = File(kExampleReadmePath).readAsStringSync();
 
   /// `publish_to: none` presente = o pacote não vai para o pub.dev ainda.
   final bool blocked = RegExp(
@@ -187,5 +206,35 @@ void main() {
           'O servidor se apresenta como $kServerVersion e o pubspec diz '
           '${declared.group(1)}. Ajuste `kServerVersion` em lib/src/server.dart.',
     );
+  });
+
+  test('o handshake documentado no example/ anuncia a versão do servidor', () {
+    // A quarta cópia da mesma versão, e a única que fica à vista de quem só
+    // olhou o pub.dev. O teste acima cobra o pubspec contra `kServerVersion`;
+    // este cobra a saída que o `example/` diz ter capturado de uma execução
+    // real — e uma captura que envelheceu não é mais uma captura.
+    final Iterable<RegExpMatch> shown = kAnnouncedVersion.allMatches(
+      exampleReadme,
+    );
+    expect(
+      shown,
+      isNotEmpty,
+      reason:
+          'O $kExampleReadmePath não mostra mais um `serverInfo` com '
+          '`version`. Se o handshake saiu do exemplo, tire este gate junto; '
+          'se só mudou de forma, ajuste `kAnnouncedVersion`.',
+    );
+    for (final RegExpMatch shownVersion in shown) {
+      expect(
+        shownVersion.group(1),
+        kServerVersion,
+        reason:
+            'O handshake de $kExampleReadmePath diz ${shownVersion.group(1)} e '
+            'o servidor se apresenta como $kServerVersion. É a aba Example do '
+            'pub.dev, e o `example/` viaja no tarball: a primeira saída que um '
+            'adotante lê estaria afirmando uma versão que não é a dele. '
+            'Recapture a linha rodando o pipe do próprio exemplo.',
+      );
+    }
   });
 }

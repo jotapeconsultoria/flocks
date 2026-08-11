@@ -11,6 +11,43 @@ follows [SemVer](https://semver.org/).
 > explains why `0.x`. It published *after* `flocks`, because the core's `0.1.0`
 > is what settles the catalog schema this package embeds.
 
+## [0.1.2] - 2026-08-11
+
+**O número acompanha o `flocks` 0.1.2**, pela razão que o bloco acima dá: o que
+este servidor serve *é* o catálogo do core, e uma linha de versão própria só
+criaria matriz de compatibilidade entre servidor e catálogo. O que mudou no core
+está no CHANGELOG do `flocks`. Aqui nada mudou no código que responde às tools:
+desde a `0.1.1`, o diff deste pacote são dois arquivos — `.pubignore` e
+`README.md`.
+
+### Fixed
+
+- **O `server.json` entrou no `.pubignore`.** Ele é gerado no job de release e
+  nunca commitado — disso o `.gitignore` da raiz já cuidava —, mas rodar o
+  gerador à mão deixa um `server.json` solto na árvore carregando a versão e o
+  `sha256` do release *anterior*, e um `dart pub publish` local o levaria dentro
+  do tarball da versão nova. A linha do `.gitignore` não bastava: no
+  empacotamento, o `.pubignore` **substitui** o `.gitignore` em vez de somar com
+  ele.
+- **A receita de publicação no MCP Registry, no README.** O `curl -LO` se recusa
+  a sobrescrever: com um `server.json` velho no diretório, ele pula o download
+  em silêncio e o que se republica é a versão passada — daí o `rm -f` antes. E a
+  URL passa a nomear a tag em vez de `latest`, porque o CI monta o Release
+  *depois* que a tag é empurrada: nessa janela, `latest` ainda é o release
+  anterior. O README também passa a dizer o que um `403` do registry quer
+  dizer — token sem `read:org` — e que um `$GITHUB_PAT` vazio produz o mesmo
+  erro, porque `-token ""` cai de volta no fluxo interativo.
+- **O handshake documentado no `example/` anunciava `0.1.0`.** Aquele bloco de
+  JSON é a aba Example do pub.dev, e o `.pubignore` não tira o `example/` do
+  tarball: era a primeira saída que um adotante lia, afirmando uma versão que
+  não era a do pacote. A linha era a quarta cópia da versão e a única sem gate —
+  as outras três (pubspec, `kServerVersion`, `mcpb/manifest.json`) já se cobram
+  entre si. Foi recapturada rodando o pipe do próprio exemplo, e a captura
+  mostrou que a linha também havia perdido o `id` da resposta e o campo
+  `instructions`; o valor de `instructions` aparece elidido, e o texto agora diz
+  que aparece. `test/install_docs_test.dart` passa a reprovar quando essa versão
+  divergir da que o servidor anuncia.
+
 ## [0.1.1] - 2026-08-10
 
 ### Added

@@ -29,11 +29,16 @@ printf '%s\n' \
   | flocks_mcp
 ```
 
-The handshake answers with the negotiated revision and the server version:
+The handshake answers with the negotiated revision and the server version. The
+value of `instructions` is elided below — the real answer carries the whole
+paragraph the agent reads before its first call:
 
 ```json
-{"jsonrpc":"2.0","result":{"protocolVersion":"2024-11-05","capabilities":{"tools":{"listChanged":true}},"serverInfo":{"name":"flocks_mcp","version":"0.1.0"}}}
+{"jsonrpc":"2.0","result":{"protocolVersion":"2024-11-05","capabilities":{"tools":{"listChanged":true}},"serverInfo":{"name":"flocks_mcp","version":"0.1.2"},"instructions":"…"},"id":1}
 ```
+
+That `version` is gated: `test/install_docs_test.dart` fails if it drifts from
+the one the server actually announces.
 
 and the call answers with the digest of every match:
 
