@@ -129,6 +129,97 @@ jobs:
         run: flutter test
         working-directory: packages/flocks_demo
 
+  snippet:
+    name: snippet (hosted)
+    # O snippet que a demo entrega ao visitante compila contra o `flocks` do
+    # PUB.DEV? Nenhum outro gate responde a isso, e a lacuna já custou uma
+    # versão: durante a 0.1.1 a demo exportou código que emitia
+    # `flippedSwatch(`, função que existia só na `[Unreleased]`. O
+    # `brand_snippet_freshness_test` ficou verde o tempo todo, e com razão —
+    # `packages/flocks` é membro do workspace e o artefato mora dentro dele,
+    # então o `package:flocks/flocks.dart` que ele importa resolve para
+    # `packages/flocks/lib/`, onde todo símbolo novo existe, publicado ou não.
+    #
+    # Este job é o único lugar do repo que sai do workspace: monta um pacote
+    # descartável em `$RUNNER_TEMP`, declara o `flocks` HOSPEDADO, copia o
+    # artefato para dentro e analisa. É literalmente a situação de quem colou o
+    # snippet num projeto próprio.
+    #
+    # A versão é pinada EXATA na do pubspec, e não em `^0.1.0`: o que interessa
+    # provar é que o snippet compila contra a versão que esta árvore diz ser, e
+    # `^0.1.0` responderia sobre "a mais nova que existir", que é outra pergunta
+    # e não é determinística.
+    #
+    # Daí a guarda de versão. Entre preparar um release e publicá-lo existe uma
+    # janela — agora mesmo, com o pubspec na 0.1.2 e o pub.dev na 0.1.1 — em que
+    # a versão pinada não é resolvível. Nessa janela o job PULA, dizendo no log
+    # exatamente o que deixou de conferir. Pular declarando é honesto; um
+    # `continue-on-error` seria o mesmo gate virado enfeite, e reprovar seria
+    # exigir que o publish viesse antes do merge que o prepara.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.0
+          channel: stable
+          cache: true
+
+      - name: A versão desta árvore já está no pub.dev?
+        id: published
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(sed -n 's/^version: *//p' packages/flocks/pubspec.yaml | head -1)
+          if [ -z "$version" ]; then
+            echo '::error::não achei a chave version: em packages/flocks/pubspec.yaml'
+            exit 1
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          # `curl` explícito e `jq`, como o resto do arquivo: sem action de
+          # terceiro no caminho de um job que depois roda `pub get`.
+          if curl -sS -H 'Accept: application/vnd.pub.v2+json' \
+            "https://pub.dev/api/packages/flocks" |
+            jq -e --arg v "$version" 'any(.versions[]; .version == $v)' >/dev/null
+          then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            echo "flocks ${version} está no pub.dev — conferindo o snippet contra ela."
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::flocks ${version} ainda NÃO está no pub.dev. O snippet exportado não foi conferido contra o pacote hospedado nesta execução — este job volta a valer no primeiro push depois do publish da ${version}."
+          fi
+
+      - name: O snippet exportado compila contra o flocks hospedado
+        if: steps.published.outputs.found == 'true'
+        shell: bash
+        env:
+          VERSION: ${{ steps.published.outputs.version }}
+          # FORA de `$GITHUB_WORKSPACE` de propósito: dentro do repo, o `pub`
+          # subiria até o `workspace:` da raiz e resolveria o membro local — que
+          # é exatamente o engano que este job existe para não cometer.
+          PROBE: ${{ runner.temp }}/snippet-hosted
+        run: |
+          set -euo pipefail
+          mkdir -p "${PROBE}/lib"
+          cat > "${PROBE}/pubspec.yaml" <<EOF
+          name: snippet_hosted_probe
+          publish_to: none
+          environment:
+            sdk: ^3.12.0
+          dependencies:
+            flocks: ${VERSION}
+            flutter:
+              sdk: flutter
+          EOF
+          cp packages/flocks/test/support/exported_brand_snippet.dart "${PROBE}/lib/"
+          cd "${PROBE}"
+          flutter pub get
+          # O artefato é uma biblioteca sem `main`, então o analisador é o
+          # veredito inteiro: símbolo que não existe na versão publicada vira
+          # `undefined_function` aqui, que foi o erro exato do caso da 0.1.1.
+          dart analyze
+
   goldens:
     name: goldens (macOS)
     # Runner PINADO, não `macos-latest`: trocar a imagem troca o rasterizador

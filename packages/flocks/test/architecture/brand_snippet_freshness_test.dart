@@ -23,11 +23,20 @@
 // O `pubspec.lock` não tem entrada `flocks` nenhuma.
 //
 // Foi essa lacuna que deixou a demo exportar `flippedSwatch(` durante a 0.1.1,
-// com este gate verde: a função existia aqui e não lá. Quem fecha o furo é o job
-// `snippet (hosted)` do CI, que resolve `flocks: ^0.1.0` do pub.dev num
-// diretório fora do workspace e analisa este mesmo artefato lá dentro — a
-// situação real de quem cola o snippet. Este teste continua sendo o gate do
-// FORMATO; o de lá é o gate da PROMESSA.
+// com este gate verde: a função existia aqui e não lá.
+//
+// Quem fecha o furo é o job `snippet (hosted)` do `ci.yml`. Ele monta um pacote
+// descartável FORA do workspace, declara o `flocks` hospedado pinado na versão
+// exata deste pubspec, copia este mesmo artefato para dentro e roda
+// `dart analyze` — a situação real de quem cola o snippet num projeto próprio.
+// Este teste continua sendo o gate do FORMATO; o de lá é o gate da PROMESSA.
+//
+// Com uma ressalva que também vale dita, porque é o mesmo tipo de coisa que este
+// cabeçalho existe para não deixar passar: entre preparar um release e publicá-lo
+// a versão pinada não é resolvível, e nessa janela o job PULA, anotando no log o
+// que deixou de conferir. Ele não é uma proteção contínua — é uma proteção que
+// vale para toda versão que já esteja no pub.dev, e que fica muda exatamente
+// enquanto a próxima não estiver.
 //
 // O gerador mora aqui, e não em `tool/`, por uma razão de plataforma: o `flocks`
 // depende de Flutter, e `dart run` não compila `dart:ui`. Regenerar é
