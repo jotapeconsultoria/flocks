@@ -82,11 +82,39 @@ class DemoAppState extends State<DemoApp> {
           ),
           child: ColoredBox(
             color: theme.colorTheme.surface,
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) =>
-                  constraints.maxWidth < kMinShellWidth
-                  ? const _TooNarrow()
-                  : _shell(),
+            // O `Overlay` é obrigatório, e a ausência dele era um defeito.
+            //
+            // O Flocks não monta `Overlay` em lugar nenhum — de propósito: quem
+            // hospeda decide onde a camada flutuante vive. Os componentes que
+            // precisam dela fazem `Overlay.of(context).insert(...)`, e a demo,
+            // por não ter `MaterialApp`, não tinha quem a fornecesse. O efeito
+            // era silencioso e visível em produção: tocar "Container style",
+            // "Corner shape" ou "Typeface" no painel — dois dos três eixos que a
+            // demo existe para o visitante mexer — não abria nada. Nem erro na
+            // tela, nem no console: o `Overlay.of` não achava ancestral e o
+            // gesto morria ali. O mesmo valia para os dropdowns de Plan e Status
+            // do formulário, para o seletor de data e para a seleção de texto
+            // dos campos.
+            //
+            // Uma entrada só, com o shell dentro: é o mínimo que `widgets.dart`
+            // pede, e mantém a promessa de que não há Material aqui. O
+            // `LayoutBuilder` fica DENTRO da entrada para continuar medindo o
+            // viewport inteiro.
+            //
+            // O gate é `test/overlay_dependent_test.dart`, que abre cada um
+            // desses controles e falha se algum voltar a morrer calado.
+            child: Overlay(
+              initialEntries: <OverlayEntry>[
+                OverlayEntry(
+                  builder: (BuildContext context) => LayoutBuilder(
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) =>
+                            constraints.maxWidth < kMinShellWidth
+                            ? const _TooNarrow()
+                            : _shell(),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
