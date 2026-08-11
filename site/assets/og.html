@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <!-- Fonte da og-image.png (1200×630). Renderizada localmente com Chrome
        headless; o PNG versionado é o artefato, este arquivo é a receita. -->
+  <!-- Receita não é conteúdo, mas o deploy sobe todo o `site/`: esta página
+       responde 200 em flocks.live e não está no sitemap. Mesmo `noindex` do
+       404.html, pela mesma razão. Um `Disallow` no robots.txt não serviria:
+       ele proíbe rastrear, não indexar — e impediria o crawler de ler
+       justamente este noindex. -->
+  <meta name="robots" content="noindex">
   <style>
     @font-face {
       font-family: 'Space Grotesk';
