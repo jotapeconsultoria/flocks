@@ -1,28 +1,78 @@
 # Pendências da demo
 
-## A Roboto que o runtime do Flutter busca
+## As duas fontes que o runtime do Flutter busca no Google
 
-O CanvasKit registra a **Roboto como fonte padrão do engine** na inicialização e
-a baixa de `fonts.gstatic.com` — uma requisição de ~15 KB, a cada carregamento,
-para um servidor do Google. A demo não usa Roboto em lugar nenhum: toda a escala
-tipográfica é Poppins ou Space Grotesk, empacotadas no `flocks`.
+São **duas** requisições a `fonts.gstatic.com` por carregamento frio, e nenhuma
+delas é escolha da demo. Medidas em `https://flocks.live/demo/` em 2026-08-11,
+nas duas telas:
 
-Isso é do bootstrap JavaScript, antes de qualquer Dart nosso: nenhum teste em VM
-o enxerga, e foi descoberto lendo a aba de rede de um navegador de verdade. A
-irmã dele — o CanvasKit vindo do `www.gstatic.com` — já foi corrigida com
-`--no-web-resources-cdn` no CI, com gate estático em
-`test/architecture_test.dart`.
+| Fonte | Bytes | Quando |
+| --- | --- | --- |
+| `roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2` | 63.464 | na carga de fontes, junto dos 5 TTF locais, **antes do primeiro frame** |
+| `notosanssymbols/v43/rP2up3q65FkA….woff2` | 69.116 | no **primeiro layout**, sem ninguém digitar nada |
+
+**A Roboto sai mesmo sem a demo usá-la, e não é lazy.** O CanvasKit precisa de
+uma fonte de fallback registrada para não estourar ao dispor texto com família
+desconhecida, e escolheu a Roboto para casar com o Android. Em
+`canvaskit/fonts.dart` do engine (SDK 3.44.0), `loadAssetFonts` percorre o
+`FontManifest.json` e, se nenhuma família ali se chamar literalmente `Roboto`,
+acrescenta `_downloadFont('Roboto', _robotoUrl, 'Roboto')` à lista que é
+**aguardada** antes de seguir. Nosso manifesto declara `packages/flocks/Poppins`
+e `packages/flocks/SpaceGrotesk`: a condição é sempre verdadeira. `_robotoUrl` é
+`'${configuration.fontFallbackBaseUrl}roboto/v32/…woff2'`, e
+`fontFallbackBaseUrl` cai no default `https://fonts.gstatic.com/s/` porque
+ninguém o configura — `web/index.html` não tem bloco de config do loader.
+
+**A Noto Sans Symbols é lazy, e o gatilho é nosso.** A fila de fallback do
+engine baixa uma Noto por codepoint sem cobertura, e
+`getMissingCodePoints(codePoints, fontFamilies)` confere a cobertura **só contra
+as famílias daquele span**, não contra tudo o que está registrado. O bloco de
+código do painel ("Take it with you") pede a pilha mono de
+`app_content_style.dart` do `flocks` — `SF Mono`, `Menlo`, `Consolas`,
+`Roboto Mono`, … —, e nenhuma delas está registrada no CanvasKit. Aí cada acento
+do comentário em português do snippet ("já", "padrão", "só") vira codepoint
+órfão.
+Como acento latino é coberto por dezenas de Noto, dá empate, e o desempate do
+engine prefere explicitamente a Noto Sans Symbols: **67,5 KB de uma fonte de
+símbolos para desenhar "ã"**. O painel é chrome compartilhado, então as duas
+telas pagam.
+
+Nada disso é alcançável pelos gates: acontece no bootstrap JavaScript e na fila
+do engine, antes e fora de qualquer Dart nosso. A irmã das duas — o CanvasKit
+vindo do `www.gstatic.com` — já foi corrigida com `--no-web-resources-cdn` no
+CI, com gate estático em `test/architecture_test.dart`, e a medição confirma que
+essa continua corrigida: zero requisições a `www.gstatic.com`.
 
 **Por que ainda não foi corrigido:** o caminho é `fontFallbackBaseUrl` na
 configuração do loader, apontando para uma cópia das fontes de fallback servida
 por nós. Isso significa vendorar a Roboto (Apache 2.0, redistribuível) e
 reproduzir a estrutura de diretórios que o engine espera — sem contrato
-documentado e sujeito a mudar entre versões do Flutter.
+documentado e sujeito a mudar entre versões do Flutter. E agora não é só a
+Roboto: apontar a base para nós obriga a decidir o que fazer com a fila de Noto
+inteira, que é grande e é escolhida em tempo de execução. A segunda requisição
+tem um conserto mais barato e independente: empacotar uma mono nos assets do
+`flocks` — o `TODO(flocks)` de `app_content_style.dart` já aponta para lá por
+outro motivo (goldens de código determinísticos) — mata o gatilho na raiz.
 
-**O que isso não é:** não é o logo saindo da aba. É um download de fonte, não um
-upload, e o gate de rede continua provando que nenhum byte do logo vai a lugar
-nenhum. Por causa disso, a frase "esta página não contacta host nenhum" não está
-escrita em lugar algum da demo — nem na tela, nem no README.
+**O que isso não é:** não é o logo saindo da aba. São downloads de fonte, não
+uploads, e o gate de rede continua provando que nenhum byte do logo vai a lugar
+nenhum.
+
+**Onde a frase falsa está escrita.** "Esta página não contacta host nenhum" não
+está na tela nem no README — mas está em dois lugares, e é falsa nos dois:
+`ci.yml`, no comentário do passo de build da demo (corrigido no PR que trouxe
+esta medição), e o `reason` do gate do CDN em `test/architecture_test.dart`, que
+segue dizendo que sem a flag "deixa de ser verdade que ela não contacta host
+nenhum" — sem a flag ou com ela, a demo contacta.
+
+**Como medir, para a próxima pessoa não errar como a anterior.** A auditoria de
+2026-08-11 concluiu "39 requisições, todas em `flocks.live`, nenhuma para
+`fonts.gstatic.com`" — e estava errada por método: a aba de rede usada lista só
+requisições da origem da página, e as de terceiros não aparecem nela. O que vê
+tudo é `performance.getEntriesByType('resource')` no console da própria página.
+Os dois arquivos do gstatic vêm com `cache-control: public, max-age=31536000`,
+então o byte sai na primeira visita e o cache responde nas seguintes; a primeira
+visita de cada visitante é justamente a que a tese da demo descreve.
 
 ---
 
