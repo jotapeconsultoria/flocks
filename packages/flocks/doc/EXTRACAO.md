@@ -16,14 +16,14 @@ novo estabilizou.
 
 | | |
 |---|---|
-| Repositório | Próprio, público; os três da extração em `packages/`, mais o `flocks_mcp`, que nasceu aqui |
+| Repositório | Próprio, público; sete pacotes em `packages/`: os três da extração, o `flocks_mcp`, os dois providers de ícone da Fase F e a demo da Fase D |
 | Resolução | Pub workspace, com o `pubspec.yaml` da raiz |
-| Versão | `0.1.1`, os quatro em lockstep |
-| `publish_to` | Fora dos pacotes publicáveis; só a raiz (workspace) mantém `none` |
+| Versão | `0.1.1` nos quatro publicados, em lockstep; os dois providers novos em `0.1.0`, ainda não publicados |
+| `publish_to` | Fora dos quatro publicados; `none` na raiz (workspace), nos dois providers novos (até o primeiro publish) e no `flocks_demo` (permanente — é vitrine) |
 | Publicação | pub.dev, `0.1.1`, publisher `jotapeconsultoria.com.br`, tag `v0.1.1`. A `0.1.0` saiu de manhã; a `0.1.1`, no fim do dia, com o que a pana cobrou |
 | Consumo pelo monorepo | Hospedado, `^0.1.0` — a dependência `git:` e o override saíram em 2026-08-10 |
 | Licença | MIT em cada pacote, e na raiz |
-| CI | `.github/workflows/ci.yml`, dois jobs (Linux e macOS) |
+| CI | `.github/workflows/ci.yml`: gates (Linux), goldens (macOS pinado) e os deploys de site, Widgetbook e demo |
 
 ## As decisões
 

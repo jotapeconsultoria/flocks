@@ -9,7 +9,7 @@ import 'package:flutter/widgets.dart';
 /// É por aqui que se chega aos ícones **fora** do contrato de `AppIconToken`:
 ///
 /// ```dart
-/// const LucideIcon(FlocksLucide.storefront, size: 24)
+/// const LucideIcon(FlocksLucide.store, size: 24)
 /// ```
 ///
 /// Escrever a constante direto, e não um seletor em tempo de execução, é o que

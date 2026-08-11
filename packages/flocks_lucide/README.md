@@ -61,7 +61,7 @@ For any other icon, write the constant directly. The cost is then paid by
 whoever uses it, and it is only the glyph named:
 
 ```dart
-const LucideIcon(FlocksLucide.storefront)
+const LucideIcon(FlocksLucide.store)
 ```
 
 When an icon really must arrive by *slug* — because the caller is a component
