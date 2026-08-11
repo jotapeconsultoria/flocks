@@ -17,11 +17,32 @@
 // por acidente: qualquer rede nova acende aqui.
 //
 // LIMITE DESTE GATE, declarado para não ser confundido com uma promessa maior do
-// que ele cumpre: ele roda na VM e vê o Dart da aplicação. O bootstrap
-// JavaScript do Flutter Web roda antes e fora daqui, e ele busca o CanvasKit
-// (contornado com `--no-web-resources-cdn`, e há um gate estático para a flag) e
-// a fonte Roboto do Google (ainda não contornado — ver README e TODO). Nenhum
-// dos dois toca o logo, mas nenhum dos dois seria visto por este arquivo.
+// que ele cumpre. São três furos, e o primeiro é o maior:
+//
+// 1. **O ramo web da demo nunca é COMPILADO aqui, quanto mais executado.**
+//    `flutter test` roda na VM, onde `dart.library.io` é verdadeiro, então o
+//    export condicional de `lib/src/state/browser.dart` escolhe
+//    `browser_stub.dart` — e `browser_web.dart`, o ÚNICO arquivo da demo que
+//    fala com o navegador (`history.replaceState`, o `<input type=file>` e o
+//    `FileReader` que leem o logo), fica fora do build. Não há registro dele no
+//    `coverage/lcov.info`, e não haveria: o compilador não o viu. Um
+//    `sendBeacon` ou um `WebSocket` plantado lá passaria por este arquivo
+//    intocado. Quem o fiscaliza é o `architecture_test.dart`, que varre `lib/`
+//    inteiro como TEXTO justamente porque nenhum teste de execução o alcança —
+//    e é por isso que a lista de proibidos de lá é longa e específica em vez de
+//    confiar neste gate.
+// 2. O bootstrap JavaScript do Flutter Web roda antes e fora daqui, e ele busca
+//    o CanvasKit (contornado com `--no-web-resources-cdn`, e há um gate estático
+//    para a flag) e a fonte Roboto do Google (ainda não contornado — ver README
+//    e TODO). Nenhum dos dois toca o logo, mas nenhum dos dois seria visto por
+//    este arquivo.
+// 3. `HttpOverrides` intercepta o `dart:io` do Dart. Rede aberta por JS pelo
+//    lado de fora, sem passar pelo `HttpClient`, não acenderia aqui — o que é a
+//    mesma lacuna do item 1, vista pelo outro lado.
+//
+// Os dois gates são complementares e nenhum dos dois basta: este prova que o
+// caminho EXECUTADO não faz rede; o estático prova que o caminho NÃO EXECUTADO
+// não tem como fazer.
 import 'dart:io';
 import 'dart:typed_data';
 
