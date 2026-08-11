@@ -222,11 +222,13 @@ Set<String> _testedIdentifiers(String root) {
 ///
 /// Lança se [root] não for a raiz do pacote — ver [requireComponentRoot].
 List<String> conformanceErrors(String root) {
-  // A descoberta vem PRIMEIRO, antes até da fase 1, porque é a única leitura
-  // de disco que reprova o root errado: as duas de baixo (`useCaseTypes` e a de
-  // `test/`) devolvem conjunto vazio em silêncio, e rodavam antes desta. Ler o
-  // código na primeira linha é o que faz um cwd errado falhar antes de qualquer
-  // outra coisa — em vez de virar um relatório vazio com cara de aprovação.
+  // A descoberta vem PRIMEIRO, antes até da fase 1, para que o cwd errado
+  // reprove antes das duas leituras silenciosas: `useCaseTypes` e a de `test/`
+  // varrem diretório recursivo e devolvem conjunto vazio sem reclamar, e rodavam
+  // antes desta. A ordem NÃO é o que dá alcance à guarda — `discoverWidgets`
+  // lança de onde quer que seja chamada, inclusive do `for` lá embaixo, e por
+  // isso nenhum teste pina esta linha (medido: com o hoist revertido, os cinco
+  // continuam verdes). É higiene de diagnóstico: quem reprova fala primeiro.
   final List<DiscoveredWidget> widgets = discoverWidgets(root);
 
   final List<String> errors = <String>[];

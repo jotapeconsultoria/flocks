@@ -68,11 +68,14 @@ void main() {
       // "OK: 131 componente(s) migrado(s) + 0 interno(s)" e saía 0. O `+ 0` era
       // a única pista, e o número honesto é 7.
       //
-      // As DUAS entradas públicas são asseridas de propósito. A guarda vive num
-      // lugar só (dentro de `discoverWidgets`), e `conformanceErrors` só está
-      // coberta porque chama a descoberta na primeira linha — asserir as duas é
-      // o que trava essa ordem contra um reorder futuro, sem duplicar guarda no
-      // código.
+      // As DUAS entradas públicas são asseridas porque as duas são chamadas de
+      // fora deste arquivo (`validate_components.dart` usa as duas), e a guarda
+      // vive num lugar só: dentro de `discoverWidgets`. `conformanceErrors` está
+      // coberta por chamá-la — em qualquer ponto do corpo, não só na primeira
+      // linha. Isto NÃO trava a ordem de leitura lá dentro: com o hoist
+      // revertido, estes cinco testes continuam verdes (medido). O hoist é
+      // higiene de diagnóstico, não invariante — quem quiser mudá-lo não vai
+      // encontrar rede aqui.
       expect(() => discoverWidgets('../..'), throwsStateError);
       expect(
         () => conformanceErrors('../..'),
