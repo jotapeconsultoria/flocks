@@ -42,7 +42,7 @@ CHANGELOG do `flocks`.
   `iconProvider` por `PhosphorIconProvider()` redesenha tudo sem mexer na
   árvore.
 
-## [0.1.0] - 2026-08-05
+## [0.1.0] - 2026-08-10
 
 ### Added
 

@@ -36,7 +36,7 @@ CHANGELOG do `flocks`.
   `flocks` 0.1.1: este pacote nunca teve nada de web em `lib/`, mas carregava
   os dois defeitos do core pela dependência. Ver o CHANGELOG do `flocks`.
 
-## [0.1.0] - 2026-08-05
+## [0.1.0] - 2026-08-10
 
 ### Added
 

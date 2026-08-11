@@ -136,7 +136,7 @@ publicação. Nenhum deles se conserta na `0.1.0`: lá o tarball é imutável.
   nada os importava e o barril não os exportava. O `_io` carregava o segundo
   `dart:io` do pacote.
 
-## [0.1.0] - 2026-08-05
+## [0.1.0] - 2026-08-10
 
 ### Added
 
