@@ -26,3 +26,17 @@ test/
 # distribuição, montada pelo job de release do CI a partir destes arquivos —
 # num tarball do pub eles seriam só peso morto.
 mcpb/
+
+# O `server.json` do MCP Registry, que é GERADO no job de release e nunca
+# commitado (a razão inteira está no cabeçalho de `tool/generate_server_json.dart`).
+# Ele precisa estar nos DOIS ignores, e não num só: o `.gitignore` impede o
+# commit, e este impede o tarball — como diz o aviso lá no alto, este arquivo
+# SUBSTITUI o `.gitignore` no empacotamento em vez de somar, então a linha de lá
+# não cobriria isto aqui.
+#
+# O risco é concreto, e é o que motivou a linha: rodar o gerador à mão deixa um
+# `server.json` solto na árvore, e ele carrega a versão e o sha256 do release
+# ANTERIOR. Num `dart pub publish` local isso viajaria dentro do tarball da
+# versão nova, dizendo com cara de fonte de verdade que o pacote é a versão
+# passada e apontando para um artefato que não é o dele.
+server.json

@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "flocks-demo",
+      "runtimeExecutable": "flutter",
+      "runtimeArgs": [
+        "run",
+        "-d",
+        "web-server",
+        "--web-port",
+        "5599",
+        "--web-hostname",
+        "127.0.0.1",
+        "--no-web-resources-cdn",
+        "-t",
+        "lib/main.dart"
+      ],
+      "cwd": "packages/flocks_demo",
+      "port": 5599
+    }
+  ]
+}
