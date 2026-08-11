@@ -5,9 +5,6 @@ description: "Lucide Icons para o Flocks: os ícones em fonte, com tree-shaking,
 # matriz de compatibilidade para manter. A linha pública deste pacote começa em
 # 0.1.0 porque ele nunca foi publicado — o `flocks` já está em 0.1.1.
 version: 0.1.0
-# Sai no dia da primeira publicação, junto com o aviso do README. O
-# `test/install_docs_test.dart` cobra que os dois andem juntos.
-publish_to: none
 
 repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks_lucide
 homepage: https://flocks.live

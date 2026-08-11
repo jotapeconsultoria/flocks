@@ -21,6 +21,18 @@ on:
     tags: ['v*']
   pull_request:
   workflow_dispatch:
+    inputs:
+      force_site:
+        description: 'Deployar site/ ignorando a guarda de diff'
+        type: boolean
+        default: false
+        # A guarda do job `site` olha o diff do push, então um re-run do mesmo
+        # commit sai com "site/ intacto" e não sobe nada. Isso é o certo no dia
+        # a dia e é um beco sem saída quando o objeto na Storage Zone da Bunny
+        # divergiu do repo — foi o caso da nav sem o link "Demo" em 2026-08-10,
+        # em que a fonte estava correta e o `flocks.live/` servia uma versão
+        # atrás. Sem esta chave, a única saída era um commit de mentirinha
+        # dentro de `site/`.
 
 jobs:
   checks:
@@ -116,6 +128,97 @@ jobs:
       - name: Testes (flocks_demo)
         run: flutter test
         working-directory: packages/flocks_demo
+
+  snippet:
+    name: snippet (hosted)
+    # O snippet que a demo entrega ao visitante compila contra o `flocks` do
+    # PUB.DEV? Nenhum outro gate responde a isso, e a lacuna já custou uma
+    # versão: durante a 0.1.1 a demo exportou código que emitia
+    # `flippedSwatch(`, função que existia só na `[Unreleased]`. O
+    # `brand_snippet_freshness_test` ficou verde o tempo todo, e com razão —
+    # `packages/flocks` é membro do workspace e o artefato mora dentro dele,
+    # então o `package:flocks/flocks.dart` que ele importa resolve para
+    # `packages/flocks/lib/`, onde todo símbolo novo existe, publicado ou não.
+    #
+    # Este job é o único lugar do repo que sai do workspace: monta um pacote
+    # descartável em `$RUNNER_TEMP`, declara o `flocks` HOSPEDADO, copia o
+    # artefato para dentro e analisa. É literalmente a situação de quem colou o
+    # snippet num projeto próprio.
+    #
+    # A versão é pinada EXATA na do pubspec, e não em `^0.1.0`: o que interessa
+    # provar é que o snippet compila contra a versão que esta árvore diz ser, e
+    # `^0.1.0` responderia sobre "a mais nova que existir", que é outra pergunta
+    # e não é determinística.
+    #
+    # Daí a guarda de versão. Entre preparar um release e publicá-lo existe uma
+    # janela — agora mesmo, com o pubspec na 0.1.2 e o pub.dev na 0.1.1 — em que
+    # a versão pinada não é resolvível. Nessa janela o job PULA, dizendo no log
+    # exatamente o que deixou de conferir. Pular declarando é honesto; um
+    # `continue-on-error` seria o mesmo gate virado enfeite, e reprovar seria
+    # exigir que o publish viesse antes do merge que o prepara.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.0
+          channel: stable
+          cache: true
+
+      - name: A versão desta árvore já está no pub.dev?
+        id: published
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(sed -n 's/^version: *//p' packages/flocks/pubspec.yaml | head -1)
+          if [ -z "$version" ]; then
+            echo '::error::não achei a chave version: em packages/flocks/pubspec.yaml'
+            exit 1
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          # `curl` explícito e `jq`, como o resto do arquivo: sem action de
+          # terceiro no caminho de um job que depois roda `pub get`.
+          if curl -sS -H 'Accept: application/vnd.pub.v2+json' \
+            "https://pub.dev/api/packages/flocks" |
+            jq -e --arg v "$version" 'any(.versions[]; .version == $v)' >/dev/null
+          then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+            echo "flocks ${version} está no pub.dev — conferindo o snippet contra ela."
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::flocks ${version} ainda NÃO está no pub.dev. O snippet exportado não foi conferido contra o pacote hospedado nesta execução — este job volta a valer no primeiro push depois do publish da ${version}."
+          fi
+
+      - name: O snippet exportado compila contra o flocks hospedado
+        if: steps.published.outputs.found == 'true'
+        shell: bash
+        env:
+          VERSION: ${{ steps.published.outputs.version }}
+          # FORA de `$GITHUB_WORKSPACE` de propósito: dentro do repo, o `pub`
+          # subiria até o `workspace:` da raiz e resolveria o membro local — que
+          # é exatamente o engano que este job existe para não cometer.
+          PROBE: ${{ runner.temp }}/snippet-hosted
+        run: |
+          set -euo pipefail
+          mkdir -p "${PROBE}/lib"
+          cat > "${PROBE}/pubspec.yaml" <<EOF
+          name: snippet_hosted_probe
+          publish_to: none
+          environment:
+            sdk: ^3.12.0
+          dependencies:
+            flocks: ${VERSION}
+            flutter:
+              sdk: flutter
+          EOF
+          cp packages/flocks/test/support/exported_brand_snippet.dart "${PROBE}/lib/"
+          cd "${PROBE}"
+          flutter pub get
+          # O artefato é uma biblioteca sem `main`, então o analisador é o
+          # veredito inteiro: símbolo que não existe na versão publicada vira
+          # `undefined_function` aqui, que foi o erro exato do caso da 0.1.1.
+          dart analyze
 
   goldens:
     name: goldens (macOS)
@@ -642,25 +745,66 @@ jobs:
     #    (O conteúdo dele TEM gate: `install_docs_test.dart` fiscaliza a copy
     #    de instalação das duas páginas junto com a do README.)
     # 2. Guarda de diff: sem build, todo push da main deployaria e purgaria o
-    #    edge à toa; o job só age quando `site/` mudou neste push.
+    #    edge à toa; o job só age quando `site/` mudou neste push. O
+    #    `workflow_dispatch` tem `force_site` para atropelá-la à mão.
     #
     # A senha de Storage Zone da Bunny é POR ZONA — `BUNNY_SITE_STORAGE_PASSWORD`
     # é da zona `flocks-site`, não confundir com a do widgetbook. Caveat aceito,
     # igual ao do widgetbook: o job só sobe e sobrescreve, não apaga órfãos.
     #
     # `github.ref` pela mesma razão do `widgetbook`: push de tag não deploya.
+    #
+    # DOIS JOBS ESCREVEM NESTA ZONE. Este, sem `needs`, começa na hora; o `demo`,
+    # com `needs: [checks, goldens]`, começa minutos depois — e os dois purgam o
+    # MESMO hostname. A separação de prefixo (`/` aqui, `demo/` lá) evita conflito
+    # de conteúdo, e um purge tardio do `demo` é inofensivo para as páginas daqui:
+    # ele só limpa o edge, que então recarrega de uma origem já correta. O que NÃO
+    # é inofensivo é a ordem inversa dentro de um job só — purgar antes de a
+    # origem assentar —, e é disso que trata o último passo.
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2 # HEAD^ existe para a guarda de diff abaixo
+          # Histórico inteiro, e não `fetch-depth: 2`, porque a guarda abaixo
+          # compara contra `github.event.before` — o commit anterior ao PUSH, que
+          # num push de vários commits está mais de um passo atrás. São 69
+          # commits e 28 MB de `.git`: o clone completo é mais barato que a
+          # aritmética de fetch parcial que o `before` exigiria.
+          fetch-depth: 0
 
       - name: Site mudou neste push?
         id: changed
+        env:
+          FORCE_SITE: ${{ inputs.force_site }}
+          BEFORE: ${{ github.event.before }}
         run: |
-          if git rev-parse HEAD^ >/dev/null 2>&1 \
-            && git diff --quiet HEAD^ HEAD -- site/; then
+          if [ "${FORCE_SITE:-}" = "true" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "force_site pedido à mão — deployando sem olhar o diff."
+            exit 0
+          fi
+          # A base é `github.event.before`, o estado da branch ANTES do push, e
+          # não `HEAD^`. Com `HEAD^` a comparação é tip contra primeiro pai, e um
+          # push de dois commits em que `site/` mudou no de BAIXO passava batido:
+          # `git diff` entre os dois de cima vem vazio, a guarda dizia "intacto"
+          # e o job saía verde sem ter subido a mudança. Merge de PR não sofria
+          # (o primeiro pai é a main anterior), push direto de série sofria.
+          base=""
+          if [ -n "${BEFORE:-}" ] \
+            && [ "$BEFORE" != "0000000000000000000000000000000000000000" ] \
+            && git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
+            base="$BEFORE"
+          elif git rev-parse HEAD^ >/dev/null 2>&1; then
+            base="HEAD^"
+          fi
+          # A cadeia é `before` → `HEAD^` → deployar. O degrau do meio preserva o
+          # comportamento antigo onde `before` não existe (é o caso do
+          # `workflow_dispatch`, que por isso tem `force_site`), e o último é
+          # fail-open de verdade, para o commit-raiz. Errar para o lado de
+          # deployar custa um purge; errar para o outro custa o site errado no ar,
+          # que é o que aconteceu em 2026-08-10.
+          if [ -n "$base" ] && git diff --quiet "$base" HEAD -- site/; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "site/ intacto — nada a deployar."
           else
@@ -694,6 +838,7 @@ jobs:
           echo "Enviados ${total} arquivo(s) para flocks-site."
 
       - name: Purgar cache da Pull Zone
+        id: purge
         if: steps.changed.outputs.changed == 'true'
         shell: bash
         env:
@@ -714,4 +859,103 @@ jobs:
             echo "::error::Purge da zone ${zone_id} -> HTTP ${code}"
             exit 1
           fi
+          # O passo seguinte repurga entre tentativas, e precisa do id sem
+          # redescobri-lo por hostname a cada volta.
+          echo "zone_id=${zone_id}" >> "$GITHUB_OUTPUT"
           echo "Pull Zone ${zone_id} purgada."
+
+      - name: Conferir que o edge serve o que subiu
+        # ESTE é o gate que faltava, e a razão dele tem data e cronômetro:
+        # 2026-08-10, o dia em que `flocks.live/` ficou ~3h30 servindo uma home
+        # sem o link "Demo" com este job VERDE. A linha do tempo, medida:
+        #
+        #   21:46:29-40  os 18 arquivos de site/ sobem, cada PUT com 201.
+        #   21:46:41     a Pull Zone é purgada — UM SEGUNDO depois do último PUT.
+        #   22:03:22     só então o `index.html` materializa nas réplicas.
+        #   até 00:55    `flocks.live/` ainda servia a versão de 14:08, sem o
+        #                link, vinda da réplica DE-768 — e com `cdn-cache: MISS`,
+        #                isto é, buscando na origem e recebendo bytes velhos.
+        #                No mesmo instante `flocks.live/index.html` já servia a
+        #                de 22:03, de outra réplica. A mesma zone, duas verdades.
+        #   ~01:20       convergiu sozinho: `/` passou a vir de DE-634, com 22:03.
+        #
+        # Duas lições estão embutidas na forma deste passo. A primeira: purgar
+        # cedo é PIOR que não purgar — limpa o edge enquanto a origem ainda tem
+        # os bytes velhos, e o edge recacheia o velho pelo TTL inteiro. Daí
+        # comparar, repurgar, esperar, comparar de novo. A segunda: conferir o
+        # código HTTP do PUT não é conferir o deploy. O upload estava perfeito; o
+        # que estava errado era o que o visitante recebia.
+        #
+        # A comparação é BYTE A BYTE contra o arquivo que acabou de subir, e não
+        # contra um marcador escolhido à mão: marcador é uma segunda coisa para
+        # manter em sincronia, e o que interessa é a igualdade. Sem cache-buster
+        # na URL, de propósito — a URL conferida tem de ser a que o visitante
+        # abre, porque foi exatamente entre `/` e `/index.html` que a divergência
+        # se esconde.
+        #
+        # VERMELHO AQUI NÃO SIGNIFICA "quebrado para sempre": significa que o
+        # edge ainda não convergiu. O conserto normal é re-rodar, ou disparar o
+        # workflow com `force_site`. Se persistir por vários ciclos, então sim é
+        # réplica divergente e o lugar de olhar é o painel da Bunny.
+        if: steps.changed.outputs.changed == 'true'
+        shell: bash
+        env:
+          BUNNY_API_KEY: ${{ secrets.BUNNY_API_KEY }}
+          ZONE_ID: ${{ steps.purge.outputs.zone_id }}
+        run: |
+          set -o pipefail
+          # "URL que o visitante abre|arquivo que a serve", um par por linha.
+          # Pares numa string com word-splitting, e não array associativo:
+          # `declare -A` é bash 4+, e assim isto também roda na mão de quem
+          # depura no macOS. `404.html` fica fora — não tem URL própria.
+          pending='/|site/index.html
+          /pt/|site/pt/index.html
+          /mcp/|site/mcp/index.html
+          /pt/mcp/|site/pt/mcp/index.html'
+          total=$(printf '%s\n' $pending | grep -c .)
+          # ~22 minutos de orçamento, escalonados. O número vem da medição, não
+          # do gosto: a replicação levou 17 minutos para fechar na maioria das
+          # réplicas, então um teto de 10 reprovaria um deploy que ia ficar bom.
+          # Não estica até as 3h30 que o caso do `/` levou porque ali o que
+          # segurava era o edge cacheando bytes velhos, e é justamente isso que o
+          # repurge deste laço desfaz. O job só roda quando `site/` muda — cinco
+          # commits na história do repo —, então o minuto de runner é barato.
+          delays='15 30 60 120 180 300 300 300'
+          attempt=0
+          while : ; do
+            still=''
+            for pair in $pending; do
+              url=${pair%%|*}
+              file=${pair##*|}
+              want=$(sha256sum "$file" | cut -d' ' -f1)
+              if curl -sSf -o /tmp/edge.body "https://flocks.live${url}"; then
+                got=$(sha256sum /tmp/edge.body | cut -d' ' -f1)
+              else
+                got='(a busca falhou)'
+              fi
+              if [ "$got" = "$want" ]; then
+                echo "confere: ${url}"
+              else
+                echo "divergente: ${url} (edge=${got} repo=${want})"
+                still="${still}${pair} "
+              fi
+            done
+            pending=$still
+            if [ -z "$pending" ]; then
+              echo "As ${total} páginas conferem byte a byte com site/."
+              break
+            fi
+            set -- $delays
+            if [ "$attempt" -ge "$#" ]; then
+              echo "::error::O edge não passou a servir o que subiu: ${pending}"
+              echo "::error::Réplica divergente na Storage Zone flocks-site é o suspeito — confira no painel da Bunny antes de re-rodar com force_site."
+              exit 1
+            fi
+            shift "$attempt"
+            wait_for=$1
+            attempt=$((attempt + 1))
+            curl -sS -o /dev/null -X POST -H "AccessKey: ${BUNNY_API_KEY}" \
+              "https://api.bunny.net/pullzone/${ZONE_ID}/purgeCache" || true
+            echo "Repurgado; aguardando ${wait_for}s (tentativa ${attempt})."
+            sleep "$wait_for"
+          done

@@ -8,18 +8,6 @@ dependencies:
   flocks_lucide: ^0.1.0
 ```
 
-> **Heads up:** this package is **not yet published** on pub.dev, so the
-> dependency above does not resolve yet. Until it ships, depend on it through
-> the repository:
->
-> ```yaml
-> dependencies:
->   flocks_lucide:
->     git:
->       url: https://github.com/jotapeconsultoria/flocks.git
->       path: packages/flocks_lucide
-> ```
-
 ```dart
 AppThemeScope(
   iconProvider: const LucideIconProvider(),

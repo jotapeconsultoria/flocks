@@ -17,6 +17,21 @@ pubspec.lock
 .vscode/
 .DS_Store
 
+# Preferência de máquina do Claude Code. O `.claude/launch.json` ao lado É
+# versionado — é como se roda a demo, não gosto de editor —, e só o que varia
+# por máquina sai daqui.
+.claude/settings.local.json
+
+# O `server.json` do MCP Registry é gerado no job de release, nunca commitado:
+# o `identifier` carrega a tag e o `fileSha256` só existe depois do build, então
+# um arquivo commitado mentiria um dos dois. A justificativa completa está no
+# cabeçalho de `packages/flocks_mcp/tool/generate_server_json.dart`.
+#
+# A mesma linha está repetida no `.pubignore` do pacote, e a repetição é
+# necessária: no empacotamento aquele arquivo SUBSTITUI este, então o que só
+# estivesse aqui voltaria para o tarball.
+packages/flocks_mcp/server.json
+
 # Saída de teste de golden que falhou (imagens de diagnóstico, não fonte)
 **/test/**/failures/
 
