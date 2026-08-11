@@ -9,7 +9,7 @@ com o que cada fase destrava dito ao lado.
 
 ## Estado
 
-Atualizado em 2026-08-10 — o que cada fase mediu está na seção dela.
+Atualizado em 2026-08-11 — o que cada fase mediu está na seção dela.
 
 | Fase | Estado |
 | --- | --- |
@@ -26,16 +26,17 @@ Atualizado em 2026-08-10 — o que cada fase mediu está na seção dela.
 | E — guia de migração | ⬜ **desbloqueada** — a instalação real que o guia instrui existe desde 2026-08-10 |
 | F — providers de ícone (`flocks_cupertino`, `flocks_lucide`) | ✅ **implementados em 2026-08-10**: `flocks_cupertino` no molde do `flocks_material` (glifos do pacote `cupertino_icons`, MIT — **não** os SF Symbols da Apple) e `flocks_lucide` no molde do `flocks_phosphor` (fonte vendorada, ISC, 853.920 → 19.624 bytes com `--tree-shake-icons`). O teste de contrato cruzado cobre os quatro adaptadores. O `publish_to: none` dos dois saiu junto com o aviso do README de cada um, no mesmo commit que o XOR do `install_docs_test` cobra — os dois entram na linha pública em 0.1.0, contra o `flocks` que já está no ar |
 
-Os números daqui foram medidos em 2026-08-05, não supostos:
+Os números daqui foram medidos em 2026-08-11, não supostos:
 
 | Medição | Comando | Resultado |
 | --- | --- | --- |
-| Testes (sem golden) | `flutter test --exclude-tags golden` | 1585, todos verdes |
-| Validador | `dart run tool/validate_components.dart` | 131 migrados + 7 internos |
-| Dry-run `flocks` | `dart pub publish --dry-run` | 0 avisos, tarball de 16 MB |
-| Dry-run adaptadores | idem | 1 aviso cada: falta `CHANGELOG.md` |
+| Testes do `flocks` (sem golden) | `flutter test --exclude-tags golden` | 1625, todos verdes |
+| Testes dos sete pacotes | os sete steps de teste do job `checks`, somados | 1881, todos verdes |
+| Validador | `cd packages/flocks && dart run tool/validate_components.dart` | 131 migrados + 7 internos |
+| Dry-run `flocks` | `dart pub publish --dry-run` | 0 avisos, tarball de 1 MB — eram 16 MB antes do `.pubignore` da A0, que tirou os 302 goldens (14,7 MB) |
+| Dry-run dos 4 adaptadores e do `flocks_mcp` | idem | 0 avisos cada; os seis pacotes publicáveis têm `CHANGELOG.md` |
 | Use cases do Widgetbook | `grep -rc '@widgetbook.UseCase' widgetbook/use_cases/` | 295 |
-| Referências penduradas | `grep -rn FLOCKS_MIGRATION_PLAN packages/` | 12 |
+| Referências penduradas | `grep -rn FLOCKS_MIGRATION_PLAN packages/` | 1 — a nota da dívida já resolvida, em [`EXTRACAO.md`](packages/flocks/doc/EXTRACAO.md) |
 
 ## Fase A — publicar no pub.dev
 
@@ -77,11 +78,22 @@ consumidor externo viu) já existe como comentário no pubspec e vira prosa.
 tarball do `flocks` levam junto `widgetbook/` (~1,3 MB de fonte + gerado),
 `web/` (scaffolding intocado do `flutter create`) e `doc/icon-mapping.csv`
 (70 KB de artefato de trabalho da migração, sem consumidor). Criar
-`.pubignore` excluindo os três. O `doc/mcp/catalog.json` **fica** — é o dado do
-MCP e parte da proposta do pacote. Fora do tarball, higiene de repo:
-`jotape-design-tokens.md` sai (dump de tokens de uma marca cliente, sem link e
-sem consumidor). Em aberto: `doc/COLOR_ACCESSIBILITY_REPORT.md` reporta marcas
-cliente — ou regenera com `flocksBrand`, ou fica como prova de multi-marca.
+`.pubignore` excluindo os três. O `packages/flocks/doc/mcp/catalog.json`
+**fica** — é o dado do MCP e parte da proposta do pacote. Fora do tarball,
+higiene de repo: `jotape-design-tokens.md` sai (dump de tokens de uma marca
+cliente, sem link e sem consumidor).
+
+**Decidido em 2026-08-11**, o item que ficou em aberto aqui: o
+[`COLOR_ACCESSIBILITY_REPORT.md`](packages/flocks/doc/COLOR_ACCESSIBILITY_REPORT.md)
+reportava só as duas marcas cliente. Das duas saídas ("ou regenera com
+`flocksBrand`, ou fica como prova de multi-marca"), **regenerou** — a
+`flocksBrand` entrou na lista do gerador, na frente das outras duas, e o
+relatório voltou com 117 verificações e 0 falhas. Perdeu a outra saída porque a
+lista do gerador discordava da do gate bloqueante (`contrast_test.dart` cobra as
+três marcas desde antes): um relatório que mostra menos marcas do que o gate
+mente por omissão, e a marca ausente era justamente a do próprio pacote. A prova
+de multi-marca não se perdeu — as duas marcas cliente continuam no relatório,
+agora ao lado da terceira.
 
 **5. A contagem do `CHANGELOG.md` do `flocks`.** A seção `[1.0.0]` diz "129
 components"; são 131. O `catalog_freshness_test` fiscaliza o README, não o
@@ -154,8 +166,8 @@ Itens, em ordem:
 
 ## Fase C — servidor MCP (contrato primeiro, servidor depois)
 
-O dado está pronto: `doc/mcp/catalog.json`, 131 componentes, bilíngue na
-fonte. O que não existe é o servidor — e, antes dele, o contrato.
+O dado está pronto: `packages/flocks/doc/mcp/catalog.json`, 131 componentes,
+bilíngue na fonte. O que não existe é o servidor — e, antes dele, o contrato.
 
 **C1 — o contrato** (barato, e destrava qualquer consumidor de escrever
 integração antes do servidor existir):
@@ -194,6 +206,39 @@ hospedá-la. O que o pacote entrega:
   um helper de serialização para snippet Dart que hoje não existe no pacote —
   a única feature nova de pacote prevista neste roadmap.
 
+### Dívidas abertas da demo
+
+Duas pendências moravam só no
+[`TODO.md`](packages/flocks_demo/TODO.md) do pacote, sem aparecer em nenhum
+documento de fase. Ficam registradas aqui, sem prazo atribuído:
+
+- **As duas fontes que o runtime do Flutter busca no Google.** Medido em
+  `https://flocks.live/demo/` em 2026-08-11 (PR #20): a demo faz **duas**
+  requisições a `fonts.gstatic.com` por carga fria, nas duas telas. A Roboto
+  (63.464 B) sai porque o CanvasKit precisa de uma fonte de fallback registrada
+  e nenhuma família do `FontManifest.json` da demo se chama `Roboto` — o
+  download é **aguardado antes do primeiro frame**, não é lazy, e não é escolha
+  da demo, que só usa Poppins e Space Grotesk. A Noto Sans Symbols (69.116 B) é
+  lazy, e o gatilho é nosso: o bloco de código do painel pede a pilha mono do
+  `flocks`, nenhuma família dela registrada no CanvasKit, e cada acento do
+  comentário em português do snippet vira codepoint sem cobertura. Nenhuma das
+  duas é alcançável pelos gates — acontece no bootstrap JavaScript e na fila do
+  engine, fora de qualquer Dart nosso. A primeira exige vendorar as fontes de
+  fallback e reproduzir uma estrutura de diretórios sem contrato documentado; a
+  segunda tem conserto independente e mais barato (empacotar uma mono nos assets
+  do `flocks`, que o `TODO(flocks)` de `app_content_style.dart` já pede por
+  outro motivo). O que o gate de rede prova segue valendo: nenhum byte do logo
+  do visitante sai da aba dele.
+- **Analytics: nomeado, não implementado.** O projeto PostHog não existe e nada
+  está no código. O `TODO.md` fixa os sete eventos e as propriedades de cada um
+  antes da instrumentação, para que ela não invente vocabulário novo, e fixa
+  junto a regra que entra com o primeiro evento: `demo logo uploaded` registra o
+  fato e **nada mais** — nunca a imagem, os bytes, o nome do arquivo, o tamanho
+  ou o tipo MIME. Ao implementar, o custo cai no `test/architecture_test.dart`
+  da demo, que hoje exige ZERO requisições e passaria a ter de distinguir o
+  destino de telemetria de todo o resto — que é exatamente onde a fronteira do
+  logo se perderia se ninguém estivesse olhando.
+
 ## Fase E — guia de migração Material→Flocks
 
 Baseado em quatro migrações reais de apps Material para Flocks — conhecimento
@@ -221,20 +266,26 @@ cada um copiando um molde que já existe no repo:
 
 Um `flocks_cupertino` ao lado do `flocks_material` não contradiz a tese do
 zero-Material/Cupertino **no core** — ele a prova: o eixo de ícone é plural
-de verdade. E cada adaptador é uma porta de descoberta no pub.dev. Restrição
-de fila: trabalho paralelo e barato, mas **não fura a prioridade de D e E**,
-que são os motores de adoção.
+de verdade. E cada adaptador é uma porta de descoberta no pub.dev. A restrição
+de fila era não furar a prioridade de D e E, os motores de adoção — e valeu para
+uma das duas: D e F entraram na main no mesmo 2026-08-10, a minutos uma da
+outra, enquanto E segue aberta.
 
 ## Ordem e dependências
 
+A ordem prevista aqui foi cumprida, e sobrou uma fase. O estado por fase está na
+tabela do começo do documento; este bloco diz o que cada uma destravou:
+
 ```
-A (publicar)  ──destrava──▶  C2 (servidor MCP), E (guia), consumo hosted
-B (widgetbook)               paralela à A, independente
-C1 (contrato MCP)            paralelo, barato, antes de C2
-D (demo)                     desbloqueada — o site está no ar; o helper de
-                             export do AppBrandConfig entra junto
-E (guia)                     depende de A
-F (icon providers)           paralela e barata; atrás de D e E em prioridade
+A (publicar)        ✅ destravou C2, E e o consumo hosted
+B (widgetbook)      ✅ no ar; foi paralela à A, como previsto
+C1 (contrato MCP)   ✅ veio antes de C2, barato, e destravou integração
+C2/C3 (MCP)         ✅ servidor publicado e distribuído; dependiam de A
+D (demo)            ✅ no ar; o helper de export do AppBrandConfig entrou junto
+F (icon providers)  ✅ implementados; paralela e barata, como previsto
+E (guia)            ⬜ a única aberta. A dependência dela — a instalação real
+                       que o guia instrui — existe desde 2026-08-10, então o
+                       que falta é escrever, não esperar
 ```
 
 ## O que este roadmap não cobre

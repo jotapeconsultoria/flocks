@@ -21,7 +21,12 @@ import 'package:flutter_test/flutter_test.dart';
 const bool _write = bool.fromEnvironment('CONTRAST_REPORT');
 const String _reportPath = 'doc/COLOR_ACCESSIBILITY_REPORT.md';
 
+// A MESMA lista de `contrast_test.dart`, na mesma ordem, e isso é requisito: um
+// gerador que mostra menos marcas que o gate bloqueante produz relatório que
+// mente por omissão. A `flocksBrand` vem primeiro porque é a marca do próprio
+// design system — quem abre o relatório procura o pacote, não os clientes dele.
 final List<AppBrandConfig> _brands = <AppBrandConfig>[
+  flocksBrand,
   jotapeBrand,
   zxtrackBrand,
 ];
