@@ -1,5 +1,8 @@
 # Deliberado, nao acidente: o Widgetbook e canvas-only, sem conteudo
-# semantico. A superficie indexavel do Flocks e a galeria do site
-# (flocks.live/componentes). Ver ROADMAP.md, Fase B.
+# semantico. As superficies indexaveis do Flocks sao o site (flocks.live,
+# com Allow e sitemap) e a documentacao de API no pub.dev
+# (pub.dev/documentation/flocks/latest/) -- ambas respondem 200. Isto aqui
+# apontava para flocks.live/componentes, que e plano da Fase B e responde
+# 404. Ver ROADMAP.md, Fase B.
 User-agent: *
 Disallow: /
