@@ -75,24 +75,35 @@ não leva o logo.** A demo diz isso na tela, e não só aqui.
 
 ### O que os gates NÃO alcançam, e por quê
 
-Duas requisições saem do **runtime do Flutter Web**, e não do código da demo —
-nenhum teste em VM as enxerga, porque acontecem no bootstrap JavaScript, antes de
-qualquer Dart nosso rodar. As duas foram descobertas abrindo a demo num navegador
-e lendo a aba de rede, que é a única forma de vê-las:
+Três requisições saem do **runtime do Flutter Web**, e não do código da demo —
+nenhum teste em VM as enxerga, porque acontecem no bootstrap JavaScript e na
+fila de fontes do engine, antes e fora de qualquer Dart nosso. Só se vê abrindo
+a demo num navegador, e só com uma medição que inclua terceiros:
+`performance.getEntriesByType('resource')` no console da página (a aba de rede
+filtrada por origem esconde exatamente estas):
 
 1. **CanvasKit do `www.gstatic.com`** — o default do `flutter build web` é
    `--web-resources-cdn`. **Corrigido**: o CI passa `--no-web-resources-cdn`, e
-   `test/architecture_test.dart` confere que a flag continua no workflow.
-2. **Roboto do `fonts.gstatic.com`** — o CanvasKit registra a Roboto como fonte
-   padrão do engine na inicialização, independentemente de a aplicação usá-la
-   (a demo não usa: tudo é Poppins ou Space Grotesk). **Não corrigido**, e
-   documentado em [`TODO.md`](TODO.md).
+   `test/architecture_test.dart` confere que a flag continua no workflow. A
+   medição de 2026-08-11 confirma: zero requisições a `www.gstatic.com`.
+2. **Roboto do `fonts.gstatic.com`** (63.464 B) — o CanvasKit exige uma fonte de
+   fallback registrada, e baixa a Roboto quando nenhuma família do
+   `FontManifest.json` se chama `Roboto`. A nossa não se chama, então isto sai a
+   cada carga fria, aguardado antes do primeiro frame, independentemente de a
+   aplicação usá-la (a demo não usa: tudo é Poppins ou Space Grotesk).
+   **Não corrigido.**
+3. **Noto Sans Symbols do `fonts.gstatic.com`** (69.116 B) — a fila de fallback
+   do engine baixa uma Noto por codepoint que as famílias *daquele span* não
+   cobrem. O bloco de código do painel pede uma pilha mono do sistema que o
+   CanvasKit não conhece, e cada acento do comentário em português do snippet
+   vira codepoint órfão. **Não corrigido**, e é o mais fácil dos dois.
 
-A segunda não desmente o que a demo promete ao visitante — o logo continua sem
-sair da aba, porque isso é um *download* de fonte e não um upload, e o gate de
-rede continua provando que nenhum byte do logo vai a lugar nenhum. Mas "esta
-página não contacta host nenhum" seria falso hoje, e por isso não está escrito
-em lugar algum.
+As duas de fonte não desmentem o que a demo promete ao visitante — o logo
+continua sem sair da aba, porque isso é *download* de fonte e não upload, e o
+gate de rede continua provando que nenhum byte do logo vai a lugar nenhum. Mas
+"esta página não contacta host nenhum" é falso hoje, e por isso não está escrito
+na tela nem aqui. [`TODO.md`](TODO.md) tem a medição, a citação do engine, os
+dois caminhos de conserto e os lugares onde a frase falsa ainda está escrita.
 
 ## Estrutura
 

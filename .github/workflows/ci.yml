@@ -411,7 +411,7 @@ jobs:
         # conta de terceiro", isso é a própria tese sendo desmentida na aba de
         # rede — e uma requisição a um servidor do Google que o visitante não
         # pediu. Com a flag, o `canvaskit/` que já vai no build é servido da
-        # nossa Storage Zone, e a demo passa a não contactar host nenhum.
+        # nossa Storage Zone. O que ela ainda contacta está no TODO.md da demo.
         #
         # `test/architecture_test.dart` do flocks_demo confere que esta flag
         # continua aqui: um gate estático, porque o gate de runtime roda na VM
