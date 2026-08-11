@@ -10,6 +10,17 @@ follows [SemVer](https://semver.org/).
 > because nothing was released. The public line starts at `0.1.0`, next to the
 > core; the `flocks` CHANGELOG explains why `0.x`.
 
+## [0.1.2] - 2026-08-10
+
+**Nada mudou neste pacote.** O número acompanha o `flocks` 0.1.2 pela razão que
+o bloco acima dá: o contrato mora no core, e um adaptador numa linha própria só
+criaria matriz de compatibilidade para manter. Uma entrada que fingisse conteúdo
+seria pior que esta, que declara não ter.
+
+O que mudou no core — `toDartSnippet`, `flippedSwatch` e `kSwatchStops`, e uma
+superfície grande em `circular` que parou de cortar o próprio conteúdo — está no
+CHANGELOG do `flocks`.
+
 ## [0.1.1] - 2026-08-10
 
 ### Fixed

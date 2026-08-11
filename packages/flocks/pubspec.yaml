@@ -13,7 +13,7 @@ description: "Flocks — a Flutter design system built on widgets.dart: design t
 # O catálogo carregava os mesmos marcos num campo `since:`; eram INTERNOS de
 # migração, anteriores a qualquer publicação, e já divergiam deste campo antes
 # da extração (a régua chegou a 1.5.0 com o pubspec em 1.0.0). Ver CHANGELOG.
-version: 0.1.1
+version: 0.1.2
 
 repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks
 homepage: https://flocks.live

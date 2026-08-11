@@ -7,13 +7,27 @@
 //
 // - **golden de texto**: o arquivo é, byte a byte, o que `toDartSnippet` emite
 //   hoje. Mudou o gerador sem querer? Reprova aqui.
-// - **prova de compilação**: o arquivo está no caminho do `dart analyze` da
-//   raiz. Um snippet que não compila reprova a análise antes de qualquer teste
-//   rodar — que é a única promessa que a demo faz ao visitante e a única que um
-//   teste de string não conseguiria checar.
+// - **prova de compilação, contra ESTA árvore**: o arquivo está no caminho do
+//   `dart analyze` da raiz, e um snippet que não compila reprova a análise antes
+//   de qualquer teste rodar — o que um teste de string não alcançaria.
 // - **round-trip**: o teste importa a configuração DECLARADA no artefato e
 //   compara o tema derivado com o da marca de origem. Serialização que não faz
 //   ida e volta é serialização errada.
+//
+// O QUE ESTE ARQUIVO NÃO PROVA, dito aqui porque a versão anterior deste
+// comentário afirmava o contrário. A prova de compilação vale para o `flocks`
+// DESTA BRANCH, não para o que está no pub.dev: `packages/flocks` é membro do
+// workspace (`resolution: workspace`), o artefato mora dentro dele, e o
+// `package:flocks/flocks.dart` que ele importa resolve para
+// `packages/flocks/lib/` — onde todo símbolo novo já existe, publicado ou não.
+// O `pubspec.lock` não tem entrada `flocks` nenhuma.
+//
+// Foi essa lacuna que deixou a demo exportar `flippedSwatch(` durante a 0.1.1,
+// com este gate verde: a função existia aqui e não lá. Quem fecha o furo é o job
+// `snippet (hosted)` do CI, que resolve `flocks: ^0.1.0` do pub.dev num
+// diretório fora do workspace e analisa este mesmo artefato lá dentro — a
+// situação real de quem cola o snippet. Este teste continua sendo o gate do
+// FORMATO; o de lá é o gate da PROMESSA.
 //
 // O gerador mora aqui, e não em `tool/`, por uma razão de plataforma: o `flocks`
 // depende de Flutter, e `dart run` não compila `dart:ui`. Regenerar é
