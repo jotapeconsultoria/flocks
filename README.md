@@ -4,18 +4,18 @@ A Flutter design system built on `widgets.dart` — no Material, no Cupertino.
 
 [flocks.live](https://flocks.live)
 
-Four of the seven packages are published on pub.dev under the
+Six of the seven packages are published on pub.dev under the
 [jotapeconsultoria.com.br](https://pub.dev/publishers/jotapeconsultoria.com.br)
-verified publisher. The two newest icon adapters are not yet published —
-publishing them is a move of its own.
+verified publisher. The seventh is the demo, which is a showcase and not a
+library.
 
 | Package | What it is |
 |---|---|
 | [`flocks`](packages/flocks) · [pub.dev](https://pub.dev/packages/flocks) | The design system: tokens, theme, white-label brand, and the components. |
 | [`flocks_phosphor`](packages/flocks_phosphor) · [pub.dev](https://pub.dev/packages/flocks_phosphor) | [Phosphor Icons](https://phosphoricons.com) as an `AppIconProvider` — six weights, shipped as fonts so the tree-shaker can prune them. |
 | [`flocks_material`](packages/flocks_material) · [pub.dev](https://pub.dev/packages/flocks_material) | Material Design icons as an `AppIconProvider`. The reference implementation of the axis. |
-| [`flocks_cupertino`](packages/flocks_cupertino) · *not yet published* | The [`cupertino_icons`](https://pub.dev/packages/cupertino_icons) glyphs as an `AppIconProvider` — the iOS visual vocabulary, under MIT. Not Apple's SF Symbols. |
-| [`flocks_lucide`](packages/flocks_lucide) · *not yet published* | [Lucide](https://lucide.dev) as an `AppIconProvider` — one stroke weight, shipped as a font so the tree-shaker can prune it. |
+| [`flocks_cupertino`](packages/flocks_cupertino) · [pub.dev](https://pub.dev/packages/flocks_cupertino) | The [`cupertino_icons`](https://pub.dev/packages/cupertino_icons) glyphs as an `AppIconProvider` — the iOS visual vocabulary, under MIT. Not Apple's SF Symbols. |
+| [`flocks_lucide`](packages/flocks_lucide) · [pub.dev](https://pub.dev/packages/flocks_lucide) | [Lucide](https://lucide.dev) as an `AppIconProvider` — one stroke weight, shipped as a font so the tree-shaker can prune it. |
 | [`flocks_mcp`](packages/flocks_mcp) · [pub.dev](https://pub.dev/packages/flocks_mcp) | The component catalog served to agents over MCP. Also on the [MCP Registry](https://registry.modelcontextprotocol.io) and as an `.mcpb` bundle in each [release](https://github.com/jotapeconsultoria/flocks/releases/latest). |
 | [`flocks_demo`](packages/flocks_demo) · [flocks.live/demo](https://flocks.live/demo/) · *not published, by design* | The white-label demo: your brand colour on a full dashboard and CRUD, and the configuration exported as Dart you can paste. It is a showcase, not a library. |
 
