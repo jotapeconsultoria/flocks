@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "flocks_mcp",
   "display_name": "Flocks MCP",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Servidor MCP que serve o catálogo de 131 componentes do Flocks (props, uso, a11y) a agentes.",
   "author": {
     "name": "JotaPe Tecnologia",

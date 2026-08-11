@@ -16,7 +16,7 @@ import 'tools.dart';
 /// Espelha o `version:` do pubspec, e `test/install_docs_test.dart` cobra que
 /// os dois não se separem: um servidor que se apresenta com a versão errada
 /// mente para o log de quem for depurar a integração.
-const String kServerVersion = '0.1.1';
+const String kServerVersion = '0.1.2';
 
 /// O que o cliente lê antes de decidir chamar qualquer coisa.
 ///
