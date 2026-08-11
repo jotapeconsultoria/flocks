@@ -16,11 +16,43 @@ import 'dart:io';
 import 'package:flocks/meta.dart';
 
 /// Diretórios de componentes, relativos à raiz do pacote.
+///
+/// Manifesto, não descoberta: [requireComponentRoot] cobra os TRÊS. Camada que
+/// mudar de lugar atualiza esta lista, e não o gate que a lê.
 const List<String> kComponentDirs = <String>[
   'lib/src/atoms',
   'lib/src/molecules',
   'lib/src/organisms',
 ];
+
+/// O comando completo do gate, com o `cd` que a guarda cobra: é justamente ele
+/// que falta quando [requireComponentRoot] dispara.
+const String kValidateCommand =
+    'cd packages/flocks && dart run tool/validate_components.dart';
+
+/// Reprova um [root] que não é a raiz do pacote `flocks`.
+///
+/// Falha com a instrução em vez de deixar uma lista vazia viajar: os caminhos
+/// de [kComponentDirs] são relativos à raiz do pacote, e de outro diretório a
+/// descoberta achava zero widget — a fase 2 de [conformanceErrors] não tinha
+/// nada para cruzar e o gate APROVAVA. É o único modo de falha que produzia
+/// verde; as outras leituras ([useCaseTypes], a de `test/`) devolvem conjunto
+/// vazio, e vazio ali só produz erro barulhento.
+void requireComponentRoot(String root) {
+  final List<String> missing = <String>[
+    for (final String dirPath in kComponentDirs)
+      if (!Directory('$root/$dirPath').existsSync()) '$root/$dirPath',
+  ];
+  if (missing.isEmpty) return;
+  throw StateError(
+    'Diretório de componentes ausente: ${missing.join(', ')} '
+    '(cwd: ${Directory.current.path}). Os caminhos deste gate são relativos à '
+    'raiz do pacote `flocks`: de outro diretório ele descobre zero widget e '
+    'aprova sem ter validado nada. Rode, da raiz do repositório, '
+    '`$kValidateCommand` — ou, se uma camada mudou de lugar, atualize '
+    '`kComponentDirs`.',
+  );
+}
 
 /// Casa `class AppX extends StatelessWidget|StatefulWidget`, tolerando
 /// modificadores (final/base/sealed/abstract) e genéricos (`AppRadio<T>`).
@@ -96,11 +128,13 @@ class DiscoveredWidget {
 }
 
 /// Descobre todo widget público `App*` sob os diretórios de componentes.
+///
+/// Lança se [root] não for a raiz do pacote — ver [requireComponentRoot].
 List<DiscoveredWidget> discoverWidgets(String root) {
+  requireComponentRoot(root);
   final List<DiscoveredWidget> found = <DiscoveredWidget>[];
   for (final String dirPath in kComponentDirs) {
     final Directory dir = Directory('$root/$dirPath');
-    if (!dir.existsSync()) continue;
     for (final FileSystemEntity e in dir.listSync(recursive: true)) {
       if (e is! File || !e.path.endsWith('.dart')) continue;
       final String src = e.readAsStringSync();
@@ -185,7 +219,16 @@ Set<String> _testedIdentifiers(String root) {
 }
 
 /// Roda todas as checagens e devolve os erros (vazio = conforme).
+///
+/// Lança se [root] não for a raiz do pacote — ver [requireComponentRoot].
 List<String> conformanceErrors(String root) {
+  // A descoberta vem PRIMEIRO, antes até da fase 1, porque é a única leitura
+  // de disco que reprova o root errado: as duas de baixo (`useCaseTypes` e a de
+  // `test/`) devolvem conjunto vazio em silêncio, e rodavam antes desta. Ler o
+  // código na primeira linha é o que faz um cwd errado falhar antes de qualquer
+  // outra coisa — em vez de virar um relatório vazio com cara de aprovação.
+  final List<DiscoveredWidget> widgets = discoverWidgets(root);
+
   final List<String> errors = <String>[];
 
   // 1. Metadados dos componentes migrados.
@@ -216,7 +259,7 @@ List<String> conformanceErrors(String root) {
   final Set<String> wbTypes = useCaseTypes(root);
   final Set<String> tested = _testedIdentifiers(root);
 
-  for (final DiscoveredWidget w in discoverWidgets(root)) {
+  for (final DiscoveredWidget w in widgets) {
     final String rel = w.file.path.replaceFirst('$root/', '');
 
     // Regra 2 — dartdoc vale para TODO widget, inclusive o interno.
