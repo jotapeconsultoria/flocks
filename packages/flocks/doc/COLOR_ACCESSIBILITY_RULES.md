@@ -60,18 +60,27 @@ quando as duas cores são escuras** — uma separação que basta no claro fica
 imperceptível no escuro (e ainda piora *halation* em quem tem astigmatismo).
 Regra prática:
 
-> **Separação de hierarquia/elevação sutil precisa de ~2× o ΔT no escuro.**
-> `kMinSeparationLight = 12` (claro) → `kMinSeparationDark = 24` (escuro).
+> **Separação de hierarquia/elevação sutil precisa de 2× o ΔT no escuro.**
+> `kMinSeparationLight = 11` (claro) → `kMinSeparationDark = 22` (escuro).
 
 É a intuição de "se no claro 100 de diferença de shade basta, no escuro precisa de
 ~200", expressa em tom perceptual (não em número de shade).
+
+**Os dois números saem da rampa, não de um número redondo.** São os mesmos 3
+passos da rampa neutra (`s50→s300`): valem 11.1 tons no claro e 22.2 no escuro —
+razão 2.00, porque a versão escura é a clara invertida e a rampa é assimétrica de
+propósito (passos finos perto do branco, grossos perto do preto). Os alvos eram
+12 e 24 e mudaram justamente por isso: os acumulados que a rampa entrega a partir
+da base são 1.8, 5.9, 11.1 e 28.8, então exigir 12 obrigava a calcular
+superfícies FORA da rampa. O raciocínio inteiro está nos dartdocs das duas
+constantes, em `lib/src/tokens/contrast.dart`.
 
 **Outras regras do escuro:**
 - **Sem preto puro.** A superfície base deve ter tom HCT em
   **`[kDarkSurfaceToneMin=6, kDarkSurfaceToneMax=16]`** (~`#0F1419`–`#1E1E1E`).
   Preto puro impede elevação-por-clareamento e agrava halation.
 - **Elevação = clarear, não sombra.** Cada nível de container sobe o tom
-  (respeitando o ΔT ≥ 24 entre níveis adjacentes).
+  (respeitando o ΔT ≥ 22 entre níveis adjacentes).
 - **Acentos dessaturados.** Cores muito saturadas "vibram" sobre fundo escuro;
   prefira um stop mais claro e menos croma para acento como primeiro plano.
 
@@ -91,9 +100,9 @@ Regra prática:
   elevado**, não branco puro) — garantindo 3:1 / ΔT ≥ 40 vs `surface`.
 - **Elevação/container:** use `colorTheme.surfaceContainer` (card/sheet/popover).
   No **escuro**, `surface` é o tom mais escuro e o container **clareia**
-  (`elevatedSurface`, ΔT ≥ 24). No **claro**, invertemos a convenção: a `surface`
+  (`elevatedSurface`, ΔT ≥ 22). No **claro**, invertemos a convenção: a `surface`
   é um **cinza elevado** e o container é o `neutral.s50` **branco** (página cinza +
-  cards brancos), com ΔT ≥ 12. `neutralPrimary.s100` é fill sutil/desabilitado,
+  cards brancos), com ΔT ≥ 11. `neutralPrimary.s100` é fill sutil/desabilitado,
   **não** elevação. Consequência: tokens de tom médio (borda, data-viz, foco) são
   resolvidos/calibrados contra o cinza da superfície clara, não contra branco.
 
@@ -116,7 +125,7 @@ alvos por `ContrastTier` (pares) ou uma checagem própria (estruturais):
 | `focusRing/surface` | uiComponent | 3.0 / ΔT 40 |
 | `chartGood/surface`, `chartNeutral/surface`, `chartBad/surface` | uiComponent | 3.0 / ΔT 40 |
 | `scoreLow/surface`, `scoreMid/surface`, `scoreHigh/surface` | uiComponent | 3.0 / ΔT 40 |
-| `surfaceContainer/surface` | separation | ΔT ≥ 12 (claro) / 24 (escuro) |
+| `surfaceContainer/surface` | separation | ΔT ≥ 11 (claro) / 22 (escuro) |
 | `surface fora do preto puro` (só escuro, estrutural) | darkSurface | T ∈ [6, 16] |
 
 ## 6. Data-viz: séries categóricas (isenção)

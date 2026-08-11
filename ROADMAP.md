@@ -32,7 +32,7 @@ Os números daqui foram medidos em 2026-08-11, não supostos:
 | --- | --- | --- |
 | Testes do `flocks` (sem golden) | `flutter test --exclude-tags golden` | 1625, todos verdes |
 | Testes dos sete pacotes | os sete steps de teste do job `checks`, somados | 1881, todos verdes |
-| Validador | `dart run tool/validate_components.dart` | 131 migrados + 7 internos |
+| Validador | `cd packages/flocks && dart run tool/validate_components.dart` | 131 migrados + 7 internos |
 | Dry-run `flocks` | `dart pub publish --dry-run` | 0 avisos, tarball de 1 MB — eram 16 MB antes do `.pubignore` da A0, que tirou os 302 goldens (14,7 MB) |
 | Dry-run dos 4 adaptadores e do `flocks_mcp` | idem | 0 avisos cada; os seis pacotes publicáveis têm `CHANGELOG.md` |
 | Use cases do Widgetbook | `grep -rc '@widgetbook.UseCase' widgetbook/use_cases/` | 295 |
