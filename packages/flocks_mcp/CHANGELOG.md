@@ -29,7 +29,7 @@ follows [SemVer](https://semver.org/).
   seguido de uma nota sobre o catálogo embarcado, e qualquer texto apensado
   derruba a confiança do `license_detector` — que é justamente quem pontua a
   licença no pub.dev, onde a `0.1.0` deste pacote já está. A explicação do
-  catálogo está no README, e o `.mcpb` continua levando o `LICENSE` dentro.
+  catálogo está no README; o `.mcpb` desta versão ainda não leva o `LICENSE`.
 
 ### Changed
 
