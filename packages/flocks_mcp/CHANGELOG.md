@@ -37,6 +37,16 @@ desde a `0.1.1`, o diff deste pacote são dois arquivos — `.pubignore` e
   anterior. O README também passa a dizer o que um `403` do registry quer
   dizer — token sem `read:org` — e que um `$GITHUB_PAT` vazio produz o mesmo
   erro, porque `-token ""` cai de volta no fluxo interativo.
+- **O handshake documentado no `example/` anunciava `0.1.0`.** Aquele bloco de
+  JSON é a aba Example do pub.dev, e o `.pubignore` não tira o `example/` do
+  tarball: era a primeira saída que um adotante lia, afirmando uma versão que
+  não era a do pacote. A linha era a quarta cópia da versão e a única sem gate —
+  as outras três (pubspec, `kServerVersion`, `mcpb/manifest.json`) já se cobram
+  entre si. Foi recapturada rodando o pipe do próprio exemplo, e a captura
+  mostrou que a linha também havia perdido o `id` da resposta e o campo
+  `instructions`; o valor de `instructions` aparece elidido, e o texto agora diz
+  que aparece. `test/install_docs_test.dart` passa a reprovar quando essa versão
+  divergir da que o servidor anuncia.
 
 ## [0.1.1] - 2026-08-10
 
