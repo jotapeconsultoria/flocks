@@ -108,8 +108,8 @@ class _AppBubbleChartState extends State<AppBubbleChart> {
                       top: geometry.tooltipTop(_tooltipData!),
                       // `SelectionContainer.disabled` pelo motivo detalhado em
                       // `molecules/input/app_input.dart`: na web um
-                      // `SelectableRegion` monta platform view DOM que engole o
-                      // `mousedown`, e o `IgnorePointer` não o alcança.
+                      // `SelectableRegion` monta platform view DOM sobre a área,
+                      // e o `IgnorePointer` não o alcança.
                       child: SelectionContainer.disabled(
                         child: IgnorePointer(
                           child: ConstrainedBox(
@@ -325,7 +325,8 @@ final class _AppBubbleChartGeometry {
             width: width,
             // O rótulo fica EM CIMA da bolha, que é o alvo do toque: sem
             // desligar a seleção, o platform view DOM da região cobre a bolha
-            // inteira na web e o `mousedown` nunca chega ao gráfico.
+            // inteira na web, oferecendo seleção e menu de contexto sobre o que
+            // devia ser só alvo. Ver `molecules/input/app_input.dart`.
             child: SelectionContainer.disabled(
               child: IgnorePointer(
                 child: Center(

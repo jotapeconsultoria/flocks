@@ -171,7 +171,8 @@ class _AppBarChartState extends State<AppBarChart> {
                         // O tooltip também é decorativo, e o `ChartTooltip` é
                         // feito de `AppText` — sem desligar a seleção ele monta
                         // platform views DOM sobre o ponto que o usuário está
-                        // apontando, justamente onde o próximo toque cai.
+                        // apontando, justamente onde o próximo toque cai. Ver
+                        // `molecules/input/app_input.dart`.
                         child: SelectionContainer.disabled(
                           child: IgnorePointer(
                             child: ConstrainedBox(
@@ -402,12 +403,12 @@ final class _AppBarChartGeometry {
               // Rótulo de eixo é decorativo, e `SelectionContainer.disabled` é o
               // que o mantém fora do caminho do ponteiro na web: sem isso o
               // `AppText` vira um `SelectableRegion`, que monta um platform view
-              // DOM por cima do gráfico e engole o `mousedown` — medido, os
-              // rótulos do eixo X caem sobre as barras, e o `onTapDown` do
-              // `MouseRegion`/`GestureDetector` nunca via o toque ali. O
-              // `IgnorePointer` não resolve: elemento do DOM não participa do
-              // hit-test do Flutter. Detalhe completo em
-              // `molecules/input/app_input.dart`.
+              // DOM sobre a área do gráfico — medido no widgetbook, 48 pontos da
+              // área tinham um desses divs no topo, porque os rótulos do eixo X
+              // caem sobre as barras. O `IgnorePointer` não resolve: elemento do
+              // DOM não participa do hit-test do Flutter, e o div segue
+              // oferecendo seleção e menu de contexto sobre o gráfico. Detalhe
+              // completo em `molecules/input/app_input.dart`.
               child: SelectionContainer.disabled(
                 child: IgnorePointer(
                   child: AppText(

@@ -126,8 +126,8 @@ class _AppGaugeChartState extends State<AppGaugeChart> {
                       top: geometry.tooltipTop(_tooltipData!),
                       // `SelectionContainer.disabled` pelo motivo detalhado em
                       // `molecules/input/app_input.dart`: na web um
-                      // `SelectableRegion` monta platform view DOM que engole o
-                      // `mousedown`, e o `IgnorePointer` não o alcança.
+                      // `SelectableRegion` monta platform view DOM sobre a área,
+                      // e o `IgnorePointer` não o alcança.
                       child: SelectionContainer.disabled(
                         child: IgnorePointer(
                           child: ConstrainedBox(

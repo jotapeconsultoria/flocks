@@ -612,15 +612,14 @@ class _AppInputState extends State<AppInput>
             // ouvia o placeholder duas vezes.
             // `SelectionContainer.disabled` porque a dica é decorativa e o
             // `IgnorePointer` acima NÃO a protege na web: todo `AppText` vira um
-            // `AppSelectionRegion` quando existe `Overlay` ancestral, e na web
-            // um `SelectableRegion` monta um platform view DOM (`Positioned.fill`)
-            // que cancela o `mousedown` de QUALQUER botão. Um elemento do DOM não
-            // participa do hit-test do Flutter, então o `IgnorePointer` não o
-            // esconde — o div ficava por cima da área editável e o `mousedown`
-            // cancelado matava a transferência de foco do browser: o campo
-            // recebia as teclas no DOM e nada chegava ao Dart. Desligar o
-            // registrar cai no guard que `AppSelectionRegion` já tem e não cria
-            // região nenhuma.
+            // `AppSelectionRegion` quando existe `Overlay` ancestral, e na web um
+            // `SelectableRegion` monta um platform view DOM (`Positioned.fill`)
+            // cobrindo a região. Um elemento do DOM não participa do hit-test do
+            // Flutter, então o `IgnorePointer` desaparece para o framework e
+            // continua de pé para o navegador: o div ficava por cima da área
+            // editável, oferecendo seleção e menu de contexto onde só devia haver
+            // o campo. Desligar o registrar cai no guard que `AppSelectionRegion`
+            // já tem e não cria região nenhuma.
             child: SelectionContainer.disabled(
               child: AppSemantics.decorative(
                 IgnorePointer(

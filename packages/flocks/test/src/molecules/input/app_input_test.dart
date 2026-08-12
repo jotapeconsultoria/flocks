@@ -451,18 +451,23 @@ void main() {
   });
 
   // A dica é decorativa, e na web um `SelectableRegion` não é só semântica: ele
-  // monta um platform view DOM (`Positioned.fill`) cujo listener cancela o
-  // `mousedown` de qualquer botão. Elemento do DOM não participa do hit-test do
-  // Flutter, então o `IgnorePointer` que envolve a dica NÃO o esconde — o div
-  // ficava por cima da área editável, o `mousedown` cancelado matava a
-  // transferência de foco do browser, e o campo recebia as teclas no DOM sem
-  // nada chegar ao Dart. Medido em flocks.live/demo/?screen=crud em 2026-08-11:
-  // a busca não filtrava, e `elementsFromPoint` no centro do campo devolvia
-  // `div.web-selectable-region-context-menu` no topo.
+  // monta um platform view DOM (`Positioned.fill` com `HtmlElementView`), e um
+  // elemento do DOM não participa do hit-test do Flutter. O `IgnorePointer` que
+  // envolve a dica desaparece para o framework e o div continua de pé para o
+  // navegador, oferecendo seleção e menu de contexto por cima da área editável.
+  // Medido em flocks.live/demo/?screen=crud em 2026-08-11: `elementsFromPoint`
+  // no centro do campo devolvia `div.web-selectable-region-context-menu` no topo.
+  //
+  // O que este teste NÃO fiscaliza: a busca do CRUD que não filtra. Atribuir o
+  // sintoma a este div foi hipótese, e ela foi refutada por medição em
+  // 2026-08-12 — o Flutter hit-testa por baixo do div (aplica
+  // `SystemMouseCursors.text`), o `input.flt-text-editing` só nasce depois do
+  // clique (logo o clique chegou ao Dart), e o sintoma se repete clicando dentro
+  // do campo e fora do rect do div. Detalhe em `flocks_demo/TODO.md`.
   //
   // Este grupo roda na VM, onde o platform view não existe (o ramo `_io` do SDK
-  // é passa-direto). O que ele fiscaliza é a CAUSA que a VM enxerga: se a dica
-  // volta a ter um `SelectableRegion` ancestral, reprova aqui.
+  // é passa-direto). O que ele fiscaliza é a estrutura que a VM enxerga: se a
+  // dica volta a ter um `SelectableRegion` ancestral, reprova aqui.
   group('a dica não vive numa região de seleção', () {
     testWidgets('campo com hintText: nenhum SelectableRegion sobre a dica', (
       tester,

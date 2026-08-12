@@ -433,7 +433,7 @@ class _AppColorPickerInputState extends State<AppColorPickerInput>
             // Dica decorativa sobre área editável: `SelectionContainer.disabled`
             // pelo mesmo motivo detalhado em `molecules/input/app_input.dart` —
             // na web o `SelectableRegion` de um `AppText` monta um platform view
-            // DOM que cancela o `mousedown` e o `IgnorePointer` não o alcança.
+            // DOM sobre a área, e o `IgnorePointer` não o alcança.
             child: SelectionContainer.disabled(
               child: IgnorePointer(
                 child: Align(
