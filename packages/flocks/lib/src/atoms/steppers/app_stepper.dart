@@ -487,29 +487,37 @@ class _StepCircle extends StatelessWidget {
       child: Center(
         // Número/check é decorativo: ignora ponteiro p/ o clique/seleção ir ao
         // alvo tocável (senão selecionava o texto do número, não o passo).
-        child: IgnorePointer(
-          child: AnimatedSwitcher(
-            duration: AppMotion.resolve(context, AppDurations.normal),
-            switchInCurve: AppCurves.standard,
-            switchOutCurve: AppCurves.standard,
-            child: state == _StepState.completed
-                ? AppIcon(
-                    data.icon ?? AppIconToken.check,
-                    key: const ValueKey('check'),
-                    color: onCircle,
-                    customSize: scaler.scale(AppIconSize.s.value),
-                  )
-                : AppText(
-                    '${index + 1}',
-                    key: ValueKey('number_$index'),
-                    style: theme.textTheme.labelLarge.withColor(
-                      // Ativo: on-color sobre o accent. Pendente: número neutro
-                      // legível sobre a superfície/poço.
-                      state == _StepState.active
-                          ? onCircle
-                          : theme.colorTheme.neutralPrimary.s700,
+        //
+        // `SelectionContainer.disabled` porque na web o `IgnorePointer` sozinho
+        // NÃO entrega essa intenção: o `AppText` do número vira um
+        // `SelectableRegion`, que monta um platform view DOM por cima do
+        // círculo do passo e cancela o `mousedown` — o alvo tocável parava de
+        // receber o clique. Motivo completo em `molecules/input/app_input.dart`.
+        child: SelectionContainer.disabled(
+          child: IgnorePointer(
+            child: AnimatedSwitcher(
+              duration: AppMotion.resolve(context, AppDurations.normal),
+              switchInCurve: AppCurves.standard,
+              switchOutCurve: AppCurves.standard,
+              child: state == _StepState.completed
+                  ? AppIcon(
+                      data.icon ?? AppIconToken.check,
+                      key: const ValueKey('check'),
+                      color: onCircle,
+                      customSize: scaler.scale(AppIconSize.s.value),
+                    )
+                  : AppText(
+                      '${index + 1}',
+                      key: ValueKey('number_$index'),
+                      style: theme.textTheme.labelLarge.withColor(
+                        // Ativo: on-color sobre o accent. Pendente: número neutro
+                        // legível sobre a superfície/poço.
+                        state == _StepState.active
+                            ? onCircle
+                            : theme.colorTheme.neutralPrimary.s700,
+                      ),
                     ),
-                  ),
+            ),
           ),
         ),
       ),

@@ -106,10 +106,16 @@ class _AppBubbleChartState extends State<AppBubbleChart> {
                     Positioned(
                       left: geometry.tooltipLeft(_tooltipData!),
                       top: geometry.tooltipTop(_tooltipData!),
-                      child: IgnorePointer(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 180),
-                          child: ChartTooltip(data: _tooltipData!),
+                      // `SelectionContainer.disabled` pelo motivo detalhado em
+                      // `molecules/input/app_input.dart`: na web um
+                      // `SelectableRegion` monta platform view DOM que engole o
+                      // `mousedown`, e o `IgnorePointer` não o alcança.
+                      child: SelectionContainer.disabled(
+                        child: IgnorePointer(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 180),
+                            child: ChartTooltip(data: _tooltipData!),
+                          ),
                         ),
                       ),
                     ),
@@ -317,14 +323,19 @@ final class _AppBubbleChartGeometry {
             height: height,
             top: bubble.center.dy - (height / 2),
             width: width,
-            child: IgnorePointer(
-              child: Center(
-                child: AppText(
-                  ChartFoundation.valueLabel(node.value),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: textStyle.withColor(bubble.color),
-                  textAlign: TextAlign.center,
+            // O rótulo fica EM CIMA da bolha, que é o alvo do toque: sem
+            // desligar a seleção, o platform view DOM da região cobre a bolha
+            // inteira na web e o `mousedown` nunca chega ao gráfico.
+            child: SelectionContainer.disabled(
+              child: IgnorePointer(
+                child: Center(
+                  child: AppText(
+                    ChartFoundation.valueLabel(node.value),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: textStyle.withColor(bubble.color),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),

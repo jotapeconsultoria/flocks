@@ -124,10 +124,16 @@ class _AppGaugeChartState extends State<AppGaugeChart> {
                     Positioned(
                       left: geometry.tooltipLeft(_tooltipData!),
                       top: geometry.tooltipTop(_tooltipData!),
-                      child: IgnorePointer(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 180),
-                          child: ChartTooltip(data: _tooltipData!),
+                      // `SelectionContainer.disabled` pelo motivo detalhado em
+                      // `molecules/input/app_input.dart`: na web um
+                      // `SelectableRegion` monta platform view DOM que engole o
+                      // `mousedown`, e o `IgnorePointer` não o alcança.
+                      child: SelectionContainer.disabled(
+                        child: IgnorePointer(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 180),
+                            child: ChartTooltip(data: _tooltipData!),
+                          ),
                         ),
                       ),
                     ),

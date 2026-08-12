@@ -450,6 +450,60 @@ void main() {
     );
   });
 
+  // A dica é decorativa, e na web um `SelectableRegion` não é só semântica: ele
+  // monta um platform view DOM (`Positioned.fill`) cujo listener cancela o
+  // `mousedown` de qualquer botão. Elemento do DOM não participa do hit-test do
+  // Flutter, então o `IgnorePointer` que envolve a dica NÃO o esconde — o div
+  // ficava por cima da área editável, o `mousedown` cancelado matava a
+  // transferência de foco do browser, e o campo recebia as teclas no DOM sem
+  // nada chegar ao Dart. Medido em flocks.live/demo/?screen=crud em 2026-08-11:
+  // a busca não filtrava, e `elementsFromPoint` no centro do campo devolvia
+  // `div.web-selectable-region-context-menu` no topo.
+  //
+  // Este grupo roda na VM, onde o platform view não existe (o ramo `_io` do SDK
+  // é passa-direto). O que ele fiscaliza é a CAUSA que a VM enxerga: se a dica
+  // volta a ter um `SelectableRegion` ancestral, reprova aqui.
+  group('a dica não vive numa região de seleção', () {
+    testWidgets('campo com hintText: nenhum SelectableRegion sobre a dica', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_host(const AppInput(hintText: 'Buscar')));
+
+      expect(find.text('Buscar'), findsOneWidget);
+      expect(
+        find.ancestor(
+          of: find.text('Buscar'),
+          matching: find.byType(SelectableRegion),
+        ),
+        findsNothing,
+        reason:
+            'a dica ganhou um SelectableRegion de novo: na web isso monta um '
+            'platform view DOM sobre a área editável que cancela o mousedown, '
+            'e o campo para de receber texto',
+      );
+    });
+
+    // Controle positivo. Sem ele o teste acima passaria por vacuidade — bastaria
+    // o `Overlay` sair do host para nenhum `SelectableRegion` existir em lugar
+    // nenhum, e o gate não acusaria nada.
+    testWidgets('controle: um AppText solto no mesmo host TEM região', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_host(const AppText('Buscar')));
+
+      expect(
+        find.ancestor(
+          of: find.text('Buscar'),
+          matching: find.byType(SelectableRegion),
+        ),
+        findsOneWidget,
+        reason:
+            'o host precisa de Overlay para AppSelectionRegion criar a região; '
+            'sem isso o teste da dica não prova nada',
+      );
+    });
+  });
+
   test('está no catálogo como migrado', () {
     expect(
       flocksCatalog.any(

@@ -114,10 +114,16 @@ class _AppCartesianSeriesChartState extends State<CartesianSeriesChart> {
                     Positioned(
                       left: geometry.tooltipLeft(_tooltipData!),
                       top: geometry.tooltipTop(_tooltipData!),
-                      child: IgnorePointer(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 180),
-                          child: ChartTooltip(data: _tooltipData!),
+                      // `SelectionContainer.disabled` pelo motivo detalhado em
+                      // `molecules/input/app_input.dart`: na web um
+                      // `SelectableRegion` monta platform view DOM que engole o
+                      // `mousedown`, e o `IgnorePointer` não o alcança.
+                      child: SelectionContainer.disabled(
+                        child: IgnorePointer(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 180),
+                            child: ChartTooltip(data: _tooltipData!),
+                          ),
                         ),
                       ),
                     ),
@@ -269,15 +275,17 @@ final class _AppCartesianChartGeometry {
         bottom: 0,
         left: point.dx - halfWidth,
         width: labelWidth,
-        child: IgnorePointer(
-          child: AppText(
-            labels[index],
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.labelMedium.withColor(
-              theme.colorTheme.neutralPrimary.s500,
+        child: SelectionContainer.disabled(
+          child: IgnorePointer(
+            child: AppText(
+              labels[index],
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.labelMedium.withColor(
+                theme.colorTheme.neutralPrimary.s500,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
         ),
       );
@@ -293,15 +301,17 @@ final class _AppCartesianChartGeometry {
         left: 0,
         top: dy,
         width: 36,
-        child: IgnorePointer(
-          child: AppText(
-            ChartFoundation.valueLabel(yTickValues[index]),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.labelMedium.withColor(
-              theme.colorTheme.neutralPrimary.s500,
+        child: SelectionContainer.disabled(
+          child: IgnorePointer(
+            child: AppText(
+              ChartFoundation.valueLabel(yTickValues[index]),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.labelMedium.withColor(
+                theme.colorTheme.neutralPrimary.s500,
+              ),
+              textAlign: TextAlign.right,
             ),
-            textAlign: TextAlign.right,
           ),
         ),
       );
