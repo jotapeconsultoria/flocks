@@ -17,9 +17,11 @@ follows [SemVer](https://semver.org/).
 - **O README passa a dizer como depender do pacote.** Ele abria no pitch e caía
   direto no snippet do `AppThemeScope`, sem bloco de instalação nenhum — e é esta
   a página que o pub.dev renderiza para quem chega aqui. Entra um bloco `yaml`
-  com `flocks_material: ^0.1.0`. O caret, e não a versão exata: ele continua
-  resolvendo no bump seguinte, e uma instrução com versão fixada envelheceria a
-  cada publish.
+  com `flocks_material: ^0.1.0`. O caret, e não a versão exata: em 0.x o SemVer
+  trata o MINOR como slot de quebra, então `^0.1.0` resolve para
+  `>=0.1.0 <0.2.0` — pega esta versão e os patches da linha `0.1.x`, e deixa o
+  adotante pinado contra o churn, que é a garantia que o pubspec do `flocks`
+  escreve. Uma instrução com versão fixada envelheceria a cada publish.
 - **`test/install_docs_test.dart`** — o gate que cobra essa instrução, e que
   faltava neste pacote. Ele confere três coisas no `flutter test`: que o README
   instrui a dependência hospedada, que o pubspec não a contradiz com
