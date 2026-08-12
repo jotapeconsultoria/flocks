@@ -76,6 +76,29 @@ conteúdo — um defeito que nenhum use case isolado tinha exercitado.
   Descoberto pela demo da Fase D, que é a primeira coisa a exercitar o eixo de
   forma inteiro com conteúdo real em cima.
 
+- **Texto decorativo parou de interceptar seleção sobre área interativa na web.**
+  `AppText` embrulha todo texto num `AppSelectionRegion`, e com um `Overlay`
+  ancestral isso vira um `SelectableRegion`. Na web um `SelectableRegion` monta um
+  `PlatformSelectableRegionContextMenu` — um `Positioned.fill` com
+  `HtmlElementView`, ou seja um elemento real do DOM cobrindo a região. Um
+  elemento do DOM não participa do hit-test do Flutter, então o `IgnorePointer`
+  que marcava o texto como decorativo desaparecia para o framework e continuava de
+  pé para o navegador: a dica do campo, os rótulos de eixo dos gráficos e o número
+  do passo do stepper ofereciam seleção e menu de contexto exatamente sobre o que
+  devia ser só alvo de interação. Medido: 21 desses divs numa tela da demo, e 48
+  pontos da área de um `AppBarChart` com um deles no topo.
+
+  Os 17 sítios de texto decorativo passaram a viver num
+  `SelectionContainer.disabled`, que zera o registrar e cai no guard que
+  `AppSelectionRegion` já tinha — sem API pública nova. Atinge `AppInput`,
+  `AppColorPickerInput`, `AppStepper` e os cinco gráficos.
+
+  O gate é `test/architecture/decorative_selection_test.dart`, e é de FONTE por
+  necessidade: na VM o SDK usa o ramo `_io` do platform view, que é passa-direto e
+  não monta elemento nenhum, então nenhum teste de widget alcança a classe. Ele
+  resolve tipos que carregam texto transitivamente e filhos passados por variável,
+  porque as duas formas escaparam da primeira versão da regra.
+
 ## [0.1.1] - 2026-08-10
 
 Três defeitos que só a análise do pub.dev revelou, no dia seguinte à
