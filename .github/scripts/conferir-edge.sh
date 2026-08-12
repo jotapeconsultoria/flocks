@@ -61,6 +61,10 @@ fi
 delays=${EDGE_DELAYS-15 30 60 120 180 300 300 300}
 
 pending=$(cat)
+# O word-splitting de `$pending` é o MECANISMO, não descuido: é ele que quebra
+# os pares em uma linha cada para o `grep -c` contar. Entre aspas, `printf`
+# imprimiria a entrada inteira como uma linha só e o total seria sempre 1.
+# shellcheck disable=SC2086
 total=$(printf '%s\n' $pending | grep -c .)
 if [ "$total" -eq 0 ]; then
   echo "::error::Nenhum par URL|arquivo na entrada — não há o que conferir."
@@ -105,6 +109,11 @@ while : ; do
     echo "As ${total} URL(s) conferem byte a byte com o que subiu."
     break
   fi
+  # Mesmo caso da linha do `total`: `$delays` é uma lista de segundos separados
+  # por espaço, e é o split que a transforma nos parâmetros posicionais que o
+  # `$#` conta e o `shift` percorre. Entre aspas viraria um parâmetro só, `$#`
+  # seria sempre 1, e o laço desistiria depois da primeira espera.
+  # shellcheck disable=SC2086
   set -- $delays
   if [ "$attempt" -ge "$#" ]; then
     echo "::error::O edge não passou a servir o que subiu: ${pending}"
