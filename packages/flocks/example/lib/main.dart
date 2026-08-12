@@ -74,53 +74,73 @@ class _ExampleAppState extends State<ExampleApp> {
         textDirection: TextDirection.ltr,
         child: ColoredBox(
           color: theme.colorTheme.surface,
-          child: Center(
-            child: SizedBox(
-              width: 360,
-              child: AppCard(
-                headerTitle: 'Flocks',
-                headerLeading: const AppIcon(AppIconToken.settings),
-                showDividers: true,
-                footer: Wrap(
-                  spacing: AppSpacings.s8,
-                  runSpacing: AppSpacings.s8,
-                  children: <Widget>[
-                    AppButton(
-                      icon: AppIconToken.settings,
-                      label: 'Estilo: ${_style.name}',
-                      onPressed: _cycleStyle,
-                    ),
-                    AppButton(
-                      style: AppStyle.outlined,
-                      label: 'Forma: ${_radius.name}',
-                      onPressed: _cycleRadius,
-                    ),
-                    AppButton(
-                      style: AppStyle.outlined,
-                      color: AppButtonColor.neutral,
-                      label: _dark ? 'Claro' : 'Escuro',
-                      onPressed: () => setState(() => _dark = !_dark),
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: AppSpacings.s12,
-                  ),
-                  child: Text(
-                    'Uma semente de cor, três eixos globais. Os botões e este '
-                    'card leem o tema sozinhos — nenhum deles recebe cor, raio '
-                    'ou sombra por parâmetro.',
-                    style: theme.textTheme.bodyMedium.copyWith(
-                      color: theme.colorTheme.onSurface,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          // O `Overlay` é exigido, e não decoração desta tela.
+          //
+          // O Flocks não monta `Overlay` em lugar nenhum — de propósito: quem
+          // hospeda decide onde a camada flutuante vive. Os componentes que
+          // flutuam inserem no ancestral mais próximo: os dropdowns, o
+          // `AppTooltip`, o `AppPopover`, o `AppMenu`, o `AppOmniSearch`, os
+          // campos ancorados em `AppPickerAnchor` (data, hora, cor) e o
+          // `showAppOverlay`/`showAppSnackbar`. Sem ancestral, abrir qualquer
+          // um deles lança: em debug pelo assert do framework, que manda
+          // incluir `MaterialApp`, `CupertinoApp` ou `Navigator`; em release
+          // pelo `Null check operator used on a null value`.
+          //
+          // Esta tela não usa nenhum deles, e é por isso mesmo que o `Overlay`
+          // está aqui: é o root que se copia. Uma entrada só, com a tela
+          // dentro — o mínimo que `widgets.dart` pede, e sem Material.
+          child: Overlay(
+            initialEntries: <OverlayEntry>[
+              OverlayEntry(builder: (BuildContext context) => _card(theme)),
+            ],
           ),
         ),
       ),
     );
   }
+
+  /// O cartão que a tela mostra — o conteúdo da única entrada do `Overlay`.
+  Widget _card(AppThemeData theme) => Center(
+    child: SizedBox(
+      width: 360,
+      child: AppCard(
+        headerTitle: 'Flocks',
+        headerLeading: const AppIcon(AppIconToken.settings),
+        showDividers: true,
+        footer: Wrap(
+          spacing: AppSpacings.s8,
+          runSpacing: AppSpacings.s8,
+          children: <Widget>[
+            AppButton(
+              icon: AppIconToken.settings,
+              label: 'Estilo: ${_style.name}',
+              onPressed: _cycleStyle,
+            ),
+            AppButton(
+              style: AppStyle.outlined,
+              label: 'Forma: ${_radius.name}',
+              onPressed: _cycleRadius,
+            ),
+            AppButton(
+              style: AppStyle.outlined,
+              color: AppButtonColor.neutral,
+              label: _dark ? 'Claro' : 'Escuro',
+              onPressed: () => setState(() => _dark = !_dark),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacings.s12),
+          child: Text(
+            'Uma semente de cor, três eixos globais. Os botões e este '
+            'card leem o tema sozinhos — nenhum deles recebe cor, raio '
+            'ou sombra por parâmetro.',
+            style: theme.textTheme.bodyMedium.copyWith(
+              color: theme.colorTheme.onSurface,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 }

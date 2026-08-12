@@ -133,6 +133,7 @@
         <code>flutter run</code>.</p>
         <div class="code-card">
 <pre><code><span class="kw">import</span> <span class="st">'package:flocks/flocks.dart'</span>;
+<span class="kw">import</span> <span class="st">'package:flutter/widgets.dart'</span>;
 
 <span class="kw">final</span> myBrand = <span class="ty">AppBrandConfig</span>(
   clientSlug: <span class="st">'acme'</span>,
@@ -142,14 +143,26 @@
 <span class="kw">void</span> main() =&gt; runApp(
   <span class="ty">AppTheme</span>(
     data: <span class="ty">AppThemeData</span>.forBrand(myBrand, dark: <span class="kw">false</span>),
-    child: <span class="kw">const</span> <span class="ty">MyApp</span>(),
+    child: <span class="ty">Directionality</span>(
+      textDirection: <span class="ty">TextDirection</span>.ltr,
+      child: <span class="ty">Overlay</span>(
+        initialEntries: &lt;<span class="ty">OverlayEntry</span>&gt;[
+          <span class="ty">OverlayEntry</span>(
+            builder: (<span class="ty">BuildContext</span> context) =&gt; <span class="kw">const</span> <span class="ty">MyApp</span>(),
+          ),
+        ],
+      ),
+    ),
   ),
 );</code></pre>
         </div>
-        <p class="after-code">Depois disso, cada componente lê o tema sozinho
-        — um botão é <code>AppButton(icon: AppIconToken.add, label: 'Novo
-        veículo', onPressed: _create)</code>, e a marca, o eixo de estilo e o
-        modo de radius já estão nele.</p>
+        <p class="after-code">O <code>Overlay</code> ali é exigido, e não
+        decoração: os dropdowns, o <code>AppTooltip</code>, o
+        <code>AppPopover</code> e os pickers ancorados inserem nele, e o pacote
+        não monta nenhum por você. Depois disso, cada componente lê o tema
+        sozinho — um botão é <code>AppButton(icon: AppIconToken.add, label:
+        'Novo veículo', onPressed: _create)</code>, e a marca, o eixo de estilo
+        e o modo de radius já estão nele.</p>
       </div>
     </section>
 

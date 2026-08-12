@@ -13,6 +13,7 @@ dependencies:
 
 ```dart
 import 'package:flocks/flocks.dart';
+import 'package:flutter/widgets.dart';
 
 final myBrand = AppBrandConfig(
   clientSlug: 'acme',
@@ -22,7 +23,16 @@ final myBrand = AppBrandConfig(
 void main() => runApp(
   AppTheme(
     data: AppThemeData.forBrand(myBrand, dark: false),
-    child: const MyApp(),
+    child: Directionality(
+      textDirection: TextDirection.ltr,
+      child: Overlay(
+        initialEntries: <OverlayEntry>[
+          OverlayEntry(
+            builder: (BuildContext context) => const MyApp(),
+          ),
+        ],
+      ),
+    ),
   ),
 );
 ```
@@ -31,6 +41,61 @@ That is the whole setup — one seed, no network. The icons, the illustrations a
 the fonts ship inside the package, so this runs on the first `flutter run`.
 `flocksBrand` also exists, but it is the brand of *this site*, not a starting
 point: adopting it would put our identity in your product instead of yours.
+
+**The `Overlay` is not decoration.** This package mounts none for you — the host
+decides where the floating layer lives — and three kinds of component need one
+above them:
+
+- **The ones that insert into it themselves:** the dropdowns (`AppDropdown`,
+  `AppMultiSelect`, `AppSearchableDropdown`, `AppSearchableMultiSelect`),
+  `AppTooltip`, `AppPopover`, `AppMenu`, `AppOmniSearch`, `AppPickerAnchor` and
+  the inputs built on it (`AppDatePickerInput`, `AppTimePickerInput`,
+  `AppDateTimePickerInput`, `AppColorPickerInput`), plus `showAppOverlay` and
+  `showAppSnackbar`.
+- **Every text field, by Flutter's rule rather than ours:** an `AppInput` builds a
+  `TextSelectionOverlay` when it takes focus — a tap, keyboard traversal and a
+  `requestFocus()` on the `focusNode` you passed all do it — and the constructor of
+  the `SelectionOverlay` underneath is what demands the ancestor:
+  `assert(debugCheckHasOverlay(context))`, in its initializer list
+  (`packages/flutter/lib/src/widgets/text_selection.dart`). Drawing a field is
+  fine, because until it is focused the selection overlay does not exist yet.
+- **The ones that build one of the above inside themselves:** `AppInput(info:)`
+  (an `AppPopover`), `AppPagination(perPage:)` (an `AppDropdown<int>`),
+  `AppSplitButton` (an `AppMenu`), and anything carrying a `tooltip` —
+  `AppCheckbox`, `AppSwitch`, a collapsed `AppNavigationRail`.
+
+Static text is the exception, and only static: the `AppSelectionRegion` that wraps
+every `AppText` asks with `Overlay.maybeOf` and returns the child when there is
+none, so the text still draws — it just is not selectable. A text *field* is not
+covered by that; it is in the list above.
+
+Without an ancestor, opening any of them throws, and the message is the
+framework's rather than ours. This is a debug build, measured with an
+`AppDropdown` under the root above minus its `Overlay`
+(`packages/flutter/lib/src/widgets/overlay.dart`, Flutter 3.44.9):
+
+```
+No Overlay widget found.
+Some widgets require an Overlay widget ancestor for correct operation.
+The most common way to add an Overlay to an application is to include a MaterialApp, CupertinoApp or Navigator widget in the runApp() call.
+The context from which that widget was searching for an overlay was:
+  AppDropdown<String>
+```
+
+The hint offers the three widgets this package exists to do without. The second
+line is an `ErrorDescription`, and it stays generic — "Some widgets" — because no
+call site here passes `debugRequiredFor`; the `ErrorSummary` above it never names
+anything, and the component that failed appears only at the bottom, in the context
+line. The text-field path is a different assert with a different message, and that
+one does name the widget: `debugCheckHasOverlay` interpolates
+`context.widget.runtimeType`, and the context handed to it is the field's own
+`EditableText` — so it reads "EditableText widgets require an Overlay widget
+ancestor". In a release or profile build the asserts are compiled out; `Overlay.of`
+then ends at its `!` and throws `Null check operator used on a null value`.
+
+The `Directionality` above the `Overlay` is required for the same reason the
+overlay is: the overlay resolves its entries' direction-sensitive coordinates
+through it.
 
 After that, every component reads the theme by itself:
 

@@ -1,11 +1,12 @@
 # Roadmap — distribuição e adoção
 
-O pacote está maduro: 131 componentes migrados, 25 suítes de arquitetura, 1658
-testes passando sem os goldens, catálogo bilíngue com gate de frescor. Um
-roadmap que listasse "mais componentes" estaria lendo o problema errado. O que
-falta é **distribuição** (publicar, hospedar, servir) e **adoção** (demo, guia
-de migração, MCP) — e é isso que este documento ordena, por dependência real,
-com o que cada fase destrava dito ao lado.
+O pacote está maduro: 131 componentes migrados, 25 suítes de arquitetura, a
+suíte inteira verde sem os goldens (o total sai do comando, na tabela de
+medições abaixo), catálogo bilíngue com gate de frescor. Um roadmap que
+listasse "mais componentes" estaria lendo o problema errado. O que falta é
+**distribuição** (publicar, hospedar, servir) e **adoção** (demo, guia de
+migração, MCP) — e é isso que este documento ordena, por dependência real, com
+o que cada fase destrava dito ao lado.
 
 ## Estado
 
@@ -30,7 +31,7 @@ Os números daqui foram medidos em 2026-08-12, não supostos:
 
 | Medição | Comando | Resultado |
 | --- | --- | --- |
-| Testes do `flocks` (sem golden) | `flutter test --exclude-tags golden` | 1658, todos verdes |
+| Testes do `flocks` (sem golden) | `flutter test --exclude-tags golden` | todos verdes — o total sai do comando e não daqui: qualquer teste novo no pacote o muda, e nenhum gate alcança número escrito nesta tabela |
 | Testes dos sete pacotes | os sete steps de teste do job `checks`, somados | todos verdes — o total sai do comando e não daqui: qualquer teste novo em qualquer um dos sete o muda, e nenhum gate alcança número escrito nesta tabela |
 | Validador | `cd packages/flocks && dart run tool/validate_components.dart` | 131 migrados + 7 internos |
 | Dry-run `flocks` | `dart pub publish --dry-run` | 0 avisos, tarball de 1 MB — eram 16 MB antes do `.pubignore` da A0, que tirou os 302 goldens (14,7 MB) |

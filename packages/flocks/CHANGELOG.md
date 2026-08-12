@@ -146,6 +146,53 @@ conteúdo — um defeito que nenhum use case isolado tinha exercitado.
   carregam texto transitivamente e filhos passados por variável, porque as duas
   formas escaparam da primeira versão da regra.
 
+- **O `Overlay` que o pacote exige passou a estar no caminho de entrada.** Os
+  componentes que flutuam inserem no `Overlay` ancestral mais próximo — os quatro
+  dropdowns, o `AppTooltip`, o `showAppOverlay` (e o `showAppSnackbar` que sai
+  dele) e o controlador ancorado que serve `AppPopover`, `AppMenu`,
+  `AppOmniSearch` e o `AppPickerAnchor` dos campos de data, hora e cor. O pacote
+  não monta `Overlay` em lugar nenhum, de propósito: quem hospeda decide onde a
+  camada flutuante vive. O mecanismo já aparecia no dartdoc de alguns deles
+  ("renderiza via `Overlay`"), mas dizer por onde o painel sai não é dizer que o
+  host tem de fornecer o ancestral, nem o que acontece quando falta — e o README,
+  que é a página do pub.dev, não citava a palavra uma vez. O
+  `example/lib/main.dart` ia além: montava um root SEM `Overlay`, então quem
+  copiasse o exemplo e pusesse um dropdown recebia o crash. Os dois passaram a
+  montar e a nomear quem exige, junto com as duas páginas da landing, que traziam
+  o mesmo `runApp`.
+
+  **Nenhum comportamento mudou POR CAUSA deste item** — nada em `lib/` foi tocado
+  por ele, e atualizar não conserta o crash de quem já o tem: o que faltava era a
+  frase, não o código. Sem ancestral, abrir qualquer um deles lança em debug pelo
+  assert do próprio framework, que manda incluir `MaterialApp`, `CupertinoApp` ou
+  `Navigator` — os três widgets que este pacote existe para não ter. A
+  `ErrorDescription` dele fica genérica ("Some widgets require an Overlay widget
+  ancestor") porque nenhum dos sítios passa `debugRequiredFor`; o `ErrorSummary`
+  acima dela nunca nomeia nada, e o componente que falhou aparece só na última
+  linha, a do contexto. Em release o assert sai, o `Overlay.of` termina no `!` dele
+  e resta `Null check operator used on a null value`.
+
+  A exigência alcança mais que os sítios diretos, e o README passou a dizer as três
+  categorias: quem insere sozinho, quem herda de um filho (`AppInput(info:)`,
+  `AppPagination(perPage:)`, `AppSplitButton`) e **todo campo de texto**, por regra
+  do framework — ao GANHAR FOCO, um `AppInput` monta um `TextSelectionOverlay`, e é
+  o construtor do `SelectionOverlay` embaixo dele que exige o ancestral, com
+  `assert(debugCheckHasOverlay(context))` na lista de inicialização
+  (`widgets/text_selection.dart`). O toque é só uma das formas: `Tab` e um
+  `requestFocus()` no `focusNode` que o campo aceita por parâmetro lançam igual.
+  Desenhar um campo não lança porque até o foco o overlay de seleção não existe.
+
+  O gate novo é de PRESENÇA, e cobre as quatro cópias da mesma raiz: o primeiro
+  bloco de código do README e o `example/lib/main.dart` no
+  `readme_example_test.dart`, que já lia o README, e o `<pre><code>` das duas
+  páginas do site no `install_docs_test.dart`, ao lado da copy de instalação que
+  ele já fiscalizava. O critério está em `test/architecture/entry_root_tokens.dart`.
+  Fecha uma armadilha silenciosa: sem ele o `Overlay` sai de uma das quatro numa
+  refatoração e nada fica vermelho — nem o `dart analyze`, porque a árvore sem ele
+  compila. Nas páginas a comparação é sobre o texto extraído do DOM, porque no HTML
+  cru o token vem partido pelos `<span>` de coloração. A árvore da demo continua
+  coberta pelo `overlay_dependent_test.dart` dela.
+
 ## [0.1.1] - 2026-08-10
 
 Três defeitos que só a análise do pub.dev revelou, no dia seguinte à
