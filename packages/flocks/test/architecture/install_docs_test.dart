@@ -21,6 +21,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart' as html_parser;
 
+import 'entry_root_tokens.dart';
+
 /// A marca que o README precisa carregar enquanto o pacote não está publicado.
 /// Curta de propósito: é a âncora do gate, não a frase inteira.
 ///
@@ -124,6 +126,39 @@ void main() {
           reason:
               'O pacote foi publicado — o aviso de "ainda não publicado" da '
               'landing virou mentira. Tire-o da página no mesmo commit.',
+        );
+      }
+    });
+
+    test('site: ${page.key} monta a raiz de entrada', () {
+      // A outra metade deste gate está no `readme_example_test.dart`, sobre o
+      // README e o `example/`. A copy de instalação acima e a raiz aqui são a
+      // mesma classe de problema: texto mantido à mão em superfícies que ninguém
+      // obriga a andarem juntas. A diferença é que uma instrução de instalação
+      // errada não resolve, e uma raiz sem `Overlay` resolve, compila, e só
+      // quebra no gesto do visitante.
+      final File file = File(page.key);
+      if (!file.existsSync()) {
+        return;
+      }
+      final String? codigo = _blocoDeCodigoComRunApp(file.readAsStringSync());
+      expect(
+        codigo,
+        isNotNull,
+        reason:
+            'Nenhum bloco de código com `runApp` em ${page.key}. Guarda contra '
+            'vacuidade: sem ela, mudar a marcação do bloco faria as asserções '
+            'de baixo passarem por falta de entrada.',
+      );
+      for (final String token in kTokensDaRaizDeEntrada) {
+        expect(
+          codigo,
+          contains(token),
+          reason:
+              'O bloco de código de ${page.key} parou de montar `$token`. A '
+              'landing é deploy contínuo: no ar, ela passa a contradizer o '
+              'README, que documenta a exigência. O critério inteiro está em '
+              '`entry_root_tokens.dart`.',
         );
       }
     });
@@ -539,6 +574,27 @@ const String kClasseDoLangSwitch = 'lang-switch';
 /// O error document da zone. Não tem URL própria e, por isso, é o HTML de
 /// `site/` que fica fora do sitemap — autorizado a ficar pelo `noindex`.
 const String kArquivoDePaginaDeErro = '404.html';
+
+/// O texto do bloco de código da página que traz o `runApp` — a raiz de entrada.
+///
+/// Pelo DOM, e não por `contains` no HTML cru, por necessidade e não por gosto: o
+/// bloco é colorido com um `<span>` por token, então `Overlay(` NUNCA aparece
+/// literal na fonte — o que está lá é `Overlay</span>(`. O `.text` do parser
+/// também desfaz as entidades, devolvendo `<OverlayEntry>` onde o arquivo tem
+/// `&lt;OverlayEntry&gt;`.
+///
+/// Escolhe pelo `runApp` em vez de pelo primeiro `<code>` porque as páginas usam
+/// `<code>` inline na prosa (`flutter run`, `AppButton(...)`), e o primeiro deles
+/// aparece antes do bloco.
+String? _blocoDeCodigoComRunApp(String html) {
+  for (final dom.Element code
+      in html_parser.parse(html).getElementsByTagName('code')) {
+    if (code.text.contains('runApp')) {
+      return code.text;
+    }
+  }
+  return null;
+}
 
 /// Uma página HTML de `site/`, já parseada.
 class _PaginaDoSite {

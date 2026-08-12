@@ -43,17 +43,28 @@ the fonts ship inside the package, so this runs on the first `flutter run`.
 point: adopting it would put our identity in your product instead of yours.
 
 **The `Overlay` is not decoration.** This package mounts none for you — the host
-decides where the floating layer lives — and every component that floats inserts
-into the nearest ancestor: the dropdowns (`AppDropdown`, `AppMultiSelect`,
-`AppSearchableDropdown`, `AppSearchableMultiSelect`), `AppTooltip`, `AppPopover`,
-`AppMenu`, `AppOmniSearch`, `AppPickerAnchor` and the inputs built on it
-(`AppDatePickerInput`, `AppTimePickerInput`, `AppDateTimePickerInput`,
-`AppColorPickerInput`), plus `showAppOverlay` and `showAppSnackbar`. Anything
-that takes a `tooltip` — `AppCheckbox`, `AppSwitch`, a collapsed
-`AppNavigationRail` — joins the list the moment the tooltip is built. Text is the
-exception: the `AppSelectionRegion` that wraps every `AppText` asks with
-`Overlay.maybeOf` and returns the child when there is none, so text still draws
-— it just is not selectable.
+decides where the floating layer lives — and three kinds of component need one
+above them:
+
+- **The ones that insert into it themselves:** the dropdowns (`AppDropdown`,
+  `AppMultiSelect`, `AppSearchableDropdown`, `AppSearchableMultiSelect`),
+  `AppTooltip`, `AppPopover`, `AppMenu`, `AppOmniSearch`, `AppPickerAnchor` and
+  the inputs built on it (`AppDatePickerInput`, `AppTimePickerInput`,
+  `AppDateTimePickerInput`, `AppColorPickerInput`), plus `showAppOverlay` and
+  `showAppSnackbar`.
+- **Every text field, by Flutter's rule rather than ours:** `AppInput` wraps
+  `EditableText`, which calls `debugCheckHasOverlay`
+  (`packages/flutter/lib/src/widgets/debug.dart`) as soon as it takes focus.
+  Drawing a field is fine — the first tap that focuses it throws.
+- **The ones that build one of the above inside themselves:** `AppInput(info:)`
+  (an `AppPopover`), `AppPagination(perPage:)` (an `AppDropdown<int>`),
+  `AppSplitButton` (an `AppMenu`), and anything carrying a `tooltip` —
+  `AppCheckbox`, `AppSwitch`, a collapsed `AppNavigationRail`.
+
+Static text is the exception, and only static: the `AppSelectionRegion` that wraps
+every `AppText` asks with `Overlay.maybeOf` and returns the child when there is
+none, so the text still draws — it just is not selectable. A text *field* is not
+covered by that; it is in the list above.
 
 Without an ancestor, opening any of them throws, and the message is the
 framework's rather than ours. This is a debug build, measured with an
@@ -68,13 +79,19 @@ The context from which that widget was searching for an overlay was:
   AppDropdown<String>
 ```
 
-The hint offers the three widgets this package exists to do without, and the
-summary stays generic because no call site passes `debugRequiredFor` — the
-component that failed shows up only at the bottom, in the context line. In a
-release or profile build that assert is compiled out and what is left is `Null
-check operator used on a null value`. The `Directionality` above the `Overlay` is
-required for the same reason the overlay is: the overlay resolves its entries'
-direction-sensitive coordinates through it.
+The hint offers the three widgets this package exists to do without. The second
+line is an `ErrorDescription`, and it stays generic — "Some widgets" — because no
+call site here passes `debugRequiredFor`; the `ErrorSummary` above it never names
+anything, and the component that failed appears only at the bottom, in the context
+line. The text-field path is a different assert with a different message, and that
+one does name the widget: `debugCheckHasOverlay` interpolates the type, so it
+reads "EditableText widgets require an Overlay widget ancestor". In a release or
+profile build the asserts are compiled out; `Overlay.of` then ends at its `!` and
+throws `Null check operator used on a null value`.
+
+The `Directionality` above the `Overlay` is required for the same reason the
+overlay is: the overlay resolves its entries' direction-sensitive coordinates
+through it.
 
 After that, every component reads the theme by itself:
 

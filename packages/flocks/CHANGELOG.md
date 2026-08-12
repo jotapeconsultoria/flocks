@@ -161,21 +161,34 @@ conteúdo — um defeito que nenhum use case isolado tinha exercitado.
   montar e a nomear quem exige, junto com as duas páginas da landing, que traziam
   o mesmo `runApp`.
 
-  **Nada em `lib/` mudou.** O comportamento da 0.1.2 é o da 0.1.1: atualizar não
-  conserta o crash de quem já o tem — o que faltava era a frase. Sem ancestral,
-  abrir qualquer um deles lança em debug pelo assert do próprio framework, que
-  manda incluir `MaterialApp`, `CupertinoApp` ou `Navigator` — os três widgets
-  que este pacote existe para não ter. O resumo dele fica genérico ("Some widgets
-  require an Overlay widget ancestor") porque nenhum dos sítios passa
-  `debugRequiredFor`, e o componente que falhou aparece só na última linha, a do
-  contexto. Em release o assert sai e resta `Null check operator used on a null
-  value`.
+  **Nenhum comportamento mudou POR CAUSA deste item** — nada em `lib/` foi tocado
+  por ele, e atualizar não conserta o crash de quem já o tem: o que faltava era a
+  frase, não o código. Sem ancestral, abrir qualquer um deles lança em debug pelo
+  assert do próprio framework, que manda incluir `MaterialApp`, `CupertinoApp` ou
+  `Navigator` — os três widgets que este pacote existe para não ter. A
+  `ErrorDescription` dele fica genérica ("Some widgets require an Overlay widget
+  ancestor") porque nenhum dos sítios passa `debugRequiredFor`; o `ErrorSummary`
+  acima dela nunca nomeia nada, e o componente que falhou aparece só na última
+  linha, a do contexto. Em release o assert sai, o `Overlay.of` termina no `!` dele
+  e resta `Null check operator used on a null value`.
 
-  Não há gate novo, e nem havia onde pôr um: nenhum teste lê o
-  `example/lib/main.dart` — só o `dart analyze` o alcança — e o
-  `readme_example_test.dart` varre os blocos de código Dart do README por
-  `flocksBrand` e pelo domínio do site, sem compilá-los. Quem cobre a exigência
-  hoje é o `overlay_dependent_test.dart` da demo, sobre a árvore da demo.
+  A exigência alcança mais que os sítios diretos, e o README passou a dizer as três
+  categorias: quem insere sozinho, quem herda de um filho (`AppInput(info:)`,
+  `AppPagination(perPage:)`, `AppSplitButton`) e **todo campo de texto**, por regra
+  do framework — o `EditableText` que o `AppInput` embrulha chama
+  `debugCheckHasOverlay` ao receber foco. Desenhar um campo não lança; o primeiro
+  toque que o foca, sim.
+
+  O gate novo é de PRESENÇA, e cobre as quatro cópias da mesma raiz: o primeiro
+  bloco de código do README e o `example/lib/main.dart` no
+  `readme_example_test.dart`, que já lia o README, e o `<pre><code>` das duas
+  páginas do site no `install_docs_test.dart`, ao lado da copy de instalação que
+  ele já fiscalizava. O critério está em `test/architecture/entry_root_tokens.dart`.
+  Fecha uma armadilha silenciosa: sem ele o `Overlay` sai de uma das quatro numa
+  refatoração e nada fica vermelho — nem o `dart analyze`, porque a árvore sem ele
+  compila. Nas páginas a comparação é sobre o texto extraído do DOM, porque no HTML
+  cru o token vem partido pelos `<span>` de coloração. A árvore da demo continua
+  coberta pelo `overlay_dependent_test.dart` dela.
 
 ## [0.1.1] - 2026-08-10
 

@@ -22,12 +22,22 @@
 // Nada disso quebra sozinho: o exemplo compila, o app roda, e o erro só aparece
 // no dia em que alguém repara que o produto tem a nossa cara. Por isso a regra é
 // um gate e não um comentário.
+//
+// O segundo grupo, o da raiz de entrada, mora aqui por oportunidade: os blocos
+// ```dart do README já estão parseados numa lista neste arquivo, e o exemplo é o
+// vizinho natural deles. O critério dele está em `entry_root_tokens.dart`, junto
+// da metade que fiscaliza as duas páginas do site.
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
+import 'entry_root_tokens.dart';
+
 /// O domínio do site — proibido em qualquer exemplo copiável.
 const String kSiteDomain = 'flocks.live';
+
+/// O exemplo que o pub.dev renderiza na aba Example.
+const String kCaminhoDoExemplo = 'example/lib/main.dart';
 
 /// O corpo dos blocos ```dart do README.
 ///
@@ -41,10 +51,10 @@ List<String> _dartBlocks(String markdown) => RegExp(
 ).allMatches(markdown).map((RegExpMatch m) => m.group(1)!).toList();
 
 void main() {
-  group('o exemplo do README não parte da marca do site', () {
-    final String readme = File('README.md').readAsStringSync();
-    final List<String> blocks = _dartBlocks(readme);
+  final String readme = File('README.md').readAsStringSync();
+  final List<String> blocks = _dartBlocks(readme);
 
+  group('o exemplo do README não parte da marca do site', () {
     test('há bloco dart para checar', () {
       // Guarda contra vacuidade: se a regex parar de casar (o README mudar de
       // formato), é este `expect` que reprova, e não os de baixo passando por
@@ -73,5 +83,37 @@ void main() {
             'do exemplo é o do adotante.',
       );
     });
+  });
+
+  group('a raiz de entrada monta o Overlay que o pacote exige', () {
+    for (final String token in kTokensDaRaizDeEntrada) {
+      test('o primeiro bloco do README monta $token', () {
+        // O PRIMEIRO bloco, e não qualquer um: é a raiz que o visitante copia.
+        // Os outros blocos do README são fragmentos (um botão, um `copyWith`) e
+        // exigir a montagem deles seria falso.
+        expect(
+          blocks.first,
+          contains(token),
+          reason:
+              'O primeiro bloco ```dart do README parou de montar `$token`. Ele '
+              'é a raiz que quem instala o pacote copia, e sem `Overlay` '
+              'ancestral os dropdowns, o `AppTooltip`, os pickers ancorados e '
+              'qualquer campo de texto focado lançam em tempo de execução. O '
+              'critério inteiro está em `entry_root_tokens.dart`.',
+        );
+      });
+
+      test('$kCaminhoDoExemplo monta $token', () {
+        expect(
+          File(kCaminhoDoExemplo).readAsStringSync(),
+          contains(token),
+          reason:
+              '`$kCaminhoDoExemplo` parou de montar `$token`. É o que o pub.dev '
+              'renderiza na aba Example, e ele viaja no tarball congelado na '
+              'versão: o conserto de um exemplo que lança só chega na próxima. '
+              'O `dart analyze` não pega isto — a árvore sem `Overlay` compila.',
+        );
+      });
+    }
   });
 }
