@@ -8,13 +8,18 @@ import 'package:flutter_test/flutter_test.dart';
 // Matriz {claro,escuro} × {jotape,zxtrack}. Gerar:
 //   flutter test --update-goldens --tags golden
 //
-// Nota: destes 4 goldens, o trecho de código é a única parte que NÃO depende
-// mais da plataforma. O Flocks empacota a IBM Plex Mono, e `AppContentStyle`
-// pede a família empacotada — antes disto o bloco caía na mono do SO, e no
-// sandbox de teste (onde nenhuma existe) o `flutter_test_config.dart` registrava
-// a Poppins sob o nome `SF Mono`: as baselines mostravam uma proporcional
-// fingindo ser mono. O resto da suíte segue gerado no macOS, como o resto do
-// repositório.
+// Nota: são 8 baselines — `app_markdown_*` e `app_html_*` na matriz —, e só as 4
+// de Markdown têm glifo mono (o fixture de HTML não tem `<code>` nem `<pre>`).
+//
+// Nenhuma fonte aqui vem do SO: as três famílias são empacotadas. Antes de o
+// Flocks empacotar a IBM Plex Mono, o bloco de código era a ÚNICA parte que
+// vinha, e no sandbox de teste — onde nenhuma mono de sistema existe — o
+// `flutter_test_config.dart` registrava a Poppins sob o nome `SF Mono`: estas
+// baselines mostravam uma proporcional fingindo ser mono.
+//
+// Continuam geradas no macOS, como o resto do repositório, porque o que ainda
+// varia entre máquinas é o rasterizador de texto — e isso vale para os 8 por
+// igual, não para o trecho de código em particular.
 
 const String _markdown = '''
 # Relatório de viagem

@@ -76,10 +76,14 @@ conteúdo — um defeito que nenhum use case isolado tinha exercitado.
   continua: a condição que a dispara é o nome da família no `FontManifest.json`,
   e nada disto muda isso.
 
-  Custa 275.796 B nos assets e **+119.790 B (+7,95%) no tarball**, integralmente:
-  fonte de texto declarada em `fonts:` **não** é podada pelo
-  `--tree-shake-icons`, que só alcança fonte de ícone por `IconData` constante —
-  os dois `.ttf` saem do build web com os mesmos bytes com e sem a flag. A
+  Custa **280.252 B** nos assets — 135.580 do Regular, 140.216 do SemiBold, 4.456
+  do `OFL.txt` — e custa **integralmente**: fonte de texto declarada em `fonts:`
+  **não** é podada pelo `--tree-shake-icons`, que só alcança fonte de ícone por
+  `IconData` constante, e os dois `.ttf` saem do build web com os mesmos bytes
+  com e sem a flag. No tarball comprimido isso vira algo perto de **+8%**, e não
+  um número exato: o `dart pub publish --dry-run` só reporta "1 MB", e reproduzir
+  o arquivo por fora dá de 1,52 a 1,63 MB para a MESMA lista de 953 caminhos,
+  conforme o empacotador e o nível de gzip. O que é exato é o que está acima. A
   Inconsolata faria o mesmo trabalho por 63.332 B menos; ficou de fora por
   cobertura, e o pubspec registra a comparação inteira.
 

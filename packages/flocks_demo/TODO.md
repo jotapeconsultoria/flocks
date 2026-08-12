@@ -79,12 +79,14 @@ se chamava.
 uploads, e o gate de rede continua provando que nenhum byte do logo vai a lugar
 nenhum.
 
-**Onde a frase falsa está escrita.** "Esta página não contacta host nenhum" não
-está na tela nem no README — mas está em dois lugares, e é falsa nos dois:
+**Onde a frase falsa estava escrita.** "Esta página não contacta host nenhum" não
+está na tela nem no README — mas estava em dois lugares, e era falsa nos dois:
 `ci.yml`, no comentário do passo de build da demo (corrigido no PR que trouxe
 esta medição), e o `reason` do gate do CDN em `test/architecture_test.dart`, que
-segue dizendo que sem a flag "deixa de ser verdade que ela não contacta host
-nenhum" — sem a flag ou com ela, a demo contacta.
+dizia que sem a flag "deixa de ser verdade que ela não contacta host nenhum" —
+sem a flag ou com ela, a demo contacta. **Os dois estão corrigidos**; o `reason`
+agora nomeia a Roboto, que é o que a flag não alcança. Continua valendo a regra
+que gerou a dívida: a frase não pode voltar enquanto a Roboto sair.
 
 **Como medir, para a próxima pessoa não errar como a anterior.** A auditoria de
 2026-08-11 concluiu "39 requisições, todas em `flocks.live`, nenhuma para

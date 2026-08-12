@@ -31,11 +31,21 @@
 //    inteiro como TEXTO justamente porque nenhum teste de execução o alcança —
 //    e é por isso que a lista de proibidos de lá é longa e específica em vez de
 //    confiar neste gate.
-// 2. O bootstrap JavaScript do Flutter Web roda antes e fora daqui, e ele busca
-//    o CanvasKit (contornado com `--no-web-resources-cdn`, e há um gate estático
-//    para a flag) e a fonte Roboto do Google (ainda não contornado — ver README
-//    e TODO). Nenhum dos dois toca o logo, mas nenhum dos dois seria visto por
-//    este arquivo.
+// 2. O bootstrap JavaScript e a fila de fontes do engine rodam antes e fora
+//    daqui. Eram TRÊS requisições, e este inventário só conhecia uma até a
+//    medição de 2026-08-11 (`TODO.md`; o método que enxerga terceiros é
+//    `performance.getEntriesByType('resource')`, não a aba de rede). Estado
+//    hoje: o CanvasKit de `www.gstatic.com`, **corrigido** com
+//    `--no-web-resources-cdn` e com gate estático para a flag; a **Noto Sans
+//    Symbols** de `fonts.gstatic.com` (69.116 B), que nascia no primeiro layout
+//    porque o bloco de código do painel pedia uma pilha mono que o CanvasKit não
+//    conhece, **corrigida na raiz** desde que o `flocks` empacota a própria mono;
+//    e a **Roboto** do mesmo host (63.464 B), que o CanvasKit exige como
+//    fallback registrado e AGUARDA antes do primeiro frame mesmo a demo não a
+//    usando — **essa continua**, porque a condição que a dispara é o nome da
+//    família no `FontManifest.json`, e nenhuma fonte nossa se chama `Roboto`.
+//    Nenhuma das três toca o logo (são download, não upload), mas nenhuma das
+//    três seria vista por este arquivo.
 // 3. `HttpOverrides` intercepta o `dart:io` do Dart. Rede aberta por JS pelo
 //    lado de fora, sem passar pelo `HttpClient`, não acenderia aqui — o que é a
 //    mesma lacuna do item 1, vista pelo outro lado.

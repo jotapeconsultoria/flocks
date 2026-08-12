@@ -185,8 +185,14 @@ void main() {
         line,
         contains('--no-web-resources-cdn'),
         reason:
-            'Sem esta flag a demo baixa o CanvasKit de www.gstatic.com, e '
-            'deixa de ser verdade que ela não contacta host nenhum.',
+            'Sem esta flag a demo baixa o `canvaskit.js` e o `canvaskit.wasm` de '
+            'www.gstatic.com a cada carregamento; com ela, o `canvaskit/` que já '
+            'vai no build é servido por nós. O que esta flag NÃO alcança é a '
+            'Roboto que o engine busca em fonts.gstatic.com como fallback '
+            'registrado — uma requisição, medida, e o TODO.md explica por que '
+            'ela é mais cara de consertar. "Não contacta host nenhum" seria '
+            'falso com flag ou sem ela, e por isso não está escrito em lugar '
+            'nenhum.',
       );
     }
   });
