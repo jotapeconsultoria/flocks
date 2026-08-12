@@ -10,7 +10,7 @@ follows [SemVer](https://semver.org/).
 > line starts at `0.1.0` because nothing here was ever published — the core is
 > already at `0.1.2`. The `flocks` CHANGELOG explains why `0.x`.
 
-## [0.1.0] - 2026-08-11
+## [0.1.0] - 2026-08-12
 
 ### Added
 

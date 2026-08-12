@@ -17,7 +17,7 @@ follows [SemVer](https://semver.org/).
 > surprise. It graduates to `1.0.0` once the API holds still through a few
 > outside adopters.
 
-## [0.1.2] - 2026-08-11
+## [0.1.2] - 2026-08-12
 
 A marca aprende a se escrever. É a única feature de pacote que o ROADMAP prevê,
 e ela existe para a demo do site: sem isto o visitante vê a marca dele nos 131

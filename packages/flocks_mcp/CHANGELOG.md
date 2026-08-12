@@ -11,7 +11,7 @@ follows [SemVer](https://semver.org/).
 > explains why `0.x`. It published *after* `flocks`, because the core's `0.1.0`
 > is what settles the catalog schema this package embeds.
 
-## [0.1.2] - 2026-08-11
+## [0.1.2] - 2026-08-12
 
 **O número acompanha o `flocks` 0.1.2**, pela razão que o bloco acima dá: o que
 este servidor serve *é* o catálogo do core, e uma linha de versão própria só

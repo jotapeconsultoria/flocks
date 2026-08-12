@@ -10,7 +10,7 @@ follows [SemVer](https://semver.org/).
 > because nothing was released. The public line starts at `0.1.0`, next to the
 > core; the `flocks` CHANGELOG explains why `0.x`.
 
-## [0.1.2] - 2026-08-11
+## [0.1.2] - 2026-08-12
 
 **Nada mudou neste pacote.** O número acompanha o `flocks` 0.1.2 pela razão que
 o bloco acima dá: o contrato mora no core, e um adaptador numa linha própria só
