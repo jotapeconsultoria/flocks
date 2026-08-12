@@ -1,11 +1,12 @@
 # Roadmap — distribuição e adoção
 
-O pacote está maduro: 131 componentes migrados, 25 suítes de arquitetura, 1658
-testes passando sem os goldens, catálogo bilíngue com gate de frescor. Um
-roadmap que listasse "mais componentes" estaria lendo o problema errado. O que
-falta é **distribuição** (publicar, hospedar, servir) e **adoção** (demo, guia
-de migração, MCP) — e é isso que este documento ordena, por dependência real,
-com o que cada fase destrava dito ao lado.
+O pacote está maduro: 131 componentes migrados, 25 suítes de arquitetura, a
+suíte inteira verde sem os goldens (o total sai do comando, na tabela de
+medições abaixo), catálogo bilíngue com gate de frescor. Um roadmap que
+listasse "mais componentes" estaria lendo o problema errado. O que falta é
+**distribuição** (publicar, hospedar, servir) e **adoção** (demo, guia de
+migração, MCP) — e é isso que este documento ordena, por dependência real, com
+o que cada fase destrava dito ao lado.
 
 ## Estado
 
