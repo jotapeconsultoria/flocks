@@ -430,15 +430,21 @@ class _AppColorPickerInputState extends State<AppColorPickerInput>
       children: [
         if (_controller.text.isEmpty && widget.hintText != null)
           Positioned.fill(
-            child: IgnorePointer(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: AppText(
-                  widget.hintText!,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.bodyMedium.withColor(
-                    theme.colorTheme.neutralPrimary.s400,
+            // Dica decorativa sobre área editável: `SelectionContainer.disabled`
+            // pelo mesmo motivo detalhado em `molecules/input/app_input.dart` —
+            // na web o `SelectableRegion` de um `AppText` monta um platform view
+            // DOM sobre a área, e o `IgnorePointer` não o alcança.
+            child: SelectionContainer.disabled(
+              child: IgnorePointer(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: AppText(
+                    widget.hintText!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.bodyMedium.withColor(
+                      theme.colorTheme.neutralPrimary.s400,
+                    ),
                   ),
                 ),
               ),

@@ -51,7 +51,7 @@ enum DemoFont {
 ///    Não há como vazar o que não se alcança.
 ///
 /// É deliberadamente Dart puro — sem `dart:html`, sem `package:web`. A ponte
-/// com a barra de endereço mora em `location.dart`, o que deixa todo o parse
+/// com a barra de endereço mora em `browser.dart`, o que deixa todo o parse
 /// testável no `flutter test` da VM.
 @immutable
 final class DemoConfig {

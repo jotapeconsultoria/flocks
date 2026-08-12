@@ -1,6 +1,6 @@
 # Roadmap — distribuição e adoção
 
-O pacote está maduro: 131 componentes migrados, 24 suítes de arquitetura, 1641
+O pacote está maduro: 131 componentes migrados, 25 suítes de arquitetura, 1658
 testes passando sem os goldens, catálogo bilíngue com gate de frescor. Um
 roadmap que listasse "mais componentes" estaria lendo o problema errado. O que
 falta é **distribuição** (publicar, hospedar, servir) e **adoção** (demo, guia
@@ -26,12 +26,12 @@ Atualizado em 2026-08-11 — o que cada fase mediu está na seção dela.
 | E — guia de migração | ⬜ **desbloqueada** — a instalação real que o guia instrui existe desde 2026-08-10 |
 | F — providers de ícone (`flocks_cupertino`, `flocks_lucide`) | ✅ **implementados em 2026-08-10**: `flocks_cupertino` no molde do `flocks_material` (glifos do pacote `cupertino_icons`, MIT — **não** os SF Symbols da Apple) e `flocks_lucide` no molde do `flocks_phosphor` (fonte vendorada, ISC, 853.920 → 19.624 bytes com `--tree-shake-icons`). O teste de contrato cruzado cobre os quatro adaptadores. O `publish_to: none` dos dois saiu junto com o aviso do README de cada um, no mesmo commit que o XOR do `install_docs_test` cobra — os dois entram na linha pública em 0.1.0, contra o `flocks` que já está no ar |
 
-Os números daqui foram medidos em 2026-08-11, não supostos:
+Os números daqui foram medidos em 2026-08-12, não supostos:
 
 | Medição | Comando | Resultado |
 | --- | --- | --- |
-| Testes do `flocks` (sem golden) | `flutter test --exclude-tags golden` | 1625, todos verdes |
-| Testes dos sete pacotes | os sete steps de teste do job `checks`, somados | 1881, todos verdes |
+| Testes do `flocks` (sem golden) | `flutter test --exclude-tags golden` | 1658, todos verdes |
+| Testes dos sete pacotes | os sete steps de teste do job `checks`, somados | 1916, todos verdes |
 | Validador | `cd packages/flocks && dart run tool/validate_components.dart` | 131 migrados + 7 internos |
 | Dry-run `flocks` | `dart pub publish --dry-run` | 0 avisos, tarball de 1 MB — eram 16 MB antes do `.pubignore` da A0, que tirou os 302 goldens (14,7 MB) |
 | Dry-run dos 4 adaptadores e do `flocks_mcp` | idem | 0 avisos cada; os seis pacotes publicáveis têm `CHANGELOG.md` |

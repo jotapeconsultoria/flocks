@@ -66,9 +66,12 @@ empacotadas — o gate pode ser absoluto:
 
 | Gate | O que ele prende |
 | --- | --- |
-| `test/no_network_test.dart` | monta a demo com um logo carregado, mexe em todos os eixos e nas duas telas, e exige **zero** requisições HTTP |
-| `test/architecture_test.dart` | reprova qualquer import de cliente HTTP, `createObjectURL`, provider de rede ou Material — e o `pubspec.yaml` que declarar uma dependência de rede |
+| `test/no_network_test.dart` | monta a demo com o logo carregado — raster e vetorial —, mexe em todos os eixos, nas duas telas e nos controles POR GESTO, e exige **zero** requisições HTTP |
+| `test/architecture_test.dart` | reprova qualquer import de cliente HTTP, `createObjectURL`, `Image.network`, `SvgPicture.network`, qualquer identificador com `Network` ou Material — e o `pubspec.yaml` que declarar uma dependência de rede |
 | `test/demo_config_test.dart` | prova que a URL compartilhável carrega os seis campos do contrato e nada mais |
+| `test/layout_test.dart` | nenhuma combinação de viewport × tela × tipografia estoura, e o CRUD dirigido pela interface — validar, criar, editar, cancelar — também não |
+| `test/demo_logo_test.dart` | o contrato de `DemoLogo.sniffFormat`: decide pela assinatura binária e nunca pela extensão, e devolve `null` em vez de lançar |
+| `test/overlay_dependent_test.dart` | os dropdowns do painel e do formulário abrem de fato ao serem tocados — o defeito que era silencioso em produção |
 
 Consequência para quem usa: **o link compartilhável leva cor, fonte e eixos, mas
 não leva o logo.** A demo diz isso na tela, e não só aqui.

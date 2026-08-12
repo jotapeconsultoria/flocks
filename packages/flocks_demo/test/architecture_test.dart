@@ -96,8 +96,32 @@ void main() {
       'WebSocket',
       'EventSource',
       'createObjectURL',
-      'AppNetworkIconProvider',
-      'AppNetworkIllustrationProvider',
+      // A família que entra sem dependência nova, e por isso era a mais fácil de
+      // passar despercebida. `Image.network` vem de
+      // `package:flutter/widgets.dart`, que 8 dos 12 arquivos de `lib/` já
+      // importam; `SvgPicture.network` vem do `flutter_svg`, importado em UM
+      // arquivo — `state/demo_logo.dart`, justamente o que guarda os bytes do
+      // logo. Nada acima casava com as duas, e uma linha bastaria para o logo do
+      // visitante ganhar um endereço, que é exatamente o que `demo_logo.dart`
+      // foi desenhado para não ter.
+      'Image.network',
+      'SvgPicture.network',
+      // E o catch-all da mesma família: `Network` com N MAIÚSCULO, que as duas
+      // de cima não pegam porque nelas o `n` é minúsculo.
+      //
+      // Do `widgets.dart`, sem import novo (conferido compilando um arquivo que
+      // só importa ele): `NetworkImage`, o provider por trás do `Image.network`,
+      // e os dois construtores de rede do `FadeInImage` — `memoryNetwork` e
+      // `assetNetwork`. Do `flutter_svg`: `SvgNetworkLoader`. Com um import a
+      // mais, que é barreira baixa demais para valer de proteção:
+      // `NetworkAssetBundle`, um `AssetBundle` sobre HTTP que mora em
+      // `package:flutter/services.dart` — o `widgets.dart` NÃO o exporta. E os
+      // `AppNetworkIconProvider`/`AppNetworkIllustrationProvider` do `flocks`,
+      // que esta lista nomeava um a um e agora não precisa mais.
+      //
+      // Uma agulha larga só é honesta se não reprovar o que é legítimo: `lib/`
+      // hoje não tem NENHUMA ocorrência de `Network`, medido e não suposto.
+      'Network',
     ];
     final List<String> offenders = <String>[];
     for (final File f in files) {
@@ -185,14 +209,16 @@ void main() {
         line,
         contains('--no-web-resources-cdn'),
         reason:
-            'Sem esta flag a demo baixa o `canvaskit.js` e o `canvaskit.wasm` de '
-            'www.gstatic.com a cada carregamento; com ela, o `canvaskit/` que já '
-            'vai no build é servido por nós. O que esta flag NÃO alcança é a '
-            'Roboto que o engine busca em fonts.gstatic.com como fallback '
-            'registrado — uma requisição, medida, e o TODO.md explica por que '
-            'ela é mais cara de consertar. "Não contacta host nenhum" seria '
-            'falso com flag ou sem ela, e por isso não está escrito em lugar '
-            'nenhum.',
+            'Sem esta flag a demo baixa o `canvaskit.js` e o `canvaskit.wasm` '
+            'de www.gstatic.com a cada carregamento; com ela, o `canvaskit/` '
+            'que já vai no build é servido da nossa Storage Zone. A medição de '
+            '2026-08-11 confirma zero requisições a www.gstatic.com. O que a '
+            'demo AINDA contacta é UMA fonte em fonts.gstatic.com — a Roboto, '
+            'que o engine exige como fallback registrado e AGUARDA antes do '
+            'primeiro frame; esta flag não a alcança, e o TODO.md explica por '
+            'que ela é mais cara de consertar. A segunda daquela medição, a '
+            'Noto Sans Symbols, saiu quando o flocks passou a empacotar a '
+            'própria mono.',
       );
     }
   });

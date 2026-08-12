@@ -47,7 +47,7 @@ AppButton(
 ## Zero Material — and it is verified
 
 `lib/src` imports neither `material.dart` nor `cupertino.dart`. That is not an
-intention in a README: it is 24 suites in `test/architecture/` that sweep the
+intention in a README: it is 25 suites in `test/architecture/` that sweep the
 code on every `flutter test`, and the allow-list has **one** entry —
 `TextSelectionControls`, which has no equivalent in the `widgets` layer.
 

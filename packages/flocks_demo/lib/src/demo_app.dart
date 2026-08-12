@@ -101,8 +101,16 @@ class DemoAppState extends State<DemoApp> {
             // `LayoutBuilder` fica DENTRO da entrada para continuar medindo o
             // viewport inteiro.
             //
-            // O gate é `test/overlay_dependent_test.dart`, que abre cada um
-            // desses controles e falha se algum voltar a morrer calado.
+            // O gate é `test/overlay_dependent_test.dart`, e ele cobre os cinco
+            // `AppDropdown` — os três eixos do painel, e Plan e Status do
+            // formulário — mais o foco de um campo de texto: abre cada um por
+            // toque e falha se voltar a morrer calado.
+            //
+            // Ele NÃO cobre o seletor de data citado acima, nem o seletor de cor
+            // da marca, que é a outra família ancorada em `AppPickerAnchor` e
+            // depende deste mesmo `Overlay`. Os dois voltariam a morrer calados
+            // sem nada ficar vermelho. Quem escrever o caso que falta, tire o
+            // controle desta ressalva.
             child: Overlay(
               initialEntries: <OverlayEntry>[
                 OverlayEntry(
