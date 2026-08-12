@@ -16,9 +16,11 @@ library;
 /// Os tokens que a raiz de entrada tem de conter.
 ///
 /// `Overlay(` porque sete `Overlay.of(context)` de `lib/` inserem no ancestral
-/// mais próximo e `Overlay.of` lança quando não acha — e porque o `EditableText`
-/// que todo campo de texto embrulha cobra o mesmo ancestral, por regra do
-/// framework (`debugCheckHasOverlay`).
+/// mais próximo e `Overlay.of` lança quando não acha — e porque todo campo de texto
+/// cobra o mesmo ancestral por regra do framework: o `EditableText` monta um
+/// `TextSelectionOverlay` ao primeiro toque, e o construtor do `SelectionOverlay`
+/// embaixo dele tem `assert(debugCheckHasOverlay(context))` na lista de
+/// inicialização (`widgets/text_selection.dart`).
 ///
 /// `Directionality(` porque o próprio `Overlay` resolve por ele as coordenadas
 /// direcionais das suas entries: sem ele a raiz documentada não monta, e o

@@ -52,10 +52,12 @@ above them:
   the inputs built on it (`AppDatePickerInput`, `AppTimePickerInput`,
   `AppDateTimePickerInput`, `AppColorPickerInput`), plus `showAppOverlay` and
   `showAppSnackbar`.
-- **Every text field, by Flutter's rule rather than ours:** `AppInput` wraps
-  `EditableText`, which calls `debugCheckHasOverlay`
-  (`packages/flutter/lib/src/widgets/debug.dart`) as soon as it takes focus.
-  Drawing a field is fine — the first tap that focuses it throws.
+- **Every text field, by Flutter's rule rather than ours:** the first tap on an
+  `AppInput` makes the `EditableText` inside it build a `TextSelectionOverlay`,
+  and it is the constructor of the `SelectionOverlay` underneath that demands the
+  ancestor — `assert(debugCheckHasOverlay(context))`, in its initializer list
+  (`packages/flutter/lib/src/widgets/text_selection.dart`). Drawing a field is
+  fine, because until that tap the selection overlay does not exist yet.
 - **The ones that build one of the above inside themselves:** `AppInput(info:)`
   (an `AppPopover`), `AppPagination(perPage:)` (an `AppDropdown<int>`),
   `AppSplitButton` (an `AppMenu`), and anything carrying a `tooltip` —
@@ -84,10 +86,11 @@ line is an `ErrorDescription`, and it stays generic — "Some widgets" — becau
 call site here passes `debugRequiredFor`; the `ErrorSummary` above it never names
 anything, and the component that failed appears only at the bottom, in the context
 line. The text-field path is a different assert with a different message, and that
-one does name the widget: `debugCheckHasOverlay` interpolates the type, so it
-reads "EditableText widgets require an Overlay widget ancestor". In a release or
-profile build the asserts are compiled out; `Overlay.of` then ends at its `!` and
-throws `Null check operator used on a null value`.
+one does name the widget: `debugCheckHasOverlay` interpolates
+`context.widget.runtimeType`, and the context handed to it is the field's own
+`EditableText` — so it reads "EditableText widgets require an Overlay widget
+ancestor". In a release or profile build the asserts are compiled out; `Overlay.of`
+then ends at its `!` and throws `Null check operator used on a null value`.
 
 The `Directionality` above the `Overlay` is required for the same reason the
 overlay is: the overlay resolves its entries' direction-sensitive coordinates
