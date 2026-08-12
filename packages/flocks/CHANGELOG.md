@@ -90,8 +90,10 @@ conteúdo — um defeito que nenhum use case isolado tinha exercitado.
 
   Os 17 sítios de texto decorativo passaram a viver num
   `SelectionContainer.disabled`, que zera o registrar e cai no guard que
-  `AppSelectionRegion` já tinha — sem API pública nova. Atinge `AppInput`,
-  `AppColorPickerInput`, `AppStepper` e os cinco gráficos.
+  `AppSelectionRegion` já tinha — sem API pública nova, e pela receita que o
+  pacote já usava em 33 arquivos (o `AppAvatar` a documenta citando o
+  `ButtonCore`). Atinge `AppInput`, `AppColorPickerInput`, `AppStepper` e os
+  cinco gráficos, que eram justamente os que tinham ficado de fora.
 
   O gate é `test/architecture/decorative_selection_test.dart`, e é de FONTE por
   necessidade: na VM o SDK usa o ramo `_io` do platform view, que é passa-direto e
