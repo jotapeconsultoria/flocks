@@ -168,10 +168,17 @@ class _AppBarChartState extends State<AppBarChart> {
                       Positioned(
                         left: geometry.tooltipLeft(_tooltipData!),
                         top: geometry.tooltipTop(_tooltipData!),
-                        child: IgnorePointer(
-                          child: ConstrainedBox(
-                            constraints: const BoxConstraints(maxWidth: 180),
-                            child: ChartTooltip(data: _tooltipData!),
+                        // O tooltip também é decorativo, e o `ChartTooltip` é
+                        // feito de `AppText` — sem desligar a seleção ele monta
+                        // platform views DOM sobre o ponto que o usuário está
+                        // apontando, justamente onde o próximo toque cai. Ver
+                        // `molecules/input/app_input.dart`.
+                        child: SelectionContainer.disabled(
+                          child: IgnorePointer(
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 180),
+                              child: ChartTooltip(data: _tooltipData!),
+                            ),
                           ),
                         ),
                       ),
@@ -393,15 +400,26 @@ final class _AppBarChartGeometry {
               bottom: 0,
               left: center - 24,
               width: 48,
-              child: IgnorePointer(
-                child: AppText(
-                  entry.value.toUpperCase(),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: theme.textTheme.labelMedium.withColor(
-                    theme.colorTheme.neutralPrimary.s500,
+              // Rótulo de eixo é decorativo, e `SelectionContainer.disabled` é o
+              // que o mantém fora do caminho do ponteiro na web: sem isso o
+              // `AppText` vira um `SelectableRegion`, que monta um platform view
+              // DOM sobre a área do gráfico — medido no widgetbook, 48 pontos da
+              // área tinham um desses divs no topo, porque os rótulos do eixo X
+              // caem sobre as barras. O `IgnorePointer` não resolve: elemento do
+              // DOM não participa do hit-test do Flutter, e o div segue
+              // oferecendo seleção e menu de contexto sobre o gráfico. Detalhe
+              // completo em `molecules/input/app_input.dart`.
+              child: SelectionContainer.disabled(
+                child: IgnorePointer(
+                  child: AppText(
+                    entry.value.toUpperCase(),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.labelMedium.withColor(
+                      theme.colorTheme.neutralPrimary.s500,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
               ),
             );
@@ -424,15 +442,17 @@ final class _AppBarChartGeometry {
             left: 0,
             top: center - 8,
             width: 56,
-            child: IgnorePointer(
-              child: AppText(
-                entry.value.toUpperCase(),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.labelMedium.withColor(
-                  theme.colorTheme.neutralPrimary.s500,
+            child: SelectionContainer.disabled(
+              child: IgnorePointer(
+                child: AppText(
+                  entry.value.toUpperCase(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.labelMedium.withColor(
+                    theme.colorTheme.neutralPrimary.s500,
+                  ),
+                  textAlign: TextAlign.right,
                 ),
-                textAlign: TextAlign.right,
               ),
             ),
           );
@@ -532,15 +552,17 @@ final class _AppBarChartGeometry {
           left: 0,
           top: dy,
           width: 36,
-          child: IgnorePointer(
-            child: AppText(
-              ChartFoundation.valueLabel(tickValues[index]),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.labelMedium.withColor(
-                theme.colorTheme.neutralPrimary.s500,
+          child: SelectionContainer.disabled(
+            child: IgnorePointer(
+              child: AppText(
+                ChartFoundation.valueLabel(tickValues[index]),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.labelMedium.withColor(
+                  theme.colorTheme.neutralPrimary.s500,
+                ),
+                textAlign: TextAlign.right,
               ),
-              textAlign: TextAlign.right,
             ),
           ),
         );
@@ -555,15 +577,17 @@ final class _AppBarChartGeometry {
         bottom: 0,
         left: dx,
         width: 48,
-        child: IgnorePointer(
-          child: AppText(
-            ChartFoundation.valueLabel(tickValues[index]),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.labelMedium.withColor(
-              theme.colorTheme.neutralPrimary.s500,
+        child: SelectionContainer.disabled(
+          child: IgnorePointer(
+            child: AppText(
+              ChartFoundation.valueLabel(tickValues[index]),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: theme.textTheme.labelMedium.withColor(
+                theme.colorTheme.neutralPrimary.s500,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
         ),
       );

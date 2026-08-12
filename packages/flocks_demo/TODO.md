@@ -117,3 +117,96 @@ cliente de analytics é, por definição, um caminho de rede, então o teste que
 exige ZERO requisições precisará distinguir o destino de telemetria de todo o
 resto — e essa distinção é exatamente onde a fronteira do logo se perderia se
 ninguém estivesse olhando.
+
+---
+
+# A busca do CRUD que não filtra na web — causa desconhecida
+
+**O sintoma é real, reproduzível e continua sem causa conhecida.** Em
+https://flocks.live/demo/?screen=crud, um clique no campo de busca e algumas
+teclas: `document.querySelector('input.flt-text-editing').value` devolve o texto
+digitado, o canvas segue no placeholder, a lista não filtra, o console fica
+limpo. Reproduz em carga fria, no primeiro clique.
+
+O caminho de texto funciona fora da web: `packages/flocks_demo/test/layout_test.dart`
+exercita `tester.enterText` nos campos do CRUD e passa na VM. A ligação está
+correta — `crud_screen.dart:257` passa `onChanged: onSearch`, e `:75` faz
+`setState(() => _query = q)`.
+
+## A hipótese que foi refutada, para ninguém gastar o tempo de novo
+
+Suspeitou-se do platform view do DOM que o `SelectableRegion` monta na web (ver a
+entrada seguinte). A teoria era: o div fica por cima do campo, o `preventDefault()`
+do listener dele cancela a transferência de foco, e as teclas mutam o
+`input.flt-text-editing` sem chegar ao Dart. **Três medições independentes
+derrubam o elo** (Chrome, 1280x720, 2026-08-12):
+
+| Medição | Resultado | O que derruba |
+| --- | --- | --- |
+| ponteiro PARADO sobre o div | `document.body.style.cursor === "text"` | o Flutter hit-testou por baixo e aplicou `SystemMouseCursors.text` — o ponteiro nunca foi perdido |
+| `input.flt-text-editing` antes/depois do clique | 0 → 1 | o elemento só nasce porque o framework pediu `TextInput.setClient`/`show`; logo o clique CHEGOU ao Dart |
+| clique em page (380,176) — dentro do campo, FORA do rect do div (que acaba em x=340), com `elementsFromPoint` === `["flutter-view","body"]` | sintoma IDÊNTICO em 2 de 2 cargas frias: `value === "nor"`, canvas no placeholder, 4 contas na lista | sem listener e sem `preventDefault` ali; se o div fosse a causa, esse clique teria funcionado |
+
+Complemento: `grep -n "platformView\|flt-platform" <engine>/lib/web_ui/lib/src/engine/pointer_binding.dart`
+não devolve nada — não há exclusão de platform view no `PointerBinding`. O
+`pointerdown` borbulha do div até o root e é hit-testado normalmente.
+
+O `preventDefault()` incondicional existe (`_platform_selectable_region_context_menu_web.dart:132`,
+antes do teste de botão em `:133`) e os 21 divs existem. Eles só não são a causa
+deste sintoma.
+
+## Por onde continuar
+
+O que o sintoma exige de qualquer teoria nova: o clique chega ao Dart (o
+`setClient` prova), o valor chega ao elemento do DOM, e o
+`EditableTextState._formatAndSetValue` não corre — ou corre e o `onChanged` não
+sai. O próximo passo é instrumentar o caminho `TextInputClient.updateEditingValue`
+num build de profile com `--dart-define` de log, e comparar com o campo do
+formulário, que funciona na MESMA página.
+
+## Como medir sem se enganar
+
+**Valide o harness com um controle conhecido-bom ANTES de concluir qualquer
+coisa.** O campo do formulário do CRUD funciona em produção e é o controle: se ele
+falhar na sua medição, a medição não vale. Aprendido do jeito caro — nem
+`flutter run -d web-server` nem servir o `build/web --release` em `127.0.0.1`
+reproduzem entrada de texto de forma confiável: nos dois, o campo do formulário
+recusou texto com a árvore intacta, inclusive no build SEM mudança nenhuma.
+
+`flutter test --platform chrome` também não alcança: em `packages/flocks` a suíte
+nem carrega (`Unsupported operation: _Namespace`, de `dart:io` em
+`test/flutter_test_config.dart`), e onde carrega o `tester.enterText` injeta pelo
+`TestTextInput` do harness, sem passar pelo caminho DOM do engine.
+
+---
+
+# Um `SelectableRegion` por `AppText` é um elemento do DOM por componente
+
+**Na web, `SelectableRegion` não é só semântica: é um `div`.** Ele monta um
+`PlatformSelectableRegionContextMenu` — um `Positioned.fill` com
+`HtmlElementView` — e um elemento do DOM não participa do hit-test do Flutter.
+`AppText` embrulha **cada** texto num `AppSelectionRegion`
+(`packages/flocks/lib/src/atoms/texts/app_text.dart:58`), que cria a região sempre
+que existe `Overlay` ancestral.
+
+Medido em 2026-08-11: **21 desses divs numa tela** da demo, e 48 pontos da área de
+um `AppBarChart` com um deles no topo.
+
+**O que já foi corrigido:** os 17 sítios de texto decorativo sob `IgnorePointer`
+passaram a viver num `SelectionContainer.disabled`, e
+`packages/flocks/test/architecture/decorative_selection_test.dart` mantém a regra.
+O `IgnorePointer` sozinho não bastava: ele tira o texto do hit-test do Flutter e
+deixa o elemento do DOM de pé para o navegador, oferecendo seleção e menu de
+contexto sobre o alvo.
+
+**O que ainda não foi:** `SelectableRegion` foi desenhado para envolver uma
+REGIÃO uma vez, não cada folha de texto. Enquanto `AppText` criar uma região por
+texto, todo `AppText` que caia sobre algo interativo repete a classe. Mudar isso
+altera se o texto do design system é selecionável por padrão — é decisão de API do
+mantenedor, e toca os 131 componentes. Rastreado na issue #28.
+
+**Também não:** o `preventDefault()` incondicional do SDK é defensavelmente um
+bug, mas **não há repro mínimo fora deste repo**, e sem um `flutter create` novo
+isolando um `SelectableRegion` sobre um `TextField` não dá para abrir issue no
+flutter/flutter sem afirmar mais do que se verificou. Note que ele NÃO é a causa
+da busca do CRUD (ver a entrada acima).

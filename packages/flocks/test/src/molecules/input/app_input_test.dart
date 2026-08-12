@@ -450,6 +450,71 @@ void main() {
     );
   });
 
+  // A dica é decorativa, e na web um `SelectableRegion` não é só semântica: ele
+  // monta um platform view DOM (`Positioned.fill` com `HtmlElementView`), e um
+  // elemento do DOM não participa do hit-test do Flutter. O `IgnorePointer` que
+  // envolve a dica desaparece para o framework e o div continua de pé para o
+  // navegador, oferecendo seleção e menu de contexto por cima da área editável.
+  // Medido em flocks.live/demo/?screen=crud em 2026-08-11: `elementsFromPoint`
+  // no centro do campo devolvia `div.web-selectable-region-context-menu` no topo.
+  //
+  // O que este teste NÃO fiscaliza: a busca do CRUD que não filtra. Atribuir o
+  // sintoma a este div foi hipótese, e ela foi refutada por medição em
+  // 2026-08-12 — o Flutter hit-testa por baixo do div (aplica
+  // `SystemMouseCursors.text`), o `input.flt-text-editing` só nasce depois do
+  // clique (logo o clique chegou ao Dart), e o sintoma se repete clicando dentro
+  // do campo e fora do rect do div. Detalhe em `flocks_demo/TODO.md`.
+  //
+  // Este grupo roda na VM, onde o platform view nem chega a ser construído: o
+  // `SelectableRegion` só o embrulha sob `kIsWeb && BrowserContextMenu.enabled`
+  // e fora de Android/iOS (`selectable_region.dart:419`). O ramo `_io` do arquivo
+  // existe só para o import condicional compilar — ele descarta o `child` e seu
+  // `build` lança `UnimplementedError`, então não há como exercitá-lo aqui. O que
+  // este grupo fiscaliza é a estrutura que a VM enxerga: se a dica volta a ter um
+  // `SelectableRegion` ancestral, reprova aqui.
+  group('a dica não vive numa região de seleção', () {
+    testWidgets('campo com hintText: nenhum SelectableRegion sobre a dica', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_host(const AppInput(hintText: 'Buscar')));
+
+      expect(find.text('Buscar'), findsOneWidget);
+      expect(
+        find.ancestor(
+          of: find.text('Buscar'),
+          matching: find.byType(SelectableRegion),
+        ),
+        findsNothing,
+        reason:
+            'a dica ganhou um SelectableRegion de novo: na web desktop isso '
+            'monta um elemento do DOM por cima da área editável, oferecendo '
+            'seleção e menu de contexto onde devia haver só o campo — e o '
+            'IgnorePointer não o alcança, porque elemento do DOM não participa '
+            'do hit-test do Flutter. Envolva em SelectionContainer.disabled',
+      );
+    });
+
+    // Controle positivo. Sem ele o teste acima passaria por vacuidade — bastaria
+    // o `Overlay` sair do host para nenhum `SelectableRegion` existir em lugar
+    // nenhum, e o gate não acusaria nada.
+    testWidgets('controle: um AppText solto no mesmo host TEM região', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_host(const AppText('Buscar')));
+
+      expect(
+        find.ancestor(
+          of: find.text('Buscar'),
+          matching: find.byType(SelectableRegion),
+        ),
+        findsOneWidget,
+        reason:
+            'o host precisa de Overlay para AppSelectionRegion criar a região; '
+            'sem isso o teste da dica não prova nada',
+      );
+    });
+  });
+
   test('está no catálogo como migrado', () {
     expect(
       flocksCatalog.any(
