@@ -96,24 +96,31 @@ void main() {
       'WebSocket',
       'EventSource',
       'createObjectURL',
-      // A família que não precisa de import nenhum, e por isso era a mais fácil
-      // de entrar sem ninguém notar: `Image.network` vem de
-      // `package:flutter/widgets.dart` e `SvgPicture.network` do `flutter_svg`,
-      // os dois já importados em todo arquivo da demo. Nada acima casava com
-      // elas, e uma linha bastaria para o logo do visitante ganhar um endereço —
-      // que é exatamente o que `demo_logo.dart` foi desenhado para não ter.
+      // A família que entra sem dependência nova, e por isso era a mais fácil de
+      // passar despercebida. `Image.network` vem de
+      // `package:flutter/widgets.dart`, que 8 dos 12 arquivos de `lib/` já
+      // importam; `SvgPicture.network` vem do `flutter_svg`, importado em UM
+      // arquivo — `state/demo_logo.dart`, justamente o que guarda os bytes do
+      // logo. Nada acima casava com as duas, e uma linha bastaria para o logo do
+      // visitante ganhar um endereço, que é exatamente o que `demo_logo.dart`
+      // foi desenhado para não ter.
       'Image.network',
       'SvgPicture.network',
       // E o catch-all da mesma família: `Network` com N MAIÚSCULO, que as duas
-      // de cima não pegam porque nelas o `n` é minúsculo. Absorve `NetworkImage`
-      // (o provider por trás do `Image.network`), `NetworkAssetBundle` — um
-      // `AssetBundle` sobre HTTP, também de graça pelo `widgets.dart` —,
-      // `SvgNetworkLoader`, os dois construtores de rede do `FadeInImage`
-      // (`memoryNetwork` e `assetNetwork`) e os `AppNetworkIconProvider` e
-      // `AppNetworkIllustrationProvider` do `flocks`, que esta lista nomeava um a
-      // um e agora não precisa mais. Uma agulha larga só é honesta se não
-      // reprovar o que é legítimo: `lib/` hoje não tem NENHUMA ocorrência de
-      // `Network`, medido e não suposto.
+      // de cima não pegam porque nelas o `n` é minúsculo.
+      //
+      // Do `widgets.dart`, sem import novo (conferido compilando um arquivo que
+      // só importa ele): `NetworkImage`, o provider por trás do `Image.network`,
+      // e os dois construtores de rede do `FadeInImage` — `memoryNetwork` e
+      // `assetNetwork`. Do `flutter_svg`: `SvgNetworkLoader`. Com um import a
+      // mais, que é barreira baixa demais para valer de proteção:
+      // `NetworkAssetBundle`, um `AssetBundle` sobre HTTP que mora em
+      // `package:flutter/services.dart` — o `widgets.dart` NÃO o exporta. E os
+      // `AppNetworkIconProvider`/`AppNetworkIllustrationProvider` do `flocks`,
+      // que esta lista nomeava um a um e agora não precisa mais.
+      //
+      // Uma agulha larga só é honesta se não reprovar o que é legítimo: `lib/`
+      // hoje não tem NENHUMA ocorrência de `Network`, medido e não suposto.
       'Network',
     ];
     final List<String> offenders = <String>[];

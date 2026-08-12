@@ -32,7 +32,7 @@
 //    e é por isso que a lista de proibidos de lá é longa e específica em vez de
 //    confiar neste gate.
 // 2. O bootstrap JavaScript e a fila de fontes do engine rodam antes e fora
-//    daqui. São TRÊS requisições, e este inventário só conhecia uma até a
+//    daqui. São TRÊS requisições, e este inventário conhecia duas até a
 //    medição de 2026-08-11 (`TODO.md`, e o método que enxerga terceiros é
 //    `performance.getEntriesByType('resource')`, não a aba de rede):
 //    o CanvasKit de `www.gstatic.com`, **corrigido** com `--no-web-resources-cdn`
