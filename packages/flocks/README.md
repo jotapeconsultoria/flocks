@@ -52,12 +52,13 @@ above them:
   the inputs built on it (`AppDatePickerInput`, `AppTimePickerInput`,
   `AppDateTimePickerInput`, `AppColorPickerInput`), plus `showAppOverlay` and
   `showAppSnackbar`.
-- **Every text field, by Flutter's rule rather than ours:** the first tap on an
-  `AppInput` makes the `EditableText` inside it build a `TextSelectionOverlay`,
-  and it is the constructor of the `SelectionOverlay` underneath that demands the
-  ancestor — `assert(debugCheckHasOverlay(context))`, in its initializer list
+- **Every text field, by Flutter's rule rather than ours:** an `AppInput` builds a
+  `TextSelectionOverlay` when it takes focus — a tap, keyboard traversal and a
+  `requestFocus()` on the `focusNode` you passed all do it — and the constructor of
+  the `SelectionOverlay` underneath is what demands the ancestor:
+  `assert(debugCheckHasOverlay(context))`, in its initializer list
   (`packages/flutter/lib/src/widgets/text_selection.dart`). Drawing a field is
-  fine, because until that tap the selection overlay does not exist yet.
+  fine, because until it is focused the selection overlay does not exist yet.
 - **The ones that build one of the above inside themselves:** `AppInput(info:)`
   (an `AppPopover`), `AppPagination(perPage:)` (an `AppDropdown<int>`),
   `AppSplitButton` (an `AppMenu`), and anything carrying a `tooltip` —

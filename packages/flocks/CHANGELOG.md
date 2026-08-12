@@ -175,11 +175,12 @@ conteúdo — um defeito que nenhum use case isolado tinha exercitado.
   A exigência alcança mais que os sítios diretos, e o README passou a dizer as três
   categorias: quem insere sozinho, quem herda de um filho (`AppInput(info:)`,
   `AppPagination(perPage:)`, `AppSplitButton`) e **todo campo de texto**, por regra
-  do framework — o primeiro toque num `AppInput` faz o `EditableText` de dentro
-  montar um `TextSelectionOverlay`, e é o construtor do `SelectionOverlay` embaixo
-  dele que exige o ancestral, com `assert(debugCheckHasOverlay(context))` na lista
-  de inicialização (`widgets/text_selection.dart`). Desenhar um campo não lança
-  porque até esse toque o overlay de seleção ainda não existe.
+  do framework — ao GANHAR FOCO, um `AppInput` monta um `TextSelectionOverlay`, e é
+  o construtor do `SelectionOverlay` embaixo dele que exige o ancestral, com
+  `assert(debugCheckHasOverlay(context))` na lista de inicialização
+  (`widgets/text_selection.dart`). O toque é só uma das formas: `Tab` e um
+  `requestFocus()` no `focusNode` que o campo aceita por parâmetro lançam igual.
+  Desenhar um campo não lança porque até o foco o overlay de seleção não existe.
 
   O gate novo é de PRESENÇA, e cobre as quatro cópias da mesma raiz: o primeiro
   bloco de código do README e o `example/lib/main.dart` no
