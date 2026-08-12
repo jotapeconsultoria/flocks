@@ -52,10 +52,14 @@ jobs:
       # que três jobs de deploy chamam não pode ficar nesse estado.
       #
       # Ele não está sozinho: o repo versiona DOIS `.sh`, e o outro é o
-      # `packages/flocks_mcp/mcpb/run.sh`, entry point do bundle `.mcpb` — o
-      # shell que roda na máquina de todo usuário do servidor MCP, portanto o
-      # mais exposto dos dois. Os blocos `run:` inline seriam trabalho do
-      # `actionlint`, que é outra ferramenta e outra conversa.
+      # `packages/flocks_mcp/mcpb/run.sh`, launcher do bundle `.mcpb` em macOS e
+      # Linux. Só neles, e não em toda instalação: o `manifest.json` tem
+      # `platform_overrides.win32` chamando o `.exe` direto, e a via principal
+      # que o README documenta é `dart pub global activate flocks_mcp`, que não
+      # passa pelo bundle. Ele entra no lint porque é shell versionado que roda
+      # em máquina de terceiro, e porque incluir custou zero — ele já passava
+      # limpo. Os blocos `run:` inline seriam trabalho do `actionlint`, que é
+      # outra ferramenta e outra conversa.
       #
       # A lista sai do `git ls-files`, e não de um glob nem de caminhos escritos
       # aqui: script novo entra no lint no mesmo commit em que entra no repo.
@@ -281,6 +285,7 @@ jobs:
           trap 'rm -f "$corpo"' EXIT
 
           pacotes=0
+          responderam=0
           conferidas=0
           falhas=0
 
@@ -336,23 +341,33 @@ jobs:
               falhas=$((falhas + 1))
             fi
 
-            # Contra o verde por vacuidade, e este é o único caminho em que ele
-            # seria SILENCIOSO: com um 200 fora do formato esperado, o laço de
-            # comparação abaixo não roda nenhuma vez e o de avisos passa a
-            # AFIRMAR que versões publicadas não estão no pub.dev — tudo com
-            # exit 0. Um 200 sem versão nenhuma no corpo não é resposta.
+            # O CONTRATO da resposta, conferido antes de qualquer laço confiar
+            # nele. Os dois laços abaixo chamam `jq` dentro de substituição de
+            # processo, e o exit de substituição de processo o `set -euo
+            # pipefail` NÃO vê: um corpo que passe por aqui e quebre o `jq` lá
+            # embaixo faz o laço de comparação não rodar nenhuma vez e o de
+            # avisos AFIRMAR que versões publicadas não estão no pub.dev, tudo
+            # com exit 0. Foi o que aconteceu com `{"versions":["0.1.0"]}` —
+            # array não vazio, de escalares em vez de objetos: uma checagem de
+            # `length` passava, porque length é 2, e o gate saía verde e mudo.
             #
-            # A guarda é por pacote, e não sobre o total de datas conferidas ao
-            # fim: zero conferidas é estado legítimo enquanto nada foi publicado
-            # (é o caso do `flocks_cupertino` e do `flocks_lucide` hoje, e seria
-            # o de um workspace recém-criado), e cobrar o total transformaria
-            # esse estado em reprovação.
-            versoes=$(jq -r '(.versions // []) | length' "$corpo" 2>/dev/null || echo 0)
-            if [ "$versoes" -eq 0 ]; then
-              echo "::error::A API do pub.dev respondeu 200 para ${nome} e não veio nenhuma versão no corpo. O gate não tem com o que comparar; passar aqui seria enfeite."
+            # Daí conferir o SHAPE, e não o tamanho: `versions` é array não
+            # vazio de objetos, cada um com `version` e `published` como string.
+            # É exatamente o que os laços vão indexar, então isto não é
+            # paranoia sobre a API — é a pré-condição deles, escrita.
+            if ! jq -e '
+              (.versions | type) == "array"
+              and (.versions | length) > 0
+              and all(.versions[];
+                type == "object"
+                and (.version | type) == "string"
+                and (.published | type) == "string")
+            ' "$corpo" >/dev/null 2>&1; then
+              echo "::error::A API do pub.dev respondeu 200 para ${nome} e o corpo não tem o formato esperado (versions: array não vazio de objetos com version e published). O gate não tem com o que comparar; passar aqui seria enfeite."
               falhas=$((falhas + 1))
               continue
             fi
+            responderam=$((responderam + 1))
 
             # `published` é ISO-8601 em UTC; os dez primeiros caracteres são o
             # dia. É esse dia que a seção tem de anunciar.
@@ -390,6 +405,23 @@ jobs:
           # sem ter olhado um arquivo sequer.
           if [ "$pacotes" -eq 0 ]; then
             echo "::error::Nenhum pacote publicável em packages/ — não há o que conferir, e isso não é aprovação."
+            exit 1
+          fi
+
+          # A mesma ideia do lado das DATAS, e condicional de propósito: zero
+          # conferidas é estado legítimo enquanto nada foi publicado — é o caso
+          # dos dois providers hoje, e seria o de um workspace recém-criado —,
+          # mas deixa de ser no instante em que algum pacote respondeu 200 com o
+          # corpo no formato esperado, porque aí havia versão para comparar.
+          #
+          # Com a checagem de shape acima, este `if` não tem caminho conhecido
+          # que o alcance: todo pacote que passa por ela tem pelo menos uma
+          # versão, e cada comparação incrementa `conferidas` ou `falhas`. Fica
+          # como rede para o caminho que ninguém previu, que é a única espécie
+          # que importa aqui — a primeira versão deste job saía verde e muda por
+          # um caminho que também "não existia".
+          if [ "$conferidas" -eq 0 ] && [ "$responderam" -gt 0 ]; then
+            echo "::error::${responderam} pacote(s) responderam 200 no pub.dev e nenhuma data de seção foi conferida. Havia o que comparar e nada foi comparado; isto é o gate virando enfeite."
             exit 1
           fi
 
