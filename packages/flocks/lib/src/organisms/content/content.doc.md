@@ -45,7 +45,7 @@ Everything comes from `AppTheme.of(context)` through
 | `h1`–`h3` | `headlineLarge/Medium/Small` |
 | `h4`–`h6` | `titleLarge/Medium/Small` |
 | link | `primaryAccent` + an underline |
-| code | the system mono over `surfaceContainer` |
+| code | `AppFontFamilies.ibmPlexMono` over `surfaceContainer` |
 | quote | the body at 78% + an `outline` bar |
 | rule | an `AppDivider` with `divider` |
 
@@ -72,11 +72,11 @@ Raw HTML embedded in Markdown is rendered as literal text, never interpreted.
 - **Horizontal scrolling belongs to the call site.** Wide tables and code blocks
   do not scroll on their own; wrap them in a horizontal `SingleChildScrollView`
   when needed.
-- **No bundled monospaced font.** Flocks bundles only Poppins and Space Grotesk,
-  and the code depends on the OS's mono (`kAppContentMonoFamily` +
-  `kAppContentMonoFallback`). In the test sandbox neither exists, so
-  `test/flutter_test_config.dart` registers Poppins under the mono family's name
-  as a legible stand-in. Bundling a mono in Flocks would settle both points.
+- **The mono is not brand-configurable.** `AppBrandTypography` chooses the body
+  and display families; the code family does not follow it. A snippet has to
+  look the same in every brand, and the bundled IBM Plex Mono is what makes it
+  so. Override `AppContentStyle.code` through `styleSheet` if you really need
+  another one.
 - **Links are not Tab-focusable.** Touch works (through a `TapGestureRecognizer`
   on the leaf spans), but keyboard traversal is Gate 7 debt.
 - **Streaming.** The parse is memoized in `didUpdateWidget` and only redone when

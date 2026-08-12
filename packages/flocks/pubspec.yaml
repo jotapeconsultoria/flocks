@@ -80,10 +80,32 @@ flutter:
   assets:
     - assets/icons/
     - assets/illustrations/
-  # Só fontes redistribuíveis: as duas famílias são SIL Open Font License 1.1, e
+  # Só fontes redistribuíveis: as três famílias são SIL Open Font License 1.1, e
   # a OFL exige que o texto da licença acompanhe a fonte — daí o `OFL.txt` ao
   # lado de cada uma. Não acrescente família sem verificar a licença: a Neutrek
   # saiu daqui por ser "Personal Use Only", o que tornava o pacote impublicável.
+  #
+  # A IBM Plex Mono é a família de código de `AppContentStyle`, e está aqui por
+  # dois motivos que convergem. Um: sem mono empacotada o pacote dependia da
+  # mono do SO (`SF Mono`, `Menlo`, `Consolas`, …), o que tornava todo golden de
+  # código dependente de plataforma. Dois: no CanvasKit, uma pilha de famílias
+  # NÃO registradas faz cada codepoint sem cobertura entrar na fila de fallback
+  # do engine — e um acento de comentário em português bastava para baixar
+  # 69.116 B de Noto Sans Symbols de `fonts.gstatic.com` (medido em produção,
+  # PR #20). Família registrada, gatilho morto.
+  #
+  # Dois pesos porque são exatamente os dois que o pacote usa: 400 em todo bloco
+  # e código inline, 600 nos placeholders de `AppApiPath`. Sem itálico — o case
+  # `code` do inline builder não herda o estilo do pai, então mono itálica nunca
+  # é pedida.
+  #
+  # Procedência: `google/fonts`, `ofl/ibmplexmono`, Version 2.3 (upstream
+  # `googlefonts/plex` @ 9ab3b5b3b96325fb20f365ee0804adca92024cbf). Estáticas, e
+  # não a variável: `weight:` aqui só escolhe QUAL arquivo atende o peso pedido,
+  # não move eixo de variação — com uma variável, o w600 cairia no peso padrão
+  # do arquivo. É também o motivo de a escolha ter sido esta família: em
+  # 2026-08-11 ela era a única mono do `google/fonts` que ainda publica
+  # estáticas com SemiBold 600 real; as demais viraram só variável.
   fonts:
     - family: Poppins
       fonts:
@@ -99,3 +121,9 @@ flutter:
           weight: 400
         - asset: assets/fonts/SpaceGrotesk/SpaceGrotesk-Medium.ttf
           weight: 500
+    - family: IBMPlexMono
+      fonts:
+        - asset: assets/fonts/IBMPlexMono/IBMPlexMono-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/IBMPlexMono/IBMPlexMono-SemiBold.ttf
+          weight: 600

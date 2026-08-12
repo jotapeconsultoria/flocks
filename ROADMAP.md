@@ -1,6 +1,6 @@
 # Roadmap — distribuição e adoção
 
-O pacote está maduro: 131 componentes migrados, 23 suítes de arquitetura, 1625
+O pacote está maduro: 131 componentes migrados, 24 suítes de arquitetura, 1641
 testes passando sem os goldens, catálogo bilíngue com gate de frescor. Um
 roadmap que listasse "mais componentes" estaria lendo o problema errado. O que
 falta é **distribuição** (publicar, hospedar, servir) e **adoção** (demo, guia
@@ -212,23 +212,31 @@ Duas pendências moravam só no
 [`TODO.md`](packages/flocks_demo/TODO.md) do pacote, sem aparecer em nenhum
 documento de fase. Ficam registradas aqui, sem prazo atribuído:
 
-- **As duas fontes que o runtime do Flutter busca no Google.** Medido em
-  `https://flocks.live/demo/` em 2026-08-11 (PR #20): a demo faz **duas**
-  requisições a `fonts.gstatic.com` por carga fria, nas duas telas. A Roboto
-  (63.464 B) sai porque o CanvasKit precisa de uma fonte de fallback registrada
-  e nenhuma família do `FontManifest.json` da demo se chama `Roboto` — o
-  download é **aguardado antes do primeiro frame**, não é lazy, e não é escolha
-  da demo, que só usa Poppins e Space Grotesk. A Noto Sans Symbols (69.116 B) é
-  lazy, e o gatilho é nosso: o bloco de código do painel pede a pilha mono do
-  `flocks`, nenhuma família dela registrada no CanvasKit, e cada acento do
-  comentário em português do snippet vira codepoint sem cobertura. Nenhuma das
-  duas é alcançável pelos gates — acontece no bootstrap JavaScript e na fila do
-  engine, fora de qualquer Dart nosso. A primeira exige vendorar as fontes de
-  fallback e reproduzir uma estrutura de diretórios sem contrato documentado; a
-  segunda tem conserto independente e mais barato (empacotar uma mono nos assets
-  do `flocks`, que o `TODO(flocks)` de `app_content_style.dart` já pede por
-  outro motivo). O que o gate de rede prova segue valendo: nenhum byte do logo
-  do visitante sai da aba dele.
+- **A Roboto que o runtime do Flutter busca no Google.** Medido em
+  `https://flocks.live/demo/` em 2026-08-11 (PR #20): a demo fazia **duas**
+  requisições a `fonts.gstatic.com` por carga fria, nas duas telas. **Uma delas
+  já não existe**; esta é a que sobra. A Roboto (63.464 B) sai porque o
+  CanvasKit precisa de uma fonte de fallback registrada e nenhuma família do
+  `FontManifest.json` da demo se chama `Roboto` — o download é **aguardado antes
+  do primeiro frame**, não é lazy, e não é escolha da demo. Não é alcançável
+  pelos gates: acontece no bootstrap JavaScript, fora de qualquer Dart nosso. O
+  conserto exige vendorar as fontes de fallback e reproduzir uma estrutura de
+  diretórios sem contrato documentado — e, apontando a base para nós, decidir o
+  que fazer com a fila de Noto inteira, que é grande e escolhida em tempo de
+  execução. O que o gate de rede prova segue valendo: nenhum byte do logo do
+  visitante sai da aba dele.
+  - **A segunda, a Noto Sans Symbols (69.116 B), foi consertada na raiz.** O
+    gatilho era a pilha mono do `flocks`, com nenhuma família registrada no
+    CanvasKit: cada acento do comentário em português do snippet virava
+    codepoint sem cobertura e o engine baixava uma fonte de símbolos para
+    desenhar "ã". Com a IBM Plex Mono empacotada em `assets/fonts/`, a família
+    está registrada e a fila nunca abre. Medido local, nos dois builds servidos
+    lado a lado, com `performance.getEntriesByType('resource')` e esperando o
+    número de recursos estabilizar: `origin/main` 20 recursos e 2 de terceiro;
+    com a mono, 21 recursos e 1 de terceiro. A contrapartida é honesta — a demo
+    passa a baixar 275.796 B de mono **da própria origem**, cacheados por um ano
+    como o resto. A medição de produção acima é anterior a isto e só se
+    confirma em `flocks.live` no próximo deploy.
 - **Analytics: nomeado, não implementado.** O projeto PostHog não existe e nada
   está no código. O `TODO.md` fixa os sete eventos e as propriedades de cada um
   antes da instrumentação, para que ela não invente vocabulário novo, e fixa
