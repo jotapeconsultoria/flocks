@@ -12,10 +12,24 @@ follows [SemVer](https://semver.org/).
 
 ## [0.1.2] - 2026-08-11
 
-**Nada mudou neste pacote.** O número acompanha o `flocks` 0.1.2 pela razão que
-o bloco acima dá: o contrato mora no core, e um adaptador numa linha própria só
-criaria matriz de compatibilidade para manter. Uma entrada que fingisse conteúdo
-seria pior que esta, que declara não ter.
+### Added
+
+- **O README passa a dizer como depender do pacote.** Ele abria no pitch e caía
+  direto no snippet do `AppThemeScope`, sem bloco de instalação nenhum — e é esta
+  a página que o pub.dev renderiza para quem chega aqui. Entra um bloco `yaml`
+  com `flocks_material: ^0.1.0`. O caret, e não a versão exata: em 0.x o SemVer
+  trata o MINOR como slot de quebra, então `^0.1.0` resolve para
+  `>=0.1.0 <0.2.0` — pega esta versão e os patches da linha `0.1.x`, e deixa o
+  adotante pinado contra o churn, que é a garantia que o pubspec do `flocks`
+  escreve. Uma instrução com versão fixada envelheceria a cada publish.
+- **`test/install_docs_test.dart`** — o gate que cobra essa instrução, e que
+  faltava neste pacote. Ele confere três coisas no `flutter test`: que o README
+  instrui a dependência hospedada, que o pubspec não a contradiz com
+  `publish_to: none`, e que não sobra no README aviso de "ainda não publicado".
+
+**Nenhuma linha de `lib/` mudou.** O número acompanha o `flocks` 0.1.2 pela razão
+que a nota de numeração no topo deste arquivo dá: o contrato mora no core, e um
+adaptador numa linha própria só criaria matriz de compatibilidade para manter.
 
 O que mudou no core — `toDartSnippet`, `flippedSwatch` e `kSwatchStops`, e uma
 superfície grande em `circular` que parou de cortar o próprio conteúdo — está no
