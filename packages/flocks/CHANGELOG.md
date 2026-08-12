@@ -96,10 +96,13 @@ conteúdo — um defeito que nenhum use case isolado tinha exercitado.
   cinco gráficos, que eram justamente os que tinham ficado de fora.
 
   O gate é `test/architecture/decorative_selection_test.dart`, e é de FONTE por
-  necessidade: na VM o SDK usa o ramo `_io` do platform view, que é passa-direto e
-  não monta elemento nenhum, então nenhum teste de widget alcança a classe. Ele
-  resolve tipos que carregam texto transitivamente e filhos passados por variável,
-  porque as duas formas escaparam da primeira versão da regra.
+  necessidade: na VM o platform view nem chega a ser construído — o
+  `SelectableRegion` só o embrulha sob `kIsWeb && BrowserContextMenu.enabled` e
+  fora de Android/iOS, e o ramo `_io` do arquivo existe apenas para o import
+  condicional compilar (descarta o `child` e lança `UnimplementedError` no
+  `build`). Nenhum teste de widget alcança a classe. O gate resolve tipos que
+  carregam texto transitivamente e filhos passados por variável, porque as duas
+  formas escaparam da primeira versão da regra.
 
 ## [0.1.1] - 2026-08-10
 

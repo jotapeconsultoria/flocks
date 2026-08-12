@@ -465,9 +465,13 @@ void main() {
   // clique (logo o clique chegou ao Dart), e o sintoma se repete clicando dentro
   // do campo e fora do rect do div. Detalhe em `flocks_demo/TODO.md`.
   //
-  // Este grupo roda na VM, onde o platform view não existe (o ramo `_io` do SDK
-  // é passa-direto). O que ele fiscaliza é a estrutura que a VM enxerga: se a
-  // dica volta a ter um `SelectableRegion` ancestral, reprova aqui.
+  // Este grupo roda na VM, onde o platform view nem chega a ser construído: o
+  // `SelectableRegion` só o embrulha sob `kIsWeb && BrowserContextMenu.enabled`
+  // e fora de Android/iOS (`selectable_region.dart:419`). O ramo `_io` do arquivo
+  // existe só para o import condicional compilar — ele descarta o `child` e seu
+  // `build` lança `UnimplementedError`, então não há como exercitá-lo aqui. O que
+  // este grupo fiscaliza é a estrutura que a VM enxerga: se a dica volta a ter um
+  // `SelectableRegion` ancestral, reprova aqui.
   group('a dica não vive numa região de seleção', () {
     testWidgets('campo com hintText: nenhum SelectableRegion sobre a dica', (
       tester,
@@ -482,9 +486,11 @@ void main() {
         ),
         findsNothing,
         reason:
-            'a dica ganhou um SelectableRegion de novo: na web isso monta um '
-            'platform view DOM sobre a área editável que cancela o mousedown, '
-            'e o campo para de receber texto',
+            'a dica ganhou um SelectableRegion de novo: na web desktop isso '
+            'monta um elemento do DOM por cima da área editável, oferecendo '
+            'seleção e menu de contexto onde devia haver só o campo — e o '
+            'IgnorePointer não o alcança, porque elemento do DOM não participa '
+            'do hit-test do Flutter. Envolva em SelectionContainer.disabled',
       );
     });
 

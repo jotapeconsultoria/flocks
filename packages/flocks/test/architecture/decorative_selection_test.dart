@@ -30,9 +30,12 @@ import 'package:flutter_test/flutter_test.dart';
 /// do div, onde não há listener nenhum. A causa da busca segue desconhecida; o
 /// que se conserta aqui é a interceptação de seleção, que é real e é medível.
 ///
-/// Nenhum teste de widget pega isto: na VM o SDK usa o ramo `_io` do platform
-/// view, que é passa-direto e não monta elemento nenhum. Por isso o gate é de
-/// FONTE.
+/// Nenhum teste de widget pega isto, e o gate é de FONTE por isso: na VM o
+/// platform view nem chega a ser construído. O `SelectableRegion` só o embrulha
+/// sob `kIsWeb && BrowserContextMenu.enabled` e fora de Android/iOS
+/// (`selectable_region.dart:419`) — o ramo `_io` do arquivo existe apenas para o
+/// import condicional compilar, descarta o `child` e lança `UnimplementedError`
+/// no `build`. Não há árvore de widget na VM em que o elemento do DOM apareça.
 ///
 /// A regra: se um `IgnorePointer` contém texto, ele precisa de um
 /// `SelectionContainer.disabled` como envelope IMEDIATO — que zera o registrar e
