@@ -49,12 +49,28 @@ jobs:
       #
       # O `conferir-edge.sh` nasceu sem passar por lint — na máquina em que ele
       # foi escrito, `command -v shellcheck` veio vazio (PR #21), e um script
-      # que três jobs de deploy chamam não pode ficar nesse estado. `.github/
-      # scripts/` é o único shell versionado do repo que não mora dentro de um
-      # `run:`; os blocos inline seriam trabalho de `actionlint`, que é outra
-      # ferramenta e outra conversa.
+      # que três jobs de deploy chamam não pode ficar nesse estado.
+      #
+      # Ele não está sozinho: o repo versiona DOIS `.sh`, e o outro é o
+      # `packages/flocks_mcp/mcpb/run.sh`, entry point do bundle `.mcpb` — o
+      # shell que roda na máquina de todo usuário do servidor MCP, portanto o
+      # mais exposto dos dois. Os blocos `run:` inline seriam trabalho do
+      # `actionlint`, que é outra ferramenta e outra conversa.
+      #
+      # A lista sai do `git ls-files`, e não de um glob nem de caminhos escritos
+      # aqui: script novo entra no lint no mesmo commit em que entra no repo.
       - name: Lint dos scripts de shell
-        run: shellcheck .github/scripts/*.sh
+        shell: bash
+        run: |
+          set -euo pipefail
+          total=$(git ls-files '*.sh' | grep -c . || true)
+          if [ "$total" -eq 0 ]; then
+            echo "::error::Nenhum .sh versionado — este step não teria o que ler, e passar assim não é aprovação."
+            exit 1
+          fi
+          echo "Lintando ${total} script(s):"
+          git ls-files '*.sh'
+          git ls-files -z '*.sh' | xargs -0 shellcheck
 
       - uses: subosito/flutter-action@v2
         with:
@@ -246,7 +262,7 @@ jobs:
     #
     # Job, e não teste, pela mesma razão que o `snippet (hosted)` é job: esta é
     # a única pergunta do assunto que precisa de rede, e a suíte offline
-    # (`packages/flocks/test/architecture/release_versioning_test.dart`) cobre
+    # (`packages/flocks/test/release/release_versioning_test.dart`) cobre
     # todo o resto. Um `flutter test` que falasse com o pub.dev reprovaria por
     # API fora do ar, que não é defeito deste repo.
     #
@@ -289,8 +305,10 @@ jobs:
             # 404 é resposta legítima aqui: o `flocks_cupertino` e o
             # `flocks_lucide` ainda não estrearam. O que este job cobra é que a
             # ISENÇÃO seja verdade — a suíte offline libera os dois da versão do
-            # core lendo uma cláusula na prosa do pubspec deles, e é aqui que
-            # essa cláusula encontra a fonte externa que a confirma ou desmente.
+            # core lendo uma cláusula na prosa do pubspec deles, e é neste job
+            # que a cláusula encontra a fonte externa que a confirma ou
+            # desmente. NOS DOIS SENTIDOS: 404 sem cláusula reprova logo abaixo,
+            # e cláusula com 200 reprova no ramo do 200.
             if [ "$codigo" = '404' ]; then
               if tr '\n' ' ' < "$pubspec" | grep -q 'nunca foi publicado'; then
                 echo "::notice::${nome} não está no pub.dev, e o pubspec dele declara isso. Nada a conferir — este pacote entra no gate no primeiro push depois da estreia."
@@ -303,6 +321,35 @@ jobs:
 
             if [ "$codigo" != '200' ]; then
               echo "::error::A API do pub.dev respondeu ${codigo} para ${nome}. Este gate não sabe a resposta e não vai fingir que sabe."
+              falhas=$((falhas + 1))
+              continue
+            fi
+
+            # O OUTRO SENTIDO do contrapeso, e a razão de o parágrafo acima
+            # dizer "confirma ou desmente". A suíte offline libera este pacote
+            # da versão do core porque o pubspec dele diz que nunca foi
+            # publicado; se o pub.dev responde 200, a frase é falsa e a isenção
+            # inteira está de pé sobre ela. Sem estas linhas, a promessa valia
+            # só numa direção.
+            if tr '\n' ' ' < "$pubspec" | grep -q 'nunca foi publicado'; then
+              echo "::error::${nome} está no pub.dev e o pubspec dele ainda declara que nunca foi publicado. A estreia aconteceu: tire a cláusula, e o lockstep estrito passa a valer para ele como para os outros."
+              falhas=$((falhas + 1))
+            fi
+
+            # Contra o verde por vacuidade, e este é o único caminho em que ele
+            # seria SILENCIOSO: com um 200 fora do formato esperado, o laço de
+            # comparação abaixo não roda nenhuma vez e o de avisos passa a
+            # AFIRMAR que versões publicadas não estão no pub.dev — tudo com
+            # exit 0. Um 200 sem versão nenhuma no corpo não é resposta.
+            #
+            # A guarda é por pacote, e não sobre o total de datas conferidas ao
+            # fim: zero conferidas é estado legítimo enquanto nada foi publicado
+            # (é o caso do `flocks_cupertino` e do `flocks_lucide` hoje, e seria
+            # o de um workspace recém-criado), e cobrar o total transformaria
+            # esse estado em reprovação.
+            versoes=$(jq -r '(.versions // []) | length' "$corpo" 2>/dev/null || echo 0)
+            if [ "$versoes" -eq 0 ]; then
+              echo "::error::A API do pub.dev respondeu 200 para ${nome} e não veio nenhuma versão no corpo. O gate não tem com o que comparar; passar aqui seria enfeite."
               falhas=$((falhas + 1))
               continue
             fi
