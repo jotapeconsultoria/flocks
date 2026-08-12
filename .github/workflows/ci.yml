@@ -38,10 +38,23 @@ on:
 
 jobs:
   checks:
-    name: format · analyze · test · validate
+    name: format · analyze · shellcheck · test · validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # ANTES do toolchain de propósito: shellcheck já vem na imagem do runner,
+      # custa cerca de um segundo, e erro de shell não precisa esperar o Flutter
+      # baixar para aparecer.
+      #
+      # O `conferir-edge.sh` nasceu sem passar por lint — na máquina em que ele
+      # foi escrito, `command -v shellcheck` veio vazio (PR #21), e um script
+      # que três jobs de deploy chamam não pode ficar nesse estado. `.github/
+      # scripts/` é o único shell versionado do repo que não mora dentro de um
+      # `run:`; os blocos inline seriam trabalho de `actionlint`, que é outra
+      # ferramenta e outra conversa.
+      - name: Lint dos scripts de shell
+        run: shellcheck .github/scripts/*.sh
 
       - uses: subosito/flutter-action@v2
         with:
