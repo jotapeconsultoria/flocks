@@ -71,7 +71,7 @@ empacotadas — o gate pode ser absoluto:
 | `test/demo_config_test.dart` | prova que a URL compartilhável carrega os seis campos do contrato e nada mais |
 | `test/layout_test.dart` | nenhuma combinação de viewport × tela × tipografia estoura, e o CRUD dirigido pela interface — validar, criar, editar, cancelar — também não |
 | `test/demo_logo_test.dart` | o contrato de `DemoLogo.sniffFormat`: decide pela assinatura binária e nunca pela extensão, e devolve `null` em vez de lançar |
-| `test/overlay_dependent_test.dart` | cada controle que depende de `Overlay` abre de fato ao ser tocado — o defeito que era silencioso em produção |
+| `test/overlay_dependent_test.dart` | os dropdowns do painel e do formulário abrem de fato ao serem tocados — o defeito que era silencioso em produção |
 
 Consequência para quem usa: **o link compartilhável leva cor, fonte e eixos, mas
 não leva o logo.** A demo diz isso na tela, e não só aqui.
