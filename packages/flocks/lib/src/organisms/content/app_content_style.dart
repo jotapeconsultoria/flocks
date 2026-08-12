@@ -95,11 +95,16 @@ final class AppContentStyle {
       h4: heading(theme.textTheme.titleLarge),
       h5: heading(theme.textTheme.titleMedium),
       h6: heading(theme.textTheme.titleSmall),
-      // A mono é empacotada, e não a do sistema: é o que torna o código
-      // idêntico em toda plataforma — inclusive nos goldens, que antes disto
-      // dependiam de qual mono o SO tinha. Sem `fontFamilyFallback`: a família
-      // está sempre registrada, e uma pilha de nomes não-registrados é o que
-      // fazia o CanvasKit baixar uma Noto de símbolos só para desenhar "ã".
+      // A mono é empacotada, e não a do sistema: é o que torna o código idêntico
+      // em toda plataforma. Antes disto o desenho variava com a mono que o SO
+      // tinha, e os goldens não pegavam isso — no sandbox do `flutter_test`
+      // nenhuma fonte de sistema chega, e `test/flutter_test_config.dart`
+      // registrava a Poppins sob o nome `SF Mono` para o bloco não sair como
+      // tofu: as baselines mostravam uma proporcional fingindo ser mono.
+      //
+      // Sem `fontFamilyFallback`: a família está sempre registrada, e uma pilha
+      // de nomes não-registrados é o que fazia o CanvasKit baixar uma Noto de
+      // símbolos só para desenhar "ã".
       code: TextStyle(
         color: foreground,
         fontFamily: AppFontFamilies.ibmPlexMono,

@@ -84,7 +84,7 @@ conteúdo — um defeito que nenhum use case isolado tinha exercitado.
   `IconData` constante, e os dois `.ttf` saem do build web com os mesmos bytes
   com e sem a flag. No tarball comprimido isso vira algo perto de **+8%**, e não
   um número exato: o `dart pub publish --dry-run` só reporta "1 MB", e reproduzir
-  o arquivo por fora dá de 1,52 a 1,63 MB para a MESMA lista de 953 caminhos,
+  o arquivo por fora dá de 1,52 a 1,63 MB para a MESMA lista de caminhos,
   conforme o empacotador e o nível de gzip. O que é exato é o que está acima. A
   Inconsolata faria o mesmo trabalho por 63.332 B menos; ficou de fora por
   cobertura, e o pubspec registra a comparação inteira.

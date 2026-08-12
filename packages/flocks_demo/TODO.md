@@ -30,11 +30,12 @@ ninguém o configura — `web/index.html` não tem bloco de config do loader.
 engine baixa uma Noto por codepoint sem cobertura, e
 `getMissingCodePoints(codePoints, fontFamilies)` confere a cobertura **só contra
 as famílias daquele span**, não contra tudo o que está registrado. O bloco de
-código do painel ("Take it with you") pede a pilha mono de
+código do painel ("Take it with you") pedia a pilha mono de
 `app_content_style.dart` do `flocks` — `SF Mono`, `Menlo`, `Consolas`,
-`Roboto Mono`, … —, e nenhuma delas está registrada no CanvasKit. Aí cada acento
-do comentário em português do snippet ("já", "padrão", "só") vira codepoint
-órfão.
+`Roboto Mono`, … —, e nenhuma delas estava registrada no CanvasKit. Aí cada
+acento do comentário em português do snippet ("já", "padrão", "só") virava
+codepoint órfão. Hoje `AppContentStyle.code` não pede pilha nenhuma: é uma
+família só, empacotada, e sem `fontFamilyFallback`.
 Como acento latino é coberto por dezenas de Noto, dá empate, e o desempate do
 engine prefere explicitamente a Noto Sans Symbols: **67,5 KB de uma fonte de
 símbolos para desenhar "ã"**. O painel é chrome compartilhado, então as duas
