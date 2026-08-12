@@ -2,33 +2,41 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 
-/// Texto decorativo sobre alvo de ponteiro precisa desligar a seleção, e
-/// `IgnorePointer` não faz isso na web.
+/// Texto decorativo sob `IgnorePointer` precisa desligar a seleção, porque na
+/// web o `IgnorePointer` não alcança o que o `SelectableRegion` monta.
 ///
 /// `AppText` embrulha todo texto num `AppSelectionRegion`, que cria um
 /// `SelectableRegion` quando existe `Overlay` ancestral. Na web o
-/// `SelectableRegion` monta um platform view DOM (`Positioned.fill` com um
-/// `HtmlElementView`) cujo listener chama `preventDefault()` no `mousedown` de
-/// QUALQUER botão — não só o direito. Um elemento do DOM não participa do
-/// hit-test do Flutter: o `IgnorePointer` que envolve o texto some para o
-/// framework e continua de pé para o browser, que entrega o evento ao div.
+/// `SelectableRegion` monta um `PlatformSelectableRegionContextMenu`: um
+/// `Positioned.fill` com `HtmlElementView`, ou seja **um elemento real do DOM**
+/// cobrindo a região.
 ///
-/// O que isso custou, medido em https://flocks.live/demo/?screen=crud em
-/// 2026-08-11: a busca do CRUD não filtrava. A dica do campo era um `AppText`,
-/// logo um `SelectableRegion`, logo um div por cima da área editável;
-/// `elementsFromPoint` no centro do campo devolvia
-/// `div.web-selectable-region-context-menu` no topo, o `mousedown` cancelado
-/// matava a transferência de foco do browser, e as teclas mutavam
-/// `input.flt-text-editing.value` sem nada chegar ao Dart. No `AppBarChart`, 48
-/// pontos da área do gráfico tinham um desses divs no topo, e o `pointerdown`
-/// sobre uma barra coberta por rótulo de eixo nunca chegava ao gráfico.
+/// Um elemento do DOM não participa do hit-test do Flutter. O `IgnorePointer`
+/// desaparece para o framework e o div continua de pé para o navegador — então
+/// texto marcado como decorativo segue oferecendo seleção e menu de contexto
+/// sobre área que devia ser só alvo de interação. Medido em
+/// https://flocks.live/demo/?screen=crud em 2026-08-11: `elementsFromPoint` no
+/// centro do campo de busca devolvia `div.web-selectable-region-context-menu` no
+/// topo, e eram 21 desses divs numa tela. No `AppBarChart` do widgetbook, 48
+/// pontos da área do gráfico tinham um deles no topo, porque os rótulos do eixo
+/// X caem sobre as barras.
 ///
-/// Nenhum teste de widget pega isto: na VM o SDK usa o ramo `_io`, que é
-/// passa-direto e não monta platform view nenhum. Por isso o gate é de FONTE.
+/// O que este gate **não** afirma: que esses divs sejam a causa da busca do CRUD
+/// não filtrar. Essa hipótese foi levantada e **refutada** por medição em
+/// 2026-08-12 — com o ponteiro sobre o div o Flutter aplicava
+/// `SystemMouseCursors.text` (logo hit-testou por baixo), o
+/// `input.flt-text-editing` só nasce depois do clique (logo o clique chegou ao
+/// Dart), e o sintoma se repetiu idêntico clicando DENTRO do campo e FORA do rect
+/// do div, onde não há listener nenhum. A causa da busca segue desconhecida; o
+/// que se conserta aqui é a interceptação de seleção, que é real e é medível.
 ///
-/// A regra: se um `IgnorePointer` contém `AppText`/`ChartTooltip`, ele precisa
-/// de um `SelectionContainer.disabled` imediatamente acima — que zera o
-/// registrar e cai no guard que `AppSelectionRegion` já tem.
+/// Nenhum teste de widget pega isto: na VM o SDK usa o ramo `_io` do platform
+/// view, que é passa-direto e não monta elemento nenhum. Por isso o gate é de
+/// FONTE.
+///
+/// A regra: se um `IgnorePointer` contém texto, ele precisa de um
+/// `SelectionContainer.disabled` como envelope IMEDIATO — que zera o registrar e
+/// cai no guard que `AppSelectionRegion` já tem.
 void main() {
   final List<File> dartFiles = Directory('lib/src')
       .listSync(recursive: true)
@@ -48,31 +56,108 @@ void main() {
 
   bool isComment(String line) {
     final String t = line.trimLeft();
-    return t.startsWith('//') || t.startsWith('*');
+    return t.startsWith('//') || t.startsWith('*') || t.startsWith('/*');
   }
 
-  /// Linhas do bloco aberto em [start], por indentação. `dart format` roda sob
-  /// gate no CI, então a indentação é confiável como delimitador.
-  List<String> blockAfter(List<String> lines, int start) {
+  /// O bloco aberto em [start]: o RESTO da própria linha (a forma de uma linha,
+  /// `cond ? IgnorePointer(child: box) : box`, vive toda aqui) mais as linhas
+  /// seguintes mais indentadas. `dart format` roda sob gate no CI, então a
+  /// indentação é confiável como delimitador.
+  String subtreeAt(List<String> lines, int start, int fromColumn) {
+    final StringBuffer out = StringBuffer(lines[start].substring(fromColumn));
     final int base = indentOf(lines[start]);
-    final List<String> block = <String>[];
     for (int i = start + 1; i < lines.length; i++) {
       final String line = lines[i];
       if (line.trim().isEmpty) continue;
       if (indentOf(line) <= base) break;
-      block.add(line);
+      if (isComment(line)) continue;
+      out.writeln(line);
     }
-    return block;
+    return out.toString();
   }
 
-  /// As linhas de código (sem comentário) imediatamente acima de [start].
-  List<String> codeAbove(List<String> lines, int start, int howMany) {
-    final List<String> out = <String>[];
-    for (int i = start - 1; i >= 0 && out.length < howMany; i--) {
-      if (lines[i].trim().isEmpty || isComment(lines[i])) continue;
-      out.add(lines[i]);
+  /// Nomes de tipo que RENDERIZAM texto, resolvidos transitivamente: `AppText`,
+  /// mais toda classe cujo corpo mencione um nome já no conjunto. É o que torna
+  /// visível um filho como `_StepLabel(...)` ou `ChartTooltip(...)`, que a busca
+  /// literal por `AppText(` não via.
+  Set<String> textBearingTypes() {
+    final RegExp classDecl = RegExp(
+      r'^(?:final |abstract |sealed |base |mixin )*class (\w+)',
+    );
+    final Map<String, String> bodyOf = <String, String>{};
+
+    for (final File f in dartFiles) {
+      final List<String> lines = f.readAsLinesSync();
+      for (int i = 0; i < lines.length; i++) {
+        final RegExpMatch? m = classDecl.firstMatch(lines[i]);
+        if (m == null) continue;
+        final StringBuffer body = StringBuffer();
+        for (int j = i + 1; j < lines.length; j++) {
+          if (lines[j].startsWith('}')) break;
+          if (!isComment(lines[j])) body.writeln(lines[j]);
+        }
+        bodyOf[m.group(1)!] = body.toString();
+      }
     }
-    return out;
+
+    final Set<String> bearing = <String>{'AppText'};
+    bool changed = true;
+    while (changed) {
+      changed = false;
+      for (final MapEntry<String, String> e in bodyOf.entries) {
+        if (bearing.contains(e.key)) continue;
+        if (bearing.any((String t) => e.value.contains('$t('))) {
+          bearing.add(e.key);
+          changed = true;
+        }
+      }
+    }
+    return bearing;
+  }
+
+  final Set<String> bearing = textBearingTypes();
+
+  /// O valor atribuído ao identificador [name] no mesmo arquivo, se houver — para
+  /// enxergar um filho passado por VARIÁVEL (`IgnorePointer(child: labelWidget)`).
+  String resolveLocal(List<String> lines, String name) {
+    final RegExp decl = RegExp(
+      r'(?:final|var|const|Widget)\s+' + RegExp.escape(name) + r'\b\s*=',
+    );
+    for (int i = 0; i < lines.length; i++) {
+      if (isComment(lines[i])) continue;
+      final RegExpMatch? m = decl.firstMatch(lines[i]);
+      if (m == null) continue;
+      return subtreeAt(lines, i, m.end);
+    }
+    return '';
+  }
+
+  bool mentionsText(String source, List<String> lines, {int depth = 1}) {
+    if (bearing.any((String t) => source.contains('$t('))) return true;
+    if (depth <= 0) return false;
+    // Identificadores nus que possam ser o filho, resolvidos um nível.
+    for (final RegExpMatch m in RegExp(r'\b([a-z_]\w*)\b').allMatches(source)) {
+      final String id = m.group(1)!;
+      if (const <String>{
+        'child',
+        'children',
+        'true',
+        'false',
+        'null',
+        'return',
+        'const',
+        'final',
+        'if',
+        'else',
+        'context',
+      }.contains(id)) {
+        continue;
+      }
+      final String resolved = resolveLocal(lines, id);
+      if (resolved.isEmpty) continue;
+      if (mentionsText(resolved, lines, depth: depth - 1)) return true;
+    }
+    return false;
   }
 
   test('texto decorativo sob IgnorePointer desliga a seleção', () {
@@ -81,26 +166,35 @@ void main() {
     for (final File f in dartFiles) {
       final List<String> lines = f.readAsLinesSync();
       for (int i = 0; i < lines.length; i++) {
-        if (isComment(lines[i]) || !lines[i].contains('IgnorePointer(')) {
-          continue;
-        }
+        if (isComment(lines[i])) continue;
+        final int at = lines[i].indexOf('IgnorePointer(');
+        if (at == -1) continue;
 
-        final String block = blockAfter(
+        final String subtree = subtreeAt(
           lines,
           i,
-        ).where((String l) => !isComment(l)).join('\n');
-        final bool hasText =
-            block.contains('AppText(') || block.contains('ChartTooltip(');
-        if (!hasText) continue;
+          at + 'IgnorePointer('.length,
+        );
+        if (!mentionsText(subtree, lines)) continue;
 
-        final bool disabled = codeAbove(
-          lines,
-          i,
-          4,
-        ).any((String l) => l.contains('SelectionContainer.disabled'));
-        if (!disabled) {
-          offenders.add('${rel(f)}:${i + 1}');
+        // Precisa ser ANCESTRAL, não irmão. Subindo, só é ancestral a linha com
+        // indentação ESTRITAMENTE menor que a última aceita: um
+        // `SelectionContainer.disabled` irmão fica na mesma indentação e é
+        // descartado, enquanto um envelope legítimo com um `AppSemantics.
+        // decorative` no meio (como em `app_input.dart`) continua valendo.
+        bool wrapped = lines[i]
+            .substring(0, at)
+            .contains('SelectionContainer.disabled(');
+        int need = indentOf(lines[i]);
+        for (int j = i - 1; j >= 0 && !wrapped && need > 2; j--) {
+          if (lines[j].trim().isEmpty || isComment(lines[j])) continue;
+          final int ind = indentOf(lines[j]);
+          if (ind >= need) continue;
+          need = ind;
+          if (lines[j].contains('SelectionContainer.disabled(')) wrapped = true;
         }
+
+        if (!wrapped) offenders.add('${rel(f)}:${i + 1}');
       }
     }
 
@@ -109,10 +203,11 @@ void main() {
       isEmpty,
       reason:
           'Estes IgnorePointer envolvem texto e não desligam a seleção. Na web '
-          'cada AppText aí dentro monta um platform view DOM que cancela o '
-          'mousedown por cima do alvo, e o IgnorePointer não o alcança — foi o '
-          'que quebrou a busca da demo. Envolva em SelectionContainer.disabled '
-          '(ver molecules/input/app_input.dart):\n  ${offenders.join('\n  ')}',
+          'cada AppText aí dentro monta um platform view DOM sobre o alvo, '
+          'oferecendo seleção e menu de contexto onde devia haver só interação — '
+          'e o IgnorePointer não o alcança, porque elemento do DOM não participa '
+          'do hit-test do Flutter. Envolva em SelectionContainer.disabled (ver '
+          'molecules/input/app_input.dart):\n  ${offenders.join('\n  ')}',
     );
   });
 }

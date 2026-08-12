@@ -239,9 +239,11 @@ final class AppStepper extends StatelessWidget {
       axis: axis,
     );
     // Quando o rótulo é parte do alvo (labelTappable) ele não deve capturar o
-    // ponteiro — senão selecionava o texto em vez de tocar o passo.
+    // ponteiro — senão selecionava o texto em vez de tocar o passo. Na web o
+    // `IgnorePointer` sozinho não entrega essa intenção: ver
+    // `molecules/input/app_input.dart`.
     final label = labelTappable
-        ? IgnorePointer(child: labelWidget)
+        ? SelectionContainer.disabled(child: IgnorePointer(child: labelWidget))
         : labelWidget;
 
     // labelTappable: a célula inteira (círculo + label) é o alvo, com o anel no
@@ -342,8 +344,12 @@ final class AppStepper extends StatelessWidget {
           child: _StepLabel(data: steps[i], state: _stepState(i), axis: axis),
         );
         // labelTappable: rótulo não captura ponteiro (toca o passo em vez de
-        // selecionar o texto).
-        return labelTappable ? IgnorePointer(child: box) : box;
+        // selecionar o texto). `SelectionContainer.disabled` pelo mesmo motivo
+        // de `molecules/input/app_input.dart` — na web o `IgnorePointer` não
+        // alcança o platform view do DOM que o `SelectableRegion` monta.
+        return labelTappable
+            ? SelectionContainer.disabled(child: IgnorePointer(child: box))
+            : box;
       }
 
       Widget rowFor(Widget node) => IntrinsicHeight(
@@ -490,9 +496,10 @@ class _StepCircle extends StatelessWidget {
         //
         // `SelectionContainer.disabled` porque na web o `IgnorePointer` sozinho
         // NÃO entrega essa intenção: o `AppText` do número vira um
-        // `SelectableRegion`, que monta um platform view DOM por cima do
-        // círculo do passo e cancela o `mousedown` — o alvo tocável parava de
-        // receber o clique. Motivo completo em `molecules/input/app_input.dart`.
+        // `SelectableRegion`, que monta um platform view DOM por cima do círculo
+        // do passo — um elemento do DOM oferecendo seleção sobre o alvo, que o
+        // hit-test do Flutter não alcança. Motivo completo em
+        // `molecules/input/app_input.dart`.
         child: SelectionContainer.disabled(
           child: IgnorePointer(
             child: AnimatedSwitcher(
