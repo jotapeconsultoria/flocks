@@ -1,6 +1,6 @@
 # Roadmap — distribuição e adoção
 
-O pacote está maduro: 131 componentes migrados, 23 suítes de arquitetura, 1625
+O pacote está maduro: 131 componentes migrados, 24 suítes de arquitetura, 1639
 testes passando sem os goldens, catálogo bilíngue com gate de frescor. Um
 roadmap que listasse "mais componentes" estaria lendo o problema errado. O que
 falta é **distribuição** (publicar, hospedar, servir) e **adoção** (demo, guia
@@ -30,8 +30,8 @@ Os números daqui foram medidos em 2026-08-11, não supostos:
 
 | Medição | Comando | Resultado |
 | --- | --- | --- |
-| Testes do `flocks` (sem golden) | `flutter test --exclude-tags golden` | 1625, todos verdes |
-| Testes dos sete pacotes | os sete steps de teste do job `checks`, somados | 1881, todos verdes |
+| Testes do `flocks` (sem golden) | `flutter test --exclude-tags golden` | 1639, todos verdes |
+| Testes dos sete pacotes | os sete steps de teste do job `checks`, somados | 1895, todos verdes |
 | Validador | `cd packages/flocks && dart run tool/validate_components.dart` | 131 migrados + 7 internos |
 | Dry-run `flocks` | `dart pub publish --dry-run` | 0 avisos, tarball de 1 MB — eram 16 MB antes do `.pubignore` da A0, que tirou os 302 goldens (14,7 MB) |
 | Dry-run dos 4 adaptadores e do `flocks_mcp` | idem | 0 avisos cada; os seis pacotes publicáveis têm `CHANGELOG.md` |
