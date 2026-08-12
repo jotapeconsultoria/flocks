@@ -146,6 +146,37 @@ conteúdo — um defeito que nenhum use case isolado tinha exercitado.
   carregam texto transitivamente e filhos passados por variável, porque as duas
   formas escaparam da primeira versão da regra.
 
+- **O `Overlay` que o pacote exige passou a estar no caminho de entrada.** Os
+  componentes que flutuam inserem no `Overlay` ancestral mais próximo — os quatro
+  dropdowns, o `AppTooltip`, o `showAppOverlay` (e o `showAppSnackbar` que sai
+  dele) e o controlador ancorado que serve `AppPopover`, `AppMenu`,
+  `AppOmniSearch` e o `AppPickerAnchor` dos campos de data, hora e cor. O pacote
+  não monta `Overlay` em lugar nenhum, de propósito: quem hospeda decide onde a
+  camada flutuante vive. O mecanismo já aparecia no dartdoc de alguns deles
+  ("renderiza via `Overlay`"), mas dizer por onde o painel sai não é dizer que o
+  host tem de fornecer o ancestral, nem o que acontece quando falta — e o README,
+  que é a página do pub.dev, não citava a palavra uma vez. O
+  `example/lib/main.dart` ia além: montava um root SEM `Overlay`, então quem
+  copiasse o exemplo e pusesse um dropdown recebia o crash. Os dois passaram a
+  montar e a nomear quem exige, junto com as duas páginas da landing, que traziam
+  o mesmo `runApp`.
+
+  **Nada em `lib/` mudou.** O comportamento da 0.1.2 é o da 0.1.1: atualizar não
+  conserta o crash de quem já o tem — o que faltava era a frase. Sem ancestral,
+  abrir qualquer um deles lança em debug pelo assert do próprio framework, que
+  manda incluir `MaterialApp`, `CupertinoApp` ou `Navigator` — os três widgets
+  que este pacote existe para não ter. O resumo dele fica genérico ("Some widgets
+  require an Overlay widget ancestor") porque nenhum dos sítios passa
+  `debugRequiredFor`, e o componente que falhou aparece só na última linha, a do
+  contexto. Em release o assert sai e resta `Null check operator used on a null
+  value`.
+
+  Não há gate novo, e nem havia onde pôr um: nenhum teste lê o
+  `example/lib/main.dart` — só o `dart analyze` o alcança — e o
+  `readme_example_test.dart` varre os blocos de código Dart do README por
+  `flocksBrand` e pelo domínio do site, sem compilá-los. Quem cobre a exigência
+  hoje é o `overlay_dependent_test.dart` da demo, sobre a árvore da demo.
+
 ## [0.1.1] - 2026-08-10
 
 Três defeitos que só a análise do pub.dev revelou, no dia seguinte à

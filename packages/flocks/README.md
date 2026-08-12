@@ -13,6 +13,7 @@ dependencies:
 
 ```dart
 import 'package:flocks/flocks.dart';
+import 'package:flutter/widgets.dart';
 
 final myBrand = AppBrandConfig(
   clientSlug: 'acme',
@@ -22,7 +23,16 @@ final myBrand = AppBrandConfig(
 void main() => runApp(
   AppTheme(
     data: AppThemeData.forBrand(myBrand, dark: false),
-    child: const MyApp(),
+    child: Directionality(
+      textDirection: TextDirection.ltr,
+      child: Overlay(
+        initialEntries: <OverlayEntry>[
+          OverlayEntry(
+            builder: (BuildContext context) => const MyApp(),
+          ),
+        ],
+      ),
+    ),
   ),
 );
 ```
@@ -31,6 +41,40 @@ That is the whole setup — one seed, no network. The icons, the illustrations a
 the fonts ship inside the package, so this runs on the first `flutter run`.
 `flocksBrand` also exists, but it is the brand of *this site*, not a starting
 point: adopting it would put our identity in your product instead of yours.
+
+**The `Overlay` is not decoration.** This package mounts none for you — the host
+decides where the floating layer lives — and every component that floats inserts
+into the nearest ancestor: the dropdowns (`AppDropdown`, `AppMultiSelect`,
+`AppSearchableDropdown`, `AppSearchableMultiSelect`), `AppTooltip`, `AppPopover`,
+`AppMenu`, `AppOmniSearch`, `AppPickerAnchor` and the inputs built on it
+(`AppDatePickerInput`, `AppTimePickerInput`, `AppDateTimePickerInput`,
+`AppColorPickerInput`), plus `showAppOverlay` and `showAppSnackbar`. Anything
+that takes a `tooltip` — `AppCheckbox`, `AppSwitch`, a collapsed
+`AppNavigationRail` — joins the list the moment the tooltip is built. Text is the
+exception: the `AppSelectionRegion` that wraps every `AppText` asks with
+`Overlay.maybeOf` and returns the child when there is none, so text still draws
+— it just is not selectable.
+
+Without an ancestor, opening any of them throws, and the message is the
+framework's rather than ours. This is a debug build, measured with an
+`AppDropdown` under the root above minus its `Overlay`
+(`packages/flutter/lib/src/widgets/overlay.dart`, Flutter 3.44.9):
+
+```
+No Overlay widget found.
+Some widgets require an Overlay widget ancestor for correct operation.
+The most common way to add an Overlay to an application is to include a MaterialApp, CupertinoApp or Navigator widget in the runApp() call.
+The context from which that widget was searching for an overlay was:
+  AppDropdown<String>
+```
+
+The hint offers the three widgets this package exists to do without, and the
+summary stays generic because no call site passes `debugRequiredFor` — the
+component that failed shows up only at the bottom, in the context line. In a
+release or profile build that assert is compiled out and what is left is `Null
+check operator used on a null value`. The `Directionality` above the `Overlay` is
+required for the same reason the overlay is: the overlay resolves its entries'
+direction-sensitive coordinates through it.
 
 After that, every component reads the theme by itself:
 

@@ -135,6 +135,7 @@
         first <code>flutter run</code>.</p>
         <div class="code-card">
 <pre><code><span class="kw">import</span> <span class="st">'package:flocks/flocks.dart'</span>;
+<span class="kw">import</span> <span class="st">'package:flutter/widgets.dart'</span>;
 
 <span class="kw">final</span> myBrand = <span class="ty">AppBrandConfig</span>(
   clientSlug: <span class="st">'acme'</span>,
@@ -144,12 +145,24 @@
 <span class="kw">void</span> main() =&gt; runApp(
   <span class="ty">AppTheme</span>(
     data: <span class="ty">AppThemeData</span>.forBrand(myBrand, dark: <span class="kw">false</span>),
-    child: <span class="kw">const</span> <span class="ty">MyApp</span>(),
+    child: <span class="ty">Directionality</span>(
+      textDirection: <span class="ty">TextDirection</span>.ltr,
+      child: <span class="ty">Overlay</span>(
+        initialEntries: &lt;<span class="ty">OverlayEntry</span>&gt;[
+          <span class="ty">OverlayEntry</span>(
+            builder: (<span class="ty">BuildContext</span> context) =&gt; <span class="kw">const</span> <span class="ty">MyApp</span>(),
+          ),
+        ],
+      ),
+    ),
   ),
 );</code></pre>
         </div>
-        <p class="after-code">After that, every component reads the theme by
-        itself — a button is <code>AppButton(icon: AppIconToken.add, label:
+        <p class="after-code">The <code>Overlay</code> there is required, not
+        decoration: the dropdowns, <code>AppTooltip</code>,
+        <code>AppPopover</code> and the anchored pickers insert into it, and the
+        package mounts none for you. After that, every component reads the theme
+        by itself — a button is <code>AppButton(icon: AppIconToken.add, label:
         'New vehicle', onPressed: _create)</code>, and the brand, the style
         axis and the radius mode are already in it.</p>
       </div>
