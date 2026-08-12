@@ -80,10 +80,54 @@ flutter:
   assets:
     - assets/icons/
     - assets/illustrations/
-  # Só fontes redistribuíveis: as duas famílias são SIL Open Font License 1.1, e
+  # Só fontes redistribuíveis: as três famílias são SIL Open Font License 1.1, e
   # a OFL exige que o texto da licença acompanhe a fonte — daí o `OFL.txt` ao
   # lado de cada uma. Não acrescente família sem verificar a licença: a Neutrek
   # saiu daqui por ser "Personal Use Only", o que tornava o pacote impublicável.
+  #
+  # A IBM Plex Mono é a família de código de `AppContentStyle`, e está aqui por
+  # dois motivos que convergem. Um: sem mono empacotada o pacote pedia a mono do
+  # SO (`SF Mono`, `Menlo`, `Consolas`, …), então o mesmo bloco de código saía
+  # com um desenho diferente em cada plataforma — e os goldens não pegavam isso.
+  # No sandbox do `flutter_test` nenhuma fonte de sistema chega (verificado), e
+  # o `test/flutter_test_config.dart` registrava a Poppins sob o nome `SF Mono`
+  # para o bloco não sair como tofu: as baselines mostravam uma proporcional
+  # fingindo ser mono, igual em toda plataforma. Dois: no CanvasKit, uma pilha
+  # de famílias NÃO registradas faz cada codepoint sem cobertura entrar na fila
+  # de fallback do engine — e um acento de comentário em português bastava para
+  # baixar 69.116 B de Noto Sans Symbols de `fonts.gstatic.com` (medido em
+  # produção, PR #20). Família registrada, gatilho morto.
+  #
+  # Dois pesos porque são exatamente os dois que o pacote usa: 400 em todo bloco
+  # e código inline, 600 nos placeholders de `AppApiPath`. Sem itálico — o case
+  # `code` do inline builder não herda o estilo do pai, então mono itálica nunca
+  # é pedida.
+  #
+  # Procedência: `google/fonts`, `ofl/ibmplexmono`, Version 2.3 (upstream
+  # `googlefonts/plex` @ 9ab3b5b3b96325fb20f365ee0804adca92024cbf). Estáticas, e
+  # não a variável: `weight:` aqui só escolhe QUAL arquivo atende o peso pedido,
+  # não move eixo de variação — com uma variável, o w600 cairia no peso padrão
+  # do arquivo em silêncio.
+  #
+  # Por que ESTA família, e o que ela custa. A alternativa viva é a Inconsolata
+  # (`ofl/inconsolata/static/`): também OFL, também com 400 e 600 estáticos, e
+  # 212.464 B contra 275.796 B — **63.332 B mais barata**, num custo que todo
+  # adotante paga para sempre. Ficou de fora por cobertura, e a cobertura importa
+  # aqui porque o `clientSlug` que o visitante digita entra no `AppCodeBlock` da
+  # demo VERBATIM (o folding de acento em `app_brand_config_snippet.dart` só
+  # sanitiza o identificador Dart, não a string) — o conjunto de caracteres do
+  # bloco de código é aberto, e é exatamente esse o eixo do gatilho da Noto. A
+  # diferença é uma troca, não uma vitória: a IBM Plex cobre 232 codepoints que a
+  # Inconsolata não tem (168 deles cirílicos, mais setas e frações), e a
+  # Inconsolata cobre 184 que a IBM Plex não tem (113 de latino estendido, mais
+  # modificadores e formas geométricas). Um alfabeto inteiro pesou mais que
+  # diacrítico extra — é juízo, não medição, e trocar de família são duas linhas
+  # aqui e uma em `test/flutter_test_config.dart`. Nenhuma das duas é completa:
+  # um slug em CJK abre a fila de fallback nas duas.
+  #
+  # A Intel One Mono (`ofl/intelonemono/`) foi descartada por mérito: 281.004 B
+  # nos dois pesos (mais caro que a IBM Plex), 793 codepoints, e é a única das
+  # três sem `→` (U+2192) — que um visitante pode digitar no slug.
   fonts:
     - family: Poppins
       fonts:
@@ -99,3 +143,9 @@ flutter:
           weight: 400
         - asset: assets/fonts/SpaceGrotesk/SpaceGrotesk-Medium.ttf
           weight: 500
+    - family: IBMPlexMono
+      fonts:
+        - asset: assets/fonts/IBMPlexMono/IBMPlexMono-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/IBMPlexMono/IBMPlexMono-SemiBold.ttf
+          weight: 600

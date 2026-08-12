@@ -8,9 +8,18 @@ import 'package:flutter_test/flutter_test.dart';
 // Matriz {claro,escuro} × {jotape,zxtrack}. Gerar:
 //   flutter test --update-goldens --tags golden
 //
-// Nota: o bloco de código cai na mono do sistema (o Flocks não empacota uma
-// fonte monoespaçada). Estes goldens são, portanto, dependentes de plataforma
-// no trecho de código — como o resto da suíte, são gerados no macOS.
+// Nota: são 8 baselines — `app_markdown_*` e `app_html_*` na matriz —, e só as 4
+// de Markdown têm glifo mono (o fixture de HTML não tem `<code>` nem `<pre>`).
+//
+// Nenhuma fonte aqui vem do SO: as três famílias são empacotadas. Antes de o
+// Flocks empacotar a IBM Plex Mono, o bloco de código era a ÚNICA parte que
+// vinha, e no sandbox de teste — onde nenhuma mono de sistema existe — o
+// `flutter_test_config.dart` registrava a Poppins sob o nome `SF Mono`: estas
+// baselines mostravam uma proporcional fingindo ser mono.
+//
+// Continuam geradas no macOS, como o resto do repositório, porque o que ainda
+// varia entre máquinas é o rasterizador de texto — e isso vale para os 8 por
+// igual, não para o trecho de código em particular.
 
 const String _markdown = '''
 # Relatório de viagem

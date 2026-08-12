@@ -32,18 +32,23 @@
 //    e é por isso que a lista de proibidos de lá é longa e específica em vez de
 //    confiar neste gate.
 // 2. O bootstrap JavaScript e a fila de fontes do engine rodam antes e fora
-//    daqui. São TRÊS requisições, e este inventário conhecia duas até a
+//    daqui. Eram TRÊS requisições, e este inventário conhecia duas até a
 //    medição de 2026-08-11 (`TODO.md`, e o método que enxerga terceiros é
 //    `performance.getEntriesByType('resource')`, não a aba de rede):
 //    o CanvasKit de `www.gstatic.com`, **corrigido** com `--no-web-resources-cdn`
 //    e com gate estático para a flag; a **Roboto** de `fonts.gstatic.com`
 //    (63.464 B), que o CanvasKit exige como fallback registrado e AGUARDA antes
 //    do primeiro frame, mesmo a demo não a usando; e a **Noto Sans Symbols** do
-//    mesmo host (69.116 B), que nasce no primeiro layout porque o bloco de código
-//    do painel pede uma pilha mono que o CanvasKit não conhece, e aí cada acento
-//    do comentário em português do snippet vira codepoint órfão. As duas de fonte
-//    seguem não corrigidas — ver README e TODO. Nenhuma das três toca o logo (são
-//    download, não upload), mas nenhuma das três seria vista por este arquivo.
+//    mesmo host (69.116 B), que nascia no primeiro layout porque o bloco de
+//    código do painel pedia uma pilha mono que o CanvasKit não conhece, e aí cada
+//    acento do comentário em português do snippet virava codepoint órfão.
+//    Sobrou UMA: a Noto **saiu na raiz** quando o `flocks` passou a empacotar a
+//    própria mono, e a medição lado a lado confirma (20 requisições e 2 de
+//    terceiro antes, 21 e 1 depois). A **Roboto continua** não corrigida — a
+//    condição que a dispara é o nome da família no `FontManifest.json`, e nenhuma
+//    fonte nossa se chama `Roboto`; ver README e TODO. Nenhuma das três toca o
+//    logo (são download, não upload), mas nenhuma das três seria vista por este
+//    arquivo.
 // 3. `HttpOverrides` intercepta o `dart:io` do Dart. Rede aberta por JS pelo
 //    lado de fora, sem passar pelo `HttpClient`, não acenderia aqui — o que é a
 //    mesma lacuna do item 1, vista pelo outro lado.

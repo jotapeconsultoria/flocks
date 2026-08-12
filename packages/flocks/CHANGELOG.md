@@ -57,6 +57,48 @@ conteúdo — um defeito que nenhum use case isolado tinha exercitado.
   legível. `kSwatchStops` veio junto, pelo mesmo motivo de quem percorre um
   swatch: um `ColorSwatch` não expõe as próprias chaves.
 
+- **A IBM Plex Mono, empacotada** — `AppFontFamilies.ibmPlexMono`, pesos 400 e
+  600, com o `OFL.txt` ao lado dos `.ttf` como as outras duas famílias. São os
+  dois pesos que o pacote realmente pede: 400 em todo bloco e código inline, 600
+  nos placeholders de `AppApiPath`. Sem itálico, porque o `case 'code'` do inline
+  builder não herda o estilo do pai e mono itálica nunca é pedida.
+
+  `AppContentStyle.code` deixa de tentar a mono do SO, e isso conserta duas
+  coisas de uma vez. As baselines de código passam a mostrar código: no sandbox
+  de teste nenhuma mono de sistema existe, então o `flutter_test_config.dart`
+  registrava a Poppins sob o nome `SF Mono` — determinístico, sim, mas era uma
+  proporcional fingindo ser mono, e é isso que os 4 goldens de `AppMarkdown`
+  tinham de errado. O que ainda varia entre máquinas é o rasterizador de texto, e
+  isso nunca foi sobre a família. E, no CanvasKit, uma
+  pilha de famílias **não** registradas faz cada codepoint sem cobertura entrar
+  na fila de fallback do engine: um acento de comentário em português bastava
+  para baixar 69.116 B de Noto Sans Symbols de `fonts.gstatic.com` (medido em
+  produção na PR #20, e medido de novo aqui nos dois builds servidos lado a lado
+  — 20 requisições e 2 de terceiro antes, 21 e 1 depois). A Roboto de 63.464 B
+  continua: a condição que a dispara é o nome da família no `FontManifest.json`,
+  e nada disto muda isso.
+
+  Custa **280.252 B** nos assets — 135.580 do Regular, 140.216 do SemiBold, 4.456
+  do `OFL.txt` — e custa **integralmente**: fonte de texto declarada em `fonts:`
+  **não** é podada pelo `--tree-shake-icons`, que só alcança fonte de ícone por
+  `IconData` constante, e os dois `.ttf` saem do build web com os mesmos bytes
+  com e sem a flag. No tarball comprimido isso vira algo perto de **+8%**, e não
+  um número exato: o `dart pub publish --dry-run` só reporta "1 MB", e reproduzir
+  o arquivo por fora dá de 1,52 a 1,63 MB para a MESMA lista de caminhos,
+  conforme o empacotador e o nível de gzip. O que é exato é o que está acima. A
+  Inconsolata faria o mesmo trabalho por 63.332 B menos; ficou de fora por
+  cobertura, e o pubspec registra a comparação inteira.
+
+  Junto entra `test/architecture/font_axis_test.dart`, que cobra o que até aqui
+  era só comentário: todo `asset:` declarado existe em disco, o carregador dos
+  testes espelha a seção `fonts:` do pubspec, e o texto da licença viaja no
+  diretório da família que ele cobre.
+
+  **Depreciadas por isto:** `kAppContentMonoFamily` e `kAppContentMonoFallback`.
+  Eram a pilha de monos do sistema e não têm mais função, mas eram API pública na
+  0.1.1 — e em `0.x` o slot de mudança breaking é o minor, então ficam marcadas
+  com `@Deprecated` e saem na 0.2.0.
+
 ### Fixed
 
 - **Uma superfície grande em `circular` parou de cortar o próprio conteúdo.**

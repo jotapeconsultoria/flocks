@@ -3,19 +3,27 @@ import 'package:flutter/widgets.dart';
 import '../../theme/theme.dart';
 import '../../tokens/tokens.dart';
 
-/// Família monoespaçada primária usada em código.
+/// A família monoespaçada primária que o pacote tentava antes de empacotar a sua.
 ///
-/// O Flocks empacota apenas Poppins e Space Grotesk — nenhuma mono —, então o
-/// código
-/// depende da mono do sistema. Esta é a família tentada primeiro;
-/// [kAppContentMonoFallback] cobre as demais plataformas.
-///
-/// TODO(flocks): empacotar uma mono nos assets do pacote elimina a dependência
-/// do sistema e torna os goldens de código determinísticos em qualquer
-/// plataforma. Feito isso, isto vira `fontFamily: 'X', package: 'flocks'`.
+/// Sem função desde que o Flocks empacota a [AppFontFamilies.ibmPlexMono]:
+/// `AppContentStyle.code` pede a família empacotada, e nada mais lê esta const.
+/// Ela fica porque era API pública na 0.1.1, que é a versão no pub.dev, e em
+/// `0.x` o slot de mudança breaking é o minor — some na 0.2.0.
+@Deprecated(
+  'O Flocks empacota a própria mono desde a 0.1.2: use '
+  'AppFontFamilies.ibmPlexMono. Esta const será removida na 0.2.0.',
+)
 const String kAppContentMonoFamily = 'SF Mono';
 
-/// Monos alternativas, por plataforma.
+/// As monos de sistema que cobriam as plataformas onde a primária não existia.
+///
+/// Sem função pelo mesmo motivo de [kAppContentMonoFamily] — e note que era
+/// justamente uma pilha de famílias não registradas como esta que fazia o
+/// CanvasKit baixar uma Noto de símbolos por causa de um acento. Some na 0.2.0.
+@Deprecated(
+  'O Flocks empacota a própria mono desde a 0.1.2, e ela não precisa de '
+  'fallback de sistema. Esta const será removida na 0.2.0.',
+)
 const List<String> kAppContentMonoFallback = <String>[
   'Menlo',
   'Consolas',
@@ -87,10 +95,20 @@ final class AppContentStyle {
       h4: heading(theme.textTheme.titleLarge),
       h5: heading(theme.textTheme.titleMedium),
       h6: heading(theme.textTheme.titleSmall),
+      // A mono é empacotada, e não a do sistema: é o que torna o código idêntico
+      // em toda plataforma. Antes disto o desenho variava com a mono que o SO
+      // tinha, e os goldens não pegavam isso — no sandbox do `flutter_test`
+      // nenhuma fonte de sistema chega, e `test/flutter_test_config.dart`
+      // registrava a Poppins sob o nome `SF Mono` para o bloco não sair como
+      // tofu: as baselines mostravam uma proporcional fingindo ser mono.
+      //
+      // Sem `fontFamilyFallback`: a família está sempre registrada, e uma pilha
+      // de nomes não-registrados é o que fazia o CanvasKit baixar uma Noto de
+      // símbolos só para desenhar "ã".
       code: TextStyle(
         color: foreground,
-        fontFamily: kAppContentMonoFamily,
-        fontFamilyFallback: kAppContentMonoFallback,
+        fontFamily: AppFontFamilies.ibmPlexMono,
+        package: package,
         fontSize: (body.fontSize ?? 16) * 0.92,
         height: body.height,
         fontWeight: FontWeight.w400,

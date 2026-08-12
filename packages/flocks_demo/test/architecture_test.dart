@@ -213,8 +213,12 @@ void main() {
             'de www.gstatic.com a cada carregamento; com ela, o `canvaskit/` '
             'que já vai no build é servido da nossa Storage Zone. A medição de '
             '2026-08-11 confirma zero requisições a www.gstatic.com. O que a '
-            'demo AINDA contacta — duas fontes em fonts.gstatic.com, que esta '
-            'flag não alcança — está no TODO.md.',
+            'demo AINDA contacta é UMA fonte em fonts.gstatic.com — a Roboto, '
+            'que o engine exige como fallback registrado e AGUARDA antes do '
+            'primeiro frame; esta flag não a alcança, e o TODO.md explica por '
+            'que ela é mais cara de consertar. A segunda daquela medição, a '
+            'Noto Sans Symbols, saiu quando o flocks passou a empacotar a '
+            'própria mono.',
       );
     }
   });

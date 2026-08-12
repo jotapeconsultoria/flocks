@@ -13,31 +13,7 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   TestWidgetsFlutterBinding.ensureInitialized();
   _installIconStub();
   await _loadFonts();
-  await _loadMonoStandIn();
   return testMain();
-}
-
-/// Registra a Poppins empacotada sob o nome da família monoespaçada primária
-/// ([kAppContentMonoFamily]), como substituta determinística.
-///
-/// O sandbox do `flutter_test` só enxerga fontes carregadas via [FontLoader]:
-/// nenhuma mono do sistema existe aqui, e `fontFamilyFallback` **não** resolve
-/// (verificado). Sem esta costura, todo bloco de código de `AppMarkdown`/
-/// `AppHtml` sai como tofu (▯) — ilegível nos goldens e enganoso na revisão.
-///
-/// Mesmo espírito do stub de ícone acima: um substituto legível e estável para
-/// um recurso indisponível no sandbox. Em produção a mono real do SO é usada.
-/// Quando o Flocks empacotar a sua própria mono, isto pode sumir.
-Future<void> _loadMonoStandIn() async {
-  final File file = File('$_fontsRoot/Poppins/Poppins-Regular.ttf');
-  if (!file.existsSync()) {
-    return;
-  }
-  final FontLoader loader = FontLoader(kAppContentMonoFamily)
-    ..addFont(
-      Future<ByteData>.value(file.readAsBytesSync().buffer.asByteData()),
-    );
-  await loader.load();
 }
 
 /// Substitui o carregamento de ícones (CDN + `flutter_cache_manager`) por um
@@ -77,6 +53,13 @@ Future<void> _loadFonts() async {
     'packages/flocks/SpaceGrotesk': <String>[
       '$_fontsRoot/SpaceGrotesk/SpaceGrotesk-Regular.ttf',
       '$_fontsRoot/SpaceGrotesk/SpaceGrotesk-Medium.ttf',
+    ],
+    // A mono de `AppContentStyle.code`. Antes de ela ser empacotada, este
+    // arquivo registrava a Poppins sob o nome `SF Mono` para o bloco de código
+    // não sair como tofu — os goldens de código mostravam uma proporcional.
+    'packages/flocks/IBMPlexMono': <String>[
+      '$_fontsRoot/IBMPlexMono/IBMPlexMono-Regular.ttf',
+      '$_fontsRoot/IBMPlexMono/IBMPlexMono-SemiBold.ttf',
     ],
   };
 

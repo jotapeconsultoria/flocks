@@ -29,9 +29,12 @@
 // POR QUE `test/release/`, E NÃO `test/architecture/`. O lugar óbvio seria lá:
 // é onde moram os gates que julgam o repositório em vez do widget, e é de lá
 // que veio o helper de raiz de workspace. Mas o README conta os arquivos
-// daquele diretório para sustentar uma frase específica — "23 suites in
+// daquele diretório para sustentar uma frase específica — "N suites in
 // `test/architecture/` that sweep the code", a prova de que o zero-Material não
-// é intenção — e a contagem tem gate (`catalog_freshness_test`). Este arquivo
+// é intenção — e a contagem tem gate (`catalog_freshness_test`). O N vai sem
+// número aqui de propósito: escrito, ele envelhece a cada suíte nova, e nenhum
+// gate alcança número dentro de comentário. Este já envelheceu duas vezes — na
+// #29 e no merge da mono — antes de alguém notar. Este arquivo
 // não varre `lib/src`; ele varre pubspec e CHANGELOG. Entrar naquela conta
 // inflaria a prova com um gate que não prova aquilo, e ainda arrastaria o
 // README e as duas homes do site para acertar o número. O diretório novo diz o
