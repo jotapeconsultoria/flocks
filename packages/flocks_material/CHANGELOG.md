@@ -10,7 +10,7 @@ follows [SemVer](https://semver.org/).
 > compatibility matrix to maintain. The public line starts at `0.1.0`, next to
 > the core; the `flocks` CHANGELOG explains why `0.x`.
 
-## [0.1.2] - 2026-08-11
+## [0.1.2] - 2026-08-12
 
 ### Added
 
