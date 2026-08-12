@@ -2,6 +2,11 @@
 
 Ícones do Material Design como `AppIconProvider` do [Flocks](../flocks).
 
+```yaml
+dependencies:
+  flocks_material: ^0.1.0
+```
+
 ```dart
 AppThemeScope(
   iconProvider: const MaterialIconProvider(),
