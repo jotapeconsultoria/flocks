@@ -117,3 +117,70 @@ cliente de analytics é, por definição, um caminho de rede, então o teste que
 exige ZERO requisições precisará distinguir o destino de telemetria de todo o
 resto — e essa distinção é exatamente onde a fronteira do logo se perderia se
 ninguém estivesse olhando.
+
+---
+
+# O `preventDefault()` do SDK que engole o `mousedown` sob todo texto selecionável
+
+**Um `SelectableRegion` na web não é só semântica: é um elemento do DOM por cima
+do que ele cobre.** `SelectableRegion` monta um `PlatformSelectableRegionContextMenu`,
+que é um `Positioned.fill` com `HtmlElementView` — um platform view real. O
+listener dele, em
+`packages/flutter/lib/src/widgets/_platform_selectable_region_context_menu_web.dart`
+(SDK 3.44.0), chama `preventDefault()` **antes** de testar qual botão foi
+pressionado:
+
+```dart
+mouseEvent.preventDefault();              // incondicional
+if (mouseEvent.button != _kRightClickButton) { return; }
+```
+
+`preventDefault()` no `mousedown` cancela a transferência de foco padrão do
+navegador. É a mesma perda de foco que
+`packages/flocks/lib/src/foundation/pointer/pointer_interceptor_web.dart:72-78`
+já documenta, só que aqui vinda do próprio framework.
+
+Medido em https://flocks.live/demo/?screen=crud em 2026-08-11, com
+`document.elementsFromPoint` antes de qualquer clique:
+
+| Ponto sondado | Elemento no topo |
+| --- | --- |
+| campo de busca do CRUD (tem `hintText`) | `div.web-selectable-region-context-menu` |
+| botão "New account" | `flutter-view` |
+| linha da lista | `flutter-view` |
+
+E no `AppBarChart` do widgetbook, 48 pontos da área do gráfico tinham um desses
+divs no topo; o `pointerdown` sobre uma barra coberta por rótulo de eixo era
+entregue ao div, não ao gráfico.
+
+**O que já foi corrigido.** Do lado do Flocks, todo texto decorativo sob
+`IgnorePointer` passou a viver num `SelectionContainer.disabled`, e
+`packages/flocks/test/architecture/decorative_selection_test.dart` mantém a regra.
+`IgnorePointer` sozinho não bastava: ele tira o texto do hit-test do Flutter e
+deixa o elemento do DOM de pé para o navegador.
+
+**Por que ainda não foi corrigido lá em cima:** o `preventDefault()`
+incondicional é defensavelmente um bug do SDK, mas **não há repro mínimo fora
+deste repo**. Sem um projeto `flutter create` novo isolando um `SelectableRegion`
+sobre um `TextField`, não dá para abrir issue no flutter/flutter sem afirmar mais
+do que foi verificado. A dívida é construir esse repro.
+
+**A questão maior, ainda em aberto:** `AppText` embrulha **cada** texto num
+`AppSelectionRegion` (`packages/flocks/lib/src/atoms/texts/app_text.dart:58`), e
+com `Overlay` ancestral isso vira um `SelectableRegion` por texto — 21 platform
+views DOM só na tela do CRUD, medidos. `SelectableRegion` foi desenhado para
+envolver uma REGIÃO uma vez, não cada folha. Trocar isso muda se o texto do
+design system é selecionável por padrão: é decisão de API do mantenedor, e mexe
+nos 131 componentes.
+
+**Como medir, para a próxima pessoa não errar como a anterior.** Não confie no
+`flutter run -d web-server` nem em servir o `build/web` em `127.0.0.1` para
+julgar entrada de texto: nas duas formas o campo do formulário — que funciona em
+produção — também recusou texto, com a árvore intacta. Sempre valide o harness
+com um controle conhecido-bom ANTES de concluir qualquer coisa; se o controle
+falha, a medição não vale. `flutter test --platform chrome` também não pega esta
+classe: em `packages/flocks` a suíte nem carrega (`Unsupported operation:
+_Namespace`, de `dart:io` em `test/flutter_test_config.dart`), e onde carrega o
+`tester.enterText` injeta pelo `TestTextInput` do harness, sem passar pelo
+caminho DOM do engine, e o view factory do platform view não é registrado sob
+`flutter_test`.
