@@ -3,6 +3,36 @@ import 'package:flutter/widgets.dart';
 import '../../theme/theme.dart';
 import '../../tokens/tokens.dart';
 
+/// A família monoespaçada primária que o pacote tentava antes de empacotar a sua.
+///
+/// Sem função desde que o Flocks empacota a [AppFontFamilies.ibmPlexMono]:
+/// `AppContentStyle.code` pede a família empacotada, e nada mais lê esta const.
+/// Ela fica porque era API pública na 0.1.1, que é a versão no pub.dev, e em
+/// `0.x` o slot de mudança breaking é o minor — some na 0.2.0.
+@Deprecated(
+  'O Flocks empacota a própria mono desde a 0.1.2: use '
+  'AppFontFamilies.ibmPlexMono. Esta const será removida na 0.2.0.',
+)
+const String kAppContentMonoFamily = 'SF Mono';
+
+/// As monos de sistema que cobriam as plataformas onde a primária não existia.
+///
+/// Sem função pelo mesmo motivo de [kAppContentMonoFamily] — e note que era
+/// justamente uma pilha de famílias não registradas como esta que fazia o
+/// CanvasKit baixar uma Noto de símbolos por causa de um acento. Some na 0.2.0.
+@Deprecated(
+  'O Flocks empacota a própria mono desde a 0.1.2, e ela não precisa de '
+  'fallback de sistema. Esta const será removida na 0.2.0.',
+)
+const List<String> kAppContentMonoFallback = <String>[
+  'Menlo',
+  'Consolas',
+  'Roboto Mono',
+  'DejaVu Sans Mono',
+  'Courier New',
+  'monospace',
+];
+
 /// Folha de estilo compartilhada por [AppMarkdown] e [AppHtml].
 ///
 /// Um único objeto para os dois renderers — é o que garante que o mesmo

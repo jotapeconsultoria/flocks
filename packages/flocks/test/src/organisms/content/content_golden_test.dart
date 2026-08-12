@@ -8,9 +8,13 @@ import 'package:flutter_test/flutter_test.dart';
 // Matriz {claro,escuro} × {jotape,zxtrack}. Gerar:
 //   flutter test --update-goldens --tags golden
 //
-// Nota: o bloco de código cai na mono do sistema (o Flocks não empacota uma
-// fonte monoespaçada). Estes goldens são, portanto, dependentes de plataforma
-// no trecho de código — como o resto da suíte, são gerados no macOS.
+// Nota: destes 4 goldens, o trecho de código é a única parte que NÃO depende
+// mais da plataforma. O Flocks empacota a IBM Plex Mono, e `AppContentStyle`
+// pede a família empacotada — antes disto o bloco caía na mono do SO, e no
+// sandbox de teste (onde nenhuma existe) o `flutter_test_config.dart` registrava
+// a Poppins sob o nome `SF Mono`: as baselines mostravam uma proporcional
+// fingindo ser mono. O resto da suíte segue gerado no macOS, como o resto do
+// repositório.
 
 const String _markdown = '''
 # Relatório de viagem

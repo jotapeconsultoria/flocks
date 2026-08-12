@@ -103,9 +103,27 @@ flutter:
   # `googlefonts/plex` @ 9ab3b5b3b96325fb20f365ee0804adca92024cbf). Estáticas, e
   # não a variável: `weight:` aqui só escolhe QUAL arquivo atende o peso pedido,
   # não move eixo de variação — com uma variável, o w600 cairia no peso padrão
-  # do arquivo. É também o motivo de a escolha ter sido esta família: em
-  # 2026-08-11 ela era a única mono do `google/fonts` que ainda publica
-  # estáticas com SemiBold 600 real; as demais viraram só variável.
+  # do arquivo em silêncio.
+  #
+  # Por que ESTA família, e o que ela custa. A alternativa viva é a Inconsolata
+  # (`ofl/inconsolata/static/`): também OFL, também com 400 e 600 estáticos, e
+  # 212.464 B contra 275.796 B — **63.332 B mais barata**, num custo que todo
+  # adotante paga para sempre. Ficou de fora por cobertura, e a cobertura importa
+  # aqui porque o `clientSlug` que o visitante digita entra no `AppCodeBlock` da
+  # demo VERBATIM (o folding de acento em `app_brand_config_snippet.dart` só
+  # sanitiza o identificador Dart, não a string) — o conjunto de caracteres do
+  # bloco de código é aberto, e é exatamente esse o eixo do gatilho da Noto. A
+  # diferença é uma troca, não uma vitória: a IBM Plex cobre 232 codepoints que a
+  # Inconsolata não tem (168 deles cirílicos, mais setas e frações), e a
+  # Inconsolata cobre 184 que a IBM Plex não tem (113 de latino estendido, mais
+  # modificadores e formas geométricas). Um alfabeto inteiro pesou mais que
+  # diacrítico extra — é juízo, não medição, e trocar de família são duas linhas
+  # aqui e uma em `test/flutter_test_config.dart`. Nenhuma das duas é completa:
+  # um slug em CJK abre a fila de fallback nas duas.
+  #
+  # A Intel One Mono (`ofl/intelonemono/`) foi descartada por mérito: 281.004 B
+  # nos dois pesos (mais caro que a IBM Plex), 793 codepoints, e é a única das
+  # três sem `→` (U+2192) — que um visitante pode digitar no slug.
   fonts:
     - family: Poppins
       fonts:
