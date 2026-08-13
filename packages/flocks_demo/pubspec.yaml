@@ -20,7 +20,15 @@ environment:
   flutter: ">=3.44.0"
 
 dependencies:
-  flocks: ^0.1.0
+  # O piso é 0.1.2 porque é onde `toDartSnippet` e `flippedSwatch` passaram a
+  # existir, e a demo usa os dois — `src/panel/brand_panel.dart` para o snippet
+  # que o visitante copia, `src/state/brand_from_config.dart` para a rampa
+  # neutra escura. Nas duas versões anteriores nenhum dos dois está no
+  # `packages/flocks/lib`, e o `resolution: workspace` acima esconde isso: aqui
+  # `^0.1.0` casaria com o membro local, que já está em 0.1.2, e a divergência
+  # nunca apareceria. Fora do workspace ela aparece — contra o `flocks 0.1.1` do
+  # pub.dev o `dart analyze` reprova as duas linhas com `undefined`.
+  flocks: ^0.1.2
   flutter:
     sdk: flutter
   # O logo do visitante é renderizado dos BYTES, sem URL nenhuma (nem `blob:`).
