@@ -329,16 +329,23 @@ Widget appChatAttachmentCardPlayground(BuildContext context) {
     initialValue: true,
   );
   final size = wbSizeKnob(context, label: 'size', initial: AppSizes.s128);
+  final layout = context.knobs.object.dropdown<AppChatAttachmentCardLayout>(
+    label: 'layout',
+    options: AppChatAttachmentCardLayout.values,
+    initialOption: AppChatAttachmentCardLayout.square,
+    labelBuilder: (l) => 'AppChatAttachmentCardLayout.${l.name}',
+  );
   return wbUseCase(
     context,
     name: 'AppChatAttachmentCard',
     description:
-        'Square attachment card (Claude-style). Image variant needs an '
-        'ImageProvider at runtime.',
+        'Attachment card (Claude-style): square by default, or a horizontal '
+        'row block. Image variant needs an ImageProvider at runtime.',
     child: AppChatAttachmentCard(
       label: label,
       subtitle: subtitle.isEmpty ? null : subtitle,
       size: size,
+      layout: layout,
       style: wbStyleKnob(context),
       onRemove: removable ? () {} : null,
       onTap: viewable ? () {} : null,
@@ -350,7 +357,9 @@ Widget appChatAttachmentCardPlayground(BuildContext context) {
 Widget appChatAttachmentCardKinds(BuildContext context) => wbUseCase(
   context,
   name: 'AppChatAttachmentCard',
-  description: 'Icon + tint resolved per file extension.',
+  description:
+      'Icon + tint resolved per file extension; the last line shows the row '
+      'layout.',
   maxWidth: 720,
   child: Wrap(
     alignment: WrapAlignment.center,
@@ -359,6 +368,12 @@ Widget appChatAttachmentCardKinds(BuildContext context) => wbUseCase(
     children: <Widget>[
       for (final String f in _sampleFiles)
         AppChatAttachmentCard(label: f, onRemove: () {}),
+      AppChatAttachmentCard(
+        label: 'relatorio.pdf',
+        subtitle: '240 KB',
+        layout: AppChatAttachmentCardLayout.row,
+        onRemove: () {},
+      ),
     ],
   ),
 );
