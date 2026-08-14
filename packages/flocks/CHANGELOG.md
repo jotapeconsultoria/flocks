@@ -21,6 +21,45 @@ follows [SemVer](https://semver.org/).
 
 ### Added
 
+- **`AppBadge(icon:)` — o glifo à esquerda do rótulo, casado à caixa de linha.**
+  Slug de `AppIconToken` pintado com o MESMO papel de cor do texto. O tamanho do
+  ícone é a caixa de linha **medida** do label: o `TextPainter` já aplica o
+  `textScaler`, e altura de ícone igual à da linha garante por construção que a
+  pílula com ícone tem a mesma altura da sem — o raio proporcional não se mexe, e
+  o teste pina isso comparando o `BorderRadius` com e sem ícone. A largura medida
+  soma ícone + gap, senão o resolvedor de raio veria uma pílula mais estreita que
+  a real. O glifo fica fora do `SelectionContainer` e é decorativo: o badge segue
+  um nó rotulado único, com o label ORIGINAL. Contador e conteúdo à direita
+  seguem deliberadamente fora.
+
+- **`AppAvatar(fallbackIcon:)` — o glifo do estado sem imagem e sem texto.** Nos
+  dois construtores: o slug que substitui o `user` chumbado quando não há imagem
+  nem texto — o círculo de anexo, a miniatura de entidade. `null` é o glifo de
+  sempre, o texto de fallback continua vencendo o ícone, e a cor do glifo segue o
+  neutro chumbado (abrir a cor é outro item). Cada caminho preserva o próprio
+  regime de escala; os testes de geometria existentes passaram sem edição e os 6
+  goldens do avatar ficaram byte-idênticos.
+
+- **`AppActionItem(direction:)` — a célula da grade de anexos.** `Axis.vertical`
+  empilha ícone sobre rótulo centrado, com o MESMO padding, o mesmo raio e as
+  mesmas cores; `horizontal` (default) segue a linha de sempre, com teste de
+  identidade pinando `getSize` e a ordem ícone-à-esquerda. Abrir a cor por papel
+  continua sendo outro item.
+
+- **`AppColorPickerPanel(showSpectrum:)` — o modo só-presets.** `false` esconde o
+  espectro de edição livre INTEIRO — área de saturação/brilho, barra de matiz e o
+  preview com hex, que pertence à edição livre — deixando só a paleta fixa. Um
+  assert fecha o painel vazio, e o respiro entre seções sai junto com o espectro:
+  só-presets abre direto no rótulo, sem vão órfão. O painel não tinha teste
+  dedicado (a cobertura vinha indireta pelos picker inputs); agora tem.
+
+- **`AppSegment(tooltip:)` — a forma longa do rótulo abreviado.** A classe é
+  DADO, então não dava para embrulhar um segmento em `AppTooltip` por fora: o
+  parâmetro viaja com o segmento e a célula é envolvida DENTRO do
+  `AppSemantics.toggle` (o precedente é o rail colapsado). O nome do controle
+  continua o do toggle; a dica é visual. Sem `tooltip`, a árvore é a de sempre e
+  os 9 goldens do segmented ficaram byte-idênticos.
+
 - **`AppImage.memory` — a terceira variante do átomo de imagem, para o payload
   que não tem URL.** O QR do PIX que chega em base64, o preview de anexo, o
   gráfico renderizado pelo backend. Mesmo contrato da variante de rede
