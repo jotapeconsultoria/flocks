@@ -21,6 +21,18 @@ follows [SemVer](https://semver.org/).
 
 ### Added
 
+- **`AppSlider` — o primeiro slider público do pacote.** Controlado (value +
+  onChanged, estado no chamador, molde do AppRating); `step` quantiza em
+  UNIDADES DO DOMÍNIO (1.0 = inteiros) em vez do `divisions` do Material;
+  `formatValue` é fonte única para o rótulo inline (`showValue`) e para o
+  leitor de tela — um formatador separado criaria a divergência que a Regra 8
+  impede. Nasce com 48px de alvo (sem entrada em kA11yDebt), nó `slider` com
+  onIncrease/onDecrease, setas espelhadas em RTL, Home/End, anel de foco sem
+  duração e `onChangeEnd` para persistência. O catálogo vai a **133**
+  (24·73·36). O hue slider privado do color picker segue como está — a
+  recomposição exigiria trilho-gradiente público por um consumidor interno;
+  fica registrada para rodada própria.
+
 - **`AppQuotedMessage` — o bloco de citação que faltava no chat** (autor +
   prévia + miniatura opcional, atrás de uma barra de acento). Vai de `header`
   numa `AppChatBubble` (a resposta) ou solto no composer (a prévia de

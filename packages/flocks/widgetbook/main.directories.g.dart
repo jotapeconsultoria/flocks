@@ -120,6 +120,8 @@ import 'use_cases/shortcut_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_shortcut_use_cases;
 import 'use_cases/side_sheets_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_side_sheets_use_cases;
+import 'use_cases/slider_use_cases.dart'
+    as _asset_flocks_widgetbook_use_cases_slider_use_cases;
 import 'use_cases/snackbar_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_snackbar_use_cases;
 import 'use_cases/split_button_use_cases.dart'
@@ -1867,6 +1869,26 @@ final directories = <_widgetbook.WidgetbookNode>[
                 name: 'States',
                 builder: _asset_flocks_widgetbook_use_cases_rating_use_cases
                     .ratingStates,
+              ),
+            ],
+          ),
+        ],
+      ),
+      _widgetbook.WidgetbookFolder(
+        name: 'slider',
+        children: [
+          _widgetbook.WidgetbookComponent(
+            name: 'AppSlider',
+            useCases: [
+              _widgetbook.WidgetbookUseCase(
+                name: 'Playground',
+                builder: _asset_flocks_widgetbook_use_cases_slider_use_cases
+                    .appSliderPlayground,
+              ),
+              _widgetbook.WidgetbookUseCase(
+                name: 'States',
+                builder: _asset_flocks_widgetbook_use_cases_slider_use_cases
+                    .appSliderStates,
               ),
             ],
           ),

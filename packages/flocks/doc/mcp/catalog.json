@@ -8691,6 +8691,178 @@
     ]
   },
   {
+    "id": "app_slider",
+    "name": "AppSlider",
+    "category": "molecule",
+    "status": "migrated",
+    "summary": {
+      "en": "Horizontal slider for a value in a range, continuous or stepped.",
+      "pt": "Slider horizontal para um valor num intervalo, contínuo ou por passo."
+    },
+    "description": {
+      "en": "The package's first public slider. Controlled (value + onChanged, state in the caller); onChanged: null disables while KEEPING the semantics node. step quantizes in domain units (1.0 = integers) instead of Material's divisions; formatValue is a single formatting source for the inline label (showValue) and the screen-reader values. The widget is at least 48px tall (born meeting tap-target guidelines) while the track stays thin; the thumb grows while dragging through the motion axis and the focus ring has no duration, surviving reduce-motion. Arrows step (mirrored in RTL), Home/End jump to the extremes; onChangeEnd commits on release.",
+      "pt": "O primeiro slider público do pacote. Controlado (value + onChanged, estado no chamador); onChanged: null desabilita MANTENDO o nó semântico. step quantiza em unidades do domínio (1.0 = inteiros) em vez do divisions do Material; formatValue é fonte única de formatação para o rótulo inline (showValue) e para os valores do leitor de tela. O widget tem no mínimo 48px de altura (nasce cumprindo as diretrizes de alvo de toque) com o trilho fino; o polegar cresce no arraste pelo eixo de motion e o anel de foco não tem duração — sobrevive ao reduce-motion. Setas andam por passo (espelhadas em RTL), Home/End saltam aos extremos; onChangeEnd commita no soltar."
+    },
+    "whenToUse": {
+      "en": [
+        "A numeric setting in a form (a rate, a percentage, a threshold).",
+        "Continuous or stepped values where dragging beats typing."
+      ],
+      "pt": [
+        "Um ajuste numérico num formulário (ritmo, porcentagem, limite).",
+        "Valores contínuos ou por passo onde arrastar ganha de digitar."
+      ]
+    },
+    "whenNotToUse": {
+      "en": [
+        "A handful of discrete labelled options → AppSegmentedButton.",
+        "Exact numeric entry → AppInput with a numeric keyboard."
+      ],
+      "pt": [
+        "Poucas opções discretas com rótulo → AppSegmentedButton.",
+        "Entrada numérica exata → AppInput com teclado numérico."
+      ]
+    },
+    "props": [
+      {
+        "name": "value",
+        "type": "double",
+        "required": true
+      },
+      {
+        "name": "onChanged",
+        "type": "ValueChanged<double>?",
+        "required": true,
+        "description": {
+          "en": "Continuous change during the drag. `null` disables the control.",
+          "pt": "Mudança contínua durante o arraste. `null` desabilita o controle."
+        }
+      },
+      {
+        "name": "min",
+        "type": "double",
+        "required": false,
+        "default": "0.0"
+      },
+      {
+        "name": "max",
+        "type": "double",
+        "required": false,
+        "default": "1.0"
+      },
+      {
+        "name": "step",
+        "type": "double?",
+        "required": false,
+        "description": {
+          "en": "Quantization in domain units (1.0 = integers). `null` = continuous.",
+          "pt": "Quantização em unidades do domínio (1.0 = inteiros). `null` = contínuo."
+        }
+      },
+      {
+        "name": "onChangeEnd",
+        "type": "ValueChanged<double>?",
+        "required": false,
+        "description": {
+          "en": "Commit on release and after each keyboard step.",
+          "pt": "Commit no soltar e após cada passo de teclado."
+        }
+      },
+      {
+        "name": "formatValue",
+        "type": "String Function(double)?",
+        "required": false,
+        "description": {
+          "en": "One source of formatting for the visible label AND the screen reader.",
+          "pt": "Fonte única de formatação para o rótulo visível E o leitor de tela."
+        }
+      },
+      {
+        "name": "showValue",
+        "type": "bool",
+        "required": false,
+        "default": "false"
+      },
+      {
+        "name": "semanticLabel",
+        "type": "String?",
+        "required": false
+      },
+      {
+        "name": "color",
+        "type": "Color?",
+        "required": false,
+        "description": {
+          "en": "Accent override. Default: readableStopOn(primary, surface).",
+          "pt": "Override do acento. Default: readableStopOn(primary, surface)."
+        }
+      },
+      {
+        "name": "trackThickness",
+        "type": "double",
+        "required": false,
+        "default": "AppSizes.s4"
+      },
+      {
+        "name": "thumbSize",
+        "type": "double",
+        "required": false,
+        "default": "AppSizes.s16"
+      }
+    ],
+    "states": [
+      "rest",
+      "dragging",
+      "focused",
+      "at-min",
+      "at-max",
+      "disabled"
+    ],
+    "examples": [
+      {
+        "title": {
+          "en": "Sending rate",
+          "pt": "Ritmo de envio"
+        },
+        "code": "AppSlider(value: ritmo, min: 1, max: 60, step: 1, showValue: true, formatValue: (v) => '${v.round()}/min', semanticLabel: 'Ritmo de envio', onChanged: (v) => setState(() => ritmo = v))"
+      }
+    ],
+    "do": {
+      "en": [
+        "Give it bounded width (Expanded/SizedBox) — it fills what it gets.",
+        "Pass semanticLabel: the node needs a name, not only a value.",
+        "Use formatValue when the unit matters (\"42/min\", not \"42\")."
+      ],
+      "pt": [
+        "Dê largura limitada (Expanded/SizedBox) — ele preenche o que recebe.",
+        "Passe semanticLabel: o nó precisa de nome, não só de valor.",
+        "Use formatValue quando a unidade importa (\"42/min\", não \"42\")."
+      ]
+    },
+    "dont": {
+      "en": [
+        "Do not reach for it when typing is more precise — that is an input.",
+        "Do not rebuild heavy work in onChanged; persist in onChangeEnd."
+      ],
+      "pt": [
+        "Não o use quando digitar é mais preciso — isso é um input.",
+        "Não faça trabalho pesado no onChanged; persista no onChangeEnd."
+      ]
+    },
+    "a11y": {
+      "en": "One slider node: label, value, increasedValue/decreasedValue (all through formatValue) and onIncrease/onDecrease for the adjust gesture. Arrows step, mirrored in RTL; Home/End jump to the extremes. Disabled keeps the node with enabled: false. The whole widget is a 48px-tall opaque hit area; the visible label is excluded from semantics so the value is not read twice.",
+      "pt": "Um nó slider: label, value, increasedValue/decreasedValue (tudo via formatValue) e onIncrease/onDecrease para o gesto de ajustar. Setas andam por passo, espelhadas em RTL; Home/End saltam aos extremos. Desabilitado mantém o nó com enabled: false. O widget inteiro é área de toque opaca de 48px; o rótulo visível fica fora da semântica para o valor não ser lido duas vezes."
+    },
+    "crossPlatform": true,
+    "themeAware": true,
+    "reducesMotion": true,
+    "related": [
+      "app_rating",
+      "app_segmented_button",
+      "app_input"
+    ]
+  },
+  {
     "id": "app_segmented_button",
     "name": "AppSegmentedButton",
     "category": "molecule",

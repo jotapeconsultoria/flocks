@@ -2,9 +2,9 @@
 //
 // Nada de fixture: se o teste rodasse sobre dois componentes inventados, ele
 // provaria que o código compila e nada sobre o que o servidor entrega. Os
-// números aqui (132 componentes, 24·72·36 por categoria) são os do catálogo de
+// números aqui (133 componentes, 24·73·36 por categoria) são os do catálogo de
 // verdade, e é de propósito que envelheçam junto com ele — quando o `flocks`
-// ganhar o 133º, este arquivo fica vermelho e alguém decide conscientemente se
+// ganhar o 134º, este arquivo fica vermelho e alguém decide conscientemente se
 // o contrato mudou. É o mesmo princípio dos gates de contagem do pacote irmão.
 //
 // A camada exercitada é `runTool`, não o processo: argumentos entrando,
@@ -47,17 +47,17 @@ String text(CallToolResult result) =>
 
 void main() {
   group('list_components', () {
-    test('devolve os 132 componentes do catálogo', () {
+    test('devolve os 133 componentes do catálogo', () {
       final Map<String, Object?> out = call('list_components');
-      expect(out['count'], 132);
-      expect((out['components']! as List<Object?>).length, 132);
+      expect(out['count'], 133);
+      expect((out['components']! as List<Object?>).length, 133);
       expect(out['lang'], 'en');
     });
 
     test('cada item traz id, name e summary — e nada além', () {
       // O contrato do ROADMAP diz "id, nome e summary de cada componente". O
       // recorte é a razão de a tool existir separada de `get_component`:
-      // devolver as 132 fichas inteiras seriam ~490 KB numa resposta só.
+      // devolver as 133 fichas inteiras seriam ~490 KB numa resposta só.
       final Map<String, Object?> first =
           (call('list_components')['components']! as List<Object?>).first
               as Map<String, Object?>;
@@ -81,8 +81,8 @@ void main() {
                 'category': 'organism',
               })['count']!
               as int;
-      expect(<int>[atoms, molecules, organisms], <int>[24, 72, 36]);
-      expect(atoms + molecules + organisms, 132);
+      expect(<int>[atoms, molecules, organisms], <int>[24, 73, 36]);
+      expect(atoms + molecules + organisms, 133);
     });
 
     test('categoria inválida erra dizendo as válidas', () {
@@ -202,7 +202,7 @@ void main() {
       expect(message, contains('Unknown component id "appbadge"'));
       expect(message, contains('"app_badge"'));
       expect(message, contains('list_components'));
-      expect(message, contains('132'));
+      expect(message, contains('133'));
     });
 
     test('id sem nenhum vizinho ainda aponta a saída', () {

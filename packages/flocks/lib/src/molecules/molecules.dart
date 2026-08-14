@@ -25,6 +25,7 @@ export 'pagination/pagination.dart';
 export 'pickers/pickers.dart';
 export 'popover/popover.dart';
 export 'rating/rating.dart';
+export 'slider/slider.dart';
 export 'snackbar/snackbar.dart';
 export 'time_picker/time_picker.dart';
 export 'tooltip/tooltip.dart';

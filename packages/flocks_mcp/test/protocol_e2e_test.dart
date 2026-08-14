@@ -210,7 +210,7 @@ void main() {
       );
     });
 
-    test('tools/call list_components devolve os 132', () async {
+    test('tools/call list_components devolve os 133', () async {
       final Map<String, Object?> result = resultOf(
         await server.request('tools/call', <String, Object?>{
           'name': 'list_components',
@@ -219,7 +219,7 @@ void main() {
       );
       final Map<String, Object?> payload =
           jsonDecode(contentText(result)) as Map<String, Object?>;
-      expect(payload['count'], 132);
+      expect(payload['count'], 133);
       expect(payload['lang'], 'en');
     });
 

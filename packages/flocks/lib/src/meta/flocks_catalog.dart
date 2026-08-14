@@ -83,6 +83,7 @@ import '../molecules/pagination/app_pagination.meta.dart';
 import '../molecules/pickers/app_picker_anchor.meta.dart';
 import '../molecules/popover/app_popover.meta.dart';
 import '../molecules/rating/app_rating.meta.dart';
+import '../molecules/slider/app_slider.meta.dart';
 import '../molecules/snackbar/snackbar.meta.dart';
 import '../molecules/time_picker/time_picker.meta.dart';
 import '../molecules/tooltip/app_tooltip.meta.dart';
@@ -178,6 +179,7 @@ const List<AppComponentMeta> flocksCatalog = <AppComponentMeta>[
   appPickerAnchorMeta,
   appPopoverMeta,
   appRatingMeta,
+  appSliderMeta,
   appSegmentedButtonMeta,
   appSplitButtonMeta,
   appSnackbarMeta,
