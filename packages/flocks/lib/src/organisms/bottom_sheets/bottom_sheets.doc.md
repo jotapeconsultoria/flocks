@@ -29,7 +29,9 @@ Panels anchored to the **bottom** of the screen.
 
 ## Top bar (chrome)
 
-- A centered **handle** (grabber) — only when `showHandle` (draggable).
+- A centered **handle** (grabber) — `showHandle`, in **both** modes: on the
+  static card it is a visual affordance; on the draggable one, the invitation
+  to drag.
 - An optional, centered **title**.
 - A **close button** — an icon-only `AppButton` in a circular chip, on by default
   (`showCloseButton`, default `true`); side through `closeSide` (`start`/`end`,
@@ -66,6 +68,10 @@ when the scroll is at the top.
 - **Barrier**: the theme's `neutralPrimary.barrier()`, dismissible by default.
 - **Root navigator**: `useRootNavigator: true` covers the bottom navigation. The
   design system does **not** depend on a router.
+- **Keyboard**: the route lifts the whole sheet by `viewInsets.bottom`
+  (animated, motion-aware), so a focused text field inside stays visible —
+  in all three modes (static, draggable, page). The inset is consumed before
+  the content builds: do **not** compensate it again inside the sheet.
 
 ## Global axes
 
