@@ -21,11 +21,18 @@ import '../tooltip/tooltip.dart';
 
 /// Altura MÍNIMA do chip (px).
 ///
-/// Igual a `AppButtonSize.s.height` de propósito: numa barra de filtros o chip
-/// convive com botões `s`, e dois alvos de alturas diferentes lado a lado leem
-/// como dois componentes distintos. É MÍNIMA, e não fixa: com text-scale alto o
-/// chip cresce em vez de cortar o rótulo (mesma escolha do `AppBadge`).
-const double kAppChoiceChipMinHeight = 40.0;
+/// É o piso de alvo de toque do iOS (44×44), e não os 40 do
+/// `AppButtonSize.s` — a diferença de 4px contra um botão `s` ao lado numa
+/// barra de filtros foi aceita de propósito: um componente que NASCE agora não
+/// nasce devendo acessibilidade, e a dívida de alvo que o pacote já carrega
+/// (`kA11yDebt`) é herdada, não escolhida. Os 48×48 do Android continuam
+/// fora de alcance sem mudar a densidade da barra inteira; essa parte segue
+/// registrada como dívida, e o gate de alvo iOS existe para o número não
+/// escorregar de volta.
+///
+/// É MÍNIMA, e não fixa: com text-scale alto o chip cresce em vez de cortar o
+/// rótulo (mesma escolha do `AppBadge`).
+const double kAppChoiceChipMinHeight = 44.0;
 
 /// Chip **selecionável** — uma opção de um conjunto, com contador opcional.
 ///

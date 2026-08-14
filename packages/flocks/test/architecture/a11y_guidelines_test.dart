@@ -8,8 +8,13 @@
 // `iOSTapTargetGuideline` (44×44) reprovam hoje os três seletores (24×24) e o
 // `AppButton` de tamanho `s` (40). Corrigir muda a GEOMETRIA do DS — um
 // checkbox passaria a reservar 48px em todo formulário —, então é decisão de
-// dono, não de teste. A medida está registrada em `kTapTargetDebt` abaixo para
+// dono, não de teste. A medida está registrada em `kA11yDebt` abaixo para
 // não virar omissão silenciosa.
+//
+// Entre o "cumpre os dois" e o "não cumpre nenhum" há um degrau: o
+// `AppChoiceChip` nasceu nos 44 do iOS e não alcança os 48 do Android. Ele é
+// medido pelo gate de iOS (`iosApenas`) e a metade que falta segue na dívida —
+// meio caminho MEDIDO vale mais que promessa inteira em prosa.
 import 'package:flocks/flocks.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -24,7 +29,11 @@ const Map<String, String> kA11yDebt = <String, String>{
   'AppSwitch (alvo)': '24×24',
   'AppRadio (alvo)': '24×24',
   'AppButton(size: s) (alvo)': 'altura 40',
-  'AppChoiceChip (alvo)': 'altura mínima 40 · mínimo 48×48 Android / 44×44 iOS',
+  // Atende o piso do iOS e é medido por gate (ver `iosApenas`); o que falta é
+  // o do Android, que custaria a densidade da barra de filtros inteira.
+  'AppChoiceChip (alvo)':
+      'altura mínima 44 · atende 44×44 iOS, '
+      'abaixo dos 48×48 Android',
 };
 
 Widget _host(Widget child, {bool dark = false, AppBrandConfig? brand}) {
@@ -82,6 +91,34 @@ void main() {
         handle.dispose();
       });
 
+      testWidgets('${e.key} — alvo de toque iOS (44×44)', (
+        WidgetTester tester,
+      ) async {
+        final SemanticsHandle handle = tester.ensureSemantics();
+        await tester.pumpWidget(_host(e.value));
+        await tester.pumpAndSettle();
+        await expectLater(tester, meetsGuideline(iOSTapTargetGuideline));
+        handle.dispose();
+      });
+    }
+
+    // Alvos que atendem o piso do iOS e ainda não o do Android. A lista existe
+    // para a metade cumprida ser MEDIDA: sem gate, os 44 do chip voltariam a
+    // escorregar para os 40 do botão `s` no primeiro ajuste de densidade, e a
+    // única testemunha seria uma linha de prosa em `kA11yDebt`. Entrar aqui é
+    // promessa de meio caminho — quem fechar os 48×48 move a entrada para
+    // `comfortable` e tira a linha da dívida.
+    final Map<String, Widget> iosApenas = <String, Widget>{
+      'AppChoiceChip': AppChoiceChip(
+        label: 'Novos',
+        count: 8,
+        selected: true,
+        semanticLabel: 'Novos, 8 conversas na fila',
+        onChanged: (_) {},
+      ),
+    };
+
+    for (final MapEntry<String, Widget> e in iosApenas.entries) {
       testWidgets('${e.key} — alvo de toque iOS (44×44)', (
         WidgetTester tester,
       ) async {

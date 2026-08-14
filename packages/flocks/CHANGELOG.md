@@ -30,8 +30,12 @@ follows [SemVer](https://semver.org/).
   e o teste compara contra o resolvedor para nunca divergirem. A barra rola
   onde o segmented estoura (células de largura própria + véu de borda), com
   ←/→ andando pelos chips e o focado rolado até aparecer; o `.multi` devolve
-  SEMPRE um `Set` novo. Altura mínima 40 registrada em `kA11yDebt` (o número
-  do AppButton s). O catálogo vai a **135** (24·75·36).
+  SEMPRE um `Set` novo. Altura mínima **44**, o piso de alvo de toque do iOS —
+  e não os 40 do `AppButton(size: s)`: um componente que nasce agora não nasce
+  devendo acessibilidade, e a diferença de 4px contra um botão `s` ao lado foi
+  o preço aceito. Os 48×48 do Android seguem em `kA11yDebt`, porque fechá-los
+  custaria a densidade da barra inteira; a metade cumprida é medida por gate,
+  para o número não escorregar de volta. O catálogo vai a **135** (24·75·36).
 
 - **`AppSlider` — o primeiro slider público do pacote.** Controlado (value +
   onChanged, estado no chamador, molde do AppRating); `step` quantiza em

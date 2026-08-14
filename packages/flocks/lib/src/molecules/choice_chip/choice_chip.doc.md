@@ -38,7 +38,8 @@ is the filter bar: single or multiple selection over a typed list of options.
 - **Count pill**: `fg` at 18% behind a w700 `labelSmall` — one formula for
   both states. `count: null` renders nothing; `count: 0` renders "0" (hiding
   the zero is the caller's decision).
-- Minimum height **40** (= `AppButtonSize.s`), growing with text scale.
+- Minimum height **44** (the iOS tap-target floor, not the 40 of
+  `AppButtonSize.s`), growing with text scale.
 - Focus ring outside, with **no duration** — it survives reduce-motion.
   Press-scale 0.97 only while motion is enabled.
 
@@ -71,9 +72,10 @@ is the filter bar: single or multiple selection over a typed list of options.
 - `tooltip` reaches `Semantics.tooltip`, not only the pixel.
 - `AppChoiceChipBar` names the GROUP (`semanticLabel`) through a menu node —
   without it the reader hears six loose toggles.
-- Tap target: minimum height 40 — registered in `kA11yDebt` (the same 40 of
-  `AppButton(size: s)`); on touch-first screens give the bar extra vertical
-  padding.
+- Tap target: minimum height 44 — it meets the iOS floor (44×44) and is
+  measured by a gate; the Android floor (48×48) is not met and stays
+  registered in `kA11yDebt`. On touch-first screens give the bar extra
+  vertical padding.
 
 ## Example
 

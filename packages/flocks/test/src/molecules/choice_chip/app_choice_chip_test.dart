@@ -270,7 +270,7 @@ void main() {
     );
   });
 
-  testWidgets('altura mínima 40 com texto padrão', (tester) async {
+  testWidgets('altura mínima com texto padrão', (tester) async {
     await tester.pumpWidget(
       _host(AppChoiceChip(label: 'N', selected: false, onChanged: (_) {})),
     );

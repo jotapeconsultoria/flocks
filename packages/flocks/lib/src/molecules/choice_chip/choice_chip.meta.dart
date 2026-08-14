@@ -11,7 +11,7 @@ const AppComponentMeta appChoiceChipMeta = AppComponentMeta(
     pt: 'Chip selecionável — uma opção de um conjunto, com contador opcional.',
   ),
   description: LocalizedText(
-    en: 'The third chip of the package and the only one with CHOICE state: AppFilterChip shows a filter already applied, AppSuggestionChip invites an action, this one answers "which of these is in effect". One target under TOGGLE semantics (checked/inMutuallyExclusiveGroup). Selected paints the filled accent — the SAME appFilledButtonColors resolver of the primary role that AppSegmentedButton consumes, so the two cannot drift; unselected is the AppStyle axis container with a neutral hover veil. Selection changes label weight AND fill, never one alone. The count pill (fg at 18%) exists because in a filter bar the number is part of the decision; count: null renders nothing, count: 0 renders "0". Minimum height 40, growing with text scale.',
+    en: 'The third chip of the package and the only one with CHOICE state: AppFilterChip shows a filter already applied, AppSuggestionChip invites an action, this one answers "which of these is in effect". One target under TOGGLE semantics (checked/inMutuallyExclusiveGroup). Selected paints the filled accent — the SAME appFilledButtonColors resolver of the primary role that AppSegmentedButton consumes, so the two cannot drift; unselected is the AppStyle axis container with a neutral hover veil. Selection changes label weight AND fill, never one alone. The count pill (fg at 18%) exists because in a filter bar the number is part of the decision; count: null renders nothing, count: 0 renders "0". Minimum height 44 — the iOS tap-target floor, not the 40 of AppButtonSize.s — growing with text scale.',
     pt:
         'O terceiro chip do pacote e o único com estado de ESCOLHA: o '
         'AppFilterChip mostra um filtro já aplicado, o AppSuggestionChip '
@@ -24,7 +24,8 @@ const AppComponentMeta appChoiceChipMeta = AppComponentMeta(
         'rótulo E preenchimento, nunca um só. A pílula do contador (fg a 18%) '
         'existe porque numa barra de filtros o número é parte da decisão; '
         'count: null não renderiza nada, count: 0 renderiza "0". Altura '
-        'mínima 40, crescendo com o text-scale.',
+        'mínima 44 — o piso de alvo do iOS, e não os 40 do AppButtonSize.s '
+        '—, crescendo com o text-scale.',
   ),
   whenToUse: LocalizedList(
     en: <String>[
@@ -140,15 +141,16 @@ const AppComponentMeta appChoiceChipMeta = AppComponentMeta(
     ],
   ),
   a11y: LocalizedText(
-    en: 'One toggle node: checked, inMutuallyExclusiveGroup (default on), hasEnabledState. Default label is "<label> (<count>)" — which does NOT name the unit; a bar with counts should pass semanticLabel ("Novos, 8 conversas na fila"). tooltip reaches Semantics.tooltip. The focus ring has no duration and survives reduce-motion. Minimum height 40 is registered tap-target debt (the AppButton size-s number); give the bar extra padding on touch-first screens.',
+    en: 'One toggle node: checked, inMutuallyExclusiveGroup (default on), hasEnabledState. Default label is "<label> (<count>)" — which does NOT name the unit; a bar with counts should pass semanticLabel ("Novos, 8 conversas na fila"). tooltip reaches Semantics.tooltip. The focus ring has no duration and survives reduce-motion. Minimum height 44 meets the iOS tap-target floor (44x44) and is measured by a gate; the Android floor (48x48) is not met and stays registered in kA11yDebt. Give the bar extra padding on touch-first screens.',
     pt:
         'Um nó toggle: checked, inMutuallyExclusiveGroup (default ligado), '
         'hasEnabledState. O rótulo default é "<label> (<count>)" — que NÃO '
         'nomeia a unidade; barra com contador deve passar semanticLabel '
         '("Novos, 8 conversas na fila"). tooltip chega a Semantics.tooltip. O '
         'anel de foco não tem duração e sobrevive ao reduce-motion. A altura '
-        'mínima 40 é dívida registrada de alvo de toque (o mesmo número do '
-        'AppButton s); dê respiro extra à barra em telas de toque.',
+        'mínima 44 atende o piso de alvo do iOS (44x44) e é medida por gate; '
+        'o piso do Android (48x48) não é atendido e segue registrado em '
+        'kA11yDebt. Dê respiro extra à barra em telas de toque.',
   ),
   crossPlatform: true,
   themeAware: true,
