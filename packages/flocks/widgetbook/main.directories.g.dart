@@ -2382,6 +2382,11 @@ final directories = <_widgetbook.WidgetbookNode>[
                     .dialogPlayground,
               ),
               _widgetbook.WidgetbookUseCase(
+                name: 'Scenario',
+                builder: _asset_flocks_widgetbook_use_cases_dialogs_use_cases
+                    .dialogConfirmScenario,
+              ),
+              _widgetbook.WidgetbookUseCase(
                 name: 'States',
                 builder: _asset_flocks_widgetbook_use_cases_dialogs_use_cases
                     .dialogStates,

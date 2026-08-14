@@ -17,6 +17,30 @@ follows [SemVer](https://semver.org/).
 > surprise. It graduates to `1.0.0` once the API holds still through a few
 > outside adopters.
 
+## [Unreleased]
+
+### Added
+
+- **`showAppConfirm` — a confirmação sim/não como função, sobre o
+  `showAppDialog`.** Devolve `Future<bool>` que **nunca é nulo**: confirmar
+  resolve `true`; cancelar, barrier, "X" e Esc resolvem `false`. A normalização
+  é a razão de a função existir — sem ela cada chamador remonta corpo + rodapé
+  e escreve `== true` no final. `destructive:` liga o papel `danger` no botão
+  de confirmar E no acento da ilustração (o contrato do `accentRole`);
+  `confirmColor:` sobrescreve o papel sem desligar a semântica. Uma guarda
+  `appRouteIsTopmost` faz de dois toques rápidos um pop só. É função, não
+  widget: não tem entrada própria no catálogo (precedente dos helpers `show*`)
+  e vive documentada na ficha do `AppDialog`.
+
+### Changed
+
+- **`AppDialogContent.illustration` ficou opcional (`String?`).** `null` tira o
+  bloco da arte inteiro do layout — os dois respiros de 64 e a ilustração — e o
+  corpo fecha com um respiro de 32: é o corpo do diálogo de confirmação puro,
+  que é maioria. Source-compatible para quem constrói (todo chamador passa
+  named param); quem **lê** o campo como `String` não-nulável precisa de `?`
+  agora — daí a linha aqui.
+
 ## [0.1.2] - 2026-08-12
 
 A marca aprende a se escrever. É a única feature de pacote que o ROADMAP prevê,

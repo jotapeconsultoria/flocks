@@ -81,6 +81,19 @@ final RegExp kCabecalhoDeSecao = RegExp(
   r'^\[(\d+\.\d+\.\d+)\](?: - (\d{4}-\d{2}-\d{2}))?$',
 );
 
+/// O balde do ciclo em curso: `## [Unreleased]`, sem data.
+///
+/// A recusa original a este cabeçalho partia de "os seis arquivos bumpam
+/// pubspec e CHANGELOG no mesmo commit" — verdade no dia do corte, mas o
+/// ciclo 0.2.0 acumula PRs de feature ANTES do corte, e cada um precisa de
+/// uma linha de CHANGELOG que ainda não tem versão para chamar de sua.
+/// A convenção mudou aqui, à vista: entre cortes existe NO MÁXIMO UM
+/// `[Unreleased]`, sempre no topo; o PR de release o carimba em
+/// `[X.Y.Z] - AAAA-MM-DD` junto com o bump do pubspec. Ele fica fora de
+/// `secoes` de propósito — os gates de versão, data e ordem seguem medindo só
+/// a linha publicada.
+final RegExp kCabecalhoUnreleased = RegExp(r'^\[Unreleased\]$');
+
 void main() {
   final Directory? raizDoRepo = _acharRaizDeWorkspace();
   final Directory? raizDoGit = _acharRaizDeGit();
@@ -262,20 +275,49 @@ void main() {
       });
 
       test('todo cabeçalho `##` é uma seção de versão bem formada', () {
-        // Inclui recusar `## [Unreleased]`. Os seis arquivos bumpam pubspec e
-        // CHANGELOG no mesmo commit, e um balde de "não lançado" no topo
-        // desalinharia a seção de cima do `version:` — que é justamente o
-        // gate seguinte. Se a convenção mudar, ela muda aqui, à vista.
+        // Duas formas, e só duas: `[X.Y.Z]( - data)` ou o balde único
+        // `[Unreleased]` do ciclo em curso (ver kCabecalhoUnreleased — a
+        // disciplina dele é o gate seguinte).
         for (final _Pacote p in publicaveis) {
           for (final _Cabecalho c in p.cabecalhos) {
             expect(
-              kCabecalhoDeSecao.hasMatch(c.texto),
+              kCabecalhoDeSecao.hasMatch(c.texto) ||
+                  kCabecalhoUnreleased.hasMatch(c.texto),
               isTrue,
               reason:
                   '${p.nome}/CHANGELOG.md:${c.linha} — li `## ${c.texto}`. '
-                  'O formato é `## [X.Y.Z] - AAAA-MM-DD`, com a data '
-                  'opcional apenas nos marcos internos anteriores à primeira '
-                  'publicação.',
+                  'O formato é `## [X.Y.Z] - AAAA-MM-DD` (data opcional '
+                  'apenas nos marcos internos anteriores à primeira '
+                  'publicação) ou o `## [Unreleased]` único do ciclo em '
+                  'curso.',
+            );
+          }
+        }
+      });
+
+      test('[Unreleased] é no máximo um, e mora no topo', () {
+        // Sem esta disciplina o balde viraria porta de fuga: dois baldes, ou
+        // um balde abaixo de uma versão datada, e a leitura "de cima é o mais
+        // recente" quebra sem nenhum gate reclamar.
+        for (final _Pacote p in publicaveis) {
+          final List<_Cabecalho> baldes = p.cabecalhos
+              .where((_Cabecalho c) => kCabecalhoUnreleased.hasMatch(c.texto))
+              .toList();
+          expect(
+            baldes.length,
+            lessThanOrEqualTo(1),
+            reason:
+                '${p.nome}/CHANGELOG.md tem ${baldes.length} seções '
+                '`[Unreleased]`. O ciclo em curso é um só — funda os baldes.',
+          );
+          if (baldes.isNotEmpty) {
+            expect(
+              p.cabecalhos.first.texto,
+              baldes.first.texto,
+              reason:
+                  '${p.nome}/CHANGELOG.md:${baldes.first.linha} — o '
+                  '`[Unreleased]` está abaixo de uma seção de versão. Quem '
+                  'lê o arquivo lê de cima; o ciclo em curso mora no topo.',
             );
           }
         }
