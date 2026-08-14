@@ -209,7 +209,7 @@ const AppComponentMeta appTimePickerInputMeta = AppComponentMeta(
   props: <PropMeta>[
     PropMeta(
       name: 'onTimeSelected',
-      type: 'ValueChanged<TimeOfDay>',
+      type: 'ValueChanged<({int hour, int minute, int second})>',
       isRequired: true,
     ),
     PropMeta(name: 'initialHour', type: 'int?'),

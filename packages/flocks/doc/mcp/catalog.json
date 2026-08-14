@@ -3564,7 +3564,7 @@
     "props": [
       {
         "name": "onTimeSelected",
-        "type": "ValueChanged<TimeOfDay>",
+        "type": "ValueChanged<({int hour, int minute, int second})>",
         "required": true
       },
       {
