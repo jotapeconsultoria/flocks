@@ -21,6 +21,18 @@ follows [SemVer](https://semver.org/).
 
 ### Added
 
+- **`AppChoiceChip` + `AppChoiceChipBar` — o chip selecionável que faltava e a
+  barra de filtros que o AppSegmentedButton não atende.** O terceiro chip do
+  pacote é o único com estado de ESCOLHA: UM alvo sob semântica de toggle
+  (checked/inMutuallyExclusiveGroup), contador em pílula própria (colar o
+  número no rótulo mata o alinhamento), selecionado no MESMO
+  `appFilledButtonColors` do AppSegmentedButton — os dois respondem "um de N"
+  e o teste compara contra o resolvedor para nunca divergirem. A barra rola
+  onde o segmented estoura (células de largura própria + véu de borda), com
+  ←/→ andando pelos chips e o focado rolado até aparecer; o `.multi` devolve
+  SEMPRE um `Set` novo. Altura mínima 40 registrada em `kA11yDebt` (o número
+  do AppButton s). O catálogo vai a **135** (24·75·36).
+
 - **`AppSlider` — o primeiro slider público do pacote.** Controlado (value +
   onChanged, estado no chamador, molde do AppRating); `step` quantiza em
   UNIDADES DO DOMÍNIO (1.0 = inteiros) em vez do `divisions` do Material;

@@ -24,6 +24,7 @@ const Map<String, String> kA11yDebt = <String, String>{
   'AppSwitch (alvo)': '24×24',
   'AppRadio (alvo)': '24×24',
   'AppButton(size: s) (alvo)': 'altura 40',
+  'AppChoiceChip (alvo)': 'altura mínima 40 · mínimo 48×48 Android / 44×44 iOS',
 };
 
 Widget _host(Widget child, {bool dark = false, AppBrandConfig? brand}) {
@@ -121,6 +122,13 @@ void main() {
         icon: AppIcons.add,
         semanticsLabel: 'Novo',
         onPressed: () {},
+      ),
+      'AppChoiceChip': AppChoiceChip(
+        label: 'Novos',
+        count: 8,
+        selected: true,
+        semanticLabel: 'Novos, 8 conversas na fila',
+        onChanged: (_) {},
       ),
     };
 
