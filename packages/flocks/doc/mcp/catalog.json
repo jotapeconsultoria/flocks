@@ -4525,6 +4525,16 @@
         "type": "bool",
         "required": false,
         "default": "true"
+      },
+      {
+        "name": "showSpectrum",
+        "type": "bool",
+        "required": false,
+        "default": "true",
+        "description": {
+          "en": "Shows the free-editing spectrum (saturation area, hue bar and the hex preview). False = presets-only, the fixed-palette picker; at least one of the two sections must stay on (asserted).",
+          "pt": "Mostra o espectro de edição livre (área de saturação, barra de matiz e o preview com hex). False = só-presets, o seletor de paleta fixa; pelo menos uma das duas seções fica ligada (assert)."
+        }
       }
     ],
     "states": [
