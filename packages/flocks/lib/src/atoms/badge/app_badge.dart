@@ -1,9 +1,12 @@
+import 'dart:math' as math;
+
 import 'package:flutter/widgets.dart';
 
 import '../../foundation/foundation.dart';
 import '../../motion/motion.dart';
 import '../../theme/theme.dart';
 import '../../tokens/tokens.dart';
+import '../icons/icons.dart';
 import '../texts/texts.dart';
 import 'badge_interaction.dart';
 
@@ -116,6 +119,7 @@ final class AppBadge extends StatelessWidget {
   const AppBadge(
     this.label, {
     this.color = AppBadgeColor.neutral,
+    this.icon,
     this.size = AppBadgeSize.m,
     this.style,
     this.background,
@@ -138,6 +142,12 @@ final class AppBadge extends StatelessWidget {
 
   /// The semantic color role. Defaults to [AppBadgeColor.neutral].
   final AppBadgeColor color;
+
+  /// Optional [AppIconToken] slug painted LEFT of the label, in the same
+  /// role color as the text and sized to the label's line box (it scales with
+  /// text scale and never changes the pill's height — so the proportional
+  /// radius stays put). `null` = the text-only pill of always.
+  final String? icon;
 
   /// Named size — drives the inner padding and the label text role. Defaults to
   /// [AppBadgeSize.m] (the historical look).
@@ -206,9 +216,17 @@ final class AppBadge extends StatelessWidget {
       textScaler: MediaQuery.textScalerOf(context),
       maxLines: 1,
     )..layout();
+    // O ícone casa com a CAIXA DE LINHA medida do label (painter.height): o
+    // TextPainter já aplica o textScaler, e altura do ícone == altura da linha
+    // garante por construção que a pílula com ícone tem a MESMA altura da sem
+    // — o raio proporcional (redondo = fração da altura) não se mexe.
+    final double iconSize = painter.height;
     final Size pillSize = Size(
-      painter.width + size.padding.horizontal,
-      painter.height + size.padding.vertical,
+      painter.width +
+          (icon == null ? 0 : AppSpacings.s4 + iconSize) +
+          size.padding.horizontal,
+      math.max(painter.height, icon == null ? 0 : iconSize) +
+          size.padding.vertical,
     );
     painter.dispose();
     final BorderRadius br = radius ?? theme.radiusTheme.resolve(size: pillSize);
@@ -254,9 +272,23 @@ final class AppBadge extends StatelessWidget {
       // texto para não roubar o clique (a seleção venceria o tap na arena de
       // gestos, dentro de uma SelectionArea). Ver button_core.
       final Widget label0 = AppText(_text, style: labelStyle);
-      final Widget content = onTap == null
+      final Widget labelW = onTap == null
           ? label0
           : SelectionContainer.disabled(child: label0);
+      // O ícone fica FORA do SelectionContainer (SVG não participa de seleção)
+      // e é decorativo por construção (AppIcon sem semanticLabel) — o badge
+      // continua um nó rotulado único.
+      final Widget content = icon == null
+          ? labelW
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                AppIcon(icon!, color: roleColor, customSize: iconSize),
+                const SizedBox(width: AppSpacings.s4),
+                labelW,
+              ],
+            );
       final Widget filled = animated
           ? AnimatedContainer(
               duration: AppMotion.resolve(context, AppDurations.fast),
