@@ -980,6 +980,48 @@ void main() {
       expect(built.where((i) => i < 900), isEmpty);
     });
 
+    testWidgets('sob altura ILIMITADA a lista não virtualiza — o custo medido', (
+      tester,
+    ) async {
+      // O par do teste acima, e o motivo de ele existir: com altura ilimitada
+      // (lista embutida numa página rolável) o `shrinkWrap` entra e TODOS os
+      // itens são construídos. Isso é escolha registrada — sem ele a lista
+      // estouraria dentro de uma Column sem Expanded, quebrando quem já a monta
+      // assim —, mas é o defeito que o DS-A1 consertou, de volta por uma porta
+      // nomeada. Documentado no dartdoc e no doc.md; aqui ele passa a ser
+      // MEDIDO: se um dia a porta fechar (ou abrir mais), este número muda e
+      // alguém lê. Sem isto, a única prova do caminho era "não estourou".
+      final Set<int> built = <int>{};
+      await tester.pumpWidget(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: MediaQuery(
+            data: const MediaQueryData(),
+            child: AppTheme(
+              data: AppThemeData.light,
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: 300,
+                  child: AppChatMessageList(
+                    itemCount: 200,
+                    itemBuilder: (BuildContext context, int i) {
+                      built.add(i);
+                      return SizedBox(height: 40, child: Text('msg $i'));
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      expect(
+        built.length,
+        200,
+        reason: 'altura ilimitada materializa a conversa inteira',
+      );
+    });
+
     testWidgets('stickToBottom ancora poucos itens na base, em ordem', (
       tester,
     ) async {
