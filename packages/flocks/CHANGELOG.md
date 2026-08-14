@@ -60,6 +60,55 @@ follows [SemVer](https://semver.org/).
   continua o do toggle; a dica é visual. Sem `tooltip`, a árvore é a de sempre e
   os 9 goldens do segmented ficaram byte-idênticos.
 
+- **`AppListTileGroup(title:)` — o rótulo de seção acima do card.** Mesmo traje do
+  título de seção do `AppMenu` (a classe de lá é privada; o desenho foi duplicado
+  com a referência anotada). Fica FORA do container de propósito: o card é o
+  conteúdo, o rótulo separa grupos numa lista seccionada. `null` é a árvore de
+  sempre, provada por teste dedicado — o grupo não tinha nenhum.
+
+- **`AppTileInfo` deita na linha de ficha e ganha ícone.** `AppTileInfoLayout
+  {vertical, horizontal}`, default `vertical` — e sem `icon` o vertical é nó a nó
+  a `Column` de sempre. O horizontal é a linha de ficha que oito pontos do
+  consumidor montavam com larguras mágicas: rótulo à esquerda com o ícone
+  opcional na mesma cor muted, valor no `Expanded` à direita.
+
+- **`AppSimpleDataTable(columnFlex:)` — a coluna larga sem sair do flex.** Fator
+  por coluna (`[2.2, 1, 1]`); `null` é a repartição uniforme de sempre. O
+  mecanismo continua o dos dois caminhos de hoje: com largura finita vira
+  `FlexColumnWidth`, sem largura vira `IntrinsicColumnWidth(flex:)`, que reparte
+  só a sobra. O nome diverge do `columnWidths` do `AppDataTable` de propósito —
+  lá é pixel, aqui é proporção: duas semânticas, dois nomes.
+
+- **`showAppSnackbar` ganha o toast de uma frase, o papel de aviso e o canto.**
+  `title` vira opcional com `type` defaultando para `info` — sem título a linha
+  some, o ícone centraliza com a mensagem e ela assume `onSurface`, por ser o
+  único conteúdo do card. `AppSnackbarType` ganha `warning`, com o mesmo âmbar e
+  o mesmo ícone do `AppAlert` — era o único papel semântico que o alerta tinha e
+  a snackbar não. E `position` deixa de ser chumbado (default `bottomRight`; no
+  celular o esperado é `bottomCenter`). **Atenção na migração:** erro precisa
+  passar `type` explícito — com o default `info`, remover o tipo troca vermelho
+  por azul em silêncio.
+
+- **`AppMenuItem(subtitle:)` — a prévia de duas linhas.** Até 2 linhas com
+  ellipsis, no mesmo par do chrome de seção do menu, esmaecidas junto com o label
+  quando desabilitado. O rótulo semântico soma as duas linhas, então o leitor
+  ouve a prévia sem navegar para dentro do item. Sem `subtitle` a linha é nó a nó
+  a de sempre e os 12 goldens do menu ficaram byte-idênticos.
+
+- **`AppAlert` ganha ação, dispensar e conteúdo livre DENTRO do card.** `action`
+  é Widget, e não par rótulo/callback, porque os casos reais precisam de loading,
+  dropdown ou duas ações; `actionPlacement` escolhe rodapé ou trailing.
+  `onDismiss` é callback puro num × de alvo próprio — dispensar e agir são gestos
+  diferentes, como no `AppFilterChip`. `child` entra entre descrição e rodapé,
+  herdando o fundo tingido. `liveRegion` existe porque região viva com controle
+  dentro re-anuncia o card a cada loading: alerta que é mobília da tela agora
+  desliga o anúncio sem calar o texto. E `maxLines` (default 3, `null` remove o
+  teto) tira o limite chumbado da descrição.
+
+  Junto veio uma correção nos helpers do eixo `AppStyle`: eles liam TODOS os
+  `DecoratedBox` descendentes, e o anel de foco transparente do × viraria falso
+  positivo de borda. Agora leem a caixa PRÓPRIA do card, que é o que o eixo mede.
+
 - **`AppImage.memory` — a terceira variante do átomo de imagem, para o payload
   que não tem URL.** O QR do PIX que chega em base64, o preview de anexo, o
   gráfico renderizado pelo backend. Mesmo contrato da variante de rede

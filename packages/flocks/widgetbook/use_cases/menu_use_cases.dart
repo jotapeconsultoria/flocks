@@ -36,13 +36,17 @@ Widget menuPlayground(BuildContext context) {
     labelBuilder: (e) => 'AppStyle.${e.name}',
   );
   final glass = wbGlassKnob(context);
+  final bool withSubtitles = context.knobs.boolean(
+    label: 'subtitle',
+    initialValue: false,
+  );
 
   return wbUseCase(
     context,
     name: 'AppMenu',
     description:
         'Open the action menu from the trigger; items, a section, a '
-        'divider and a destructive action.',
+        'divider and a destructive action. Subtitle adds a 2-line preview.',
     child: AppMenu(
       placement: placement,
       openOnSecondaryTap: secondary,
@@ -53,11 +57,13 @@ Widget menuPlayground(BuildContext context) {
         AppMenuItem(
           label: 'Edit',
           icon: AppIconToken.settings,
+          subtitle: withSubtitles ? 'Rename, retag or move it' : null,
           onPressed: () {},
         ),
         AppMenuItem(
           label: 'Duplicate',
           icon: AppIconToken.copy,
+          subtitle: withSubtitles ? 'A full copy, drafts included' : null,
           onPressed: () {},
         ),
         const AppMenuDivider(),

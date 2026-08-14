@@ -29,6 +29,14 @@ const AppComponentMeta appListTileGroupMeta = AppComponentMeta(
   props: <PropMeta>[
     PropMeta(name: 'children', type: 'List<Widget>', isRequired: true),
     PropMeta(
+      name: 'title',
+      type: 'String?',
+      description: LocalizedText(
+        en: 'Optional section label ABOVE the card — the same drawing as the AppMenu section title. Null = no label.',
+        pt: 'Rótulo de seção opcional ACIMA do card — o mesmo desenho do título de seção do AppMenu. Nulo = sem rótulo.',
+      ),
+    ),
+    PropMeta(
       name: 'style',
       type: 'AppListTileStyle',
       defaultValue: 'AppListTileStyle.grouped',

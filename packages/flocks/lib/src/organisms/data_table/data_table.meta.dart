@@ -108,6 +108,14 @@ const AppComponentMeta appSimpleDataTableMeta = AppComponentMeta(
   props: <PropMeta>[
     PropMeta(name: 'columnLabels', type: 'List<String>', isRequired: true),
     PropMeta(name: 'rows', type: 'List<List<Widget>>', isRequired: true),
+    PropMeta(
+      name: 'columnFlex',
+      type: 'List<double>?',
+      description: LocalizedText(
+        en: 'Flex factor per column (e.g. [2.2, 1, 1]). Null = the uniform split of always. In an unbounded-width context the factor only splits the leftover space.',
+        pt: 'Fator de flex por coluna (ex.: [2.2, 1, 1]). Nulo = a repartição uniforme de sempre. Em contexto sem largura limitada o fator só reparte a sobra.',
+      ),
+    ),
   ],
   states: <String>['default'],
   examples: <CodeExample>[
