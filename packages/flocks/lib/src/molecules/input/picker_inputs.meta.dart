@@ -36,6 +36,14 @@ const List<PropMeta> _fieldProps = <PropMeta>[
     ),
   ),
   PropMeta(
+    name: 'onCleared',
+    type: 'VoidCallback?',
+    description: LocalizedText(
+      en: 'Fires when the user clears the field via the ✕ — which AppInput only shows while the field is in ERROR state (hasError/errorText), enabled and filled. The selection callback only announces valid values, so this is how the form learns the value was cleared. Erasing the text by hand does not notify.',
+      pt: 'Dispara quando o usuário limpa o campo pelo ✕ — que o AppInput só mostra com o campo em ERRO (hasError/errorText), habilitado e preenchido. O callback de seleção só anuncia valores válidos, então é por aqui que o form fica sabendo da limpeza. Apagar o texto à mão não notifica.',
+    ),
+  ),
+  PropMeta(
     name: 'size',
     type: 'AppFieldSize',
     defaultValue: 'AppFieldSize.m',
