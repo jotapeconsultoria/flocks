@@ -21,6 +21,17 @@ AppListTileStyle _styleKnob(BuildContext context) =>
 
 @widgetbook.UseCase(name: 'Playground', type: AppTileInfo)
 Widget tileInfoPlayground(BuildContext context) {
+  final AppTileInfoLayout layout = context.knobs.object
+      .dropdown<AppTileInfoLayout>(
+        label: 'layout',
+        options: AppTileInfoLayout.values,
+        initialOption: AppTileInfoLayout.vertical,
+        labelBuilder: (l) => 'AppTileInfoLayout.${l.name}',
+      );
+  final String icon = context.knobs.string(
+    label: 'icon (slug, empty = none)',
+    initialValue: '',
+  );
   final String title = context.knobs.string(
     label: 'title',
     initialValue: 'Identificador',
@@ -35,7 +46,12 @@ Widget tileInfoPlayground(BuildContext context) {
     description: 'Static label/value pair (dense grids).',
     child: SizedBox(
       width: 260,
-      child: AppTileInfo(title: title, text: text),
+      child: AppTileInfo(
+        title: title,
+        text: text,
+        layout: layout,
+        icon: icon.isEmpty ? null : icon,
+      ),
     ),
   );
 }

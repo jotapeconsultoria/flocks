@@ -24,3 +24,10 @@
 ```dart
 AppTileInfo(title: 'Identifier', text: 'TTS4G47')
 ```
+
+## Layout & icon
+
+`layout: vertical` (default) stacks label over value — the tree of always.
+`layout: horizontal` is the record row: label (with its optional `icon`, same
+muted color, `AppIconSize.s`) on the left, value taking the remaining width —
+no magic widths at the call site. `textAlign` keeps applying to both texts.

@@ -6899,7 +6899,34 @@
         "type": "TextAlign",
         "required": false,
         "default": "TextAlign.start"
+      },
+      {
+        "name": "layout",
+        "type": "AppTileInfoLayout",
+        "required": false,
+        "default": "AppTileInfoLayout.vertical",
+        "description": {
+          "en": "vertical stacks label over value (the default); horizontal is the record row — label left, value taking the rest.",
+          "pt": "vertical empilha rótulo sobre valor (o default); horizontal é a linha de ficha — rótulo à esquerda, valor no resto."
+        },
+        "enumValues": [
+          "vertical",
+          "horizontal"
+        ]
+      },
+      {
+        "name": "icon",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Optional icon slug next to the label, in the same muted color.",
+          "pt": "Slug de ícone opcional junto ao rótulo, na mesma cor muted."
+        }
       }
+    ],
+    "variants": [
+      "vertical",
+      "horizontal"
     ],
     "states": [
       "default"
