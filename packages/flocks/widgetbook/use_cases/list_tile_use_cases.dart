@@ -205,6 +205,10 @@ class _RadioDemoState extends State<_RadioDemo> {
 
 @widgetbook.UseCase(name: 'Playground', type: AppListTileGroup)
 Widget listTileGroupPlayground(BuildContext context) {
+  final String title = context.knobs.string(
+    label: 'title (empty = none)',
+    initialValue: '',
+  );
   final AppListTileStyle style = _styleKnob(context);
   return wbUseCase(
     context,
@@ -213,6 +217,7 @@ Widget listTileGroupPlayground(BuildContext context) {
     child: SizedBox(
       width: 340,
       child: AppListTileGroup(
+        title: title.isEmpty ? null : title,
         style: style,
         children: <Widget>[
           AppListTile.navigation(

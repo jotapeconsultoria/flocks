@@ -33,3 +33,10 @@ AppListTileGroup(children: <Widget>[
   AppListTile.navigation(title: 'Sign out', onTap: logout),
 ])
 ```
+
+## Section label (`title`)
+
+Optional label ABOVE the card, drawn exactly like the `AppMenu` section title
+(`labelSmall`, muted neutral, one line with ellipsis, 12/8/12/4 padding). It
+sits OUTSIDE the container on purpose: the card is the content, the label
+separates groups in a sectioned list. `null` = no label, the tree of always.
