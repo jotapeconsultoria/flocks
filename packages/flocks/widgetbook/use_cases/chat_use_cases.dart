@@ -96,6 +96,10 @@ Widget appChatBubbleStates(BuildContext context) => wbUseCase(
 
 @widgetbook.UseCase(name: 'Playground', type: AppMessageMeta)
 Widget appMessageMetaPlayground(BuildContext context) {
+  final showTime = context.knobs.boolean(
+    label: 'time (off = status only)',
+    initialValue: true,
+  );
   final time = context.knobs.string(label: 'time', initialValue: '10:32');
   final status = context.knobs.object.dropdown<AppMessageStatus>(
     label: 'status',
@@ -104,13 +108,22 @@ Widget appMessageMetaPlayground(BuildContext context) {
     labelBuilder: (s) => s.name,
   );
   final edited = context.knobs.boolean(label: 'edited', initialValue: false);
+  // Sem time o assert exige status != none — o clamp evita derrubar o canvas.
+  final AppMessageStatus effectiveStatus =
+      !showTime && status == AppMessageStatus.none
+      ? AppMessageStatus.sent
+      : status;
   return wbUseCase(
     context,
     name: 'AppMessageMeta',
     description:
         'Timestamp + delivery ticks. "read" is tinted; "failed" '
-        'shows danger.',
-    child: AppMessageMeta(time: time, status: status, edited: edited),
+        'shows danger. Time off = the status-only cell.',
+    child: AppMessageMeta(
+      time: showTime ? time : null,
+      status: effectiveStatus,
+      edited: edited,
+    ),
   );
 }
 

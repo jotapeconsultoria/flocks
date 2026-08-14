@@ -174,6 +174,74 @@ void main() {
       expect(find.text('editada'), findsOneWidget);
     });
 
+    testWidgets('edited + time + status → dois gaps de s4, na ordem', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _host(
+          const AppMessageMeta(
+            time: '10:32',
+            edited: true,
+            status: AppMessageStatus.sent,
+          ),
+        ),
+      );
+      final Iterable<SizedBox> gaps = tester
+          .widgetList<SizedBox>(
+            find.descendant(
+              of: find.byType(AppMessageMeta),
+              matching: find.byType(SizedBox),
+            ),
+          )
+          .where((SizedBox b) => b.width == 4);
+      expect(gaps.length, 2);
+      final double edited = tester.getRect(find.text('editada')).left;
+      final double time = tester.getRect(find.text('10:32')).left;
+      final double tick = tester.getRect(find.byType(AppIcon)).left;
+      expect(edited, lessThan(time));
+      expect(time, lessThan(tick));
+    });
+
+    testWidgets('time null + status → só o tique, sem gaps', (tester) async {
+      await tester.pumpWidget(
+        _host(const AppMessageMeta(status: AppMessageStatus.sent)),
+      );
+      expect(find.byType(AppText), findsNothing);
+      expect(find.byType(AppIcon), findsOneWidget);
+      final Iterable<SizedBox> gaps = tester
+          .widgetList<SizedBox>(
+            find.descendant(
+              of: find.byType(AppMessageMeta),
+              matching: find.byType(SizedBox),
+            ),
+          )
+          .where((SizedBox b) => b.width == 4);
+      expect(gaps, isEmpty);
+    });
+
+    testWidgets('time null + edited + status → um único gap', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          const AppMessageMeta(edited: true, status: AppMessageStatus.sent),
+        ),
+      );
+      expect(find.text('editada'), findsOneWidget);
+      final Iterable<SizedBox> gaps = tester
+          .widgetList<SizedBox>(
+            find.descendant(
+              of: find.byType(AppMessageMeta),
+              matching: find.byType(SizedBox),
+            ),
+          )
+          .where((SizedBox b) => b.width == 4);
+      expect(gaps.length, 1);
+    });
+
+    testWidgets('assert: sem time e sem status reprova', (tester) async {
+      expect(() => AppMessageMeta(), throwsAssertionError);
+      expect(() => AppMessageMeta(edited: true), throwsAssertionError);
+    });
+
     testWidgets('está no catálogo', (tester) async {
       expect(_inCatalog('app_message_meta'), isTrue);
     });

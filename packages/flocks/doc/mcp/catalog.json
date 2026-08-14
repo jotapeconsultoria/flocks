@@ -10278,8 +10278,12 @@
     "props": [
       {
         "name": "time",
-        "type": "String",
-        "required": true
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Already formatted time. Null = status-only meta (requires status != none, asserted).",
+          "pt": "Horário já formatado. Nulo = meta só de status (exige status != none, assert)."
+        }
       },
       {
         "name": "status",
