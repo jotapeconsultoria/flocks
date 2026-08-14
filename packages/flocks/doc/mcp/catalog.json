@@ -1732,6 +1732,15 @@
         }
       },
       {
+        "name": "icon",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Optional AppIconToken slug left of the label, painted with the label color and sized to its line box.",
+          "pt": "Slug opcional de AppIconToken, pintado com a cor do rótulo e casado à caixa de linha dele."
+        }
+      },
+      {
         "name": "color",
         "type": "AppBadgeColor",
         "required": false,
