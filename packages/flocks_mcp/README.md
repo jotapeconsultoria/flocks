@@ -1,6 +1,6 @@
 # flocks_mcp
 
-The [Flocks](../flocks) component catalog, served to agents over MCP. 131
+The [Flocks](../flocks) component catalog, served to agents over MCP. 132
 components with their props, usage rules, accessibility notes and runnable
 examples — in English and Portuguese, from a catalog that is bilingual at the
 source rather than translated.
@@ -137,7 +137,7 @@ the result is text the model reads — and corrects itself from. So no message
 here only refuses; every one names the way out.
 
 ```
-Unknown component id "appbadge". Did you mean: "app_badge"? Call list_components to see all 131 ids.
+Unknown component id "appbadge". Did you mean: "app_badge"? Call list_components to see all 132 ids.
 Unknown lang "fr". Valid values: "en", "pt". …
 Unknown category "widget". Valid values: "atom", "molecule", "organism". Omit the parameter to list every component.
 ```

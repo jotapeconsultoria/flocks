@@ -43,6 +43,7 @@ import '../molecules/chat/app_chat_day_divider.meta.dart';
 import '../molecules/chat/app_chat_message_list.meta.dart';
 import '../molecules/chat/app_message_meta.meta.dart';
 import '../molecules/chat/app_question_card.meta.dart';
+import '../molecules/chat/app_quoted_message.meta.dart';
 import '../molecules/chat/app_suggestion_chip.meta.dart';
 import '../molecules/filter_chip/app_filter_chip.meta.dart';
 import '../organisms/timeline/app_timeline.meta.dart';
@@ -201,6 +202,7 @@ const List<AppComponentMeta> flocksCatalog = <AppComponentMeta>[
   appSuggestionChipMeta,
   appChatDayDividerMeta,
   appQuestionCardMeta,
+  appQuotedMessageMeta,
   appChatMessageListMeta,
   // Organisms.
   appMarkdownMeta,

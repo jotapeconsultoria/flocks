@@ -21,6 +21,15 @@ follows [SemVer](https://semver.org/).
 
 ### Added
 
+- **`AppQuotedMessage` — o bloco de citação que faltava no chat** (autor +
+  prévia + miniatura opcional, atrás de uma barra de acento). Vai de `header`
+  numa `AppChatBubble` (a resposta) ou solto no composer (a prévia de
+  "respondendo a…", com `onRemove` de cancelar — alvo PRÓPRIO, idioma do
+  AppFilterChip). A cor vem do `AppChatBubbleColor` da conversa: `accentOn` na
+  barra e no autor, `resolve` a **10%** no fundo — um degrau abaixo dos 14% da
+  bolha, para ler como camada aninhada. O catálogo vai a **132** componentes
+  (24·72·36).
+
 - **`AppPulse` — o pulso em laço do eixo de motion** (respiração de opacidade
   e, opcionalmente, escala) para indicadores ao vivo: a bolinha de gravação, o
   dot de transmissão. Amplitude em vez de flag: `minOpacity`/`minScale` dizem

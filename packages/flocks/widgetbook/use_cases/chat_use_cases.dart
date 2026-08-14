@@ -971,3 +971,124 @@ Widget appChatMessageListStates(BuildContext context) => wbUseCase(
     ],
   ),
 );
+
+// ---------------------------------------------------------------------------
+// AppQuotedMessage — the reply/quote block: accent bar + author + excerpt +
+// optional thumbnail. Body becomes ONE named target with onTap; onRemove adds
+// the "×" as its own target (the composer's cancel).
+// ---------------------------------------------------------------------------
+
+@widgetbook.UseCase(name: 'Playground', type: AppQuotedMessage)
+Widget appQuotedMessagePlayground(BuildContext context) {
+  final String author = context.knobs.string(
+    label: 'author',
+    initialValue: 'Ana',
+  );
+  final String excerpt = context.knobs.string(
+    label: 'excerpt',
+    initialValue: 'Consegue mandar o relatório de ontem?',
+  );
+  final AppChatBubbleColor color = context.knobs.object
+      .dropdown<AppChatBubbleColor>(
+        label: 'color',
+        options: AppChatBubbleColor.values,
+        initialOption: AppChatBubbleColor.primary,
+        labelBuilder: (AppChatBubbleColor v) => v.name,
+      );
+  final bool tappable = context.knobs.boolean(
+    label: 'onTap (jump to original)',
+    initialValue: true,
+  );
+  final bool removable = context.knobs.boolean(
+    label: 'onRemove (composer cancel)',
+    initialValue: false,
+  );
+  final int maxLines = context.knobs.double
+      .slider(label: 'maxLines', initialValue: 2, min: 1, max: 5, divisions: 4)
+      .round();
+  final AppStyle? style = wbStyleKnob(context);
+  final AppRadiusMode? radiusMode = wbRadiusModeKnob(context);
+
+  return wbUseCase(
+    context,
+    name: 'AppQuotedMessage',
+    description:
+        'The quote block of the chat subsystem. Color follows the '
+        'AppChatBubbleColor role of the conversation; the background is the '
+        'role at 10%, one step below the bubble tint.',
+    child: SizedBox(
+      width: 320,
+      child: AppQuotedMessage(
+        author: author.isEmpty ? null : author,
+        excerpt: excerpt,
+        color: color,
+        maxLines: maxLines,
+        onTap: tappable ? () {} : null,
+        onRemove: removable ? () {} : null,
+        style: style,
+        radiusMode: radiusMode,
+      ),
+    ),
+  );
+}
+
+@widgetbook.UseCase(name: 'States', type: AppQuotedMessage)
+Widget appQuotedMessageStates(BuildContext context) => wbUseCase(
+  context,
+  name: 'AppQuotedMessage',
+  description:
+      'The four color roles, the anonymous quote, the composer cancel and — '
+      'the scene that sells it — a quote inside an AppChatBubble reply.',
+  maxWidth: 760,
+  child: Wrap(
+    alignment: WrapAlignment.center,
+    spacing: AppSpacings.s24,
+    runSpacing: AppSpacings.s24,
+    children: <Widget>[
+      for (final AppChatBubbleColor c in AppChatBubbleColor.values)
+        wbState(
+          context,
+          name: c.name,
+          width: 280,
+          child: AppQuotedMessage(
+            author: 'Ana',
+            excerpt: 'Consegue mandar o relatório de ontem?',
+            color: c,
+            onTap: () {},
+          ),
+        ),
+      wbState(
+        context,
+        name: 'no author',
+        width: 280,
+        child: const AppQuotedMessage(
+          excerpt: 'Mensagem encaminhada sem autor visível.',
+        ),
+      ),
+      wbState(
+        context,
+        name: 'composer cancel (onRemove)',
+        width: 280,
+        child: AppQuotedMessage(
+          author: 'Você',
+          excerpt: 'A reunião fica para amanhã às 10h.',
+          onRemove: () {},
+        ),
+      ),
+      wbState(
+        context,
+        name: 'inside a bubble',
+        width: 280,
+        child: AppChatBubble(
+          author: AppChatAuthor.me,
+          header: AppQuotedMessage(
+            author: 'Ana',
+            excerpt: 'Consegue mandar o relatório de ontem?',
+            onTap: () {},
+          ),
+          child: const Text('Mandando agora!'),
+        ),
+      ),
+    ],
+  ),
+);

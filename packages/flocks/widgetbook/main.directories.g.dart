@@ -1075,6 +1075,21 @@ final directories = <_widgetbook.WidgetbookNode>[
             ],
           ),
           _widgetbook.WidgetbookComponent(
+            name: 'AppQuotedMessage',
+            useCases: [
+              _widgetbook.WidgetbookUseCase(
+                name: 'Playground',
+                builder: _asset_flocks_widgetbook_use_cases_chat_use_cases
+                    .appQuotedMessagePlayground,
+              ),
+              _widgetbook.WidgetbookUseCase(
+                name: 'States',
+                builder: _asset_flocks_widgetbook_use_cases_chat_use_cases
+                    .appQuotedMessageStates,
+              ),
+            ],
+          ),
+          _widgetbook.WidgetbookComponent(
             name: 'AppSuggestionChip',
             useCases: [
               _widgetbook.WidgetbookUseCase(
