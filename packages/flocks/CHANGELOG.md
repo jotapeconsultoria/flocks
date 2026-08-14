@@ -21,6 +21,19 @@ follows [SemVer](https://semver.org/).
 
 ### Added
 
+- **`AppImage.memory` — a terceira variante do átomo de imagem, para o payload
+  que não tem URL.** O QR do PIX que chega em base64, o preview de anexo, o
+  gráfico renderizado pelo backend. Mesmo contrato da variante de rede
+  (placeholder, cross-fade, fallback em erro), com `gaplessPlayback` para
+  trocar de conteúdo sem piscada; bytes vazios ou corrompidos nunca viram frame
+  quebrado. Junto vem `AppImage.decodeBase64`, tolerante ao que o backend
+  costuma mandar (whitespace, prefixo `data:`, padding ausente) e devolvendo
+  `null` em vez de lançar. `src` afrouxa para `String?` — nulo **apenas** na
+  variante nova; `.network`/`.asset` seguem exigindo `String` no call site.
+  `memory` entra em `kComponentVariants` e a matriz golden congela o caminho
+  novo; os 4 PNGs de fallback existentes ficam byte-idênticos, que é a prova de
+  que a árvore sem o parâmetro novo é a de hoje.
+
 - **`AppChoiceChip` + `AppChoiceChipBar` — o chip selecionável que faltava e a
   barra de filtros que o AppSegmentedButton não atende.** O terceiro chip do
   pacote é o único com estado de ESCOLHA: UM alvo sob semântica de toggle
