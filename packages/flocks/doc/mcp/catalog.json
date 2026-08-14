@@ -11651,6 +11651,15 @@
         "name": "rows",
         "type": "List<List<Widget>>",
         "required": true
+      },
+      {
+        "name": "columnFlex",
+        "type": "List<double>?",
+        "required": false,
+        "description": {
+          "en": "Flex factor per column (e.g. [2.2, 1, 1]). Null = the uniform split of always. In an unbounded-width context the factor only splits the leftover space.",
+          "pt": "Fator de flex por coluna (ex.: [2.2, 1, 1]). Nulo = a repartição uniforme de sempre. Em contexto sem largura limitada o fator só reparte a sobra."
+        }
       }
     ],
     "states": [
