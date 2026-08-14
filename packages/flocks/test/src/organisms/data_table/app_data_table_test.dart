@@ -20,6 +20,68 @@ List<List<Widget>> _rows() => const <List<Widget>>[
 void main() {
   _contrastGroup();
   _explicitWidthGroup();
+
+  group('AppSimpleDataTable · columnFlex', () {
+    Widget host(Widget child) => Directionality(
+      textDirection: TextDirection.ltr,
+      child: MediaQuery(
+        data: const MediaQueryData(),
+        child: AppTheme(
+          data: AppThemeData.light,
+          child: Center(child: SizedBox(width: 400, child: child)),
+        ),
+      ),
+    );
+
+    const List<String> cols = <String>['A', 'B', 'C'];
+    List<List<Widget>> rows() => <List<Widget>>[
+      const <Widget>[Text('a1'), Text('b1'), Text('c1')],
+    ];
+
+    testWidgets('null = repartição uniforme (a prova de identidade)', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        host(AppSimpleDataTable(columnLabels: cols, rows: rows())),
+      );
+      final Rect a = tester.getRect(find.text('A'));
+      final Rect b = tester.getRect(find.text('B'));
+      final Rect c = tester.getRect(find.text('C'));
+      // Cabeçalhos equidistantes → colunas iguais.
+      expect((b.left - a.left) - (c.left - b.left), lessThan(1));
+    });
+
+    testWidgets('[2, 1, 1] alarga a primeira coluna', (tester) async {
+      await tester.pumpWidget(
+        host(
+          AppSimpleDataTable(
+            columnLabels: cols,
+            rows: rows(),
+            columnFlex: const <double>[2, 1, 1],
+          ),
+        ),
+      );
+      final double a = tester.getRect(find.text('A')).left;
+      final double b = tester.getRect(find.text('B')).left;
+      final double c = tester.getRect(find.text('C')).left;
+      final double first = b - a;
+      final double second = c - b;
+      expect(first, greaterThan(second * 1.8));
+      expect(first, lessThan(second * 2.2));
+    });
+
+    testWidgets('assert: tamanho errado reprova', (tester) async {
+      expect(
+        () => AppSimpleDataTable(
+          columnLabels: cols,
+          rows: rows(),
+          columnFlex: const <double>[1, 2],
+        ),
+        throwsAssertionError,
+      );
+    });
+  });
+
   testWidgets('AppSimpleDataTable mostra colunas e linhas', (tester) async {
     await tester.pumpWidget(
       _host(AppSimpleDataTable(columnLabels: _cols, rows: _rows())),
