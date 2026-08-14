@@ -149,6 +149,7 @@ Widget appBadgePlayground(BuildContext context) {
     initialOption: AppBadgeSize.m,
     labelBuilder: (e) => e.name,
   );
+  final withIcon = context.knobs.boolean(label: 'icon', initialValue: false);
   final clickable = context.knobs.boolean(
     label: 'clickable (onTap)',
     initialValue: false,
@@ -168,6 +169,7 @@ Widget appBadgePlayground(BuildContext context) {
     child: AppBadge(
       label,
       color: color,
+      icon: withIcon ? AppIconToken.clock : null,
       size: size,
       effect: effect,
       onTap: clickable ? () {} : null,

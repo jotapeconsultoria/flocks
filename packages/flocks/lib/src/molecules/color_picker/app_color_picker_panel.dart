@@ -49,8 +49,13 @@ final class AppColorPickerPanel extends StatefulWidget {
     required this.onColorChanged,
     this.presets,
     this.showSuggestedColors = true,
+    this.showSpectrum = true,
     super.key,
-  });
+  }) : assert(
+         showSpectrum || showSuggestedColors,
+         'AppColorPickerPanel sem espectro e sem sugestões não tem o que '
+         'mostrar.',
+       );
 
   /// Cor inicial exibida.
   final Color color;
@@ -63,6 +68,13 @@ final class AppColorPickerPanel extends StatefulWidget {
 
   /// Exibe a seção "Cores sugeridas" (presets). Default `true`.
   final bool showSuggestedColors;
+
+  /// Exibe o espectro de edição livre — a área de saturação/brilho, a barra
+  /// de matiz E o preview com hex (o hex pertence à edição livre). `false` =
+  /// modo só-presets: o seletor de paleta fixa das etiquetas. Default `true`,
+  /// o painel de sempre. Pelo menos um entre este e [showSuggestedColors]
+  /// precisa estar ligado (assert).
+  final bool showSpectrum;
 
   @override
   State<AppColorPickerPanel> createState() => _AppColorPickerPanelState();
@@ -174,13 +186,17 @@ class _AppColorPickerPanelState extends State<AppColorPickerPanel> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        _buildSatValArea(theme),
-        const SizedBox(height: AppSpacings.s8),
-        _buildHueSlider(theme),
-        const SizedBox(height: AppSpacings.s16),
-        _buildPreview(theme, currentColor),
-        if (widget.showSuggestedColors) ...[
+        if (widget.showSpectrum) ...[
+          _buildSatValArea(theme),
+          const SizedBox(height: AppSpacings.s8),
+          _buildHueSlider(theme),
           const SizedBox(height: AppSpacings.s16),
+          _buildPreview(theme, currentColor),
+        ],
+        if (widget.showSuggestedColors) ...[
+          // O respiro só existe quando há espectro acima — só-presets abre
+          // direto no rótulo, sem vão órfão.
+          if (widget.showSpectrum) const SizedBox(height: AppSpacings.s16),
           AppText(
             'Cores sugeridas',
             style: theme.textTheme.labelMedium.withColor(

@@ -15,6 +15,7 @@ import '../../tokens/app_strokes.dart';
 import '../../tokens/app_style.dart';
 import '../../tokens/contrast.dart';
 import '../../tokens/swatch_generator.dart' show elevatedSurface;
+import '../tooltip/tooltip.dart';
 import 'app_button_color.dart';
 import 'app_button_size.dart';
 import 'button_state_colors.dart';
@@ -27,6 +28,7 @@ final class AppSegment<T> {
     this.label,
     this.icon,
     this.semanticLabel,
+    this.tooltip,
   }) : assert(
          label != null || icon != null,
          'AppSegment exige label e/ou icon',
@@ -43,6 +45,13 @@ final class AppSegment<T> {
 
   /// Rótulo de acessibilidade (default: [label]).
   final String? semanticLabel;
+
+  /// Dica visual no hover/long-press ([AppTooltip]). `null` = sem tooltip.
+  ///
+  /// Para o rótulo abreviado que precisa da forma longa por cima — a dica é
+  /// visual; o nome do controle continua sendo o do toggle
+  /// ([semanticLabel] ?? [label]).
+  final String? tooltip;
 }
 
 /// Botão **segmentado** de seleção única (radio-like numa pílula).
@@ -345,73 +354,81 @@ final class AppSegmentedButton<T> extends StatelessWidget {
         ? colors.onSurface
         : mutedForDisabled(colors.onSurface, colors.surfaceContainer);
 
+    // O tooltip envolve a célula DENTRO do toggle: o nome do controle segue o
+    // do AppSemantics.toggle; a dica é visual (precedente: o rail colapsado).
+    Widget withTooltip(Widget child) => segment.tooltip == null
+        ? child
+        : AppTooltip(message: segment.tooltip!, child: child);
+
     return AppSemantics.toggle(
       value: selected,
       enabled: enabled,
       mutuallyExclusive: true,
       label: segment.semanticLabel ?? segment.label,
       onTap: enabled ? () => onChanged(segment.value) : null,
-      child: FlocksInteraction(
-        onPressed: enabled ? () => onChanged(segment.value) : null,
-        selected: selected,
-        enabled: enabled,
-        builder: (BuildContext context, Set<WidgetState> states) {
-          final bool hovered = states.contains(WidgetState.hovered);
-          final bool pressed = states.contains(WidgetState.pressed);
-          final bool focused = states.contains(WidgetState.focused);
+      child: withTooltip(
+        FlocksInteraction(
+          onPressed: enabled ? () => onChanged(segment.value) : null,
+          selected: selected,
+          enabled: enabled,
+          builder: (BuildContext context, Set<WidgetState> states) {
+            final bool hovered = states.contains(WidgetState.hovered);
+            final bool pressed = states.contains(WidgetState.pressed);
+            final bool focused = states.contains(WidgetState.focused);
 
-          // Realce dos segmentos NEUTROS (mesmas opacidades do AppButton ghost:
-          // onSurface 8%/12%). O selecionado é a pílula — sem overlay próprio.
-          final Color overlay = selected
-              ? colors.transparent
-              : pressed
-              ? colors.onSurface.withValues(alpha: 0.12)
-              : hovered
-              ? colors.onSurface.withValues(alpha: 0.08)
-              : colors.transparent;
+            // Realce dos segmentos NEUTROS (mesmas opacidades do AppButton ghost:
+            // onSurface 8%/12%). O selecionado é a pílula — sem overlay próprio.
+            final Color overlay = selected
+                ? colors.transparent
+                : pressed
+                ? colors.onSurface.withValues(alpha: 0.12)
+                : hovered
+                ? colors.onSurface.withValues(alpha: 0.08)
+                : colors.transparent;
 
-          // Cor do conteúdo cruza suavemente ao ganhar/perder a pílula, em
-          // sincronia com o slide (snap quando reduce-motion via AppMotion).
-          final Widget label = TweenAnimationBuilder<Color?>(
-            tween: ColorTween(end: content),
-            duration: AppMotion.resolve(context, AppDurations.normal),
-            curve: AppCurves.standard,
-            builder: (BuildContext context, Color? animated, _) =>
-                _labelContent(theme, segment, animated ?? content),
-          );
+            // Cor do conteúdo cruza suavemente ao ganhar/perder a pílula, em
+            // sincronia com o slide (snap quando reduce-motion via AppMotion).
+            final Widget label = TweenAnimationBuilder<Color?>(
+              tween: ColorTween(end: content),
+              duration: AppMotion.resolve(context, AppDurations.normal),
+              curve: AppCurves.standard,
+              builder: (BuildContext context, Color? animated, _) =>
+                  _labelContent(theme, segment, animated ?? content),
+            );
 
-          final Widget cell = AnimatedContainer(
-            duration: AppMotion.resolve(context, AppDurations.normal),
-            curve: AppCurves.standard,
-            height: size.height,
-            alignment: Alignment.center,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacings.s16),
-            decoration: BoxDecoration(color: overlay, borderRadius: pillBR),
-            child: label,
-          );
+            final Widget cell = AnimatedContainer(
+              duration: AppMotion.resolve(context, AppDurations.normal),
+              curve: AppCurves.standard,
+              height: size.height,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacings.s16),
+              decoration: BoxDecoration(color: overlay, borderRadius: pillBR),
+              child: label,
+            );
 
-          // Anel de foco por fora do conteúdo (não desloca layout). `Inside`
-          // (não `outside` como o botão) para não invadir a célula vizinha, já
-          // que os segmentos são adjacentes. Some no toque via FlocksInteraction.
-          final Widget ringed = DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: pillBR,
-              border: Border.all(
-                color: focused ? colors.focusRing : colors.transparent,
-                width: AppStrokes.m,
-                strokeAlign: BorderSide.strokeAlignInside,
+            // Anel de foco por fora do conteúdo (não desloca layout). `Inside`
+            // (não `outside` como o botão) para não invadir a célula vizinha, já
+            // que os segmentos são adjacentes. Some no toque via FlocksInteraction.
+            final Widget ringed = DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: pillBR,
+                border: Border.all(
+                  color: focused ? colors.focusRing : colors.transparent,
+                  width: AppStrokes.m,
+                  strokeAlign: BorderSide.strokeAlignInside,
+                ),
               ),
-            ),
-            child: cell,
-          );
+              child: cell,
+            );
 
-          return AnimatedScale(
-            scale: (motionEnabled && pressed) ? 0.97 : 1.0,
-            duration: AppMotion.resolve(context, AppDurations.fast),
-            curve: AppCurves.standard,
-            child: ringed,
-          );
-        },
+            return AnimatedScale(
+              scale: (motionEnabled && pressed) ? 0.97 : 1.0,
+              duration: AppMotion.resolve(context, AppDurations.fast),
+              curve: AppCurves.standard,
+              child: ringed,
+            );
+          },
+        ),
       ),
     );
   }

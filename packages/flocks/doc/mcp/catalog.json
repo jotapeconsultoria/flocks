@@ -413,6 +413,15 @@
         "required": false
       },
       {
+        "name": "fallbackIcon",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Icon slug for the no-image, no-text state. Null = the user glyph. Text wins when present.",
+          "pt": "Slug de ícone do estado sem imagem e sem texto. Nulo = o glifo de user. O texto vence quando presente."
+        }
+      },
+      {
         "name": "semanticLabel",
         "type": "String?",
         "required": false
@@ -1729,6 +1738,15 @@
         "description": {
           "en": "Short text shown in the pill.",
           "pt": "Texto curto exibido na pill."
+        }
+      },
+      {
+        "name": "icon",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Optional AppIconToken slug left of the label, painted with the label color and sized to its line box.",
+          "pt": "Slug opcional de AppIconToken, pintado com a cor do rótulo e casado à caixa de linha dele."
         }
       },
       {
@@ -4552,6 +4570,16 @@
         "type": "bool",
         "required": false,
         "default": "true"
+      },
+      {
+        "name": "showSpectrum",
+        "type": "bool",
+        "required": false,
+        "default": "true",
+        "description": {
+          "en": "Shows the free-editing spectrum (saturation area, hue bar and the hex preview). False = presets-only, the fixed-palette picker; at least one of the two sections must stay on (asserted).",
+          "pt": "Mostra o espectro de edição livre (área de saturação, barra de matiz e o preview com hex). False = só-presets, o seletor de paleta fixa; pelo menos uma das duas seções fica ligada (assert)."
+        }
       }
     ],
     "states": [
@@ -8926,7 +8954,11 @@
       {
         "name": "segments",
         "type": "List<AppSegment<T>>",
-        "required": true
+        "required": true,
+        "description": {
+          "en": "The 2-4 options. Each AppSegment carries value, label and/or icon, semanticLabel and an optional tooltip (a visual hint for the abbreviated label; the control name stays the toggle label).",
+          "pt": "As 2-4 opções. Cada AppSegment carrega value, label e/ou icon, semanticLabel e um tooltip opcional (dica visual do rótulo abreviado; o nome do controle segue o do toggle)."
+        }
       },
       {
         "name": "value",
@@ -13730,6 +13762,20 @@
         "required": true
       },
       {
+        "name": "direction",
+        "type": "Axis",
+        "required": false,
+        "default": "Axis.horizontal",
+        "description": {
+          "en": "horizontal = icon left of the text (the default row); vertical stacks icon over label, centered — the sheet grid cell. Same padding, radius and colors.",
+          "pt": "horizontal = ícone à esquerda do texto (a linha de sempre); vertical empilha ícone sobre rótulo, centrados — a célula da grade em folha. Mesmo padding, raio e cores."
+        },
+        "enumValues": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      {
         "name": "style",
         "type": "AppStyle?",
         "required": false,
@@ -13744,6 +13790,10 @@
         "type": "AppRadiusMode?",
         "required": false
       }
+    ],
+    "variants": [
+      "horizontal",
+      "vertical"
     ],
     "states": [
       "default"
