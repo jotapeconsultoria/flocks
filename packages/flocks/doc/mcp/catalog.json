@@ -13748,6 +13748,20 @@
         "required": true
       },
       {
+        "name": "direction",
+        "type": "Axis",
+        "required": false,
+        "default": "Axis.horizontal",
+        "description": {
+          "en": "horizontal = icon left of the text (the default row); vertical stacks icon over label, centered — the sheet grid cell. Same padding, radius and colors.",
+          "pt": "horizontal = ícone à esquerda do texto (a linha de sempre); vertical empilha ícone sobre rótulo, centrados — a célula da grade em folha. Mesmo padding, raio e cores."
+        },
+        "enumValues": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      {
         "name": "style",
         "type": "AppStyle?",
         "required": false,
@@ -13762,6 +13776,10 @@
         "type": "AppRadiusMode?",
         "required": false
       }
+    ],
+    "variants": [
+      "horizontal",
+      "vertical"
     ],
     "states": [
       "default"

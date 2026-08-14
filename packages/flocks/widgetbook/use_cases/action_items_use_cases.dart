@@ -11,6 +11,12 @@ import 'wb_helpers.dart';
 
 @widgetbook.UseCase(name: 'Playground', type: AppActionItem)
 Widget actionItemPlayground(BuildContext context) {
+  final Axis direction = context.knobs.object.dropdown<Axis>(
+    label: 'direction',
+    options: Axis.values,
+    initialOption: Axis.horizontal,
+    labelBuilder: (a) => 'Axis.${a.name}',
+  );
   final String text = context.knobs.string(
     label: 'text',
     initialValue: 'Suporte',
@@ -24,6 +30,7 @@ Widget actionItemPlayground(BuildContext context) {
     child: SizedBox(
       width: 280,
       child: AppActionItem(
+        direction: direction,
         icon: AppIconToken.infoCircle,
         text: text,
         style: style,

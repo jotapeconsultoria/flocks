@@ -14,10 +14,23 @@ Widget _sample(AppThemeData data) => AppTheme(
     width: 280,
     child: Padding(
       padding: const EdgeInsets.all(AppSpacings.s16),
-      child: AppActionItem(
-        icon: AppIconToken.infoCircle,
-        text: 'Suporte',
-        onPressed: () {},
+      child: Row(
+        spacing: AppSpacings.s16,
+        children: <Widget>[
+          Expanded(
+            child: AppActionItem(
+              icon: AppIconToken.infoCircle,
+              text: 'Suporte',
+              onPressed: () {},
+            ),
+          ),
+          AppActionItem(
+            icon: AppIconToken.infoCircle,
+            text: 'Câmera',
+            direction: Axis.vertical,
+            onPressed: () {},
+          ),
+        ],
       ),
     ),
   ),
