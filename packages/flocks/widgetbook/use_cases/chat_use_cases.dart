@@ -142,6 +142,7 @@ class _ComposerHost extends StatefulWidget {
     required this.enabled,
     required this.withAttachments,
     required this.useCards,
+    required this.withPreview,
     required this.showModel,
     required this.showInfo,
     required this.showContext,
@@ -154,6 +155,7 @@ class _ComposerHost extends StatefulWidget {
   final bool enabled;
   final bool withAttachments;
   final bool useCards;
+  final bool withPreview;
   final bool showModel;
   final bool showInfo;
   final bool showContext;
@@ -203,6 +205,19 @@ class _ComposerHostState extends State<_ComposerHost> {
       contextPopover: widget.showContext
           ? const AppText('35% do contexto usado.')
           : null,
+      preview: widget.withPreview
+          ? Builder(
+              builder: (BuildContext context) {
+                final AppThemeData theme = AppTheme.of(context);
+                return AppText(
+                  'Replying to: "Can you send the report?"',
+                  style: theme.textTheme.labelMedium.copyWith(
+                    color: theme.colorTheme.neutralPrimary.s600,
+                  ),
+                );
+              },
+            )
+          : null,
       attachmentLayout: widget.useCards
           ? AppChatAttachmentLayout.row
           : AppChatAttachmentLayout.wrap,
@@ -230,8 +245,8 @@ Widget appChatComposerPlayground(BuildContext context) => wbUseCase(
       'go ABOVE it and the toolbar (attach/model left, info/context right) '
       'below — both outside the surface (like Claude). Buttons are neutral; '
       'only the context ring is colored. Attachments follow the style. Enter '
-      'sends; Shift+Enter breaks. Circular falls back to redondo with '
-      'attachments OR when the text wraps to multiple lines.',
+      'sends; Shift+Enter breaks. Circular falls back to redondo with a band '
+      'above (attachments or preview) OR when the text wraps.',
   child: _ComposerHost(
     busy: context.knobs.boolean(label: 'busy', initialValue: false),
     enabled: context.knobs.boolean(label: 'enabled', initialValue: true),
@@ -243,6 +258,7 @@ Widget appChatComposerPlayground(BuildContext context) => wbUseCase(
       label: 'attachments as cards',
       initialValue: false,
     ),
+    withPreview: context.knobs.boolean(label: 'preview', initialValue: false),
     showModel: context.knobs.boolean(label: 'model', initialValue: true),
     showInfo: context.knobs.boolean(label: 'info', initialValue: true),
     showContext: context.knobs.boolean(label: 'context', initialValue: true),

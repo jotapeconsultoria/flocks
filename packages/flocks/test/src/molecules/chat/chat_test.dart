@@ -389,6 +389,130 @@ void main() {
       expect(br.topLeft.x, lessThan(100));
     });
 
+    testWidgets('sem preview → superfície direto (curto-circuito preservado)', (
+      tester,
+    ) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        _host(
+          SizedBox(width: 400, child: AppChatComposer(controller: controller)),
+        ),
+      );
+      // Sem faixa nenhuma, não existe o Padding de faixa (bottom 8, l/r 4)…
+      expect(
+        find.descendant(
+          of: find.byType(AppChatComposer),
+          matching: find.byWidgetPredicate(
+            (Widget w) =>
+                w is Padding &&
+                w.padding ==
+                    const EdgeInsets.only(bottom: 8, left: 4, right: 4),
+          ),
+        ),
+        findsNothing,
+      );
+      // …nem a Column externa (stretch) — o composer É a superfície.
+      expect(
+        find.descendant(
+          of: find.byType(AppChatComposer),
+          matching: find.byWidgetPredicate(
+            (Widget w) =>
+                w is Column &&
+                w.crossAxisAlignment == CrossAxisAlignment.stretch &&
+                w.mainAxisSize == MainAxisSize.min,
+          ),
+        ),
+        findsNothing,
+      );
+    });
+
+    testWidgets('preview fica entre os anexos e a superfície', (tester) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        _host(
+          SizedBox(
+            width: 400,
+            child: AppChatComposer(
+              controller: controller,
+              attachments: const <Widget>[
+                AppChatAttachmentChip(label: 'a.pdf'),
+              ],
+              preview: const SizedBox(
+                key: ValueKey<String>('reply'),
+                height: 32,
+              ),
+            ),
+          ),
+        ),
+      );
+      final Rect chip = tester.getRect(find.byType(AppChatAttachmentChip));
+      final Rect reply = tester.getRect(
+        find.byKey(const ValueKey<String>('reply')),
+      );
+      final Rect input = tester.getRect(find.byType(AppInput));
+      expect(chip.bottom, lessThanOrEqualTo(reply.top));
+      expect(reply.bottom, lessThanOrEqualTo(input.top));
+      // Com anexos E preview há DUAS faixas com o mesmo respiro.
+      expect(
+        find.descendant(
+          of: find.byType(AppChatComposer),
+          matching: find.byWidgetPredicate(
+            (Widget w) =>
+                w is Padding &&
+                w.padding ==
+                    const EdgeInsets.only(bottom: 8, left: 4, right: 4),
+          ),
+        ),
+        findsNWidgets(2),
+      );
+    });
+
+    testWidgets('preview sozinho quebra o curto-circuito', (tester) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        _host(
+          SizedBox(
+            width: 400,
+            child: AppChatComposer(
+              controller: controller,
+              preview: const SizedBox(
+                key: ValueKey<String>('reply'),
+                height: 32,
+              ),
+            ),
+          ),
+        ),
+      );
+      final Rect reply = tester.getRect(
+        find.byKey(const ValueKey<String>('reply')),
+      );
+      final Rect input = tester.getRect(find.byType(AppInput));
+      expect(reply.bottom, lessThanOrEqualTo(input.top));
+    });
+
+    testWidgets('circular + preview → cai para redondo', (tester) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        _host(
+          SizedBox(
+            width: 400,
+            child: AppChatComposer(
+              controller: controller,
+              radiusMode: AppRadiusMode.circular,
+              preview: const SizedBox(height: 32),
+            ),
+          ),
+        ),
+      );
+      final BorderRadius br =
+          composerDecoration(tester).borderRadius! as BorderRadius;
+      expect(br.topLeft.x, lessThan(100));
+    });
+
     testWidgets('circular sem anexos → pílula (não clampa)', (tester) async {
       final controller = TextEditingController();
       addTearDown(controller.dispose);
