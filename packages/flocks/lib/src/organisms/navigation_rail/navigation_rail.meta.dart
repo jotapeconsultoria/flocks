@@ -46,8 +46,39 @@ const AppComponentMeta appNavigationRailMeta = AppComponentMeta(
       type: 'String Function(BuildContext)',
       isRequired: true,
     ),
-    PropMeta(name: 'logoCollapsed', type: 'String', isRequired: true),
+    PropMeta(
+      name: 'logoCollapsed',
+      type: 'String?',
+      description: LocalizedText(
+        en: 'Legacy logo channel: an icon slug for the collapsed brand. Null with no widget logo = no logo block.',
+        pt: 'Canal legado de logo: slug de ícone da marca compacta. Nulo e sem logo widget = sem bloco de logo.',
+      ),
+    ),
     PropMeta(name: 'logoExpanded', type: 'String?'),
+    PropMeta(
+      name: 'logo',
+      type: 'Widget?',
+      description: LocalizedText(
+        en: 'Brand as a widget (bundle SVG/image), shown expanded; collapsed falls back to logoCompact ?? logo. Mutually exclusive with the slug/URL channel; requires logoSemanticLabel.',
+        pt: 'Marca como widget (SVG/imagem do bundle), exibida expandida; colapsado cai em logoCompact ?? logo. Mutuamente exclusivo com o canal slug/URL; exige logoSemanticLabel.',
+      ),
+    ),
+    PropMeta(
+      name: 'logoCompact',
+      type: 'Widget?',
+      description: LocalizedText(
+        en: 'Compact brand widget for the collapsed rail.',
+        pt: 'Widget da marca compacta para o rail colapsado.',
+      ),
+    ),
+    PropMeta(
+      name: 'logoSemanticLabel',
+      type: 'String?',
+      description: LocalizedText(
+        en: 'Accessible name of the widget logo (asserted together with logo/logoCompact). The widget subtree is replaced by a named image node, the AppImage idiom.',
+        pt: 'Nome acessível do logo widget (assert junto com logo/logoCompact). A subárvore do widget é substituída por um nó de imagem nomeado, o idioma do AppImage.',
+      ),
+    ),
     PropMeta(name: 'footer', type: 'Widget?'),
     PropMeta(name: 'showFooterDivider', type: 'bool', defaultValue: 'true'),
     PropMeta(name: 'decoration', type: 'BoxDecoration?'),
@@ -70,11 +101,14 @@ const AppComponentMeta appNavigationRailMeta = AppComponentMeta(
     pt: <String>['Não aninhe mais de um nível de subitens.'],
   ),
   a11y: LocalizedText(
-    en: 'Collapsed items expose their title through AppTooltip; clickable items carry Semantics(button:true, label:). The primary accent over the surface passes AA; the floating chevron has a tooltip + semanticLabel.',
+    en: 'Collapsed items expose their title through AppTooltip; clickable items carry Semantics(button:true, label:). The primary accent over the surface passes AA; the floating chevron has a tooltip + semanticLabel. A widget logo becomes a single named image node (logoSemanticLabel, required by assert; inner semantics excluded, the AppImage idiom); the legacy slug logo stays decorative.',
     pt:
         'Itens colapsados expõem o título por AppTooltip; itens clicáveis têm '
         'Semantics(button:true, label:). O accent primário sobre a superfície '
-        'passa AA; o chevron flutuante tem tooltip + semanticLabel.',
+        'passa AA; o chevron flutuante tem tooltip + semanticLabel. Logo widget '
+        'vira UM nó de imagem nomeado (logoSemanticLabel, exigido por assert; '
+        'semântica interna excluída, o idioma do AppImage); o logo por slug '
+        'segue decorativo.',
   ),
   crossPlatform: true,
   themeAware: true,
@@ -119,6 +153,14 @@ const AppComponentMeta appNavigationRailItemMeta = AppComponentMeta(
   ),
   props: <PropMeta>[
     PropMeta(name: 'icon', type: 'String', isRequired: true),
+    PropMeta(
+      name: 'activeIcon',
+      type: 'String?',
+      description: LocalizedText(
+        en: 'Alternate slug rendered while selected (the filled pair of icon). Null = icon serves both states.',
+        pt: 'Slug alternativo renderizado durante a seleção (o par preenchido de icon). Nulo = icon serve aos dois estados.',
+      ),
+    ),
     PropMeta(name: 'isCollapsed', type: 'bool?'),
     PropMeta(name: 'onPressed', type: 'VoidCallback', isRequired: true),
     PropMeta(name: 'isSelected', type: 'bool', defaultValue: 'false'),
