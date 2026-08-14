@@ -34,12 +34,23 @@ const AppComponentMeta appActionItemMeta = AppComponentMeta(
     PropMeta(name: 'text', type: 'String', isRequired: true),
     PropMeta(name: 'onPressed', type: 'VoidCallback', isRequired: true),
     PropMeta(
+      name: 'direction',
+      type: 'Axis',
+      defaultValue: 'Axis.horizontal',
+      description: LocalizedText(
+        en: 'horizontal = icon left of the text (the default row); vertical stacks icon over label, centered — the sheet grid cell. Same padding, radius and colors.',
+        pt: 'horizontal = ícone à esquerda do texto (a linha de sempre); vertical empilha ícone sobre rótulo, centrados — a célula da grade em folha. Mesmo padding, raio e cores.',
+      ),
+      enumValues: <String>['horizontal', 'vertical'],
+    ),
+    PropMeta(
       name: 'style',
       type: 'AppStyle?',
       enumValues: <String>['filled', 'outlined', 'elevated'],
     ),
     PropMeta(name: 'radiusMode', type: 'AppRadiusMode?'),
   ],
+  variants: <String>['horizontal', 'vertical'],
   states: <String>['default'],
   examples: <CodeExample>[
     CodeExample(
