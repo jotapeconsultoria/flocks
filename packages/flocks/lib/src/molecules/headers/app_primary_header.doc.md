@@ -36,3 +36,13 @@ AppPrimaryHeader(
   child: AppText('Details'),
 )
 ```
+
+## Bottom strip (`bottom` + `bottomHeight`)
+
+An extra row below the content strip, INSIDE the bar — the filter strip or the
+tabs that used to live in Material's `AppBar.bottom`. It inherits the bar's
+surface (fill, edge border/shadow, glass). The height is DECLARED, not
+measured: the scaffold reserves the bar extent before layout
+(`resolveBarExtent` = safe-area + content height + `bottomHeight`), so the two
+parameters are asserted together and a taller child overflows in debug on
+purpose. Full-bleed: no implicit padding.

@@ -29,8 +29,9 @@ const double kAppHeaderChildInset = AppSpacings.s12;
 /// na aresta de baixo). Participa também do eixo glass ([glass] ou o global):
 /// glass = blur + gradiente estilo Notes.
 ///
-/// - **Altura fixa** ([kAppHeaderContentHeight] + safe-area do topo); não cresce
-///   com o conteúdo.
+/// - **Altura declarada** ([kAppHeaderContentHeight] + safe-area do topo; com
+///   [bottom], soma exatamente [bottomHeight]); não cresce com a MEDIDA do
+///   conteúdo.
 /// - **Centralização real**: com [centerChild] e só um dos lados, o título
 ///   permanece centralizado (trunca em vez de deslocar).
 /// - **Glass sobrepõe** o conteúdo via [AppScaffold] (efeito Notes).
@@ -58,8 +59,16 @@ final class AppPrimaryHeader extends StatelessWidget with AppOverlayBar {
     this.leading,
     this.padding,
     this.trailing,
+    this.bottom,
+    this.bottomHeight = 0,
     super.key,
-  });
+  }) : assert(bottomHeight >= 0, 'bottomHeight não pode ser negativa.'),
+       assert(
+         (bottom == null) == (bottomHeight == 0),
+         'bottom e bottomHeight andam juntos: informe os dois (altura > 0) ou '
+         'nenhum. A altura é declarada porque o scaffold precisa dela ANTES do '
+         'layout para reservar espaço sob a barra glass (resolveBarExtent).',
+       );
 
   /// Se o [child] é centralizado (senão, alinhado à esquerda).
   final bool centerChild;
@@ -95,6 +104,20 @@ final class AppPrimaryHeader extends StatelessWidget with AppOverlayBar {
   /// Slot à direita (ex.: ação). Ver [action].
   final Widget? trailing;
 
+  /// Linha extra ABAIXO da faixa de conteúdo, DENTRO da barra — herda o
+  /// fundo/borda/glass do [AppBarSurface] (a faixa de filtros, as abas).
+  /// Full-bleed, sem padding implícito: o que dimensiona é [bottomHeight].
+  ///
+  /// Um bottom mais alto que [bottomHeight] estoura o SizedBox em debug — o
+  /// contrato é a altura DECLARADA, e é ela que o scaffold reserva.
+  final Widget? bottom;
+
+  /// Altura declarada do [bottom]. A extensão da barra
+  /// ([resolveBarExtent]) soma exatamente este valor — declarada, e não
+  /// medida, porque o [AppScaffold] precisa dela antes do layout. Com
+  /// [constraints], a barra vale `maxHeight + bottomHeight`.
+  final double bottomHeight;
+
   @override
   AppStyle get barStyle => style;
 
@@ -104,7 +127,8 @@ final class AppPrimaryHeader extends StatelessWidget with AppOverlayBar {
   @override
   double resolveBarExtent(BuildContext context) =>
       MediaQuery.viewPaddingOf(context).top +
-      (constraints?.maxHeight ?? kAppHeaderContentHeight);
+      (constraints?.maxHeight ?? kAppHeaderContentHeight) +
+      bottomHeight;
 
   /// Monta o botão de slot recomendado: um **FAB glass** quando [glass], senão um
   /// **ícone ghost** (só ícone, sem fundo) com alvo de toque generoso
@@ -153,6 +177,16 @@ final class AppPrimaryHeader extends StatelessWidget with AppOverlayBar {
       height: contentHeight,
       child: Padding(padding: pad, child: centerChild ? _centered() : _row()),
     );
+    // Com bottom == null, body É o mesmo objeto content — árvore idêntica.
+    final Widget body = bottom == null
+        ? content
+        : Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              content,
+              SizedBox(height: bottomHeight, child: bottom),
+            ],
+          );
 
     // Escape hatch legado: decoração custom pinta como antes (band + safe-area).
     if (decoration != null) {
@@ -165,7 +199,7 @@ final class AppPrimaryHeader extends StatelessWidget with AppOverlayBar {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               SizedBox(height: topInset),
-              content,
+              body,
             ],
           ),
         ),
@@ -183,7 +217,7 @@ final class AppPrimaryHeader extends StatelessWidget with AppOverlayBar {
         contentEdge: BarEdge.bottom,
         outerSafeAreaInset: topInset,
         borderRadius: radius,
-        child: content,
+        child: body,
       ),
     );
   }
