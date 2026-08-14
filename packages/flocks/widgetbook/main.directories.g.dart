@@ -36,6 +36,8 @@ import 'use_cases/charts_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_charts_use_cases;
 import 'use_cases/chat_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_chat_use_cases;
+import 'use_cases/choice_chip_use_cases.dart'
+    as _asset_flocks_widgetbook_use_cases_choice_chip_use_cases;
 import 'use_cases/color_picker_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_color_picker_use_cases;
 import 'use_cases/colors_use_cases.dart'
@@ -120,6 +122,8 @@ import 'use_cases/shortcut_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_shortcut_use_cases;
 import 'use_cases/side_sheets_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_side_sheets_use_cases;
+import 'use_cases/slider_use_cases.dart'
+    as _asset_flocks_widgetbook_use_cases_slider_use_cases;
 import 'use_cases/snackbar_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_snackbar_use_cases;
 import 'use_cases/split_button_use_cases.dart'
@@ -1075,6 +1079,21 @@ final directories = <_widgetbook.WidgetbookNode>[
             ],
           ),
           _widgetbook.WidgetbookComponent(
+            name: 'AppQuotedMessage',
+            useCases: [
+              _widgetbook.WidgetbookUseCase(
+                name: 'Playground',
+                builder: _asset_flocks_widgetbook_use_cases_chat_use_cases
+                    .appQuotedMessagePlayground,
+              ),
+              _widgetbook.WidgetbookUseCase(
+                name: 'States',
+                builder: _asset_flocks_widgetbook_use_cases_chat_use_cases
+                    .appQuotedMessageStates,
+              ),
+            ],
+          ),
+          _widgetbook.WidgetbookComponent(
             name: 'AppSuggestionChip',
             useCases: [
               _widgetbook.WidgetbookUseCase(
@@ -1101,6 +1120,45 @@ final directories = <_widgetbook.WidgetbookNode>[
                 name: 'States',
                 builder: _asset_flocks_widgetbook_use_cases_chat_use_cases
                     .appTypingIndicatorStates,
+              ),
+            ],
+          ),
+        ],
+      ),
+      _widgetbook.WidgetbookFolder(
+        name: 'choice_chip',
+        children: [
+          _widgetbook.WidgetbookComponent(
+            name: 'AppChoiceChip',
+            useCases: [
+              _widgetbook.WidgetbookUseCase(
+                name: 'Playground',
+                builder:
+                    _asset_flocks_widgetbook_use_cases_choice_chip_use_cases
+                        .appChoiceChipPlayground,
+              ),
+              _widgetbook.WidgetbookUseCase(
+                name: 'States',
+                builder:
+                    _asset_flocks_widgetbook_use_cases_choice_chip_use_cases
+                        .appChoiceChipStates,
+              ),
+            ],
+          ),
+          _widgetbook.WidgetbookComponent(
+            name: 'AppChoiceChipBar',
+            useCases: [
+              _widgetbook.WidgetbookUseCase(
+                name: 'Playground',
+                builder:
+                    _asset_flocks_widgetbook_use_cases_choice_chip_use_cases
+                        .appChoiceChipBarPlayground,
+              ),
+              _widgetbook.WidgetbookUseCase(
+                name: 'Scenario',
+                builder:
+                    _asset_flocks_widgetbook_use_cases_choice_chip_use_cases
+                        .appChoiceChipBarScenario,
               ),
             ],
           ),
@@ -1858,6 +1916,26 @@ final directories = <_widgetbook.WidgetbookNode>[
         ],
       ),
       _widgetbook.WidgetbookFolder(
+        name: 'slider',
+        children: [
+          _widgetbook.WidgetbookComponent(
+            name: 'AppSlider',
+            useCases: [
+              _widgetbook.WidgetbookUseCase(
+                name: 'Playground',
+                builder: _asset_flocks_widgetbook_use_cases_slider_use_cases
+                    .appSliderPlayground,
+              ),
+              _widgetbook.WidgetbookUseCase(
+                name: 'States',
+                builder: _asset_flocks_widgetbook_use_cases_slider_use_cases
+                    .appSliderStates,
+              ),
+            ],
+          ),
+        ],
+      ),
+      _widgetbook.WidgetbookFolder(
         name: 'snackbar',
         children: [
           _widgetbook.WidgetbookComponent(
@@ -2000,6 +2078,17 @@ final directories = <_widgetbook.WidgetbookNode>[
                 builder:
                     _asset_flocks_widgetbook_use_cases_motion_primitives_use_cases
                         .appPopPlayground,
+              ),
+            ],
+          ),
+          _widgetbook.WidgetbookComponent(
+            name: 'AppPulse',
+            useCases: [
+              _widgetbook.WidgetbookUseCase(
+                name: 'Playground',
+                builder:
+                    _asset_flocks_widgetbook_use_cases_motion_primitives_use_cases
+                        .appPulsePlayground,
               ),
             ],
           ),

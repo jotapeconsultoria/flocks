@@ -21,6 +21,52 @@ follows [SemVer](https://semver.org/).
 
 ### Added
 
+- **`AppChoiceChip` + `AppChoiceChipBar` — o chip selecionável que faltava e a
+  barra de filtros que o AppSegmentedButton não atende.** O terceiro chip do
+  pacote é o único com estado de ESCOLHA: UM alvo sob semântica de toggle
+  (checked/inMutuallyExclusiveGroup), contador em pílula própria (colar o
+  número no rótulo mata o alinhamento), selecionado no MESMO
+  `appFilledButtonColors` do AppSegmentedButton — os dois respondem "um de N"
+  e o teste compara contra o resolvedor para nunca divergirem. A barra rola
+  onde o segmented estoura (células de largura própria + véu de borda), com
+  ←/→ andando pelos chips e o focado rolado até aparecer; o `.multi` devolve
+  SEMPRE um `Set` novo. Altura mínima **44**, o piso de alvo de toque do iOS —
+  e não os 40 do `AppButton(size: s)`: um componente que nasce agora não nasce
+  devendo acessibilidade, e a diferença de 4px contra um botão `s` ao lado foi
+  o preço aceito. Os 48×48 do Android seguem em `kA11yDebt`, porque fechá-los
+  custaria a densidade da barra inteira; a metade cumprida é medida por gate,
+  para o número não escorregar de volta. O catálogo vai a **135** (24·75·36).
+
+- **`AppSlider` — o primeiro slider público do pacote.** Controlado (value +
+  onChanged, estado no chamador, molde do AppRating); `step` quantiza em
+  UNIDADES DO DOMÍNIO (1.0 = inteiros) em vez do `divisions` do Material;
+  `formatValue` é fonte única para o rótulo inline (`showValue`) e para o
+  leitor de tela — um formatador separado criaria a divergência que a Regra 8
+  impede. Nasce com 48px de alvo (sem entrada em kA11yDebt), nó `slider` com
+  onIncrease/onDecrease, setas espelhadas em RTL, Home/End, anel de foco sem
+  duração e `onChangeEnd` para persistência. O catálogo vai a **133**
+  (24·73·36). O hue slider privado do color picker segue como está — a
+  recomposição exigiria trilho-gradiente público por um consumidor interno;
+  fica registrada para rodada própria.
+
+- **`AppQuotedMessage` — o bloco de citação que faltava no chat** (autor +
+  prévia + miniatura opcional, atrás de uma barra de acento). Vai de `header`
+  numa `AppChatBubble` (a resposta) ou solto no composer (a prévia de
+  "respondendo a…", com `onRemove` de cancelar — alvo PRÓPRIO, idioma do
+  AppFilterChip). A cor vem do `AppChatBubbleColor` da conversa: `accentOn` na
+  barra e no autor, `resolve` a **10%** no fundo — um degrau abaixo dos 14% da
+  bolha, para ler como camada aninhada. O catálogo vai a **132** componentes
+  (24·72·36).
+
+- **`AppPulse` — o pulso em laço do eixo de motion** (respiração de opacidade
+  e, opcionalmente, escala) para indicadores ao vivo: a bolinha de gravação, o
+  dot de transmissão. Amplitude em vez de flag: `minOpacity`/`minScale` dizem
+  o quanto, e `1.0` desliga o eixo. Sob reduce-motion o laço **para e congela
+  no estado cheio** — deliberadamente diferente do resto do eixo, que colapsa
+  para o alvo: laço não tem alvo, e um indicador ao vivo congelado apagado
+  leria como "desligado". Decorativo por contrato: quem indica "gravando"
+  rotula no ponto de uso.
+
 - **`showAppConfirm` — a confirmação sim/não como função, sobre o
   `showAppDialog`.** Devolve `Future<bool>` que **nunca é nulo**: confirmar
   resolve `true`; cancelar, barrier, "X" e Esc resolvem `false`. A normalização
