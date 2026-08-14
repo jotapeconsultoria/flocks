@@ -36,6 +36,7 @@ final class AppDateTimePickerInput extends StatefulWidget {
     this.initialDateTime,
     this.label,
     this.lastDate,
+    this.onCleared,
     this.style,
     this.radiusMode,
     this.radius,
@@ -72,6 +73,15 @@ final class AppDateTimePickerInput extends StatefulWidget {
 
   /// Data máxima selecionável.
   final DateTime? lastDate;
+
+  /// Disparado quando o usuário limpa o campo pelo ✕ — o valor selecionado
+  /// volta a ser nenhum, e [onDateTimeSelected] (que só anuncia valores
+  /// válidos) não avisaria sozinho.
+  ///
+  /// O ✕ é o do [AppInput]: só existe com o campo **em erro**
+  /// ([hasError]/[errorText]), habilitado e preenchido. Apagar o texto à mão
+  /// (backspace) não notifica — texto parcial não é um valor.
+  final VoidCallback? onCleared;
 
   /// Callback quando uma data/hora válida é selecionada.
   final ValueChanged<DateTime> onDateTimeSelected;
@@ -123,6 +133,7 @@ class _AppDateTimePickerInputState extends State<AppDateTimePickerInput> {
                   _hour = 0;
                   _minute = 0;
                 });
+                widget.onCleared?.call();
                 handle.open();
               }
             : null,

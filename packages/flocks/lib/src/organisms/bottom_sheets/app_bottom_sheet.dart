@@ -26,6 +26,7 @@ final class AppBottomSheet extends StatelessWidget {
     this.footer,
     this.title,
     this.titleWidget,
+    this.showHandle = false,
     this.showCloseButton = true,
     this.onCloseButton,
     this.closeSide = AppSheetCloseSide.end,
@@ -48,6 +49,12 @@ final class AppBottomSheet extends StatelessWidget {
   /// Escape hatch para o título que NÃO é só texto (ícone ao lado, título
   /// reativo). Aqui a tipografia é de quem passa — a barra não a impõe.
   final Widget? titleWidget;
+
+  /// Mostra a handle (grabber) centralizada no topo. Default `false`.
+  ///
+  /// No card estático ela é só affordance visual; no modal arrastável
+  /// ([showAppBottomSheet] com `draggable: true`) é o convite ao arraste.
+  final bool showHandle;
 
   /// Mostra o botão de fechar (chip circular). Default `true`.
   final bool showCloseButton;
@@ -79,6 +86,7 @@ final class AppBottomSheet extends StatelessWidget {
     title: title,
     titleWidget: titleWidget,
     footer: footer,
+    showHandle: showHandle,
     showCloseButton: showCloseButton,
     onCloseButton: onCloseButton,
     closeSide: closeSide,
@@ -99,7 +107,9 @@ final class AppBottomSheet extends StatelessWidget {
 /// - arrastar para cima: repouso → page;
 /// - arrastar para baixo: no repouso, **fecha**; na page, volta ao repouso —
 ///   a menos que [alwaysClose] seja `true` (aí a page também fecha).
-/// - [showHandle] mostra a grabber no topo.
+///
+/// [showHandle] mostra a grabber no topo — nos **dois** modos: no card
+/// estático é affordance visual; no arrastável, o convite ao arraste.
 ///
 /// [onCloseButton] customiza o botão de fechar (`null` = pop). [onClose] dispara
 /// quando a sheet fecha por **qualquer** meio (arraste/barrier/botão). Retorna o
@@ -151,6 +161,7 @@ Future<T?> showAppBottomSheet<T>({
               title: title,
               titleWidget: titleWidget,
               footer: footer,
+              showHandle: showHandle,
               showCloseButton: showCloseButton,
               onCloseButton: onCloseButton,
               closeSide: closeSide,

@@ -345,21 +345,85 @@ void main() {
     );
   });
 
-  testWidgets('reduce-motion: o crescimento do polegar colapsa', (
+  // O par abaixo é uma coisa só, e por isso são dois testes e não um: medir o
+  // polegar SÓ sob reduce-motion não distingue "colapsou a duração" de "nunca
+  // animou". O contraste é a prova — no primeiro frame do arrasto o polegar já
+  // está no tamanho final com reduce-motion, e ainda NÃO está sem ele.
+  //
+  // Isto substitui um teste de mesmo nome cujo corpo assertava apenas
+  // `takeException(), isNull`: ele passaria com o AnimatedContainer removido,
+  // com a duração chumbada e com o polegar sem crescer — ausência de ofensor
+  // não é presença de efeito.
+  const double kLado = AppSizes.s16; // thumbSize default
+  const double kLadoArrastando = kLado + 4; // o crescimento do _dragging
+
+  testWidgets('reduce-motion: o polegar chega ao tamanho final em 1 frame', (
     tester,
   ) async {
     await tester.pumpWidget(
       _host(AppSlider(value: 0.5, onChanged: (_) {}), reduceMotion: true),
     );
+    expect(tester.getSize(find.byType(AnimatedContainer)).width, kLado);
+
     final TestGesture g = await tester.startGesture(
       tester.getCenter(find.byType(AppSlider)),
     );
+    // MOVER além do kTouchSlop, e não só tocar: depois do conserto de arena o
+    // polegar só cresce quando o arrasto VENCE a arena (onPanStart) — um toque
+    // parado, ou um movimento dentro do slop, não abre o gesto.
+    await g.moveBy(const Offset(40, 0));
+    // UM frame: sem interpolação, o tamanho novo já está aqui.
     await tester.pump();
-    await tester.pumpAndSettle();
+    expect(
+      tester.getSize(find.byType(AnimatedContainer)).width,
+      kLadoArrastando,
+    );
+    expect(
+      tester.widget<AnimatedContainer>(find.byType(AnimatedContainer)).duration,
+      Duration.zero,
+      reason: 'AppMotion.resolve tem de colapsar a duração, não encurtá-la',
+    );
+
     await g.up();
     await tester.pump();
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets(
+    'sem reduce-motion: o mesmo frame ainda está no meio do caminho',
+    (tester) async {
+      await tester.pumpWidget(_host(AppSlider(value: 0.5, onChanged: (_) {})));
+      final TestGesture g = await tester.startGesture(
+        tester.getCenter(find.byType(AppSlider)),
+      );
+      await g.moveBy(const Offset(40, 0));
+      await tester.pump();
+      final double noPrimeiroFrame = tester
+          .getSize(find.byType(AnimatedContainer))
+          .width;
+      expect(
+        noPrimeiroFrame,
+        lessThan(kLadoArrastando),
+        reason:
+            'com motion ligado o polegar interpola; se já chegou, não animou',
+      );
+      expect(
+        tester
+            .widget<AnimatedContainer>(find.byType(AnimatedContainer))
+            .duration,
+        greaterThan(Duration.zero),
+      );
+
+      await tester.pumpAndSettle();
+      expect(
+        tester.getSize(find.byType(AnimatedContainer)).width,
+        kLadoArrastando,
+      );
+
+      await g.up();
+      await tester.pumpAndSettle();
+    },
+  );
 
   test('AppSlider está no catálogo como migrated', () {
     expect(

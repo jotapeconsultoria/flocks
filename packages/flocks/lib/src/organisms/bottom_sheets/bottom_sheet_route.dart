@@ -215,6 +215,15 @@ class BottomSheetPageRoute<T> extends PageRoute<T>
 /// reprovendo-os na rota via `AppOverlayScope` (o Overlay do root vive acima do
 /// tema — senão `AppTheme.of` estoura no conteúdo). [contentBuilder] recebe o
 /// contexto já com o overlay scope.
+///
+/// A rota é quem desvia do **teclado**: um `AnimatedPadding` ergue a sheet
+/// inteira pelo `viewInsets.bottom` (o padrão do `Dialog`), e o
+/// `removeViewInsets` abaixo dele evita a dupla compensação por qualquer
+/// descendente inset-aware — e colapsa o `viewPadding.bottom` junto, para o
+/// safe-area do home-indicator (que fica EMBAIXO do teclado) não ser somado à
+/// sheet erguida. O wrapper mora DENTRO do `AppOverlayScope` porque
+/// `AppMotion.resolve` consulta o `AppTheme`, que acima do scope pode não
+/// existir.
 Future<T?> pushBottomSheet<T>({
   required BuildContext context,
   required bool isDismissible,
@@ -233,7 +242,20 @@ Future<T?> pushBottomSheet<T>({
   Widget content(BuildContext context) => AppOverlayScope(
     theme: theme,
     textScaler: textScaler,
-    child: Builder(builder: contentBuilder),
+    child: Builder(
+      builder: (BuildContext context) => AnimatedPadding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.viewInsetsOf(context).bottom,
+        ),
+        duration: AppMotion.resolve(context, AppDurations.normal),
+        curve: AppCurves.standard,
+        child: MediaQuery.removeViewInsets(
+          context: context,
+          removeBottom: true,
+          child: Builder(builder: contentBuilder),
+        ),
+      ),
+    ),
   );
   final Color barrier = theme.colorTheme.neutralPrimary.barrier();
 
