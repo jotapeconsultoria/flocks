@@ -15,6 +15,7 @@ Widget _sample(AppThemeData data, AppListTileStyle style) => AppTheme(
     child: Padding(
       padding: const EdgeInsets.all(AppSpacings.s16),
       child: AppListTileGroup(
+        title: style == AppListTileStyle.grouped ? 'Atalhos' : null,
         style: style,
         children: <Widget>[
           AppListTile.navigation(title: 'Suporte', onTap: () {}),

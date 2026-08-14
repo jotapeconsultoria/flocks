@@ -7561,6 +7561,15 @@
         "required": true
       },
       {
+        "name": "title",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Optional section label ABOVE the card — the same drawing as the AppMenu section title. Null = no label.",
+          "pt": "Rótulo de seção opcional ACIMA do card — o mesmo desenho do título de seção do AppMenu. Nulo = sem rótulo."
+        }
+      },
+      {
         "name": "style",
         "type": "AppListTileStyle",
         "required": false,
