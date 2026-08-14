@@ -37,6 +37,7 @@ const Set<String> kComponentStates = <String>{
   'day-selected',
   'default',
   'disabled',
+  'dismissible',
   'dragged',
   'dragging',
   'dragging-hue',
