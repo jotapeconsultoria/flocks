@@ -73,3 +73,12 @@ AppColorPickerPanel(
   onColorChanged: (Color c) => setState(() => current = c),
 );
 ```
+
+## Presets-only (`AppColorPickerPanel.showSpectrum`)
+
+`showSpectrum: false` hides the whole free-editing spectrum — the
+saturation/brightness area, the hue bar AND the hex preview (the hex belongs
+to free editing) — leaving only the preset palette: the fixed-palette picker
+of a tag screen. At least one of `showSpectrum`/`showSuggestedColors` must
+stay on (asserted); the breathing room between sections leaves with the
+spectrum, so presets-only opens straight at the label.

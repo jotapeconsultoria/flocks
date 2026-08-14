@@ -3,8 +3,11 @@
 The Flocks design system's compact status pill. It shows short text tinted by a
 semantic color role: the text uses the role's full color over a background of
 the same color at 10%, adapting to light/dark and to the brand. Sized by a named
-step (`AppBadgeSize`). Read-only by default; optionally interactive through
-`onTap` (mirroring `AppAvatar`).
+step (`AppBadgeSize`). An optional `icon` (an `AppIconToken` slug) sits LEFT of
+the label, painted with the same role color and sized to the label's line box —
+it widens the pill but never changes its height, so the proportional radius
+stays put. Read-only by default; optionally interactive through `onTap`
+(mirroring `AppAvatar`).
 
 ## When to use
 

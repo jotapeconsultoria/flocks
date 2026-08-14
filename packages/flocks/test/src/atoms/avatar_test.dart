@@ -16,6 +16,47 @@ Widget _host(Widget child, {TextScaler textScaler = TextScaler.noScaling}) =>
     );
 
 void main() {
+  group('fallbackIcon', () {
+    testWidgets('default continua o glifo de user', (tester) async {
+      await tester.pumpWidget(_host(const AppAvatar()));
+      final AppIcon icon = tester.widget<AppIcon>(find.byType(AppIcon));
+      expect(icon.icon, AppIconToken.user);
+    });
+
+    testWidgets('slug custom aparece nos DOIS construtores', (tester) async {
+      await tester.pumpWidget(
+        _host(const AppAvatar(fallbackIcon: AppIconToken.attachment)),
+      );
+      expect(
+        tester.widget<AppIcon>(find.byType(AppIcon)).icon,
+        AppIconToken.attachment,
+      );
+
+      await tester.pumpWidget(
+        _host(
+          const AppAvatar.custom(
+            diameter: 64,
+            fallbackIcon: AppIconToken.attachment,
+          ),
+        ),
+      );
+      expect(
+        tester.widget<AppIcon>(find.byType(AppIcon)).icon,
+        AppIconToken.attachment,
+      );
+    });
+
+    testWidgets('o texto de fallback vence o ícone', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          const AppAvatar(fallback: 'JP', fallbackIcon: AppIconToken.clock),
+        ),
+      );
+      expect(find.byType(AppIcon), findsNothing);
+      expect(find.text('JP'), findsOneWidget);
+    });
+  });
+
   group('AppAvatar', () {
     testWidgets('sem imagem e com fallback → mostra o texto', (tester) async {
       await tester.pumpWidget(

@@ -39,6 +39,14 @@ const AppComponentMeta appAvatarMeta = AppComponentMeta(
     ),
     PropMeta(name: 'imageUrl', type: 'String?'),
     PropMeta(name: 'fallback', type: 'String?'),
+    PropMeta(
+      name: 'fallbackIcon',
+      type: 'String?',
+      description: LocalizedText(
+        en: 'Icon slug for the no-image, no-text state. Null = the user glyph. Text wins when present.',
+        pt: 'Slug de ícone do estado sem imagem e sem texto. Nulo = o glifo de user. O texto vence quando presente.',
+      ),
+    ),
     PropMeta(name: 'semanticLabel', type: 'String?'),
     PropMeta(name: 'onTap', type: 'VoidCallback?'),
     PropMeta(
