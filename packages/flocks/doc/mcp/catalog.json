@@ -413,6 +413,15 @@
         "required": false
       },
       {
+        "name": "fallbackIcon",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Icon slug for the no-image, no-text state. Null = the user glyph. Text wins when present.",
+          "pt": "Slug de ícone do estado sem imagem e sem texto. Nulo = o glifo de user. O texto vence quando presente."
+        }
+      },
+      {
         "name": "semanticLabel",
         "type": "String?",
         "required": false

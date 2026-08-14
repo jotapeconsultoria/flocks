@@ -17,7 +17,10 @@ empty or the load fails, it falls back to short text or a user icon.
 - **Image**: `Image.network` clipped to a circle (`BoxFit.cover`).
 - **Loading**: a centered `AppCircularLoading` (40% of the diameter).
 - **Text fallback**: `AppText` (initials, for instance) over `neutralPrimary.s100`.
-- **Icon fallback**: `AppIconToken.user` when there is no text.
+- **Icon fallback**: `AppIconToken.user` when there is no text — or the
+  `fallbackIcon` slug when given (an entity avatar, an attachment circle).
+  Text wins: with a text fallback present, the icon never shows. The glyph
+  color stays the neutral `s700`, by design.
 
 The fallback icon's size scales with the diameter (`s`/`m`/`l`/`xl`).
 
