@@ -90,6 +90,21 @@ Widget _attachments(AppThemeData data) => const Wrap(
   ],
 );
 
+Widget _cards(AppThemeData data) => const Wrap(
+  spacing: AppSpacings.s8,
+  runSpacing: AppSpacings.s8,
+  crossAxisAlignment: WrapCrossAlignment.center,
+  children: <Widget>[
+    AppChatAttachmentCard(label: 'relatorio.pdf', onRemove: _noop),
+    AppChatAttachmentCard(
+      label: 'relatorio.pdf',
+      subtitle: '240 KB',
+      layout: AppChatAttachmentCardLayout.row,
+      onRemove: _noop,
+    ),
+  ],
+);
+
 Widget _typing(AppThemeData data) => const AppTypingIndicator();
 
 Widget _status(AppThemeData data) =>
@@ -207,6 +222,12 @@ const List<_ChatSample> _samples = <_ChatSample>[
     'app_chat_attachment_chip',
     _attachments,
     width: 320,
+  ),
+  _ChatSample(
+    'AppChatAttachmentCard',
+    'app_chat_attachment_card',
+    _cards,
+    width: 460,
   ),
   _ChatSample('AppTypingIndicator', 'app_typing_indicator', _typing),
   _ChatSample('AppAssistantStatus', 'app_assistant_status', _status),
