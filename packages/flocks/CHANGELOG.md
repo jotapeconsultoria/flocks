@@ -21,6 +21,15 @@ follows [SemVer](https://semver.org/).
 
 ### Added
 
+- **`AppPulse` — o pulso em laço do eixo de motion** (respiração de opacidade
+  e, opcionalmente, escala) para indicadores ao vivo: a bolinha de gravação, o
+  dot de transmissão. Amplitude em vez de flag: `minOpacity`/`minScale` dizem
+  o quanto, e `1.0` desliga o eixo. Sob reduce-motion o laço **para e congela
+  no estado cheio** — deliberadamente diferente do resto do eixo, que colapsa
+  para o alvo: laço não tem alvo, e um indicador ao vivo congelado apagado
+  leria como "desligado". Decorativo por contrato: quem indica "gravando"
+  rotula no ponto de uso.
+
 - **`showAppConfirm` — a confirmação sim/não como função, sobre o
   `showAppDialog`.** Devolve `Future<bool>` que **nunca é nulo**: confirmar
   resolve `true`; cancelar, barrier, "X" e Esc resolvem `false`. A normalização

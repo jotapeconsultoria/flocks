@@ -2004,6 +2004,17 @@ final directories = <_widgetbook.WidgetbookNode>[
             ],
           ),
           _widgetbook.WidgetbookComponent(
+            name: 'AppPulse',
+            useCases: [
+              _widgetbook.WidgetbookUseCase(
+                name: 'Playground',
+                builder:
+                    _asset_flocks_widgetbook_use_cases_motion_primitives_use_cases
+                        .appPulsePlayground,
+              ),
+            ],
+          ),
+          _widgetbook.WidgetbookComponent(
             name: 'AppScaleOnTap',
             useCases: [
               _widgetbook.WidgetbookUseCase(
