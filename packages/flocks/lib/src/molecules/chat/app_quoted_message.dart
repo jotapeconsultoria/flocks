@@ -165,8 +165,14 @@ final class AppQuotedMessage extends StatelessWidget {
           ),
           if (thumbnail case final ImageProvider t)
             AppSemantics.decorative(
+              // Largura E altura fixas: dentro do IntrinsicHeight, uma célula
+              // sem altura deixaria a intrínseca da IMAGEM (48 × aspect) ditar
+              // a altura do bloco — uma foto retrato inflaria a citação e o
+              // cover nunca recortaria. Com a altura travada em 48 a célula
+              // contribui 48 para a intrínseca e o stretch/cover recorta.
               SizedBox(
                 width: AppSizes.s48,
+                height: AppSizes.s48,
                 child: Image(image: t, fit: BoxFit.cover),
               ),
             ),
@@ -178,7 +184,7 @@ final class AppQuotedMessage extends StatelessWidget {
         semanticLabel ??
         (author == null ? 'Ver mensagem citada' : 'Mensagem citada de $author');
 
-    final Widget tappable = onTap != null
+    Widget tappable = onTap != null
         ? AppInteraction(
             onTap: onTap,
             radius: br,
@@ -187,7 +193,14 @@ final class AppQuotedMessage extends StatelessWidget {
           )
         : body;
 
-    Widget result = Container(
+    // O label substitui a semântica interna — por isso ele embrulha SÓ o
+    // corpo, nunca o container inteiro: no caso composer (semanticLabel +
+    // onRemove, sem onTap) o nó 'Remover citação' tem de sobreviver.
+    if (onTap == null && semanticLabel != null) {
+      tappable = AppSemantics.label(label: semanticLabel!, child: tappable);
+    }
+
+    final Widget result = Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: deco.color,
@@ -211,9 +224,6 @@ final class AppQuotedMessage extends StatelessWidget {
             ),
     );
 
-    if (onTap == null && semanticLabel != null) {
-      result = AppSemantics.label(label: semanticLabel!, child: result);
-    }
     return result;
   }
 
