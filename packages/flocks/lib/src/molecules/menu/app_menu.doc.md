@@ -29,7 +29,10 @@ a value); `AppMenu` fires *actions*.
   shadow) / `outlined` (a border) / `filled` (flat) — it does not follow the
   global `styleTheme`. The **shape** follows the global radius
   (`radiusMode`/`radius`).
-- **AppMenuItem**: an optional icon + a label. `danger: true` paints it in a
+- **AppMenuItem**: an optional icon + a label, plus an optional `subtitle` —
+  a two-line content preview (quick-reply text, a shortcut's detail) in the
+  menu's muted neutral, dimmed together with the label when disabled and
+  joined into the semantic label. `danger: true` paints it in a
   legible `danger` against the card; `enabled: false` (or a null `onPressed`)
   dims it by tone. Hover/focus = a neutral highlight (`onSurface` 8%).
 - **AppMenuSection**: an optional title (`labelSmall`, muted) + items.
