@@ -50,9 +50,14 @@ brands.
   `backgroundImageUrl` when present. It is the side that disappears on mobile.
 - **Content panel** (`child`): the form. It becomes the whole screen once the
   brand panel leaves.
-- Because both brand strings are required, an auth screen cannot come into
-  existence without an identity — which is the point of having the layout in the
-  design system instead of hand-assembling two columns in every app.
+- Identity is guaranteed by an assert, not by required strings: at least one
+  of `brandTitle` or `logoSemanticLabel` must be present (a subtitle alone
+  does not name the brand). `brandTitle`/`brandSubtitle` are optional — each
+  missing line takes its breathing room with it.
+- The brand can come as a **widget** (`logo` + a required
+  `logoSemanticLabel`, mutually exclusive with `logoUrl`): the widget subtree
+  is replaced by a single named image node (the `AppImage` idiom), and with
+  `websiteUrl` the link keeps its fixed label as its own node inside it.
 - `logoUrl` is **optional**: it comes from wherever your app hosts its art, and
   an app is not required to host any. When it is `null` the logo goes, and the
   link to the site goes with it — a zero-sized tappable target would still be

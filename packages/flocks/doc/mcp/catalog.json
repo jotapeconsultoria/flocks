@@ -14685,13 +14685,17 @@
     "props": [
       {
         "name": "brandTitle",
-        "type": "String",
-        "required": true
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Brand title. Optional as long as identity comes from logoSemanticLabel (asserted).",
+          "pt": "Título da marca. Opcional desde que a identidade venha de logoSemanticLabel (assert)."
+        }
       },
       {
         "name": "brandSubtitle",
-        "type": "String",
-        "required": true
+        "type": "String?",
+        "required": false
       },
       {
         "name": "child",
@@ -14707,6 +14711,24 @@
         "name": "logoUrl",
         "type": "String?",
         "required": false
+      },
+      {
+        "name": "logo",
+        "type": "Widget?",
+        "required": false,
+        "description": {
+          "en": "Brand as a widget (bundle SVG/image). Mutually exclusive with logoUrl; requires logoSemanticLabel. The widget subtree is replaced by a named image node (the AppImage idiom).",
+          "pt": "Marca como widget (SVG/imagem do bundle). Mutuamente exclusivo com logoUrl; exige logoSemanticLabel. A subárvore do widget é substituída por um nó de imagem nomeado (o idioma do AppImage)."
+        }
+      },
+      {
+        "name": "logoSemanticLabel",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Accessible brand name. Required with logo; with logoUrl it names the icon; it also satisfies identity when brandTitle is absent.",
+          "pt": "Nome acessível da marca. Obrigatório com logo; com logoUrl nomeia o ícone; também satisfaz a identidade sem brandTitle."
+        }
       },
       {
         "name": "websiteUrl",
