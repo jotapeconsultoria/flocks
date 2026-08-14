@@ -82,6 +82,35 @@ void main() {
       handle.dispose();
     });
 
+    testWidgets('showAppConfirm', (WidgetTester tester) async {
+      final SemanticsHandle handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _app(
+          (BuildContext context) => Center(
+            child: GestureDetector(
+              onTap: () => showAppConfirm(
+                context: context,
+                title: 'Excluir empresa?',
+                message: 'Corpo',
+              ),
+              // `Text` e não `AppText`: o texto do DS é selecionável e o
+              // reconhecedor de seleção ganha a arena, engolindo o toque.
+              child: const Text('Abrir'),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Abrir'));
+      await tester.pumpAndSettle();
+
+      // O helper herda o AppSemantics.modalRoute da _AppDialogRoute — a prova
+      // é a herança ter chegado, não uma rota nova.
+      expect(_scopesRoute(tester), isTrue);
+      expect(_namesRoute(tester, 'Excluir empresa?'), isTrue);
+      handle.dispose();
+    });
+
     testWidgets('showAppBottomSheet', (WidgetTester tester) async {
       final SemanticsHandle handle = tester.ensureSemantics();
       await tester.pumpWidget(

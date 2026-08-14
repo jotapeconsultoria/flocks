@@ -11,11 +11,14 @@ const AppComponentMeta appDialogMeta = AppComponentMeta(
     pt: 'Card central de um dialog modal (a superfície flutuante).',
   ),
   description: LocalizedText(
-    en: 'A dialog\'s surface: a top bar, scrollable content and an optional footer. Show it as a modal (barrier + transition + focus) through the `showAppDialog` helper. The bar is the same one the sheets use — an optional title and a close button (on and to the right by default) — but with the title aligned to the START, and it sits outside the scroll, like the footer; with no title and no button it does not exist. Because it floats, the container follows the AppStyle axis with its own `elevated` default (a shadow), overridable per instance; the shape follows the global radius axis. Colors 100% from the theme → AA contrast.',
+    en: 'A dialog\'s surface: a top bar, scrollable content and an optional footer. Show it as a modal (barrier + transition + focus) through the `showAppDialog` helper. For the most repeated dialog of all — a yes/no confirmation — use the `showAppConfirm` helper: it assembles body and footer and returns a `Future<bool>` that is NEVER null (barrier, "X" and Esc all resolve to `false`). The bar is the same one the sheets use — an optional title and a close button (on and to the right by default) — but with the title aligned to the START, and it sits outside the scroll, like the footer; with no title and no button it does not exist. Because it floats, the container follows the AppStyle axis with its own `elevated` default (a shadow), overridable per instance; the shape follows the global radius axis. Colors 100% from the theme → AA contrast.',
     pt:
         'A superfície de um dialog: uma barra de topo, conteúdo rolável e um '
         'rodapé opcional. Exiba-o como modal (barrier + transição + foco) via o '
-        'helper `showAppDialog`. A barra é a mesma das sheets — título opcional e '
+        'helper `showAppDialog`. Para o dialog mais repetido de todos — a '
+        'confirmação sim/não — use o helper `showAppConfirm`: ele monta corpo e '
+        'rodapé e devolve um `Future<bool>` que NUNCA é nulo (barrier, "X" e Esc '
+        'resolvem para `false`). A barra é a mesma das sheets — título opcional e '
         'botão de fechar (ligado e à direita por padrão) — mas com o título '
         'alinhado ao INÍCIO, e fica fora da rolagem, como o rodapé; sem título e '
         'sem botão ela não existe. Por ser flutuante, o container segue o eixo '
@@ -119,6 +122,17 @@ const AppComponentMeta appDialogMeta = AppComponentMeta(
           "illustration: 'assets/delete.svg'), "
           'footer: buttonsFooter)',
     ),
+    CodeExample(
+      title: LocalizedText(
+        en: 'Yes/no confirmation (never null)',
+        pt: 'Confirmação sim/não (nunca nula)',
+      ),
+      code:
+          'if (await showAppConfirm(context: context, '
+          "title: 'Excluir empresa', "
+          "message: 'Não dá para desfazer.', "
+          "confirmLabel: 'Excluir', destructive: true)) { await remove(); }",
+    ),
   ],
   dos: LocalizedList(
     en: <String>[
@@ -144,12 +158,15 @@ const AppComponentMeta appDialogMeta = AppComponentMeta(
     ],
   ),
   a11y: LocalizedText(
-    en: 'Shown through the Navigator (a PopupRoute): the focus scope and returning focus to the trigger are managed by the route; the barrier is labelled "Close". The close button is the dialog\'s first focusable node and carries the same label; the bar\'s title is announced as a heading. The theme\'s colors (surfaceContainer/outline) pass AA in light and dark.',
+    en: 'Shown through the Navigator (a PopupRoute): the focus scope and returning focus to the trigger are managed by the route; the barrier is labelled "Close". The close button is the dialog\'s first focusable node and carries the same label; the bar\'s title is announced as a heading. In `showAppConfirm` the two footer buttons are named by their own labels, and every way of dismissing (barrier, "X", Esc) resolves the future to `false` — the caller never branches on null. The theme\'s colors (surfaceContainer/outline) pass AA in light and dark.',
     pt:
         'Exibido via Navigator (PopupRoute): escopo de foco e devolução de foco '
         'ao gatilho são geridos pela rota; o barrier tem rótulo "Fechar". O botão '
         'de fechar é o primeiro nó focável do dialog e tem o mesmo rótulo; o '
-        'título da barra é anunciado como cabeçalho. Cores do tema '
+        'título da barra é anunciado como cabeçalho. No `showAppConfirm` os dois '
+        'botões do rodapé são nomeados pelos próprios rótulos, e toda forma de '
+        'dispensar (barrier, "X", Esc) resolve o future para `false` — o '
+        'chamador nunca ramifica em nulo. Cores do tema '
         '(surfaceContainer/outline) passam AA em claro/escuro.',
   ),
   crossPlatform: true,
@@ -169,10 +186,12 @@ const AppComponentMeta appDialogContentMeta = AppComponentMeta(
     pt: 'Corpo padrão de um dialog: título, mensagem e ilustração.',
   ),
   description: LocalizedText(
-    en: 'The most common body of an AppDialog (confirm/notify): a prominent title (optional), a message and a central illustration. When the dialog already carries the title in its top bar, leave this `title` null so it is not repeated. The top breathing room shrinks on its own once the surface has drawn the bar. Colors from the theme; the illustration\'s accent color uses `secondary` when none is given.',
+    en: 'The most common body of an AppDialog (confirm/notify): a prominent title (optional), a message and an optional central illustration — with no `illustration` the art block leaves the layout entirely, which is the plain confirmation body. When the dialog already carries the title in its top bar, leave this `title` null so it is not repeated. The top breathing room shrinks on its own once the surface has drawn the bar. Colors from the theme; the illustration\'s accent color uses `secondary` when none is given.',
     pt:
         'O corpo mais comum de um AppDialog (confirmar/avisar): título em '
-        'destaque (opcional), mensagem e uma ilustração central. Quando o dialog '
+        'destaque (opcional), mensagem e uma ilustração central opcional — sem '
+        '`illustration` o bloco da arte sai inteiro do layout, que é o corpo de '
+        'confirmação puro. Quando o dialog '
         'já leva o título na barra de topo, deixe o `title` daqui nulo para não '
         'repetir. O respiro do topo encolhe sozinho quando a superfície desenhou '
         'a barra. Cores do tema; a cor de destaque da ilustração usa `secondary` '
@@ -202,7 +221,17 @@ const AppComponentMeta appDialogContentMeta = AppComponentMeta(
       ),
     ),
     PropMeta(name: 'message', type: 'String', isRequired: true),
-    PropMeta(name: 'illustration', type: 'String', isRequired: true),
+    PropMeta(
+      name: 'illustration',
+      type: 'String?',
+      description: LocalizedText(
+        en: 'SVG path. `null` draws no illustration at all: the art block and its two 64px breathers leave the layout, and the body closes 32px below the message. That is the plain confirmation dialog.',
+        pt:
+            'Caminho do SVG. `null` não desenha ilustração nenhuma: o bloco da '
+            'arte e os dois respiros de 64 saem do layout, e o corpo fecha 32 '
+            'abaixo da mensagem. É o diálogo de confirmação puro.',
+      ),
+    ),
     PropMeta(
       name: 'accentRole',
       type: 'ColorSwatch<int>?',
