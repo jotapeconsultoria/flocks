@@ -150,6 +150,32 @@ follows [SemVer](https://semver.org/).
   propósito, porque um estilo cru no call site tira o texto do eixo que faz um
   valor no tema restilar o pacote inteiro.
 
+- **`AppChatComposer(preview:)` — o banner de resposta ancora no campo.** Um
+  Widget imediatamente acima da superfície de compose, abaixo da faixa de anexos:
+  a prévia é a citação do que a mensagem responde, e ancora no campo que responde
+  a ela. O slot é cru de propósito — um banner de reply é peça composta do app; o
+  composer dá posição e respiro, nada mais. A prévia entra nas duas regras que os
+  anexos já habitavam (quebra o curto-circuito da superfície solitária e conta
+  como faixa acima na exceção de forma). De carona, o dartdoc de `attachments`
+  dizia "abaixo do campo" e o build sempre os pôs acima — corrigido.
+
+- **`AppChatAttachmentCard` deita: `layout: {square, row}`.** O default `square`
+  não muda um pixel — o ramo do row é a primeira linha do build e o corpo do
+  quadrado fica intocado. No row, `size` vira fator de escala: largura 2×,
+  altura do conteúdo, thumb de 40 ou o MESMO tile tingido do quadrado, nome e
+  subtítulo ao lado, e o × de remover em linha no fim — o idioma do chip. A
+  fronteira com o chip fica escrita no doc.md: o chip é a pílula compacta de uma
+  linha para faixas densas; o card-row é o bloco horizontal rico.
+
+- **`AppMessageMeta(time:)` vira opcional — o glifo de status como célula.** Para
+  a meta só-de-status: a célula da tabela de entrega de campanha, o marcador
+  compacto. Um assert fecha o rodapé vazio, e é estrito de propósito: `edited`
+  sozinho é modificador da meta, não meta — um rodapé só com "editada" reprova em
+  vez de renderizar algo que parece meta e não é. Os respiros do `Row` mudaram de
+  dono sem mudar de lugar (cada um pertence ao vizinho seguinte), senão um `time`
+  nulo deixaria 8px órfãos entre "editada" e o tique; com `time` presente a
+  sequência é exatamente a de sempre e os 4 goldens ficaram byte-idênticos.
+
 - **`AppImage.memory` — a terceira variante do átomo de imagem, para o payload
   que não tem URL.** O QR do PIX que chega em base64, o preview de anexo, o
   gráfico renderizado pelo backend. Mesmo contrato da variante de rede

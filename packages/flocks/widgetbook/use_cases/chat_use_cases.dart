@@ -96,6 +96,10 @@ Widget appChatBubbleStates(BuildContext context) => wbUseCase(
 
 @widgetbook.UseCase(name: 'Playground', type: AppMessageMeta)
 Widget appMessageMetaPlayground(BuildContext context) {
+  final showTime = context.knobs.boolean(
+    label: 'time (off = status only)',
+    initialValue: true,
+  );
   final time = context.knobs.string(label: 'time', initialValue: '10:32');
   final status = context.knobs.object.dropdown<AppMessageStatus>(
     label: 'status',
@@ -104,13 +108,22 @@ Widget appMessageMetaPlayground(BuildContext context) {
     labelBuilder: (s) => s.name,
   );
   final edited = context.knobs.boolean(label: 'edited', initialValue: false);
+  // Sem time o assert exige status != none — o clamp evita derrubar o canvas.
+  final AppMessageStatus effectiveStatus =
+      !showTime && status == AppMessageStatus.none
+      ? AppMessageStatus.sent
+      : status;
   return wbUseCase(
     context,
     name: 'AppMessageMeta',
     description:
         'Timestamp + delivery ticks. "read" is tinted; "failed" '
-        'shows danger.',
-    child: AppMessageMeta(time: time, status: status, edited: edited),
+        'shows danger. Time off = the status-only cell.',
+    child: AppMessageMeta(
+      time: showTime ? time : null,
+      status: effectiveStatus,
+      edited: edited,
+    ),
   );
 }
 
@@ -142,6 +155,7 @@ class _ComposerHost extends StatefulWidget {
     required this.enabled,
     required this.withAttachments,
     required this.useCards,
+    required this.withPreview,
     required this.showModel,
     required this.showInfo,
     required this.showContext,
@@ -154,6 +168,7 @@ class _ComposerHost extends StatefulWidget {
   final bool enabled;
   final bool withAttachments;
   final bool useCards;
+  final bool withPreview;
   final bool showModel;
   final bool showInfo;
   final bool showContext;
@@ -203,6 +218,19 @@ class _ComposerHostState extends State<_ComposerHost> {
       contextPopover: widget.showContext
           ? const AppText('35% do contexto usado.')
           : null,
+      preview: widget.withPreview
+          ? Builder(
+              builder: (BuildContext context) {
+                final AppThemeData theme = AppTheme.of(context);
+                return AppText(
+                  'Replying to: "Can you send the report?"',
+                  style: theme.textTheme.labelMedium.copyWith(
+                    color: theme.colorTheme.neutralPrimary.s600,
+                  ),
+                );
+              },
+            )
+          : null,
       attachmentLayout: widget.useCards
           ? AppChatAttachmentLayout.row
           : AppChatAttachmentLayout.wrap,
@@ -230,8 +258,8 @@ Widget appChatComposerPlayground(BuildContext context) => wbUseCase(
       'go ABOVE it and the toolbar (attach/model left, info/context right) '
       'below — both outside the surface (like Claude). Buttons are neutral; '
       'only the context ring is colored. Attachments follow the style. Enter '
-      'sends; Shift+Enter breaks. Circular falls back to redondo with '
-      'attachments OR when the text wraps to multiple lines.',
+      'sends; Shift+Enter breaks. Circular falls back to redondo with a band '
+      'above (attachments or preview) OR when the text wraps.',
   child: _ComposerHost(
     busy: context.knobs.boolean(label: 'busy', initialValue: false),
     enabled: context.knobs.boolean(label: 'enabled', initialValue: true),
@@ -243,6 +271,7 @@ Widget appChatComposerPlayground(BuildContext context) => wbUseCase(
       label: 'attachments as cards',
       initialValue: false,
     ),
+    withPreview: context.knobs.boolean(label: 'preview', initialValue: false),
     showModel: context.knobs.boolean(label: 'model', initialValue: true),
     showInfo: context.knobs.boolean(label: 'info', initialValue: true),
     showContext: context.knobs.boolean(label: 'context', initialValue: true),
@@ -329,16 +358,23 @@ Widget appChatAttachmentCardPlayground(BuildContext context) {
     initialValue: true,
   );
   final size = wbSizeKnob(context, label: 'size', initial: AppSizes.s128);
+  final layout = context.knobs.object.dropdown<AppChatAttachmentCardLayout>(
+    label: 'layout',
+    options: AppChatAttachmentCardLayout.values,
+    initialOption: AppChatAttachmentCardLayout.square,
+    labelBuilder: (l) => 'AppChatAttachmentCardLayout.${l.name}',
+  );
   return wbUseCase(
     context,
     name: 'AppChatAttachmentCard',
     description:
-        'Square attachment card (Claude-style). Image variant needs an '
-        'ImageProvider at runtime.',
+        'Attachment card (Claude-style): square by default, or a horizontal '
+        'row block. Image variant needs an ImageProvider at runtime.',
     child: AppChatAttachmentCard(
       label: label,
       subtitle: subtitle.isEmpty ? null : subtitle,
       size: size,
+      layout: layout,
       style: wbStyleKnob(context),
       onRemove: removable ? () {} : null,
       onTap: viewable ? () {} : null,
@@ -350,7 +386,9 @@ Widget appChatAttachmentCardPlayground(BuildContext context) {
 Widget appChatAttachmentCardKinds(BuildContext context) => wbUseCase(
   context,
   name: 'AppChatAttachmentCard',
-  description: 'Icon + tint resolved per file extension.',
+  description:
+      'Icon + tint resolved per file extension; the last line shows the row '
+      'layout.',
   maxWidth: 720,
   child: Wrap(
     alignment: WrapAlignment.center,
@@ -359,6 +397,12 @@ Widget appChatAttachmentCardKinds(BuildContext context) => wbUseCase(
     children: <Widget>[
       for (final String f in _sampleFiles)
         AppChatAttachmentCard(label: f, onRemove: () {}),
+      AppChatAttachmentCard(
+        label: 'relatorio.pdf',
+        subtitle: '240 KB',
+        layout: AppChatAttachmentCardLayout.row,
+        onRemove: () {},
+      ),
     ],
   ),
 );

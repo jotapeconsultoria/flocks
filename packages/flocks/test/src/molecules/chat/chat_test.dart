@@ -174,6 +174,74 @@ void main() {
       expect(find.text('editada'), findsOneWidget);
     });
 
+    testWidgets('edited + time + status → dois gaps de s4, na ordem', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _host(
+          const AppMessageMeta(
+            time: '10:32',
+            edited: true,
+            status: AppMessageStatus.sent,
+          ),
+        ),
+      );
+      final Iterable<SizedBox> gaps = tester
+          .widgetList<SizedBox>(
+            find.descendant(
+              of: find.byType(AppMessageMeta),
+              matching: find.byType(SizedBox),
+            ),
+          )
+          .where((SizedBox b) => b.width == 4);
+      expect(gaps.length, 2);
+      final double edited = tester.getRect(find.text('editada')).left;
+      final double time = tester.getRect(find.text('10:32')).left;
+      final double tick = tester.getRect(find.byType(AppIcon)).left;
+      expect(edited, lessThan(time));
+      expect(time, lessThan(tick));
+    });
+
+    testWidgets('time null + status → só o tique, sem gaps', (tester) async {
+      await tester.pumpWidget(
+        _host(const AppMessageMeta(status: AppMessageStatus.sent)),
+      );
+      expect(find.byType(AppText), findsNothing);
+      expect(find.byType(AppIcon), findsOneWidget);
+      final Iterable<SizedBox> gaps = tester
+          .widgetList<SizedBox>(
+            find.descendant(
+              of: find.byType(AppMessageMeta),
+              matching: find.byType(SizedBox),
+            ),
+          )
+          .where((SizedBox b) => b.width == 4);
+      expect(gaps, isEmpty);
+    });
+
+    testWidgets('time null + edited + status → um único gap', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          const AppMessageMeta(edited: true, status: AppMessageStatus.sent),
+        ),
+      );
+      expect(find.text('editada'), findsOneWidget);
+      final Iterable<SizedBox> gaps = tester
+          .widgetList<SizedBox>(
+            find.descendant(
+              of: find.byType(AppMessageMeta),
+              matching: find.byType(SizedBox),
+            ),
+          )
+          .where((SizedBox b) => b.width == 4);
+      expect(gaps.length, 1);
+    });
+
+    testWidgets('assert: sem time e sem status reprova', (tester) async {
+      expect(() => AppMessageMeta(), throwsAssertionError);
+      expect(() => AppMessageMeta(edited: true), throwsAssertionError);
+    });
+
     testWidgets('está no catálogo', (tester) async {
       expect(_inCatalog('app_message_meta'), isTrue);
     });
@@ -386,6 +454,130 @@ void main() {
       final BorderRadius br =
           composerDecoration(tester).borderRadius! as BorderRadius;
       // redondo (com teto ~12), não a pílula-sentinela.
+      expect(br.topLeft.x, lessThan(100));
+    });
+
+    testWidgets('sem preview → superfície direto (curto-circuito preservado)', (
+      tester,
+    ) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        _host(
+          SizedBox(width: 400, child: AppChatComposer(controller: controller)),
+        ),
+      );
+      // Sem faixa nenhuma, não existe o Padding de faixa (bottom 8, l/r 4)…
+      expect(
+        find.descendant(
+          of: find.byType(AppChatComposer),
+          matching: find.byWidgetPredicate(
+            (Widget w) =>
+                w is Padding &&
+                w.padding ==
+                    const EdgeInsets.only(bottom: 8, left: 4, right: 4),
+          ),
+        ),
+        findsNothing,
+      );
+      // …nem a Column externa (stretch) — o composer É a superfície.
+      expect(
+        find.descendant(
+          of: find.byType(AppChatComposer),
+          matching: find.byWidgetPredicate(
+            (Widget w) =>
+                w is Column &&
+                w.crossAxisAlignment == CrossAxisAlignment.stretch &&
+                w.mainAxisSize == MainAxisSize.min,
+          ),
+        ),
+        findsNothing,
+      );
+    });
+
+    testWidgets('preview fica entre os anexos e a superfície', (tester) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        _host(
+          SizedBox(
+            width: 400,
+            child: AppChatComposer(
+              controller: controller,
+              attachments: const <Widget>[
+                AppChatAttachmentChip(label: 'a.pdf'),
+              ],
+              preview: const SizedBox(
+                key: ValueKey<String>('reply'),
+                height: 32,
+              ),
+            ),
+          ),
+        ),
+      );
+      final Rect chip = tester.getRect(find.byType(AppChatAttachmentChip));
+      final Rect reply = tester.getRect(
+        find.byKey(const ValueKey<String>('reply')),
+      );
+      final Rect input = tester.getRect(find.byType(AppInput));
+      expect(chip.bottom, lessThanOrEqualTo(reply.top));
+      expect(reply.bottom, lessThanOrEqualTo(input.top));
+      // Com anexos E preview há DUAS faixas com o mesmo respiro.
+      expect(
+        find.descendant(
+          of: find.byType(AppChatComposer),
+          matching: find.byWidgetPredicate(
+            (Widget w) =>
+                w is Padding &&
+                w.padding ==
+                    const EdgeInsets.only(bottom: 8, left: 4, right: 4),
+          ),
+        ),
+        findsNWidgets(2),
+      );
+    });
+
+    testWidgets('preview sozinho quebra o curto-circuito', (tester) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        _host(
+          SizedBox(
+            width: 400,
+            child: AppChatComposer(
+              controller: controller,
+              preview: const SizedBox(
+                key: ValueKey<String>('reply'),
+                height: 32,
+              ),
+            ),
+          ),
+        ),
+      );
+      final Rect reply = tester.getRect(
+        find.byKey(const ValueKey<String>('reply')),
+      );
+      final Rect input = tester.getRect(find.byType(AppInput));
+      expect(reply.bottom, lessThanOrEqualTo(input.top));
+    });
+
+    testWidgets('circular + preview → cai para redondo', (tester) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        _host(
+          SizedBox(
+            width: 400,
+            child: AppChatComposer(
+              controller: controller,
+              radiusMode: AppRadiusMode.circular,
+              preview: const SizedBox(height: 32),
+            ),
+          ),
+        ),
+      );
+      final BorderRadius br =
+          composerDecoration(tester).borderRadius! as BorderRadius;
       expect(br.topLeft.x, lessThan(100));
     });
 
@@ -630,6 +822,141 @@ void main() {
       await tester.pump();
       expect(find.byType(Image), findsOneWidget);
     });
+
+    testWidgets('square default mede size × size (identidade)', (tester) async {
+      await tester.pumpWidget(
+        _host(const AppChatAttachmentCard(label: 'a.pdf')),
+      );
+      expect(
+        tester.getSize(find.byType(AppChatAttachmentCard)),
+        const Size(104, 104),
+      );
+
+      // O host de Overlay não troca o child em re-pump — reset entre fases.
+      await tester.pumpWidget(const SizedBox());
+      await tester.pumpWidget(
+        _host(
+          const AppChatAttachmentCard(
+            label: 'a.pdf',
+            layout: AppChatAttachmentCardLayout.square,
+          ),
+        ),
+      );
+      expect(
+        tester.getSize(find.byType(AppChatAttachmentCard)),
+        const Size(104, 104),
+      );
+    });
+
+    testWidgets('row: largura 2×size, altura do conteúdo', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          const AppChatAttachmentCard(
+            label: 'a.pdf',
+            subtitle: '240 KB',
+            layout: AppChatAttachmentCardLayout.row,
+          ),
+        ),
+      );
+      final Size s = tester.getSize(find.byType(AppChatAttachmentCard));
+      expect(s.width, 208);
+      expect(s.height, greaterThan(0));
+      expect(s.height, lessThan(104));
+      expect(find.text('240 KB'), findsOneWidget);
+
+      await tester.pumpWidget(const SizedBox());
+      await tester.pumpWidget(
+        _host(
+          const AppChatAttachmentCard(
+            label: 'a.pdf',
+            size: 80,
+            layout: AppChatAttachmentCardLayout.row,
+          ),
+        ),
+      );
+      expect(tester.getSize(find.byType(AppChatAttachmentCard)).width, 160);
+    });
+
+    testWidgets('row: X em linha (sem Positioned) e callbacks funcionam', (
+      tester,
+    ) async {
+      int removed = 0;
+      int viewed = 0;
+      await tester.pumpWidget(
+        _host(
+          AppChatAttachmentCard(
+            label: 'aula.pptx',
+            layout: AppChatAttachmentCardLayout.row,
+            onRemove: () => removed++,
+            onTap: () => viewed++,
+          ),
+        ),
+      );
+      expect(
+        find.descendant(
+          of: find.byType(AppChatAttachmentCard),
+          matching: find.byType(Positioned),
+        ),
+        findsNothing,
+      );
+      await tester.tap(find.bySemanticsLabel('Remover anexo'));
+      expect(removed, 1);
+      await tester.tap(find.text('aula.pptx'));
+      expect(viewed, 1);
+      // O ícone tingido por categoria continua o mesmo do quadrado.
+      expect(
+        find.byWidgetPredicate(
+          (w) => w is AppIcon && w.icon == AppIcons.filePpt,
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets(
+      'row: raio resolve sem size (redondo teto ~12; circular satura)',
+      (tester) async {
+        // A caixa PRÓPRIA do row é o Container de largura 2×size — o primeiro
+        // Container da subárvore pode ser interno (o disco do AppIcon).
+        Container rowBox() => tester.widget<Container>(
+          find.byWidgetPredicate(
+            (w) =>
+                w is Container &&
+                w.constraints == const BoxConstraints.tightFor(width: 208),
+          ),
+        );
+
+        await tester.pumpWidget(
+          _host(
+            const AppChatAttachmentCard(
+              label: 'a.pdf',
+              layout: AppChatAttachmentCardLayout.row,
+              radiusMode: AppRadiusMode.redondo,
+            ),
+          ),
+        );
+        BorderRadius br =
+            (rowBox().decoration! as BoxDecoration).borderRadius!
+                as BorderRadius;
+        expect(br.topLeft.x, lessThanOrEqualTo(12));
+
+        await tester.pumpWidget(const SizedBox());
+        await tester.pumpWidget(
+          _host(
+            const AppChatAttachmentCard(
+              label: 'a.pdf',
+              layout: AppChatAttachmentCardLayout.row,
+              radiusMode: AppRadiusMode.circular,
+            ),
+          ),
+        );
+        br =
+            (rowBox().decoration! as BoxDecoration).borderRadius!
+                as BorderRadius;
+        // Sentinela de pílula (o Flutter satura na altura real) — o precedente
+        // da pílula de arquivo do chip.
+        expect(br.topLeft.x, greaterThan(100));
+      },
+    );
 
     testWidgets('está no catálogo', (tester) async {
       expect(_inCatalog('app_chat_attachment_card'), isTrue);
