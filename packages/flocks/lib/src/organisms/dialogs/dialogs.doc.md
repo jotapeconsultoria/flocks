@@ -80,8 +80,10 @@ title, one sentence, Confirm/Cancel.
   error (assert).
 - **Width**: defaults to `maxWidth: 480` with **no floor** — unlike the 448/640
   of `showAppDialog`, whose 448 floor is meant for forms and overflows a 375px
-  phone once the route's 64px side paddings are paid. A confirm is a sentence;
-  the card hugs it.
+  phone once the route's 64px side paddings are paid. Note the top bar makes
+  the card take the constraints' maximum width (an `AppDialog` behavior), so
+  the default confirm renders at 480 wide when the viewport allows — the "no
+  floor" is what saves narrow phones, not a hug-the-content width.
 - A double tap on either button produces a **single pop** (an
   `appRouteIsTopmost` guard) — the screen underneath never gets dismissed by the
   second tap.

@@ -3,6 +3,7 @@ export 'breadcrumb/breadcrumb.dart';
 export 'buttons/buttons.dart';
 export 'charts/charts.dart';
 export 'chat/chat.dart';
+export 'choice_chip/choice_chip.dart';
 export 'color_picker/color_picker.dart';
 export 'copy/copy.dart';
 export 'date_picker/date_picker.dart';

@@ -1,6 +1,6 @@
 # Roadmap — distribuição e adoção
 
-O pacote está maduro: 133 componentes migrados, 25 suítes de arquitetura, a
+O pacote está maduro: 135 componentes migrados, 25 suítes de arquitetura, a
 suíte inteira verde sem os goldens (o total sai do comando, na tabela de
 medições abaixo), catálogo bilíngue com gate de frescor. Um roadmap que
 listasse "mais componentes" estaria lendo o problema errado. O que falta é
@@ -18,7 +18,7 @@ Atualizado em 2026-08-11 — o que cada fase mediu está na seção dela.
 | A1 — o corte e o publish | ✅ **publicado em 2026-08-10**: `flocks`, `flocks_phosphor` e `flocks_material` em 0.1.0 no pub.dev, sob exceção de nome concedida pelo suporte (caso `flock`), os três no publisher verificado `jotapeconsultoria.com.br` desde o primeiro publish. Tag `v0.1.0` na main. No mesmo dia veio a **0.1.1**, com o que a pana cobrou (LICENSE reconhecível, plataformas, `example/`), e a tag `v0.1.1` |
 | A1.1 — o que a pana cobrou | ✅ **publicado em 2026-08-10**: a análise da `0.1.0` voltou com 140/160 e apontou três defeitos — `LICENSE` com texto apensado (licença não reconhecida), `pointer_interceptor` derrubando o suporte de plataforma para 2 de 6, e `if (dart.library.html)` tornando o pacote incompatível com wasm. Os três foram consertados e, junto, os `example/` que faltavam ao `flocks` e ao `flocks_material` (10 pontos cada). A `0.1.1` está no ar nos quatro, com a tag `v0.1.1`. A reanálise fechou: **os quatro em 160/160**. A API devolve `0/0` enquanto ela corre — é análise pendente, não nota zero. Detalhe e lições em [`EXTRACAO.md`](packages/flocks/doc/EXTRACAO.md) |
 | A2 — consumidores `git:` → hosted | ✅ concluída (2026-08-10): consumidores de origem resolvem do pub.dev, override de git removido |
-| B — Widgetbook hospedado | ✅ no ar em `widgetbook.flocks.live` (2026-08-06): release de 43 MB com `main.dart.js` de 4,2 MB contra 58 MB do debug; deploy no CI com `needs` nos dois gates e purge; contagem de use cases virou artefato gerado com gate (`doc/widgetbook_use_cases.json`, 301) |
+| B — Widgetbook hospedado | ✅ no ar em `widgetbook.flocks.live` (2026-08-06): release de 43 MB com `main.dart.js` de 4,2 MB contra 58 MB do debug; deploy no CI com `needs` nos dois gates e purge; contagem de use cases virou artefato gerado com gate (`doc/widgetbook_use_cases.json`, 305) |
 | Site — landing | ✅ no ar em `flocks.live` com a copy pós-publicação nos dois idiomas (2026-08-10), `/mcp` bilíngue no ar, tudo fiscalizado pelo `install_docs_test`; `/componentes` ainda não existe. **Cicatriz de 2026-08-10**: a home em inglês passou ~3h30 servindo a nav sem o link `/demo/` com o job de deploy VERDE — os 18 PUTs deram 201 e a zone foi purgada 1 s depois do último, mas a Storage Zone é geo-replicada: o `index.html` só materializou nas réplicas 17 min depois, e a que atendia `/` seguiu servindo a versão anterior (com `cdn-cache: MISS`, buscando na origem e recebendo bytes velhos) enquanto `/index.html` já servia a nova. Convergiu sozinho. Purgar 1 s depois do PUT é pior que não purgar — recacheia o velho pelo TTL. O gate novo compara byte a byte o que o edge devolve com o que subiu, repurgando entre tentativas, e o `workflow_dispatch` ganhou `force_site` porque não havia caminho de re-deploy sem commit de mentirinha em `site/` |
 | C1 — contrato MCP | ✅ definido e documentado no README do `flocks_mcp`: três tools, `lang: en\|pt`, erros como `isError` dentro do resultado |
 | C2 — `flocks_mcp` | ✅ **publicado em 2026-08-10**: no pub.dev sob o publisher verificado `jotapeconsultoria.com.br`, verificado em sessão real de agente, e em **160/160** na pana desde a `0.1.1`. O aviso de não-publicado saiu no mesmo commit que o `publish_to: none`, nas quatro superfícies que o XOR do teste próprio fiscaliza |
@@ -33,10 +33,10 @@ Os números daqui foram medidos em 2026-08-12, não supostos:
 | --- | --- | --- |
 | Testes do `flocks` (sem golden) | `flutter test --exclude-tags golden` | todos verdes — o total sai do comando e não daqui: qualquer teste novo no pacote o muda, e nenhum gate alcança número escrito nesta tabela |
 | Testes dos sete pacotes | os sete steps de teste do job `checks`, somados | todos verdes — o total sai do comando e não daqui: qualquer teste novo em qualquer um dos sete o muda, e nenhum gate alcança número escrito nesta tabela |
-| Validador | `cd packages/flocks && dart run tool/validate_components.dart` | 133 migrados + 7 internos |
+| Validador | `cd packages/flocks && dart run tool/validate_components.dart` | 135 migrados + 7 internos |
 | Dry-run `flocks` | `dart pub publish --dry-run` | 0 avisos, tarball de 1 MB — eram 16 MB antes do `.pubignore` da A0, que tirou os 302 goldens (14,7 MB) |
 | Dry-run dos 4 adaptadores e do `flocks_mcp` | idem | 0 avisos cada; os seis pacotes publicáveis têm `CHANGELOG.md` |
-| Use cases do Widgetbook | `grep -rc '@widgetbook.UseCase' widgetbook/use_cases/` | 301 |
+| Use cases do Widgetbook | `grep -rc '@widgetbook.UseCase' widgetbook/use_cases/` | 305 |
 | Referências penduradas | `grep -rn FLOCKS_MIGRATION_PLAN packages/` | 1 — a nota da dívida já resolvida, em [`EXTRACAO.md`](packages/flocks/doc/EXTRACAO.md) |
 
 ## Fase A — publicar no pub.dev
@@ -97,7 +97,7 @@ de multi-marca não se perdeu — as duas marcas cliente continuam no relatório
 agora ao lado da terceira.
 
 **5. A contagem do `CHANGELOG.md` do `flocks`.** A seção `[1.0.0]` diz "129
-components"; são 133. O `catalog_freshness_test` fiscaliza o README, não o
+components"; são 135. O `catalog_freshness_test` fiscaliza o README, não o
 CHANGELOG — corrigir à mão.
 
 ### A1 — o corte
@@ -134,7 +134,7 @@ três partes:
 - **Empregos distintos, uma fonte só.** A galeria do site é documentação —
   HTML semântico, indexável, gerado de `*.meta.dart` → `catalog.json`. O
   Widgetbook é prova interativa: knobs, e os eixos globais como addons — a
-  demonstração viva de que três eixos restilizam 133 componentes. Nada é
+  demonstração viva de que três eixos restilizam 135 componentes. Nada é
   escrito duas vezes: a documentação deriva do meta; os use cases são escritos
   uma vez em `widgetbook/` e fiscalizados pelo `widgetbook_conventions_test`.
   Duplicação só existiria se o site construísse um playground próprio — e não
@@ -167,7 +167,7 @@ Itens, em ordem:
 
 ## Fase C — servidor MCP (contrato primeiro, servidor depois)
 
-O dado está pronto: `packages/flocks/doc/mcp/catalog.json`, 133 componentes,
+O dado está pronto: `packages/flocks/doc/mcp/catalog.json`, 135 componentes,
 bilíngue na fonte. O que não existe é o servidor — e, antes dele, o contrato.
 
 **C1 — o contrato** (barato, e destrava qualquer consumidor de escrever

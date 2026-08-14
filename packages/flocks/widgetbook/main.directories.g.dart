@@ -36,6 +36,8 @@ import 'use_cases/charts_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_charts_use_cases;
 import 'use_cases/chat_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_chat_use_cases;
+import 'use_cases/choice_chip_use_cases.dart'
+    as _asset_flocks_widgetbook_use_cases_choice_chip_use_cases;
 import 'use_cases/color_picker_use_cases.dart'
     as _asset_flocks_widgetbook_use_cases_color_picker_use_cases;
 import 'use_cases/colors_use_cases.dart'
@@ -1118,6 +1120,45 @@ final directories = <_widgetbook.WidgetbookNode>[
                 name: 'States',
                 builder: _asset_flocks_widgetbook_use_cases_chat_use_cases
                     .appTypingIndicatorStates,
+              ),
+            ],
+          ),
+        ],
+      ),
+      _widgetbook.WidgetbookFolder(
+        name: 'choice_chip',
+        children: [
+          _widgetbook.WidgetbookComponent(
+            name: 'AppChoiceChip',
+            useCases: [
+              _widgetbook.WidgetbookUseCase(
+                name: 'Playground',
+                builder:
+                    _asset_flocks_widgetbook_use_cases_choice_chip_use_cases
+                        .appChoiceChipPlayground,
+              ),
+              _widgetbook.WidgetbookUseCase(
+                name: 'States',
+                builder:
+                    _asset_flocks_widgetbook_use_cases_choice_chip_use_cases
+                        .appChoiceChipStates,
+              ),
+            ],
+          ),
+          _widgetbook.WidgetbookComponent(
+            name: 'AppChoiceChipBar',
+            useCases: [
+              _widgetbook.WidgetbookUseCase(
+                name: 'Playground',
+                builder:
+                    _asset_flocks_widgetbook_use_cases_choice_chip_use_cases
+                        .appChoiceChipBarPlayground,
+              ),
+              _widgetbook.WidgetbookUseCase(
+                name: 'Scenario',
+                builder:
+                    _asset_flocks_widgetbook_use_cases_choice_chip_use_cases
+                        .appChoiceChipBarScenario,
               ),
             ],
           ),

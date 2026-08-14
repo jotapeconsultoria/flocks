@@ -45,6 +45,7 @@ import '../molecules/chat/app_message_meta.meta.dart';
 import '../molecules/chat/app_question_card.meta.dart';
 import '../molecules/chat/app_quoted_message.meta.dart';
 import '../molecules/chat/app_suggestion_chip.meta.dart';
+import '../molecules/choice_chip/choice_chip.meta.dart';
 import '../molecules/filter_chip/app_filter_chip.meta.dart';
 import '../organisms/timeline/app_timeline.meta.dart';
 import '../molecules/chat/app_typing_indicator.meta.dart';
@@ -200,6 +201,8 @@ const List<AppComponentMeta> flocksCatalog = <AppComponentMeta>[
   appAssistantStatusMeta,
   appChatActionBarMeta,
   appFilterChipMeta,
+  appChoiceChipMeta,
+  appChoiceChipBarMeta,
   appTimelineMeta,
   appSuggestionChipMeta,
   appChatDayDividerMeta,

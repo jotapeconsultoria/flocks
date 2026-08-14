@@ -1,7 +1,7 @@
 # Flocks
 
 A Flutter design system built on `widgets.dart` — no Material, no Cupertino.
-133 components that restyle themselves along three global axes and wear an entire
+135 components that restyle themselves along three global axes and wear an entire
 brand from a single configuration.
 
 [flocks.live](https://flocks.live)
@@ -129,7 +129,7 @@ effect.
 
 ## Three global axes
 
-One value in the theme restyles all 133 components at once.
+One value in the theme restyles all 135 components at once.
 
 | Axis | Values | What it changes |
 |---|---|---|
