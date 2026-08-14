@@ -148,6 +148,7 @@ const Set<String> kComponentVariants = <String>{
   'l',
   'lift',
   'm',
+  'memory',
   'mobile',
   'multipleChoice',
   'navigation',
