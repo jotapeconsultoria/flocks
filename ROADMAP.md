@@ -339,7 +339,9 @@ O que entrou, em 2026-08-14, e o que ele destrava:
   decisões de fundação enunciadas em
   [`doc/DECISOES_PULL_TO_REFRESH.md`](packages/flocks/doc/DECISOES_PULL_TO_REFRESH.md).
   Sem elas o componente não deve ser escrito.
-- Os **63 itens recusados ou adiados** seguem no backlog com o motivo ao lado.
+- Os **63 itens recusados ou adiados** seguem registrados item a item, com o
+  motivo de cada um, em
+  [`doc/BACKLOG_ADOCAO.md`](packages/flocks/doc/BACKLOG_ADOCAO.md).
   Vários deles são a mesma pergunta feita de oito jeitos ("posso passar um
   `Color`?"), e respondê-la uma vez resolve o grupo inteiro.
 - O **corte `0.2.0`** não aconteceu: a seção `[Unreleased]` acumula as entradas
