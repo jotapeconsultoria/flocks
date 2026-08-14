@@ -5,7 +5,9 @@ import 'package:flocks/flocks.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-// Matriz {claro,escuro} × {jotape,zxtrack} — os três tipos. Gerar:
+// Matriz {claro,escuro} × {jotape,zxtrack} — os quatro tipos + o toast de uma
+// frase (a ordem importa: os cards novos entram no FIM, para o diff das
+// baselines mostrar só a adição). Gerar:
 //   flutter test --update-goldens --tags golden
 void main() {
   final List<AppBrandConfig> brands = <AppBrandConfig>[
@@ -50,6 +52,15 @@ void main() {
                         title: 'Falha ao salvar',
                         description: 'Tente novamente em instantes.',
                         type: AppSnackbarType.error,
+                      ),
+                      AppSnackbar(
+                        title: 'Janela quase no fim',
+                        description: 'Restam 10 minutos para responder.',
+                        type: AppSnackbarType.warning,
+                      ),
+                      AppSnackbar(
+                        description:
+                            'Link copiado para a área de transferência.',
                       ),
                     ],
                   ),
