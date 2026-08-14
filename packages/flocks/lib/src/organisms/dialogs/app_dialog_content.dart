@@ -32,8 +32,8 @@ import 'app_dialog.dart';
 final class AppDialogContent extends StatelessWidget {
   /// Cria um [AppDialogContent].
   const AppDialogContent({
-    required this.illustration,
     required this.message,
+    this.illustration,
     this.title,
     this.accentRole,
     super.key,
@@ -45,8 +45,14 @@ final class AppDialogContent extends StatelessWidget {
   /// escolhe o stop é o DS, pela mesma regra do botão.
   final ColorSwatch<int>? accentRole;
 
-  /// URL/caminho da ilustração (SVG).
-  final String illustration;
+  /// URL/caminho da ilustração (SVG). `null` = **sem ilustração**: o bloco
+  /// inteiro (os dois respiros de 64 e a arte) sai do layout, e o corpo fecha
+  /// com um respiro de 32 antes do rodapé.
+  ///
+  /// Existe para o diálogo de confirmação puro, que é maioria: passar `null`
+  /// direto ao [AppIllustration] (que já desenha nada) deixaria 128px de vão
+  /// morto entre a mensagem e os botões.
+  final String? illustration;
 
   /// Mensagem descritiva (`bodyLarge`).
   final String message;
@@ -88,18 +94,21 @@ final class AppDialogContent extends StatelessWidget {
               color: colors.neutralPrimary.s700,
             ),
           ),
-          const SizedBox(height: AppSpacings.s64),
-          Center(
-            child: AppIllustration(
-              illustration,
-              accentColor: appRoleAccent(
-                colors,
-                accentRole ?? colors.secondary,
+          if (illustration case final String art) ...<Widget>[
+            const SizedBox(height: AppSpacings.s64),
+            Center(
+              child: AppIllustration(
+                art,
+                accentColor: appRoleAccent(
+                  colors,
+                  accentRole ?? colors.secondary,
+                ),
+                size: AppIllustrationSize.l,
               ),
-              size: AppIllustrationSize.l,
             ),
-          ),
-          const SizedBox(height: AppSpacings.s64),
+            const SizedBox(height: AppSpacings.s64),
+          ] else
+            const SizedBox(height: AppSpacings.s32),
         ],
       ),
     );

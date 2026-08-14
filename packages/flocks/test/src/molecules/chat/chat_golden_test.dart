@@ -5,7 +5,7 @@ import 'package:flocks/flocks.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-// Goldens dos 11 componentes de chat, na matriz {claro,escuro} × {jotape,zxtrack}
+// Goldens dos 12 componentes de chat, na matriz {claro,escuro} × {jotape,zxtrack}
 // — prova visual da Regra 9. Cada componente vira um PNG por célula
 // (`app_chat_bubble_jotape_light.png`, …). Os ícones renderizam um glifo
 // determinístico via `AppIcon.debugIconBuilder`, instalado em
@@ -166,6 +166,38 @@ Widget _messageList(AppThemeData data) => SizedBox(
 
 void _noop() {}
 
+/// Citação avulsa (autor + prévia) · prévia de composer com "×" · dentro de
+/// uma bolha `me` (a cena de resposta). Sem miniatura de propósito: decode de
+/// imagem é assíncrono e o host dá um pump só — a miniatura fica no widget
+/// test, com MemoryImage determinístico.
+Widget _quoted(AppThemeData data) => const Column(
+  mainAxisSize: MainAxisSize.min,
+  crossAxisAlignment: CrossAxisAlignment.stretch,
+  children: <Widget>[
+    AppQuotedMessage(
+      author: 'Ana',
+      excerpt: 'Consegue mandar o relatório de ontem?',
+      onTap: _noop,
+    ),
+    SizedBox(height: AppSpacings.s8),
+    AppQuotedMessage(
+      author: 'Você',
+      excerpt: 'A reunião fica para amanhã às 10h.',
+      onRemove: _noop,
+    ),
+    SizedBox(height: AppSpacings.s8),
+    AppChatBubble(
+      author: AppChatAuthor.me,
+      header: AppQuotedMessage(
+        author: 'Ana',
+        excerpt: 'Consegue mandar o relatório de ontem?',
+        onTap: _noop,
+      ),
+      child: AppText('Mandando agora!'),
+    ),
+  ],
+);
+
 const List<_ChatSample> _samples = <_ChatSample>[
   _ChatSample('AppChatBubble', 'app_chat_bubble', _bubbles, width: 320),
   _ChatSample('AppMessageMeta', 'app_message_meta', _metas),
@@ -197,6 +229,7 @@ const List<_ChatSample> _samples = <_ChatSample>[
     _questionCard,
     width: 380,
   ),
+  _ChatSample('AppQuotedMessage', 'app_quoted_message', _quoted, width: 320),
   _ChatSample(
     'AppChatMessageList',
     'app_chat_message_list',

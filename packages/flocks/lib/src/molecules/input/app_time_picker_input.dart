@@ -38,6 +38,7 @@ final class AppTimePickerInput extends StatefulWidget {
     this.minHour = 0,
     this.minMinute = 0,
     this.minSecond = 0,
+    this.onCleared,
     this.showSeconds = false,
     this.style,
     this.radiusMode,
@@ -84,6 +85,15 @@ final class AppTimePickerInput extends StatefulWidget {
 
   /// Segundo mínimo permitido (0-59).
   final int minSecond;
+
+  /// Disparado quando o usuário limpa o campo pelo ✕ — o valor selecionado
+  /// volta a ser nenhum, e [onTimeSelected] (que só anuncia valores válidos)
+  /// não avisaria sozinho.
+  ///
+  /// O ✕ é o do [AppInput]: só existe com o campo **em erro**
+  /// ([hasError]/[errorText]), habilitado e preenchido. Apagar o texto à mão
+  /// (backspace) não notifica — texto parcial não é um valor.
+  final VoidCallback? onCleared;
 
   /// Callback quando um horário válido é selecionado (digitado ou via picker).
   final ValueChanged<({int hour, int minute, int second})> onTimeSelected;
@@ -140,6 +150,7 @@ class _AppTimePickerInputState extends State<AppTimePickerInput> {
                   _minute = widget.minMinute;
                   _second = widget.minSecond;
                 });
+                widget.onCleared?.call();
                 handle.open();
               }
             : null,
