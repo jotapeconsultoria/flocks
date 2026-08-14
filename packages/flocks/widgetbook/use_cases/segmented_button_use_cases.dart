@@ -33,6 +33,10 @@ Widget segmentedButtonPlayground(BuildContext context) {
     label: 'with icon',
     initialValue: false,
   );
+  final withTooltips = context.knobs.boolean(
+    label: 'tooltip',
+    initialValue: false,
+  );
   final style = wbStyleKnob(context);
   final radiusMode = wbRadiusModeKnob(context);
 
@@ -48,6 +52,7 @@ Widget segmentedButtonPlayground(BuildContext context) {
       expanded: expanded,
       enabled: enabled,
       withIcon: withIcon,
+      withTooltips: withTooltips,
       style: style,
       radiusMode: radiusMode,
     ),
@@ -178,6 +183,7 @@ class _SegmentedDemo extends StatefulWidget {
     required this.expanded,
     required this.enabled,
     required this.withIcon,
+    required this.withTooltips,
     required this.style,
     required this.radiusMode,
   });
@@ -187,6 +193,7 @@ class _SegmentedDemo extends StatefulWidget {
   final bool expanded;
   final bool enabled;
   final bool withIcon;
+  final bool withTooltips;
   final AppStyle? style;
   final AppRadiusMode? radiusMode;
 
@@ -214,6 +221,7 @@ class _SegmentedDemoState extends State<_SegmentedDemo> {
             value: i,
             label: _labels[i],
             icon: widget.withIcon ? AppIconToken.calendar : null,
+            tooltip: widget.withTooltips ? 'Filter: ${_labels[i]}' : null,
           ),
       ],
     );
