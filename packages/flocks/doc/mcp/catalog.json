@@ -6093,6 +6093,25 @@
         "required": false
       },
       {
+        "name": "bottom",
+        "type": "Widget?",
+        "required": false,
+        "description": {
+          "en": "Extra row below the content strip, INSIDE the bar (a filter strip, tabs) — it inherits the bar surface and the glass.",
+          "pt": "Linha extra abaixo da faixa de conteúdo, DENTRO da barra (faixa de filtros, abas) — herda a superfície da barra e o glass."
+        }
+      },
+      {
+        "name": "bottomHeight",
+        "type": "double",
+        "required": false,
+        "default": "0",
+        "description": {
+          "en": "Declared height of bottom; the bar extent adds exactly this value (asserted together with bottom).",
+          "pt": "Altura declarada do bottom; a extensão da barra soma exatamente este valor (assert junto com bottom)."
+        }
+      },
+      {
         "name": "centerChild",
         "type": "bool",
         "required": false,

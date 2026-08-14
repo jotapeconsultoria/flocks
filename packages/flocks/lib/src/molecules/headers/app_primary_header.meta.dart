@@ -32,6 +32,23 @@ const AppComponentMeta appPrimaryHeaderMeta = AppComponentMeta(
     PropMeta(name: 'child', type: 'Widget', isRequired: true),
     PropMeta(name: 'leading', type: 'Widget?'),
     PropMeta(name: 'trailing', type: 'Widget?'),
+    PropMeta(
+      name: 'bottom',
+      type: 'Widget?',
+      description: LocalizedText(
+        en: 'Extra row below the content strip, INSIDE the bar (a filter strip, tabs) — it inherits the bar surface and the glass.',
+        pt: 'Linha extra abaixo da faixa de conteúdo, DENTRO da barra (faixa de filtros, abas) — herda a superfície da barra e o glass.',
+      ),
+    ),
+    PropMeta(
+      name: 'bottomHeight',
+      type: 'double',
+      defaultValue: '0',
+      description: LocalizedText(
+        en: 'Declared height of bottom; the bar extent adds exactly this value (asserted together with bottom).',
+        pt: 'Altura declarada do bottom; a extensão da barra soma exatamente este valor (assert junto com bottom).',
+      ),
+    ),
     PropMeta(name: 'centerChild', type: 'bool', defaultValue: 'true'),
     PropMeta(name: 'decoration', type: 'BoxDecoration?'),
     PropMeta(name: 'constraints', type: 'BoxConstraints?'),
