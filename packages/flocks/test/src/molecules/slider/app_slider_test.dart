@@ -149,6 +149,78 @@ void main() {
     expect(emitted.last, 29);
   });
 
+  // Regressão da revisão adversarial: emitir no pointer-down (pré-arena)
+  // fazia uma tentativa de ROLAGEM mudar e persistir o valor.
+  testWidgets('rolar a página por cima do slider NÃO muda o valor', (
+    tester,
+  ) async {
+    final List<double> changes = <double>[];
+    final List<double> ends = <double>[];
+    final ScrollController scroll = ScrollController();
+    addTearDown(scroll.dispose);
+    await tester.pumpWidget(
+      Directionality(
+        textDirection: TextDirection.ltr,
+        child: MediaQuery(
+          data: const MediaQueryData(),
+          child: AppTheme(
+            data: AppThemeData.light,
+            child: ListView(
+              controller: scroll,
+              children: <Widget>[
+                const SizedBox(height: 40),
+                AppSlider(
+                  value: 5,
+                  min: 1,
+                  max: 60,
+                  step: 1,
+                  onChanged: changes.add,
+                  onChangeEnd: ends.add,
+                ),
+                const SizedBox(height: 1200),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    // Dedo desce SOBRE o slider e arrasta na vertical, em passos pequenos —
+    // o scrollable vence a arena.
+    final TestGesture g = await tester.startGesture(
+      tester.getCenter(find.byType(AppSlider)),
+    );
+    for (int i = 0; i < 10; i++) {
+      await g.moveBy(const Offset(0, -10));
+      await tester.pump();
+    }
+    await g.up();
+    await tester.pump();
+
+    expect(scroll.offset, greaterThan(0), reason: 'a página rolou');
+    expect(changes, isEmpty, reason: 'rolagem não é ajuste de valor');
+    expect(ends, isEmpty, reason: 'nada foi persistido pelo acidente');
+  });
+
+  testWidgets('End salta para o max EXATO mesmo com step não múltiplo', (
+    tester,
+  ) async {
+    final List<double> emitted = <double>[];
+    await tester.pumpWidget(
+      _host(
+        AppSlider(value: 0, min: 0, max: 10, step: 3, onChanged: emitted.add),
+      ),
+    );
+    Focus.of(
+      tester.element(find.byType(AnimatedContainer).first),
+    ).requestFocus();
+    await tester.pump();
+    await tester.sendKeyEvent(LogicalKeyboardKey.end);
+    await tester.pump();
+    // Quantizado seria 9 (0 + 3·3); a promessa é o extremo exato.
+    expect(emitted.last, 10);
+  });
+
   testWidgets('semântica: nó slider com value/increased/decreased e ações', (
     tester,
   ) async {
@@ -183,11 +255,6 @@ void main() {
         hasFocusAction: true,
         hasIncreaseAction: true,
         hasDecreaseAction: true,
-        // O framework publica os scrolls implícitos de um nó ajustável.
-        hasScrollLeftAction: true,
-        hasScrollRightAction: true,
-        hasScrollUpAction: true,
-        hasScrollDownAction: true,
         hasEnabledState: true,
         isEnabled: true,
         label: 'Ritmo de envio',
@@ -278,21 +345,85 @@ void main() {
     );
   });
 
-  testWidgets('reduce-motion: o crescimento do polegar colapsa', (
+  // O par abaixo é uma coisa só, e por isso são dois testes e não um: medir o
+  // polegar SÓ sob reduce-motion não distingue "colapsou a duração" de "nunca
+  // animou". O contraste é a prova — no primeiro frame do arrasto o polegar já
+  // está no tamanho final com reduce-motion, e ainda NÃO está sem ele.
+  //
+  // Isto substitui um teste de mesmo nome cujo corpo assertava apenas
+  // `takeException(), isNull`: ele passaria com o AnimatedContainer removido,
+  // com a duração chumbada e com o polegar sem crescer — ausência de ofensor
+  // não é presença de efeito.
+  const double kLado = AppSizes.s16; // thumbSize default
+  const double kLadoArrastando = kLado + 4; // o crescimento do _dragging
+
+  testWidgets('reduce-motion: o polegar chega ao tamanho final em 1 frame', (
     tester,
   ) async {
     await tester.pumpWidget(
       _host(AppSlider(value: 0.5, onChanged: (_) {}), reduceMotion: true),
     );
+    expect(tester.getSize(find.byType(AnimatedContainer)).width, kLado);
+
     final TestGesture g = await tester.startGesture(
       tester.getCenter(find.byType(AppSlider)),
     );
+    // MOVER além do kTouchSlop, e não só tocar: depois do conserto de arena o
+    // polegar só cresce quando o arrasto VENCE a arena (onPanStart) — um toque
+    // parado, ou um movimento dentro do slop, não abre o gesto.
+    await g.moveBy(const Offset(40, 0));
+    // UM frame: sem interpolação, o tamanho novo já está aqui.
     await tester.pump();
-    await tester.pumpAndSettle();
+    expect(
+      tester.getSize(find.byType(AnimatedContainer)).width,
+      kLadoArrastando,
+    );
+    expect(
+      tester.widget<AnimatedContainer>(find.byType(AnimatedContainer)).duration,
+      Duration.zero,
+      reason: 'AppMotion.resolve tem de colapsar a duração, não encurtá-la',
+    );
+
     await g.up();
     await tester.pump();
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets(
+    'sem reduce-motion: o mesmo frame ainda está no meio do caminho',
+    (tester) async {
+      await tester.pumpWidget(_host(AppSlider(value: 0.5, onChanged: (_) {})));
+      final TestGesture g = await tester.startGesture(
+        tester.getCenter(find.byType(AppSlider)),
+      );
+      await g.moveBy(const Offset(40, 0));
+      await tester.pump();
+      final double noPrimeiroFrame = tester
+          .getSize(find.byType(AnimatedContainer))
+          .width;
+      expect(
+        noPrimeiroFrame,
+        lessThan(kLadoArrastando),
+        reason:
+            'com motion ligado o polegar interpola; se já chegou, não animou',
+      );
+      expect(
+        tester
+            .widget<AnimatedContainer>(find.byType(AnimatedContainer))
+            .duration,
+        greaterThan(Duration.zero),
+      );
+
+      await tester.pumpAndSettle();
+      expect(
+        tester.getSize(find.byType(AnimatedContainer)).width,
+        kLadoArrastando,
+      );
+
+      await g.up();
+      await tester.pumpAndSettle();
+    },
+  );
 
   test('AppSlider está no catálogo como migrated', () {
     expect(

@@ -11,7 +11,7 @@ const AppComponentMeta appSliderMeta = AppComponentMeta(
     pt: 'Slider horizontal para um valor num intervalo, contínuo ou por passo.',
   ),
   description: LocalizedText(
-    en: 'The package\'s first public slider. Controlled (value + onChanged, state in the caller); onChanged: null disables while KEEPING the semantics node. step quantizes in domain units (1.0 = integers) instead of Material\'s divisions; formatValue is a single formatting source for the inline label (showValue) and the screen-reader values. The widget is at least 48px tall (born meeting tap-target guidelines) while the track stays thin; the thumb grows while dragging through the motion axis and the focus ring has no duration, surviving reduce-motion. Arrows step (mirrored in RTL), Home/End jump to the extremes; onChangeEnd commits on release.',
+    en: 'The package\'s first public slider. Controlled (value + onChanged, state in the caller); onChanged: null disables while KEEPING the semantics node. step quantizes in domain units (1.0 = integers) instead of Material\'s divisions; formatValue is a single formatting source for the inline label (showValue) and the screen-reader values. The widget is at least 48px tall (born meeting tap-target guidelines) while the track stays thin; the thumb grows while dragging through the motion axis and the focus ring has no duration, surviving reduce-motion. Left/Right arrows step and mirror under RTL (Up/Down and Home/End do not), Home/End jump to the EXACT extremes, outside the quantization; onChangeEnd commits on release.',
     pt:
         'O primeiro slider público do pacote. Controlado (value + onChanged, '
         'estado no chamador); onChanged: null desabilita MANTENDO o nó '
@@ -139,11 +139,11 @@ const AppComponentMeta appSliderMeta = AppComponentMeta(
     ],
   ),
   a11y: LocalizedText(
-    en: 'One slider node: label, value, increasedValue/decreasedValue (all through formatValue) and onIncrease/onDecrease for the adjust gesture. Arrows step, mirrored in RTL; Home/End jump to the extremes. Disabled keeps the node with enabled: false. The whole widget is a 48px-tall opaque hit area; the visible label is excluded from semantics so the value is not read twice.',
+    en: 'One slider node: label, value, increasedValue/decreasedValue (all through formatValue) and onIncrease/onDecrease for the adjust gesture. Left/Right arrows step and mirror under RTL (Up/Down and Home/End do not); Home/End jump to the exact extremes. Disabled keeps the node with enabled: false. The whole widget is a 48px-tall opaque hit area; the visible label is excluded from semantics so the value is not read twice.',
     pt:
         'Um nó slider: label, value, increasedValue/decreasedValue (tudo via '
-        'formatValue) e onIncrease/onDecrease para o gesto de ajustar. Setas '
-        'andam por passo, espelhadas em RTL; Home/End saltam aos extremos. '
+        'formatValue) e onIncrease/onDecrease para o gesto de ajustar. Setas ←/→ '
+        'andam por passo e espelham em RTL (↑/↓ e Home/End não); Home/End saltam aos extremos exatos. '
         'Desabilitado mantém o nó com enabled: false. O widget inteiro é área '
         'de toque opaca de 48px; o rótulo visível fica fora da semântica para '
         'o valor não ser lido duas vezes.',
