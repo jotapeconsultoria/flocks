@@ -39,7 +39,15 @@ const AppComponentMeta appSegmentedButtonMeta = AppComponentMeta(
     ],
   ),
   props: <PropMeta>[
-    PropMeta(name: 'segments', type: 'List<AppSegment<T>>', isRequired: true),
+    PropMeta(
+      name: 'segments',
+      type: 'List<AppSegment<T>>',
+      isRequired: true,
+      description: LocalizedText(
+        en: 'The 2-4 options. Each AppSegment carries value, label and/or icon, semanticLabel and an optional tooltip (a visual hint for the abbreviated label; the control name stays the toggle label).',
+        pt: 'As 2-4 opções. Cada AppSegment carrega value, label e/ou icon, semanticLabel e um tooltip opcional (dica visual do rótulo abreviado; o nome do controle segue o do toggle).',
+      ),
+    ),
     PropMeta(name: 'value', type: 'T', isRequired: true),
     PropMeta(name: 'onChanged', type: 'ValueChanged<T>', isRequired: true),
     PropMeta(name: 'size', type: 'AppButtonSize', defaultValue: 'm'),
