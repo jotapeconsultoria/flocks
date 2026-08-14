@@ -41,7 +41,7 @@ final class AppChoiceChipOption<T> {
   /// Rótulo anunciado, se o padrão não bastar.
   final String? semanticLabel;
 
-  /// Dica no hover/foco.
+  /// Dica no hover/long-press.
   final String? tooltip;
 
   /// Se esta opção específica aceita toque.
@@ -172,8 +172,12 @@ final class AppChoiceChipBar<T> extends StatelessWidget {
   bool get isMulti => _onMulti != null;
 
   /// Se [value] está escolhido agora.
+  ///
+  /// Na seleção única, `_value == null` significa "nada escolhido" — por isso
+  /// uma opção cujo `value` seja `null` (num `T` anulável) nunca aparece
+  /// selecionada: os dois sentidos de `null` colidiriam.
   bool isSelected(T value) =>
-      isMulti ? _values!.contains(value) : _value == value;
+      isMulti ? _values!.contains(value) : _value != null && _value == value;
 
   void _toggle(AppChoiceChipOption<T> option) {
     if (isMulti) {

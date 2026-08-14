@@ -112,7 +112,7 @@ final class AppChoiceChip extends StatelessWidget {
   /// quando o número precisar de nome: `'Novos, 8 conversas na fila'`.
   final String? semanticLabel;
 
-  /// Dica no hover/foco (via [AppTooltip]), publicada também em
+  /// Dica no hover/long-press (via [AppTooltip]), publicada também em
   /// `Semantics.tooltip` — a dica não fica só no pixel.
   final String? tooltip;
 
@@ -150,7 +150,10 @@ final class AppChoiceChip extends StatelessWidget {
 
     final Widget chip = FlocksInteraction(
       onPressed: _interactive ? () => onChanged!(!selected) : null,
-      enabled: _interactive,
+      // `enabled` (e não `_interactive`): somente-leitura (onChanged null com
+      // enabled true) é decorativo — cursor basic. `forbidden` é só para o
+      // desabilitado de verdade.
+      enabled: enabled,
       selected: selected,
       statesController: statesController,
       builder: (BuildContext context, Set<WidgetState> states) {

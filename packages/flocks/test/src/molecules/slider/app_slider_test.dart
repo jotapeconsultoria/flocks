@@ -149,6 +149,78 @@ void main() {
     expect(emitted.last, 29);
   });
 
+  // Regressão da revisão adversarial: emitir no pointer-down (pré-arena)
+  // fazia uma tentativa de ROLAGEM mudar e persistir o valor.
+  testWidgets('rolar a página por cima do slider NÃO muda o valor', (
+    tester,
+  ) async {
+    final List<double> changes = <double>[];
+    final List<double> ends = <double>[];
+    final ScrollController scroll = ScrollController();
+    addTearDown(scroll.dispose);
+    await tester.pumpWidget(
+      Directionality(
+        textDirection: TextDirection.ltr,
+        child: MediaQuery(
+          data: const MediaQueryData(),
+          child: AppTheme(
+            data: AppThemeData.light,
+            child: ListView(
+              controller: scroll,
+              children: <Widget>[
+                const SizedBox(height: 40),
+                AppSlider(
+                  value: 5,
+                  min: 1,
+                  max: 60,
+                  step: 1,
+                  onChanged: changes.add,
+                  onChangeEnd: ends.add,
+                ),
+                const SizedBox(height: 1200),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    // Dedo desce SOBRE o slider e arrasta na vertical, em passos pequenos —
+    // o scrollable vence a arena.
+    final TestGesture g = await tester.startGesture(
+      tester.getCenter(find.byType(AppSlider)),
+    );
+    for (int i = 0; i < 10; i++) {
+      await g.moveBy(const Offset(0, -10));
+      await tester.pump();
+    }
+    await g.up();
+    await tester.pump();
+
+    expect(scroll.offset, greaterThan(0), reason: 'a página rolou');
+    expect(changes, isEmpty, reason: 'rolagem não é ajuste de valor');
+    expect(ends, isEmpty, reason: 'nada foi persistido pelo acidente');
+  });
+
+  testWidgets('End salta para o max EXATO mesmo com step não múltiplo', (
+    tester,
+  ) async {
+    final List<double> emitted = <double>[];
+    await tester.pumpWidget(
+      _host(
+        AppSlider(value: 0, min: 0, max: 10, step: 3, onChanged: emitted.add),
+      ),
+    );
+    Focus.of(
+      tester.element(find.byType(AnimatedContainer).first),
+    ).requestFocus();
+    await tester.pump();
+    await tester.sendKeyEvent(LogicalKeyboardKey.end);
+    await tester.pump();
+    // Quantizado seria 9 (0 + 3·3); a promessa é o extremo exato.
+    expect(emitted.last, 10);
+  });
+
   testWidgets('semântica: nó slider com value/increased/decreased e ações', (
     tester,
   ) async {
@@ -183,11 +255,6 @@ void main() {
         hasFocusAction: true,
         hasIncreaseAction: true,
         hasDecreaseAction: true,
-        // O framework publica os scrolls implícitos de um nó ajustável.
-        hasScrollLeftAction: true,
-        hasScrollRightAction: true,
-        hasScrollUpAction: true,
-        hasScrollDownAction: true,
         hasEnabledState: true,
         isEnabled: true,
         label: 'Ritmo de envio',

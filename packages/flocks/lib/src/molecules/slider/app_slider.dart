@@ -115,6 +115,18 @@ final class AppSlider extends StatefulWidget {
 class _AppSliderState extends State<AppSlider> {
   bool _dragging = false;
 
+  @override
+  void didUpdateWidget(AppSlider oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Desabilitado no MEIO de um arraste: o GestureDetector sai da árvore e o
+    // recognizer morre sem onPanEnd/Cancel — sem isto, _dragging ficaria preso
+    // (polegar inflado) e o _pending vazaria para o próximo gesto.
+    if (widget.onChanged == null) {
+      _dragging = false;
+      _pending = null;
+    }
+  }
+
   /// Último valor emitido no gesto corrente — o que o [AppSlider.onChangeEnd]
   /// entrega no soltar (o `widget.value` pode não ter voltado ainda: o
   /// componente é controlado e o rebuild é do chamador).
@@ -172,12 +184,17 @@ class _AppSliderState extends State<AppSlider> {
       case LogicalKeyboardKey.arrowDown:
         _step(-1);
         return KeyEventResult.handled;
+      // Home/End saltam para os EXTREMOS EXATOS, por fora da quantização: com
+      // step 3 em [0, 10], quantizar o End devolveria 9 e a promessa
+      // "salta ao extremo" quebraria. Os limites são sempre valores legais.
       case LogicalKeyboardKey.home:
-        _emit(widget.min);
+        _pending = widget.min;
+        widget.onChanged?.call(widget.min);
         _commit();
         return KeyEventResult.handled;
       case LogicalKeyboardKey.end:
-        _emit(widget.max);
+        _pending = widget.max;
+        widget.onChanged?.call(widget.max);
         _commit();
         return KeyEventResult.handled;
       default:
@@ -271,7 +288,19 @@ class _AppSliderState extends State<AppSlider> {
             cursor: SystemMouseCursors.click,
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
-              onPanDown: (DragDownDetails d) {
+              // Fora da semântica: o caminho do leitor de tela é
+              // onIncrease/onDecrease do nó slider — um `tap` semântico aqui
+              // ativaria onTapUp sem posição e jogaria o valor para o min.
+              excludeFromSemantics: true,
+              // NADA emite no pointer-down: o onDown do pan dispara ANTES de a
+              // arena resolver, e um slider dentro de um scroll vertical
+              // mudaria (e persistiria) o valor numa tentativa de ROLAGEM.
+              // Tap resolvido e panStart são pós-arena — só eles emitem.
+              onTapUp: (TapUpDetails d) {
+                _emit(_valueAtDx(d.localPosition.dx, width, dir));
+                _commit();
+              },
+              onPanStart: (DragStartDetails d) {
                 setState(() => _dragging = true);
                 _emit(_valueAtDx(d.localPosition.dx, width, dir));
               },
@@ -281,9 +310,11 @@ class _AppSliderState extends State<AppSlider> {
                 setState(() => _dragging = false);
                 _commit();
               },
+              // Cancelado = a arena foi de outro (o scroll da página venceu):
+              // DESCARTA o pendente — commitar aqui persistiria o acidente.
               onPanCancel: () {
                 setState(() => _dragging = false);
-                _commit();
+                _pending = null;
               },
               child: rail,
             ),
