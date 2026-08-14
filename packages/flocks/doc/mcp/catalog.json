@@ -3258,6 +3258,16 @@
         "default": "1"
       },
       {
+        "name": "textAlign",
+        "type": "TextAlign",
+        "required": false,
+        "default": "TextAlign.start",
+        "description": {
+          "en": "Horizontal alignment of the typed text AND the hint. center = the OTP code field; end aligns numeric values. The text style stays on the typography axis.",
+          "pt": "Alinhamento horizontal do texto digitado E do hint. center = o campo de código OTP; end alinha valor numérico. O estilo do texto segue no eixo de tipografia."
+        }
+      },
+      {
         "name": "maxLength",
         "type": "int?",
         "required": false
@@ -6119,6 +6129,25 @@
         "name": "trailing",
         "type": "Widget?",
         "required": false
+      },
+      {
+        "name": "bottom",
+        "type": "Widget?",
+        "required": false,
+        "description": {
+          "en": "Extra row below the content strip, INSIDE the bar (a filter strip, tabs) — it inherits the bar surface and the glass.",
+          "pt": "Linha extra abaixo da faixa de conteúdo, DENTRO da barra (faixa de filtros, abas) — herda a superfície da barra e o glass."
+        }
+      },
+      {
+        "name": "bottomHeight",
+        "type": "double",
+        "required": false,
+        "default": "0",
+        "description": {
+          "en": "Declared height of bottom; the bar extent adds exactly this value (asserted together with bottom).",
+          "pt": "Altura declarada do bottom; a extensão da barra soma exatamente este valor (assert junto com bottom)."
+        }
       },
       {
         "name": "centerChild",
@@ -12723,13 +12752,44 @@
       },
       {
         "name": "logoCollapsed",
-        "type": "String",
-        "required": true
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Legacy logo channel: an icon slug for the collapsed brand. Null with no widget logo = no logo block.",
+          "pt": "Canal legado de logo: slug de ícone da marca compacta. Nulo e sem logo widget = sem bloco de logo."
+        }
       },
       {
         "name": "logoExpanded",
         "type": "String?",
         "required": false
+      },
+      {
+        "name": "logo",
+        "type": "Widget?",
+        "required": false,
+        "description": {
+          "en": "Brand as a widget (bundle SVG/image), shown expanded; collapsed falls back to logoCompact ?? logo. Mutually exclusive with the slug/URL channel; requires logoSemanticLabel.",
+          "pt": "Marca como widget (SVG/imagem do bundle), exibida expandida; colapsado cai em logoCompact ?? logo. Mutuamente exclusivo com o canal slug/URL; exige logoSemanticLabel."
+        }
+      },
+      {
+        "name": "logoCompact",
+        "type": "Widget?",
+        "required": false,
+        "description": {
+          "en": "Compact brand widget for the collapsed rail.",
+          "pt": "Widget da marca compacta para o rail colapsado."
+        }
+      },
+      {
+        "name": "logoSemanticLabel",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Accessible name of the widget logo (asserted together with logo/logoCompact). The widget subtree is replaced by a named image node, the AppImage idiom.",
+          "pt": "Nome acessível do logo widget (assert junto com logo/logoCompact). A subárvore do widget é substituída por um nó de imagem nomeado, o idioma do AppImage."
+        }
       },
       {
         "name": "footer",
@@ -12780,8 +12840,8 @@
       ]
     },
     "a11y": {
-      "en": "Collapsed items expose their title through AppTooltip; clickable items carry Semantics(button:true, label:). The primary accent over the surface passes AA; the floating chevron has a tooltip + semanticLabel.",
-      "pt": "Itens colapsados expõem o título por AppTooltip; itens clicáveis têm Semantics(button:true, label:). O accent primário sobre a superfície passa AA; o chevron flutuante tem tooltip + semanticLabel."
+      "en": "Collapsed items expose their title through AppTooltip; clickable items carry Semantics(button:true, label:). The primary accent over the surface passes AA; the floating chevron has a tooltip + semanticLabel. A widget logo becomes a single named image node (logoSemanticLabel, required by assert; inner semantics excluded, the AppImage idiom); the legacy slug logo stays decorative.",
+      "pt": "Itens colapsados expõem o título por AppTooltip; itens clicáveis têm Semantics(button:true, label:). O accent primário sobre a superfície passa AA; o chevron flutuante tem tooltip + semanticLabel. Logo widget vira UM nó de imagem nomeado (logoSemanticLabel, exigido por assert; semântica interna excluída, o idioma do AppImage); o logo por slug segue decorativo."
     },
     "crossPlatform": true,
     "themeAware": true,
@@ -12826,6 +12886,15 @@
         "name": "icon",
         "type": "String",
         "required": true
+      },
+      {
+        "name": "activeIcon",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Alternate slug rendered while selected (the filled pair of icon). Null = icon serves both states.",
+          "pt": "Slug alternativo renderizado durante a seleção (o par preenchido de icon). Nulo = icon serve aos dois estados."
+        }
       },
       {
         "name": "isCollapsed",
@@ -14862,13 +14931,17 @@
     "props": [
       {
         "name": "brandTitle",
-        "type": "String",
-        "required": true
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Brand title. Optional as long as identity comes from logoSemanticLabel (asserted).",
+          "pt": "Título da marca. Opcional desde que a identidade venha de logoSemanticLabel (assert)."
+        }
       },
       {
         "name": "brandSubtitle",
-        "type": "String",
-        "required": true
+        "type": "String?",
+        "required": false
       },
       {
         "name": "child",
@@ -14884,6 +14957,24 @@
         "name": "logoUrl",
         "type": "String?",
         "required": false
+      },
+      {
+        "name": "logo",
+        "type": "Widget?",
+        "required": false,
+        "description": {
+          "en": "Brand as a widget (bundle SVG/image). Mutually exclusive with logoUrl; requires logoSemanticLabel. The widget subtree is replaced by a named image node (the AppImage idiom).",
+          "pt": "Marca como widget (SVG/imagem do bundle). Mutuamente exclusivo com logoUrl; exige logoSemanticLabel. A subárvore do widget é substituída por um nó de imagem nomeado (o idioma do AppImage)."
+        }
+      },
+      {
+        "name": "logoSemanticLabel",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Accessible brand name. Required with logo; with logoUrl it names the icon; it also satisfies identity when brandTitle is absent.",
+          "pt": "Nome acessível da marca. Obrigatório com logo; com logoUrl nomeia o ícone; também satisfaz a identidade sem brandTitle."
+        }
       },
       {
         "name": "websiteUrl",

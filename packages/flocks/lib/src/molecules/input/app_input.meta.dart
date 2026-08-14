@@ -65,6 +65,15 @@ const AppComponentMeta appInputMeta = AppComponentMeta(
     PropMeta(name: 'obscureText', type: 'bool', defaultValue: 'false'),
     PropMeta(name: 'readOnly', type: 'bool', defaultValue: 'false'),
     PropMeta(name: 'maxLines', type: 'int', defaultValue: '1'),
+    PropMeta(
+      name: 'textAlign',
+      type: 'TextAlign',
+      defaultValue: 'TextAlign.start',
+      description: LocalizedText(
+        en: 'Horizontal alignment of the typed text AND the hint. center = the OTP code field; end aligns numeric values. The text style stays on the typography axis.',
+        pt: 'Alinhamento horizontal do texto digitado E do hint. center = o campo de código OTP; end alinha valor numérico. O estilo do texto segue no eixo de tipografia.',
+      ),
+    ),
     PropMeta(name: 'maxLength', type: 'int?'),
     PropMeta(name: 'showCounter', type: 'bool', defaultValue: 'false'),
     PropMeta(name: 'onChanged', type: 'void Function(String)?'),

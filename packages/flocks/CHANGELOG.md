@@ -109,6 +109,47 @@ follows [SemVer](https://semver.org/).
   `DecoratedBox` descendentes, e o anel de foco transparente do × viraria falso
   positivo de borda. Agora leem a caixa PRÓPRIA do card, que é o que o eixo mede.
 
+- **`AppNavigationRailItem(activeIcon:)` — o par vazado/cheio do rail.** O slug
+  alternativo renderizado só enquanto o item está selecionado. Há UM ponto de
+  render de ícone no rail, então colapsado e expandido herdam de graça; no
+  item-pai o sinal é o mesmo que já pinta ícone e título de accent — no rail
+  colapsado com filho selecionado, o ícone do pai é a única pista visível.
+  `null` deixa `icon` servindo aos dois estados, com árvore idêntica por colapso
+  da expressão.
+
+- **`AppNavigationRail` aceita a marca como Widget.** `logo`/`logoCompact` +
+  `logoSemanticLabel` — obrigatório por assert, porque slot de widget só entra
+  nomeado —, mutuamente exclusivos com os slugs e URLs legados, também por
+  assert. O fallback é simétrico nos dois sentidos: a assimetria do canal antigo
+  era acidente de tipo (slug × URL), e dois widgets são intercambiáveis. A
+  semântica segue o idioma do `AppImage`: UM nó de imagem nomeado com a subárvore
+  excluída, senão o rótulo mescla com o texto interno e o leitor anuncia a marca
+  duas vezes. De carona, a meta declarava `logoCollapsed` como obrigatório e o
+  widget o tem opcional desde sempre — a mentira foi corrigida ao lado dos props
+  novos.
+
+- **`AppPrimaryHeader(bottom:, bottomHeight:)` — a faixa de filtros dentro da
+  barra.** A linha extra que vivia no `AppBar.bottom` do Material, herdando fill,
+  borda e glass da superfície. A altura é **declarada**, não medida: o
+  `AppScaffold` reserva a extensão da barra ANTES do layout, então a resolução
+  soma exatamente `bottomHeight`, e os dois parâmetros andam juntos por assert
+  (com `bottomHeight >= 0` à parte — o biconditional sozinho deixaria -5 passar).
+  No ramo `null` o corpo É o mesmo objeto de antes: árvore idêntica por
+  construção.
+
+- **`AppAuthSplitLayout` aceita marca como Widget e afrouxa os textos.**
+  `brandTitle`/`brandSubtitle` viram opcionais e entra `logo` +
+  `logoSemanticLabel`, com TRÊS asserts que fecham os franken-estados: um logo só
+  (Widget OU slug), widget exige rótulo, e identidade sempre presente
+  (`brandTitle` OU `logoSemanticLabel`) — porque subtítulo sozinho não nomeia
+  marca. Era o buraco de a11y do item: sem os asserts, tirar o `required`
+  deixaria o painel mudo.
+
+- **`AppInput(textAlign:)`** — o campo de código centralizado, sem furar o eixo
+  de tipografia. Entra só o alinhamento; o `TextStyle` livre continua **fora** de
+  propósito, porque um estilo cru no call site tira o texto do eixo que faz um
+  valor no tema restilar o pacote inteiro.
+
 - **`AppChatComposer(preview:)` — o banner de resposta ancora no campo.** Um
   Widget imediatamente acima da superfície de compose, abaixo da faixa de anexos:
   a prévia é a citação do que a mensagem responde, e ancora no campo que responde

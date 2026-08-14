@@ -28,23 +28,40 @@ import '../../tokens/swatch_generator.dart';
 final class AppAuthSplitLayout extends StatelessWidget {
   /// Cria um [AppAuthSplitLayout].
   const AppAuthSplitLayout({
-    required this.brandSubtitle,
-    required this.brandTitle,
     required this.child,
+    this.brandSubtitle,
+    this.brandTitle,
     this.backgroundImageUrl,
     this.logoUrl,
+    this.logo,
+    this.logoSemanticLabel,
     this.websiteUrl,
     super.key,
-  });
+  }) : assert(
+         logo == null || logoUrl == null,
+         'Passe UM logo: o Widget (logo) OU o slug (logoUrl), nunca os dois — '
+         'duas marcas no mesmo painel é erro de montagem.',
+       ),
+       assert(
+         logo == null || logoSemanticLabel != null,
+         'logo (Widget) exige logoSemanticLabel: o slot entra na árvore de '
+         'semântica e precisa nomear a marca ao leitor de tela.',
+       ),
+       assert(
+         brandTitle != null || logoSemanticLabel != null,
+         'A tela de auth precisa de identidade: informe brandTitle ou '
+         'logoSemanticLabel (brandSubtitle sozinho não nomeia a marca).',
+       );
 
   /// URL da imagem de fundo (opcional; PNG/JPG ou SVG).
   final String? backgroundImageUrl;
 
-  /// Subtítulo da marca.
-  final String brandSubtitle;
+  /// Subtítulo da marca. Opcional: sem ele a linha (e o respiro dela) some.
+  final String? brandSubtitle;
 
-  /// Título da marca.
-  final String brandTitle;
+  /// Título da marca. Opcional desde que a identidade venha de outro lugar
+  /// ([logoSemanticLabel]) — o assert fecha a tela de auth anônima.
+  final String? brandTitle;
 
   /// Conteúdo do formulário de autenticação.
   final Widget child;
@@ -71,6 +88,22 @@ final class AppAuthSplitLayout extends StatelessWidget {
   /// interação, não a imagem.
   final String? websiteUrl;
 
+  /// Marca como **widget** — o SVG/imagem que vive no bundle do app (o canal
+  /// [logoUrl] exige provider de ícone). Mutuamente exclusivo com [logoUrl] e
+  /// exige [logoSemanticLabel] (asserts).
+  ///
+  /// Semântica: o idioma é o do `AppImage` — a subárvore do widget é
+  /// **substituída** por um nó de imagem nomeado por [logoSemanticLabel]
+  /// (`ExcludeSemantics` por dentro), então a marca é anunciada UMA vez. Com
+  /// [websiteUrl], o link mantém o rótulo fixo 'Abrir site da marca' como nó
+  /// próprio dentro do nó da marca.
+  final Widget? logo;
+
+  /// Nome acessível da marca quando o logo vem por widget (ou para nomear o
+  /// ícone de [logoUrl]). Obrigatório junto com [logo]; é também o que
+  /// satisfaz a identidade quando [brandTitle] está ausente.
+  final String? logoSemanticLabel;
+
   @override
   Widget build(BuildContext context) {
     final MediaQueryData? mediaQueryData = MediaQuery.maybeOf(context);
@@ -84,6 +117,8 @@ final class AppAuthSplitLayout extends StatelessWidget {
         brandSubtitle: brandSubtitle,
         brandTitle: brandTitle,
         logoUrl: logoUrl,
+        logo: logo,
+        logoSemanticLabel: logoSemanticLabel,
         websiteUrl: websiteUrl,
         child: child,
       );
@@ -94,6 +129,8 @@ final class AppAuthSplitLayout extends StatelessWidget {
       brandSubtitle: brandSubtitle,
       brandTitle: brandTitle,
       logoUrl: logoUrl,
+      logo: logo,
+      logoSemanticLabel: logoSemanticLabel,
       websiteUrl: websiteUrl,
       child: child,
     );
@@ -172,16 +209,20 @@ final class _AuthBrandPanel extends StatelessWidget {
     required this.child,
     required this.logoAlignment,
     required this.logoUrl,
+    required this.logo,
+    required this.logoSemanticLabel,
     required this.websiteUrl,
     this.padding = const EdgeInsets.all(AppSpacings.s32),
     this.useSafeArea = true,
   });
 
-  final String brandSubtitle;
-  final String brandTitle;
+  final String? brandSubtitle;
+  final String? brandTitle;
   final Widget child;
   final Alignment logoAlignment;
   final String? logoUrl;
+  final Widget? logo;
+  final String? logoSemanticLabel;
   final EdgeInsets padding;
   final bool useSafeArea;
   final String? websiteUrl;
@@ -201,39 +242,51 @@ final class _AuthBrandPanel extends StatelessWidget {
         children: <Widget>[
           // Sem logo, o espaçador sai junto: senão o painel abre com 32px de
           // vazio inexplicável no lugar de simplesmente começar pelo título.
-          if (logoUrl != null) ...<Widget>[
+          if (logoUrl != null || logo != null) ...<Widget>[
             Align(
               alignment: logoAlignment,
-              child: _AuthLogo(logoUrl: logoUrl!, websiteUrl: websiteUrl),
+              child: _AuthLogo(
+                logoUrl: logoUrl,
+                logo: logo,
+                logoSemanticLabel: logoSemanticLabel,
+                websiteUrl: websiteUrl,
+              ),
             ),
             const SizedBox(height: AppSpacings.s32),
           ],
-          AppText(
-            brandTitle,
-            textAlign: TextAlign.start,
-            style: theme.textTheme.titleLarge.copyWith(
-              // Stop legível sobre o painel: a marca crua serve ao painel claro,
-              // mas no escuro o mesmo vermelho encosta no fundo elevado.
-              color: readableStopOn(
-                theme.colorTheme.primary,
-                panelColor,
-                minRatio: kAaNormal,
+          // Collection-if sem respiro órfão: com os dois textos, a sequência é
+          // a de sempre (título, s8, subtítulo, s8, child).
+          if (brandTitle case final String title)
+            AppText(
+              title,
+              textAlign: TextAlign.start,
+              style: theme.textTheme.titleLarge.copyWith(
+                // Stop legível sobre o painel: a marca crua serve ao painel
+                // claro, mas no escuro o mesmo vermelho encosta no fundo
+                // elevado.
+                color: readableStopOn(
+                  theme.colorTheme.primary,
+                  panelColor,
+                  minRatio: kAaNormal,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: AppSpacings.s8),
-          AppText(
-            brandSubtitle,
-            textAlign: TextAlign.start,
-            style: theme.textTheme.bodyMedium.copyWith(
-              color: readableStopOn(
-                theme.colorTheme.secondary,
-                panelColor,
-                minRatio: kAaNormal,
+          if (brandTitle != null && brandSubtitle != null)
+            const SizedBox(height: AppSpacings.s8),
+          if (brandSubtitle case final String subtitle)
+            AppText(
+              subtitle,
+              textAlign: TextAlign.start,
+              style: theme.textTheme.bodyMedium.copyWith(
+                color: readableStopOn(
+                  theme.colorTheme.secondary,
+                  panelColor,
+                  minRatio: kAaNormal,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: AppSpacings.s8),
+          if (brandTitle != null || brandSubtitle != null)
+            const SizedBox(height: AppSpacings.s8),
           Expanded(child: child),
         ],
       ),
@@ -253,14 +306,18 @@ final class _AuthDesktopLayout extends StatelessWidget {
     required this.brandTitle,
     required this.child,
     required this.logoUrl,
+    required this.logo,
+    required this.logoSemanticLabel,
     required this.websiteUrl,
   });
 
   final String? backgroundImageUrl;
-  final String brandSubtitle;
-  final String brandTitle;
+  final String? brandSubtitle;
+  final String? brandTitle;
   final Widget child;
   final String? logoUrl;
+  final Widget? logo;
+  final String? logoSemanticLabel;
   final String? websiteUrl;
 
   @override
@@ -277,6 +334,8 @@ final class _AuthDesktopLayout extends StatelessWidget {
             brandTitle: brandTitle,
             logoAlignment: Alignment.topLeft,
             logoUrl: logoUrl,
+            logo: logo,
+            logoSemanticLabel: logoSemanticLabel,
             websiteUrl: websiteUrl,
             child: child,
           ),
@@ -295,27 +354,51 @@ final class _AuthDesktopLayout extends StatelessWidget {
 }
 
 final class _AuthLogo extends StatelessWidget {
-  const _AuthLogo({required this.logoUrl, required this.websiteUrl});
+  const _AuthLogo({
+    required this.logoUrl,
+    required this.logo,
+    required this.logoSemanticLabel,
+    required this.websiteUrl,
+  });
 
-  final String logoUrl;
+  final String? logoUrl;
+  final Widget? logo;
+  final String? logoSemanticLabel;
   final String? websiteUrl;
 
   @override
   Widget build(BuildContext context) {
-    final Widget logo = AppIcon(logoUrl, size: AppIconSize.l);
+    // Idioma do AppImage: com rótulo, a subárvore do widget sai da semântica e
+    // quem fala é o nó de imagem nomeado — sem isso o rótulo mescla com o
+    // texto interno e o leitor anuncia a marca duas vezes. O slug (AppIcon) já
+    // é decorativo por construção.
+    final Widget rawVisual = logo ?? AppIcon(logoUrl!, size: AppIconSize.l);
+    final Widget visual = logoSemanticLabel != null && logo != null
+        ? ExcludeSemantics(child: rawVisual)
+        : rawVisual;
     final String? site = websiteUrl?.trim();
     // Sem site, o logo é imagem e nada mais. Envolvê-lo num `AppInteraction`
     // mesmo assim daria cursor de mão, rótulo de leitor de tela e um toque que
     // não leva a lugar nenhum — o alvo fantasma que a ausência de logo já evita
     // do outro lado.
-    if (site == null || site.isEmpty) return logo;
-
-    final Uri websiteUri = Uri.parse(site);
-    return AppInteraction(
-      onTap: () => launchUrl(websiteUri, webOnlyWindowName: '_blank'),
-      mouseCursor: SystemMouseCursors.click,
-      semanticLabel: 'Abrir site da marca',
-      child: logo,
+    Widget core = visual;
+    if (site != null && site.isNotEmpty) {
+      final Uri websiteUri = Uri.parse(site);
+      // O rótulo do link é FIXO (contrato de teste): a exclusão acima garante
+      // que o merge do botão não concatena o texto interno do widget.
+      core = AppInteraction(
+        onTap: () => launchUrl(websiteUri, webOnlyWindowName: '_blank'),
+        mouseCursor: SystemMouseCursors.click,
+        semanticLabel: 'Abrir site da marca',
+        child: visual,
+      );
+    }
+    if (logoSemanticLabel == null) return core;
+    return Semantics(
+      image: true,
+      label: logoSemanticLabel,
+      container: true,
+      child: core,
     );
   }
 }
@@ -327,6 +410,8 @@ final class _AuthMobileLayout extends StatelessWidget {
     required this.brandTitle,
     required this.child,
     required this.logoUrl,
+    required this.logo,
+    required this.logoSemanticLabel,
     required this.websiteUrl,
   });
 
@@ -334,10 +419,12 @@ final class _AuthMobileLayout extends StatelessWidget {
   static const double _mobileCardMaxWidth = 520;
 
   final String? backgroundImageUrl;
-  final String brandSubtitle;
-  final String brandTitle;
+  final String? brandSubtitle;
+  final String? brandTitle;
   final Widget child;
   final String? logoUrl;
+  final Widget? logo;
+  final String? logoSemanticLabel;
   final String? websiteUrl;
 
   @override
@@ -425,6 +512,8 @@ final class _AuthMobileLayout extends StatelessWidget {
                                 brandTitle: brandTitle,
                                 logoAlignment: Alignment.topLeft,
                                 logoUrl: logoUrl,
+                                logo: logo,
+                                logoSemanticLabel: logoSemanticLabel,
                                 padding: const EdgeInsets.all(AppSpacings.s16),
                                 useSafeArea: false,
                                 websiteUrl: websiteUrl,
