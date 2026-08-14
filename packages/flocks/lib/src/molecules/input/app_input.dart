@@ -69,6 +69,7 @@ final class AppInput extends StatefulWidget {
     this.radius,
     this.size = AppFieldSize.m,
     this.textCapitalization = TextCapitalization.none,
+    this.textAlign = TextAlign.start,
     this.isDense = false,
     @Deprecated('Use `background`. Removido numa limpeza futura.')
     this.fillColor,
@@ -181,6 +182,12 @@ final class AppInput extends StatefulWidget {
 
   /// Capitalização do teclado.
   final TextCapitalization textCapitalization;
+
+  /// Alinhamento horizontal do texto digitado E do hint. Default
+  /// [TextAlign.start] — o campo de sempre. `center` é o campo de código OTP;
+  /// `end`/`right` alinham valor numérico. O estilo do texto continua do eixo
+  /// de tipografia (não configurável).
+  final TextAlign textAlign;
 
   /// Se usa padding vertical reduzido (metade do normal).
   final bool isDense;
@@ -624,7 +631,11 @@ class _AppInputState extends State<AppInput>
               child: AppSemantics.decorative(
                 IgnorePointer(
                   child: Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: switch (widget.textAlign) {
+                      TextAlign.center => Alignment.center,
+                      TextAlign.end || TextAlign.right => Alignment.centerRight,
+                      _ => Alignment.centerLeft,
+                    },
                     child: AppText(
                       widget.hintText!,
                       maxLines: 1,
@@ -665,7 +676,7 @@ class _AppInputState extends State<AppInput>
           onChanged: widget.onChanged,
           onSubmitted: widget.onSubmitted,
           obscureText: widget.obscureText,
-          textAlign: TextAlign.start,
+          textAlign: widget.textAlign,
           textDirection: TextDirection.ltr,
           autocorrect: false,
           enableSuggestions: true,

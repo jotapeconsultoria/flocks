@@ -3240,6 +3240,16 @@
         "default": "1"
       },
       {
+        "name": "textAlign",
+        "type": "TextAlign",
+        "required": false,
+        "default": "TextAlign.start",
+        "description": {
+          "en": "Horizontal alignment of the typed text AND the hint. center = the OTP code field; end aligns numeric values. The text style stays on the typography axis.",
+          "pt": "Alinhamento horizontal do texto digitado E do hint. center = o campo de código OTP; end alinha valor numérico. O estilo do texto segue no eixo de tipografia."
+        }
+      },
+      {
         "name": "maxLength",
         "type": "int?",
         "required": false
