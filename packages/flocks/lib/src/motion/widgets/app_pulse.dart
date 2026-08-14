@@ -72,6 +72,18 @@ class _AppPulseState extends State<AppPulse>
   );
 
   @override
+  void initState() {
+    super.initState();
+    // No initState (e não no construtor const): comparar Duration não é
+    // const-avaliável. `~/ 2` trunca — com 1µs a meia respiração viraria
+    // Duration.zero e o repeat() do controller crasharia no primeiro frame.
+    assert(
+      widget.period >= const Duration(microseconds: 2),
+      'AppPulse.period deve render uma meia respiração > zero (>= 2µs)',
+    );
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _sync();
