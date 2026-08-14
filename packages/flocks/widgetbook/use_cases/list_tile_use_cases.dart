@@ -21,6 +21,17 @@ AppListTileStyle _styleKnob(BuildContext context) =>
 
 @widgetbook.UseCase(name: 'Playground', type: AppTileInfo)
 Widget tileInfoPlayground(BuildContext context) {
+  final AppTileInfoLayout layout = context.knobs.object
+      .dropdown<AppTileInfoLayout>(
+        label: 'layout',
+        options: AppTileInfoLayout.values,
+        initialOption: AppTileInfoLayout.vertical,
+        labelBuilder: (l) => 'AppTileInfoLayout.${l.name}',
+      );
+  final String icon = context.knobs.string(
+    label: 'icon (slug, empty = none)',
+    initialValue: '',
+  );
   final String title = context.knobs.string(
     label: 'title',
     initialValue: 'Identificador',
@@ -35,7 +46,12 @@ Widget tileInfoPlayground(BuildContext context) {
     description: 'Static label/value pair (dense grids).',
     child: SizedBox(
       width: 260,
-      child: AppTileInfo(title: title, text: text),
+      child: AppTileInfo(
+        title: title,
+        text: text,
+        layout: layout,
+        icon: icon.isEmpty ? null : icon,
+      ),
     ),
   );
 }
@@ -205,6 +221,10 @@ class _RadioDemoState extends State<_RadioDemo> {
 
 @widgetbook.UseCase(name: 'Playground', type: AppListTileGroup)
 Widget listTileGroupPlayground(BuildContext context) {
+  final String title = context.knobs.string(
+    label: 'title (empty = none)',
+    initialValue: '',
+  );
   final AppListTileStyle style = _styleKnob(context);
   return wbUseCase(
     context,
@@ -213,6 +233,7 @@ Widget listTileGroupPlayground(BuildContext context) {
     child: SizedBox(
       width: 340,
       child: AppListTileGroup(
+        title: title.isEmpty ? null : title,
         style: style,
         children: <Widget>[
           AppListTile.navigation(

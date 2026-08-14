@@ -12,14 +12,26 @@ final class AppSimpleDataTable extends StatelessWidget {
   const AppSimpleDataTable({
     required this.columnLabels,
     required this.rows,
+    this.columnFlex,
     super.key,
-  });
+  }) : assert(
+         columnFlex == null || columnFlex.length == columnLabels.length,
+         'columnFlex precisa de um fator por coluna (mesmo tamanho de '
+         'columnLabels).',
+       );
 
   /// Rótulos das colunas (cabeçalho).
   final List<String> columnLabels;
 
   /// Linhas da tabela; cada linha é uma lista de widgets (células).
   final List<List<Widget>> rows;
+
+  /// Fator de flex por coluna (ex.: `[2.2, 1, 1]`). `null` = repartição
+  /// uniforme, o comportamento de sempre. Cada fator deve ser > 0.
+  ///
+  /// Em contexto SEM largura limitada (a tabela vira intrínseca), o fator
+  /// reparte só a SOBRA de espaço entre as colunas — com `null`, nada muda.
+  final List<double>? columnFlex;
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +46,17 @@ final class AppSimpleDataTable extends StatelessWidget {
       builder: (context, constraints) {
         final hasFiniteWidth =
             constraints.hasBoundedWidth && constraints.maxWidth.isFinite;
-        final preferredColumnWidth = hasFiniteWidth
-            ? const FlexColumnWidth()
-            : const IntrinsicColumnWidth();
-        final columnWidths = Map<int, TableColumnWidth>.fromIterables(
-          List.generate(columnCount, (index) => index),
-          List<TableColumnWidth>.filled(columnCount, preferredColumnWidth),
-        );
+        TableColumnWidth widthFor(int index) {
+          final double? flex = columnFlex?[index];
+          assert(flex == null || flex > 0, 'columnFlex[$index] deve ser > 0.');
+          return hasFiniteWidth
+              ? FlexColumnWidth(flex ?? 1)
+              : IntrinsicColumnWidth(flex: flex);
+        }
+
+        final columnWidths = <int, TableColumnWidth>{
+          for (int i = 0; i < columnCount; i++) i: widthFor(i),
+        };
         final content = AppSelectionRegion(
           child: _buildContent(
             theme: theme,

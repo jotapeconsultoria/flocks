@@ -11,8 +11,8 @@ import '../../tokens/app_style.dart';
 import '../../tokens/swatch_generator.dart';
 import 'app_snackbar_type.dart';
 
-/// Card de feedback temporário (sucesso, erro, info) com título, descrição e
-/// ícone semântico.
+/// Card de feedback temporário (sucesso, erro, info, aviso) com descrição,
+/// título opcional e ícone semântico.
 ///
 /// É apenas o **card**: para exibi-lo (canto da tela, auto-dismiss) use o helper
 /// [showAppSnackbar]. A superfície é `surfaceContainer` levemente tingida pela
@@ -21,32 +21,50 @@ import 'app_snackbar_type.dart';
 /// cores vêm do tema → contraste AA em claro/escuro. É anunciado por leitores de
 /// tela (`liveRegion`).
 ///
+/// Sem [title] o card é o toast de uma frase só: a linha do título some e o
+/// ícone centraliza verticalmente com a mensagem.
+///
 /// ```dart
 /// AppSnackbar(
 ///   title: 'Salvo',
 ///   description: 'As alterações foram aplicadas.',
 ///   type: AppSnackbarType.success,
 /// )
+///
+/// const AppSnackbar(description: 'Link copiado.')
 /// ```
 final class AppSnackbar extends StatelessWidget {
   /// Cria um [AppSnackbar].
   const AppSnackbar({
     required this.description,
-    required this.title,
-    required this.type,
+    this.title,
+    this.type = AppSnackbarType.info,
     this.style,
     this.radiusMode,
     this.radius,
     super.key,
-  });
+  }) : assert(
+         description != '',
+         'AppSnackbar sem texto não tem o que anunciar',
+       );
+  // `!= ''` e não `.isNotEmpty`: o construtor é const e os previews/goldens
+  // usam `const AppSnackbar(...)` — getter quebra a avaliação constante.
 
-  /// Descrição (até 3 linhas, `bodyMedium`, neutro legível).
+  /// Mensagem (até 3 linhas, `bodyMedium`).
+  ///
+  /// Sem [title] ela É o conteúdo do card e ganha a cor primária (`onSurface`);
+  /// com [title] fica no neutro legível (`neutralPrimary.s700`), como sempre.
   final String description;
 
-  /// Título (1 linha, `titleMedium`, `onSurface`).
-  final String title;
+  /// Título opcional (1 linha, `titleMedium`, `onSurface`).
+  ///
+  /// `null` = toast de uma frase só: a linha do título e o respiro somem, e o
+  /// ícone centraliza verticalmente com a mensagem.
+  final String? title;
 
-  /// Tipo semântico (cor + ícone).
+  /// Tipo semântico (cor + ícone). Default [AppSnackbarType.info] — o mesmo
+  /// padrão do `AppAlert`. Mensagem de erro DEVE passar
+  /// [AppSnackbarType.error]: a cor e o ícone são o único sinal da falha.
   final AppSnackbarType type;
 
   /// Tratamento de container ([AppStyle]). `null` resolve para `elevated`.
@@ -76,6 +94,9 @@ final class AppSnackbar extends StatelessWidget {
     final Color borderColor = readableStopOn(role, colors.surface);
     final Color iconColor = readableStopOn(role, fill);
 
+    final String? t = title;
+    final bool hasTitle = t != null;
+
     return AppSemantics.liveRegion(
       ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: _maxWidth),
@@ -91,7 +112,11 @@ final class AppSnackbar extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(AppSpacings.s16),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              // Com título o bloco de texto é alto e o ícone alinha no topo;
+              // numa linha só, topo deixaria o ícone flutuando sobre a frase.
+              crossAxisAlignment: hasTitle
+                  ? CrossAxisAlignment.start
+                  : CrossAxisAlignment.center,
               spacing: AppSpacings.s16,
               children: <Widget>[
                 Expanded(
@@ -99,21 +124,25 @@ final class AppSnackbar extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      AppText(
-                        title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.titleMedium.copyWith(
-                          color: colors.onSurface,
+                      if (hasTitle) ...<Widget>[
+                        AppText(
+                          t,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.titleMedium.copyWith(
+                            color: colors.onSurface,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: AppSpacings.s4),
+                        const SizedBox(height: AppSpacings.s4),
+                      ],
                       AppText(
                         description,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.bodyMedium.copyWith(
-                          color: colors.neutralPrimary.s700,
+                          color: hasTitle
+                              ? colors.neutralPrimary.s700
+                              : colors.onSurface,
                         ),
                       ),
                     ],
