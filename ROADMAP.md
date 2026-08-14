@@ -25,6 +25,7 @@ Atualizado em 2026-08-11 — o que cada fase mediu está na seção dela.
 | C3 — distribuição MCP | ✅ **concluída em 2026-08-10**: Release do `flocks_mcp` (4 binários + `.mcpb`, disparado pela tag) e listagem no MCP Registry sob `io.github.jotapeconsultoria/flocks-mcp`, com o `server.json` gerado apontando para o `.mcpb` daquele Release. Republicada na `0.1.1` no mesmo dia — confirmada `isLatest` na API do registry. A `description` teve de cair para 92 caracteres: o registry recusa acima de 100 e o pub.dev não tem esse teto — gate novo em `server_json_test.dart`. As armadilhas do `publish` (o `curl -LO` que não sobrescreve, o `latest` que ainda é a release anterior, o 403 de token sem `read:org`) estão no README do pacote |
 | D — demo | ✅ **no ar em 2026-08-10** em `flocks.live/demo/`: pacote `flocks_demo` (membro do workspace, `publish_to: none` — é vitrine, não biblioteca), dashboard e CRUD só de componentes Flocks, estado na URL, logo client-side, e o `toDartSnippet` que escreve a marca em Dart colável. Deployada pelo CI deste repo, sob prefixo próprio da zone do site, com casca semântica indexável. **Pendência**: o snippet emite `flippedSwatch`, que só existe na `[Unreleased]` do `flocks` — enquanto a 0.1.2 não sai, o código exportado não compila contra o pub.dev |
 | E — guia de migração | ⬜ **desbloqueada** — a instalação real que o guia instrui existe desde 2026-08-10 |
+| G — backlog de adoção (ZAPDESK) | 🟡 **32 de 95 itens entregues em 2026-08-14**. A migração de um app real de 26 mil linhas produziu um backlog de 95 lacunas do pacote; o dono aprovou 32 (3 defeitos, 24 parâmetros opcionais, 5 componentes novos) e recusou ou adiou os outros 63, cada recusa com o porquê. Ver a seção da fase abaixo |
 | F — providers de ícone (`flocks_cupertino`, `flocks_lucide`) | ✅ **implementados em 2026-08-10**: `flocks_cupertino` no molde do `flocks_material` (glifos do pacote `cupertino_icons`, MIT — **não** os SF Symbols da Apple) e `flocks_lucide` no molde do `flocks_phosphor` (fonte vendorada, ISC, 853.920 → 19.624 bytes com `--tree-shake-icons`). O teste de contrato cruzado cobre os quatro adaptadores. O `publish_to: none` dos dois saiu junto com o aviso do README de cada um, no mesmo commit que o XOR do `install_docs_test` cobra — os dois entram na linha pública em 0.1.0, contra o `flocks` que já está no ar |
 
 Os números daqui foram medidos em 2026-08-12, não supostos:
@@ -296,6 +297,60 @@ E (guia)            ⬜ a única aberta. A dependência dela — a instalação 
                        que o guia instrui — existe desde 2026-08-10, então o
                        que falta é escrever, não esperar
 ```
+
+## Fase G — backlog de adoção (o que um app real cobrou do pacote)
+
+Este documento abria dizendo que "um roadmap que listasse mais componentes
+estaria lendo o problema errado". Isso valia enquanto não havia adotante. A
+migração do ZAPDESK — app Flutter de 26.168 linhas, 100% Material — classificou
+616 componentes e produziu **95 lacunas** do pacote, cada uma com arquivo e linha
+dos dois lados. Não é lista de desejos: é o que um consumidor real tentou fazer e
+não conseguiu.
+
+**A triagem, e por que ela importa mais que a lista.** Dos 95, o dono do pacote
+aprovou **32**. Os outros 63 não foram esquecidos — foram **recusados ou adiados
+com o motivo registrado**, e os motivos se agrupam:
+
+| Motivo da recusa | Itens |
+|---|--:|
+| Cor crua onde o pacote fecha por papel semântico | 10 |
+| Semântica/a11y: mover o rótulo do leitor de tela para o call site | 13 |
+| Muda a identidade do componente (segunda anatomia, contrato novo) | 13 |
+| Eixo global ou contrato de tema | 11 |
+| Plugin nativo, asset licenciado ou política de locale | 5 |
+| Estado "selecionado" pedindo par de cores novo | 3 |
+| Exportação de interno (a decisão já estava escrita no fonte) | 3 |
+| Peça de produto, não vocabulário de design system | 5 |
+
+O que entrou, em 2026-08-14, e o que ele destrava:
+
+- **3 defeitos.** `AppChatMessageList` não virtualizava embora a API prometesse
+  (`itemCount`/`itemBuilder` sobre `Column`); a bottom sheet ignorava o teclado e
+  descartava `showHandle` em silêncio no ramo não-arrastável; o ✕ dos picker
+  inputs limpava por dentro e nunca avisava o chamador.
+- **24 parâmetros opcionais**, todos com default que reproduz o pixel de hoje —
+  a prova de cada um está no PR, e onde havia golden ele ficou byte-idêntico.
+- **5 componentes novos**: `showAppConfirm`, `AppPulse`, `AppQuotedMessage`,
+  `AppSlider` e `AppChoiceChip` (+ a barra). Catálogo 131 → **135**.
+
+**O que ficou aberto nesta fase:**
+
+- O **`AppRefreshIndicator`** — o sexto bloqueante da migração — depende de duas
+  decisões de fundação enunciadas em
+  [`doc/DECISOES_PULL_TO_REFRESH.md`](packages/flocks/doc/DECISOES_PULL_TO_REFRESH.md).
+  Sem elas o componente não deve ser escrito.
+- Os **63 itens recusados ou adiados** seguem no backlog com o motivo ao lado.
+  Vários deles são a mesma pergunta feita de oito jeitos ("posso passar um
+  `Color`?"), e respondê-la uma vez resolve o grupo inteiro.
+- O **corte `0.2.0`** não aconteceu: a seção `[Unreleased]` acumula as entradas
+  até o dia do corte, que é quando ela vira `[X.Y.Z] - AAAA-MM-DD` junto com o
+  bump do pubspec dos pacotes em lockstep.
+
+**Uma convenção mudou por causa desta fase.** O gate de release recusava
+`## [Unreleased]` — regra que fazia sentido quando pubspec e CHANGELOG subiam no
+mesmo commit. Um ciclo com dezenas de PRs antes do corte precisa de um balde, e
+ele agora existe com disciplina própria: no máximo um, sempre no topo, fora das
+seções de versão, carimbado no PR de release.
 
 ## O que este roadmap não cobre
 
