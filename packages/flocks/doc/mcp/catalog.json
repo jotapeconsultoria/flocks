@@ -3448,6 +3448,15 @@
         }
       },
       {
+        "name": "onCleared",
+        "type": "VoidCallback?",
+        "required": false,
+        "description": {
+          "en": "Fires when the user clears the field via the ✕ — which AppInput only shows while the field is in ERROR state (hasError/errorText), enabled and filled. The selection callback only announces valid values, so this is how the form learns the value was cleared. Erasing the text by hand does not notify.",
+          "pt": "Dispara quando o usuário limpa o campo pelo ✕ — que o AppInput só mostra com o campo em ERRO (hasError/errorText), habilitado e preenchido. O callback de seleção só anuncia valores válidos, então é por aqui que o form fica sabendo da limpeza. Apagar o texto à mão não notifica."
+        }
+      },
+      {
         "name": "size",
         "type": "AppFieldSize",
         "required": false,
@@ -3555,7 +3564,7 @@
     "props": [
       {
         "name": "onTimeSelected",
-        "type": "ValueChanged<TimeOfDay>",
+        "type": "ValueChanged<({int hour, int minute, int second})>",
         "required": true
       },
       {
@@ -3648,6 +3657,15 @@
         "description": {
           "en": "Help in a popover beside the label.",
           "pt": "Ajuda em popover ao lado do rótulo."
+        }
+      },
+      {
+        "name": "onCleared",
+        "type": "VoidCallback?",
+        "required": false,
+        "description": {
+          "en": "Fires when the user clears the field via the ✕ — which AppInput only shows while the field is in ERROR state (hasError/errorText), enabled and filled. The selection callback only announces valid values, so this is how the form learns the value was cleared. Erasing the text by hand does not notify.",
+          "pt": "Dispara quando o usuário limpa o campo pelo ✕ — que o AppInput só mostra com o campo em ERRO (hasError/errorText), habilitado e preenchido. O callback de seleção só anuncia valores válidos, então é por aqui que o form fica sabendo da limpeza. Apagar o texto à mão não notifica."
         }
       },
       {
@@ -3822,6 +3840,15 @@
         "description": {
           "en": "Help in a popover beside the label.",
           "pt": "Ajuda em popover ao lado do rótulo."
+        }
+      },
+      {
+        "name": "onCleared",
+        "type": "VoidCallback?",
+        "required": false,
+        "description": {
+          "en": "Fires when the user clears the field via the ✕ — which AppInput only shows while the field is in ERROR state (hasError/errorText), enabled and filled. The selection callback only announces valid values, so this is how the form learns the value was cleared. Erasing the text by hand does not notify.",
+          "pt": "Dispara quando o usuário limpa o campo pelo ✕ — que o AppInput só mostra com o campo em ERRO (hasError/errorText), habilitado e preenchido. O callback de seleção só anuncia valores válidos, então é por aqui que o form fica sabendo da limpeza. Apagar o texto à mão não notifica."
         }
       },
       {
