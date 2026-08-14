@@ -22,6 +22,109 @@ AppAuthSplitLayout _layout() => const AppAuthSplitLayout(
 const String _linkLabel = 'Abrir site da marca';
 
 void main() {
+  group('logo widget e identidade', () {
+    testWidgets(
+      'asserts: canal duplo, widget sem rótulo, tela sem identidade',
+      (tester) async {
+        expect(
+          () => AppAuthSplitLayout(
+            brandTitle: 'Marca',
+            logoUrl: AppIcons.infoCircle,
+            logo: const Text('ACME'),
+            logoSemanticLabel: 'ACME',
+            child: const SizedBox(),
+          ),
+          throwsAssertionError,
+        );
+        expect(
+          () => AppAuthSplitLayout(
+            brandTitle: 'Marca',
+            logo: const Text('ACME'),
+            child: const SizedBox(),
+          ),
+          throwsAssertionError,
+        );
+        expect(
+          () => AppAuthSplitLayout(
+            brandSubtitle: 'apoio não conta',
+            child: const SizedBox(),
+          ),
+          throwsAssertionError,
+        );
+      },
+    );
+
+    testWidgets('sem título, com logo widget: renderiza e anuncia a marca', (
+      tester,
+    ) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _host(
+          size: const Size(1280, 800),
+          const AppAuthSplitLayout(
+            logo: Text('ACME', key: ValueKey<String>('marca')),
+            logoSemanticLabel: 'ACME',
+            child: SizedBox(),
+          ),
+        ),
+      );
+      expect(find.byKey(const ValueKey<String>('marca')), findsOneWidget);
+      expect(find.bySemanticsLabel('ACME'), findsWidgets);
+      handle.dispose();
+    });
+
+    testWidgets('com websiteUrl o rótulo do link segue fixo, em nó separado', (
+      tester,
+    ) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _host(
+          size: const Size(1280, 800),
+          const AppAuthSplitLayout(
+            logo: Text('ACME'),
+            logoSemanticLabel: 'ACME',
+            websiteUrl: 'https://acme.example',
+            child: SizedBox(),
+          ),
+        ),
+      );
+      expect(find.bySemanticsLabel('Abrir site da marca'), findsOneWidget);
+      expect(find.bySemanticsLabel('ACME'), findsWidgets);
+      handle.dispose();
+    });
+
+    testWidgets('logoUrl + logoSemanticLabel nomeia o ícone', (tester) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _host(
+          size: const Size(1280, 800),
+          const AppAuthSplitLayout(
+            logoUrl: AppIcons.infoCircle,
+            logoSemanticLabel: 'ACME',
+            child: SizedBox(),
+          ),
+        ),
+      );
+      expect(find.bySemanticsLabel('ACME'), findsOneWidget);
+      handle.dispose();
+    });
+
+    testWidgets('só subtítulo some junto com o título ausente', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          size: const Size(1280, 800),
+          const AppAuthSplitLayout(
+            logoSemanticLabel: 'ACME',
+            logo: Text('A'),
+            brandSubtitle: 'Slogan',
+            child: SizedBox(),
+          ),
+        ),
+      );
+      expect(find.text('Slogan'), findsOneWidget);
+    });
+  });
+
   testWidgets('desktop: mostra título, subtítulo e formulário', (tester) async {
     tester.view.physicalSize = const Size(1200, 800);
     tester.view.devicePixelRatio = 1.0;
