@@ -29,22 +29,29 @@ Widget _overlayHost(Widget child) => Directionality(
   ),
 );
 
-Iterable<BoxDecoration> _alertDecorations(WidgetTester tester) => tester
-    .widgetList<DecoratedBox>(
-      find.descendant(
-        of: find.byType(AppAlert),
-        matching: find.byType(DecoratedBox),
-      ),
-    )
-    .map((DecoratedBox d) => d.decoration)
-    .whereType<BoxDecoration>();
+// A caixa PRÓPRIA do card é o primeiro DecoratedBox da subárvore (varredura em
+// pré-ordem). Um `.any(...)` sobre todos os descendentes leria também o
+// AnimatedContainer do AppInteraction do "×" (que tem SEMPRE Border.all — o
+// anel de foco transparente) e atribuiria ao alerta uma borda que não é dele.
+BoxDecoration _alertDecoration(WidgetTester tester) =>
+    tester
+            .widgetList<DecoratedBox>(
+              find.descendant(
+                of: find.byType(AppAlert),
+                matching: find.byType(DecoratedBox),
+              ),
+            )
+            .first
+            .decoration
+        as BoxDecoration;
 
 bool _alertHasBorder(WidgetTester tester) =>
-    _alertDecorations(tester).any((BoxDecoration d) => d.border != null);
+    _alertDecoration(tester).border != null;
 
-bool _alertHasShadow(WidgetTester tester) => _alertDecorations(
-  tester,
-).any((BoxDecoration d) => d.boxShadow != null && d.boxShadow!.isNotEmpty);
+bool _alertHasShadow(WidgetTester tester) {
+  final BoxDecoration d = _alertDecoration(tester);
+  return d.boxShadow != null && d.boxShadow!.isNotEmpty;
+}
 
 void main() {
   testWidgets('AppAlert renderiza título/descrição e é liveRegion', (
@@ -260,6 +267,428 @@ void main() {
               contrastRatio(readableStopOn(swatch, fill), fill) >= kUi,
               isTrue,
               reason: 'ícone < 3:1 em $bl',
+            );
+          });
+        }
+      }
+    }
+  });
+
+  group('slots (action/onDismiss/child) e liveRegion', () {
+    testWidgets('sem os params novos a árvore é a de sempre', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          const SizedBox(
+            width: 320,
+            child: AppAlert(title: 'T', description: 'D'),
+          ),
+        ),
+      );
+      expect(
+        find.descendant(
+          of: find.byType(AppAlert),
+          matching: find.byType(AppInteraction),
+        ),
+        findsNothing,
+      );
+      expect(
+        find.descendant(
+          of: find.byType(AppAlert),
+          matching: find.byType(Align),
+        ),
+        findsNothing,
+      );
+      expect(
+        find.descendant(
+          of: find.byType(AppAlert),
+          matching: find.byType(AppText),
+        ),
+        findsNWidgets(2),
+      );
+    });
+
+    testWidgets('action no footer fica numa linha própria, ao fim', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _host(
+          const SizedBox(
+            width: 320,
+            child: AppAlert(
+              title: 'T',
+              description: 'D',
+              action: SizedBox(
+                key: ValueKey<String>('acao'),
+                width: 80,
+                height: 24,
+              ),
+            ),
+          ),
+        ),
+      );
+      final Rect action = tester.getRect(
+        find.byKey(const ValueKey<String>('acao')),
+      );
+      final Rect desc = tester.getRect(find.text('D'));
+      final Rect card = tester.getRect(find.byType(AppAlert));
+      expect(action.top, greaterThanOrEqualTo(desc.bottom));
+      expect((card.right - 16) - action.right, lessThanOrEqualTo(1));
+    });
+
+    testWidgets('action em trailing fica na linha do título', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          const SizedBox(
+            width: 360,
+            child: AppAlert(
+              title: 'T',
+              description: 'D',
+              actionPlacement: AppAlertActionPlacement.trailing,
+              action: SizedBox(
+                key: ValueKey<String>('acao'),
+                width: 60,
+                height: 20,
+              ),
+            ),
+          ),
+        ),
+      );
+      final Rect action = tester.getRect(
+        find.byKey(const ValueKey<String>('acao')),
+      );
+      final Rect title = tester.getRect(find.text('T'));
+      expect(action.center.dy, greaterThanOrEqualTo(title.top));
+      expect(action.center.dy, lessThanOrEqualTo(title.bottom));
+      final AppText titleText = tester.widget<AppText>(
+        find.widgetWithText(AppText, 'T'),
+      );
+      expect(titleText.maxLines, 1);
+      expect(titleText.overflow, TextOverflow.ellipsis);
+    });
+
+    testWidgets('actionPlacement sem action é inerte', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          const SizedBox(
+            width: 320,
+            child: AppAlert(
+              title: 'T',
+              description: 'D',
+              actionPlacement: AppAlertActionPlacement.trailing,
+            ),
+          ),
+        ),
+      );
+      expect(
+        find.descendant(
+          of: find.byType(AppAlert),
+          matching: find.byType(Align),
+        ),
+        findsNothing,
+      );
+    });
+
+    testWidgets('onDismiss desenha o × nomeado e dispara uma vez', (
+      tester,
+    ) async {
+      int taps = 0;
+      await tester.pumpWidget(
+        _host(
+          SizedBox(
+            width: 320,
+            child: AppAlert(
+              title: 'T',
+              description: 'D',
+              onDismiss: () => taps++,
+            ),
+          ),
+        ),
+      );
+      expect(find.bySemanticsLabel('Dispensar'), findsOneWidget);
+      await tester.tap(find.bySemanticsLabel('Dispensar'));
+      expect(taps, 1);
+    });
+
+    testWidgets('dismissSemanticLabel sobrescreve o rótulo', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          SizedBox(
+            width: 320,
+            child: AppAlert(
+              title: 'T',
+              description: 'D',
+              onDismiss: () {},
+              dismissSemanticLabel: 'Fechar aviso',
+            ),
+          ),
+        ),
+      );
+      expect(find.bySemanticsLabel('Fechar aviso'), findsOneWidget);
+      expect(find.bySemanticsLabel('Dispensar'), findsNothing);
+    });
+
+    testWidgets('sem onDismiss não há ícone de close', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          const SizedBox(
+            width: 320,
+            child: AppAlert(title: 'T', description: 'D'),
+          ),
+        ),
+      );
+      final Iterable<AppIcon> icons = tester.widgetList<AppIcon>(
+        find.descendant(
+          of: find.byType(AppAlert),
+          matching: find.byType(AppIcon),
+        ),
+      );
+      expect(
+        icons.map((AppIcon i) => i.icon),
+        isNot(contains(AppIconToken.close)),
+      );
+    });
+
+    testWidgets('com onDismiss e action em trailing, a ordem é '
+        'título → ícone → ação → ×', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          SizedBox(
+            width: 400,
+            child: AppAlert(
+              title: 'T',
+              description: 'D',
+              actionPlacement: AppAlertActionPlacement.trailing,
+              action: const SizedBox(
+                key: ValueKey<String>('acao'),
+                width: 40,
+                height: 20,
+              ),
+              onDismiss: () {},
+            ),
+          ),
+        ),
+      );
+      final double title = tester.getRect(find.text('T')).left;
+      final Iterable<AppIcon> icons = tester.widgetList<AppIcon>(
+        find.descendant(
+          of: find.byType(AppAlert),
+          matching: find.byType(AppIcon),
+        ),
+      );
+      final double semanticIcon = tester
+          .getRect(
+            find.byWidget(
+              icons.firstWhere((AppIcon i) => i.icon != AppIconToken.close),
+            ),
+          )
+          .left;
+      final double action = tester
+          .getRect(find.byKey(const ValueKey<String>('acao')))
+          .left;
+      final double close = tester
+          .getRect(
+            find.byWidget(
+              icons.firstWhere((AppIcon i) => i.icon == AppIconToken.close),
+            ),
+          )
+          .left;
+      expect(title, lessThan(semanticIcon));
+      expect(semanticIcon, lessThan(action));
+      expect(action, lessThan(close));
+    });
+
+    testWidgets('child fica entre a descrição e o rodapé, e é clicável', (
+      tester,
+    ) async {
+      int taps = 0;
+      await tester.pumpWidget(
+        _host(
+          SizedBox(
+            width: 320,
+            child: AppAlert(
+              title: 'T',
+              description: 'D',
+              action: const SizedBox(
+                key: ValueKey<String>('acao'),
+                width: 80,
+                height: 24,
+              ),
+              child: GestureDetector(
+                key: const ValueKey<String>('filho'),
+                behavior: HitTestBehavior.opaque,
+                onTap: () => taps++,
+                child: const SizedBox(width: 100, height: 30),
+              ),
+            ),
+          ),
+        ),
+      );
+      final Rect child = tester.getRect(
+        find.byKey(const ValueKey<String>('filho')),
+      );
+      final Rect desc = tester.getRect(find.text('D'));
+      final Rect action = tester.getRect(
+        find.byKey(const ValueKey<String>('acao')),
+      );
+      expect(child.top, greaterThanOrEqualTo(desc.bottom));
+      expect(child.bottom, lessThanOrEqualTo(action.top));
+      await tester.tap(find.byKey(const ValueKey<String>('filho')));
+      expect(taps, 1);
+    });
+
+    testWidgets(
+      'liveRegion: true por padrão; false desliga sem calar o texto',
+      (tester) async {
+        await tester.pumpWidget(
+          _host(
+            const SizedBox(
+              width: 320,
+              child: AppAlert(title: 'T', description: 'D', liveRegion: false),
+            ),
+          ),
+        );
+        final s = tester.getSemantics(find.byType(AppAlert));
+        expect(s.flagsCollection.isLiveRegion, isFalse);
+        expect(find.text('T'), findsOneWidget);
+        final handle = tester.ensureSemantics();
+        expect(find.bySemanticsLabel('T'), findsOneWidget);
+        expect(find.bySemanticsLabel('D'), findsOneWidget);
+        handle.dispose();
+      },
+    );
+
+    testWidgets(
+      'o eixo AppStyle segue medido na caixa PRÓPRIA com o × presente',
+      (tester) async {
+        await tester.pumpWidget(
+          _host(
+            SizedBox(
+              width: 320,
+              child: AppAlert(
+                title: 'T',
+                description: 'D',
+                style: AppStyle.filled,
+                onDismiss: () {},
+              ),
+            ),
+          ),
+        );
+        expect(_alertHasBorder(tester), isFalse);
+        expect(_alertHasShadow(tester), isFalse);
+
+        await tester.pumpWidget(
+          _host(
+            SizedBox(
+              width: 320,
+              child: AppAlert(
+                title: 'T',
+                description: 'D',
+                style: AppStyle.outlined,
+                onDismiss: () {},
+              ),
+            ),
+          ),
+        );
+        expect(_alertHasBorder(tester), isTrue);
+
+        await tester.pumpWidget(
+          _host(
+            SizedBox(
+              width: 320,
+              child: AppAlert(
+                title: 'T',
+                description: 'D',
+                style: AppStyle.elevated,
+                onDismiss: () {},
+              ),
+            ),
+          ),
+        );
+        expect(_alertHasShadow(tester), isTrue);
+        expect(_alertHasBorder(tester), isFalse);
+      },
+    );
+  });
+
+  group('maxLines', () {
+    const String longo =
+        'Uma política de uso longa o bastante para não caber em três linhas '
+        'de card estreito, repetida para garantir: uma política de uso longa '
+        'o bastante para não caber em três linhas de card estreito, e mais '
+        'uma volta inteira do mesmo texto para transbordar qualquer teto.';
+
+    testWidgets('default trunca em 3 linhas com ellipsis', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          const SizedBox(
+            width: 280,
+            child: AppAlert(title: 'T', description: longo),
+          ),
+        ),
+      );
+      final AppText desc = tester.widget<AppText>(
+        find.widgetWithText(AppText, longo),
+      );
+      expect(desc.maxLines, 3);
+      expect(desc.overflow, TextOverflow.ellipsis);
+    });
+
+    testWidgets('null remove o teto e o card cresce', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          const SizedBox(
+            width: 280,
+            child: AppAlert(title: 'T', description: longo),
+          ),
+        ),
+      );
+      final double truncado = tester.getSize(find.byType(AppAlert)).height;
+
+      await tester.pumpWidget(
+        _host(
+          const SizedBox(
+            width: 280,
+            child: AppAlert(title: 'T', description: longo, maxLines: null),
+          ),
+        ),
+      );
+      final AppText desc = tester.widget<AppText>(
+        find.widgetWithText(AppText, longo),
+      );
+      expect(desc.maxLines, isNull);
+      expect(
+        tester.getSize(find.byType(AppAlert)).height,
+        greaterThan(truncado),
+      );
+    });
+  });
+
+  // O × precisa ser legível sobre o fill tingido dos 5 papéis.
+  group('contraste do × (marca × brilho)', () {
+    for (final AppBrandConfig brand in <AppBrandConfig>[
+      jotapeBrand,
+      zxtrackBrand,
+    ]) {
+      for (final bool dark in <bool>[false, true]) {
+        final String bl = '${brand.clientSlug}_${dark ? 'dark' : 'light'}';
+        final AppColorTheme c = dark
+            ? brand.toDarkColorTheme()
+            : brand.toLightColorTheme();
+        for (final AppAlertColor role in AppAlertColor.values) {
+          final ColorSwatch<int> swatch = role.resolve(c);
+          final Color fill = Color.alphaBlend(
+            swatch.withValues(alpha: 0.08),
+            c.surfaceContainer,
+          );
+          test('× sobre ${role.name} · $bl', () {
+            final Color close = Color.alphaBlend(
+              c.onSurface.withValues(alpha: 0.72),
+              fill,
+            );
+            expect(
+              contrastRatio(close, fill) >= kUi,
+              isTrue,
+              reason: 'o × compôs < 3:1 sobre o fill em $bl',
             );
           });
         }

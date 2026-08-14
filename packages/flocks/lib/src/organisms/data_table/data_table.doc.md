@@ -41,3 +41,12 @@ AppDataTable(
   onPerPageChange: cubit.setPerPage,
 );
 ```
+
+## `AppSimpleDataTable.columnFlex`
+
+Per-column flex factors (e.g. `[2.2, 1, 1]`) for the simple grid. `null` keeps
+the uniform split of always. Factors must be > 0 and match `columnLabels` in
+length (asserted). In an unbounded-width context (the table goes intrinsic)
+the factor only splits the leftover space — with `null`, nothing changes.
+Unlike `AppDataTable.columnWidths` (pixels), this is a proportion — the two
+APIs stay deliberately apart.

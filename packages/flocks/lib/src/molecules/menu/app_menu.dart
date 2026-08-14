@@ -34,6 +34,7 @@ final class AppMenuItem extends AppMenuEntry {
     this.icon,
     this.onPressed,
     this.selected = false,
+    this.subtitle,
   });
 
   /// Ação destrutiva (pinta em `danger`).
@@ -53,6 +54,11 @@ final class AppMenuItem extends AppMenuEntry {
 
   /// Se representa a opção selecionada atualmente.
   final bool selected;
+
+  /// Segunda linha opcional — a prévia de conteúdo (o texto da resposta
+  /// rápida, o detalhe do atalho). Até 2 linhas com ellipsis, no neutro do
+  /// chrome do menu; entra no rótulo semântico junto do [label].
+  final String? subtitle;
 }
 
 /// Um grupo de [AppMenuItem]s com um [title] opcional.
@@ -384,7 +390,9 @@ class _MenuItemRow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacings.s4),
       child: AppSemantics.menuItem(
-        label: item.label,
+        label: item.subtitle == null
+            ? item.label
+            : '${item.label}, ${item.subtitle}',
         enabled: enabled,
         onTap: enabled ? onSelected : null,
         child: SelectionContainer.disabled(
@@ -416,15 +424,51 @@ class _MenuItemRow extends StatelessWidget {
                       const SizedBox(width: AppSpacings.s8),
                     ],
                     Expanded(
-                      child: AppText(
-                        item.label,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.bodyMedium.copyWith(
-                          color: content,
-                          fontWeight: item.selected ? FontWeight.bold : null,
-                        ),
-                      ),
+                      child: item.subtitle == null
+                          ? AppText(
+                              item.label,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodyMedium.copyWith(
+                                color: content,
+                                fontWeight: item.selected
+                                    ? FontWeight.bold
+                                    : null,
+                              ),
+                            )
+                          : Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                AppText(
+                                  item.label,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: theme.textTheme.bodyMedium.copyWith(
+                                    color: content,
+                                    fontWeight: item.selected
+                                        ? FontWeight.bold
+                                        : null,
+                                  ),
+                                ),
+                                // O mesmo par do chrome de seção do menu
+                                // (labelSmall + s600), esmaecido junto com o
+                                // label quando desabilitado.
+                                AppText(
+                                  item.subtitle!,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: theme.textTheme.labelSmall.copyWith(
+                                    color: enabled
+                                        ? colors.neutralPrimary.s600
+                                        : mutedForDisabled(
+                                            colors.neutralPrimary.s600,
+                                            colors.surfaceContainer,
+                                          ),
+                                  ),
+                                ),
+                              ],
+                            ),
                     ),
                   ],
                 ),
