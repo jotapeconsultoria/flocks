@@ -185,13 +185,23 @@ registered brand's contrast is verified against WCAG AA, brand × brightness, in
 to satisfy. The default one serves SVGs from inside the package: 25 KB, it works
 offline, on the first `flutter run`, with no CDN.
 
-Swapping the set is swapping the provider, and there are three ready paths:
+Swapping the set is swapping the provider, and there are five ready paths:
 
 | | |
 |---|---|
 | **A whole library** | [`flocks_phosphor`](../flocks_phosphor) — 1,512 icons × 6 weights, font-based and tree-shakeable, with weight as a brand axis |
+| **One weight, in a font** | [`flocks_lucide`](../flocks_lucide) — Lucide shipped as a TTF, font-based and tree-shakeable too, with no weight matrix to pick from |
+| **The iOS vocabulary** | [`flocks_cupertino`](../flocks_cupertino) — the glyphs of the `cupertino_icons` package, under MIT. They are not Apple's SF Symbols, which is what lets the package exist |
 | **Material, Font Awesome…** | [`flocks_material`](../flocks_material) is the reference implementation: one table and one `build` |
 | **Your own CDN** | `AppNetworkIconProvider(baseUrl: …)`, already in the core |
+
+The four adapters are packages of their own on pub.dev, under the same verified
+publisher as this one, and they all take the same constraint:
+
+```yaml
+dependencies:
+  flocks_phosphor: ^0.1.0   # or flocks_lucide, flocks_cupertino, flocks_material
+```
 
 ```dart
 AppThemeScope(
@@ -201,9 +211,10 @@ AppThemeScope(
 ```
 
 The core embeds only the contract because Flutter **does not tree-shake assets**:
-everything in the `pubspec` is paid for by every adopter. A Material adapter has
-to be a separate package for the same reason the core does not import
-`material.dart` — and the architecture test bars whoever tries.
+everything in the `pubspec` is paid for by every adopter. A Material or Cupertino
+adapter has to be a separate package for the same reason the core imports
+neither `material.dart` nor `cupertino.dart` — and the architecture test bars
+whoever tries.
 
 ## Documentation in two languages
 
