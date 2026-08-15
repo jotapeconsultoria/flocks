@@ -9,29 +9,41 @@ import 'wb_helpers.dart';
 // AppNavigationRail — menu lateral colapsável. AppNavigationRailItem — o item.
 // ---------------------------------------------------------------------------
 
-List<AppNavigationRailItemData> _items() => <AppNavigationRailItemData>[
-  AppNavigationRailItemData(
-    icon: AppIconToken.infoCircle,
-    route: '/inicio',
-    title: 'Início',
-    onPressed: (_, _) {},
-  ),
-  AppNavigationRailItemData(
-    icon: AppIconToken.checkCircle,
-    route: '/veiculos',
-    title: 'Veículos',
-    onPressed: (_, _) {},
-  ),
-  AppNavigationRailItemData(
-    icon: AppIconToken.errorCircle,
-    route: '/alertas',
-    title: 'Alertas',
-    onPressed: (_, _) {},
-  ),
-];
+List<AppNavigationRailItemData> _items({bool withActiveIcons = false}) =>
+    <AppNavigationRailItemData>[
+      AppNavigationRailItemData(
+        icon: AppIconToken.infoCircle,
+        activeIcon: withActiveIcons ? AppIconToken.checkCircle : null,
+        route: '/inicio',
+        title: 'Início',
+        onPressed: (_, _) {},
+      ),
+      AppNavigationRailItemData(
+        icon: AppIconToken.checkCircle,
+        activeIcon: withActiveIcons ? AppIconToken.infoCircle : null,
+        route: '/veiculos',
+        title: 'Veículos',
+        onPressed: (_, _) {},
+      ),
+      AppNavigationRailItemData(
+        icon: AppIconToken.errorCircle,
+        activeIcon: withActiveIcons ? AppIconToken.infoCircle : null,
+        route: '/alertas',
+        title: 'Alertas',
+        onPressed: (_, _) {},
+      ),
+    ];
 
 @widgetbook.UseCase(name: 'Playground', type: AppNavigationRail)
 Widget navigationRailPlayground(BuildContext context) {
+  final bool withActiveIcons = context.knobs.boolean(
+    label: 'activeIcon',
+    initialValue: false,
+  );
+  final bool widgetLogo = context.knobs.boolean(
+    label: 'logo (widget channel)',
+    initialValue: false,
+  );
   return wbUseCase(
     context,
     name: 'AppNavigationRail',
@@ -43,8 +55,12 @@ Widget navigationRailPlayground(BuildContext context) {
     child: SizedBox(
       height: 480,
       child: AppNavigationRail(
-        items: _items(),
-        logoCollapsed: AppIconToken.infoCircle,
+        items: _items(withActiveIcons: withActiveIcons),
+        logoCollapsed: widgetLogo ? null : AppIconToken.infoCircle,
+        logo: widgetLogo
+            ? Text('ACME', style: AppTheme.of(context).textTheme.titleLarge)
+            : null,
+        logoSemanticLabel: widgetLogo ? 'ACME' : null,
         getCurrentRoute: (_) => '/inicio',
         footer: Column(
           mainAxisSize: MainAxisSize.min,
@@ -94,6 +110,10 @@ Widget navigationRailItemPlayground(BuildContext context) {
     label: 'isSelected',
     initialValue: true,
   );
+  final bool withActiveIcon = context.knobs.boolean(
+    label: 'activeIcon',
+    initialValue: false,
+  );
   return wbUseCase(
     context,
     name: 'AppNavigationRailItem',
@@ -103,6 +123,7 @@ Widget navigationRailItemPlayground(BuildContext context) {
       width: 288,
       child: AppNavigationRailItem(
         icon: AppIconToken.infoCircle,
+        activeIcon: withActiveIcon ? AppIconToken.checkCircle : null,
         title: 'Início',
         isCollapsed: isCollapsed,
         isSelected: isSelected,

@@ -1,8 +1,9 @@
 # AppAlert
 
-Alert **card** with a title, a description and an icon in the semantic color. It
-is only the card — to show it somewhere on screen, use the **`showAppOverlay`**
-helper.
+Alert **card** with a title, a description and an icon in the semantic color —
+plus optional slots: an action inside the card, a named dismiss control and
+free content. It is only the card — to show it somewhere on screen, use the
+**`showAppOverlay`** helper.
 
 ## When to use
 
@@ -25,7 +26,30 @@ helper.
 - **Radius**: the global radius (round mode).
 - **Title** (`titleMedium`, `onSurface`): 1 line, `ellipsis`.
 - **Icon** (`AppIconSize.m`, semantic color) to the right of the title.
-- **Description** (`bodyMedium`, `neutralPrimary.s700`): up to 3 lines, `ellipsis`.
+- **Description** (`bodyMedium`, `neutralPrimary.s700`): up to `maxLines`
+  lines (3 by default), `ellipsis`. `maxLines: null` removes the cap — for the
+  policy text a user must actually read whole.
+
+## Action & dismiss
+
+- **`action`** (`Widget?`): an action INSIDE the card. `footer` placement
+  (default) gives it its own row aligned to the end — the only placement that
+  never fights the 1-line title for width. `trailing` puts it at the end of
+  the title row, for the compact strip whose whole message fits the title.
+- **`onDismiss`** (`VoidCallback?`): draws a named "×" at the end of the title
+  row, as its own tap target (the `AppFilterChip` precedent — dismissing and
+  acting are different gestures). It is a pure callback: **the caller owns
+  visibility**; the card never hides itself.
+- **`child`** (`Widget?`): free content between the description and the action
+  footer, inheriting the tinted background and padding — a highlighted value,
+  a selector, a row of fields.
+- The card's `style`/`radiusMode`/`radius` apply to the card's box and are NOT
+  forwarded into the slots: a button inside follows the global axis on its own.
+- **`liveRegion`** (default `true`): the announcement wrapper. Set it to
+  `false` when the alert is page furniture (a permanent settings box): a live
+  region re-announces the whole card whenever an inner control changes — a
+  button entering `loading` would make the reader repeat title and
+  description.
 
 ## Colors (`AppAlertColor`)
 
@@ -51,7 +75,11 @@ It shows **any** widget at a point on screen through the `Overlay` (no Material)
 ## Accessibility (Rule 8)
 
 - Wrapped in `AppSemantics.liveRegion` → the alert is **announced** by screen
-  readers when it appears.
+  readers when it appears (`liveRegion: false` opts out without silencing the
+  text).
+- The "×" is a named tap target (`dismissSemanticLabel`, default
+  `'Dispensar'`) and adds a Tab stop, as does the `action` — reading order
+  follows the visual order: title → icon → action → ×.
 - Contrast validated across 2 brands × 2 brightnesses: title and description over
   the tinted background ≥ AA; border and icon (semantic color) ≥ 3:1 against the
   surface — see `alert_test.dart`.
@@ -62,7 +90,13 @@ It shows **any** widget at a point on screen through the `Overlay` (no Material)
 - ✅ A short title (1 line); the detail goes in the description.
 - ✅ Choose `position`/`animation` by urgency (an error at the top; a discreet
   success in the bottom corner).
+- ✅ Small buttons in the `trailing` placement — a large one stretches the
+  title row and misaligns the semantic icon.
+- ✅ `liveRegion: false` when the alert is furniture, not news.
 - ❌ Do not stack several overlays in the same corner at once.
+- ❌ Do not put two buttons in `trailing` — that is what `footer` is for.
+- ❌ Do not expect the card to hide itself on dismiss — wrap it in
+  `if (visible)` or dismiss the overlay.
 
 ## Tests
 

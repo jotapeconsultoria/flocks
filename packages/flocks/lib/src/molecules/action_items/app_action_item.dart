@@ -4,11 +4,14 @@ import '../../atoms/atoms.dart';
 import '../../theme/theme.dart';
 import '../../tokens/tokens.dart';
 
-/// Item de ação para listas de opções/menus: ícone à esquerda + texto.
+/// Item de ação para listas de opções/menus: ícone + texto.
 ///
-/// Superfície tingida (por padrão, `primary.s50`) e clicável. Participa do eixo
-/// global de estilo ([AppStyle]) e de forma ([AppRadiusMode]); todas as cores
-/// vêm do tema → adapta a claro/escuro e às marcas.
+/// Superfície tingida (por padrão, `primary.s50`) e clicável. [direction]
+/// horizontal (default) põe o ícone à esquerda do texto; vertical empilha o
+/// ícone acima do rótulo — a célula da grade de opções em folha — com o MESMO
+/// padding, raio e cores. Participa do eixo global de estilo ([AppStyle]) e de
+/// forma ([AppRadiusMode]); todas as cores vêm do tema → adapta a claro/escuro
+/// e às marcas.
 ///
 /// ```dart
 /// AppActionItem(
@@ -23,14 +26,19 @@ final class AppActionItem extends StatelessWidget {
     required this.icon,
     required this.onPressed,
     required this.text,
+    this.direction = Axis.horizontal,
     this.style,
     this.radiusMode,
     this.radius,
     super.key,
   });
 
-  /// Ícone exibido à esquerda do item.
+  /// Ícone exibido à esquerda (horizontal) ou acima (vertical) do texto.
   final String icon;
+
+  /// Orientação do item. Default [Axis.horizontal] — a linha de sempre.
+  /// [Axis.vertical] empilha ícone sobre rótulo, centrados.
+  final Axis direction;
 
   /// Callback executado ao pressionar o item.
   final VoidCallback onPressed;
@@ -73,31 +81,57 @@ final class AppActionItem extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(AppSpacings.s16),
-              child: Row(
-                spacing: AppSpacings.s8,
-                children: <Widget>[
-                  AppIcon(
-                    icon,
-                    color: readableStopOn(colors.secondary, colors.surface),
-                    size: AppIconSize.m,
-                  ),
-                  Expanded(
-                    child: AppText(
-                      text,
-                      maxLines: 1,
-                      overflow: TextOverflow.clip,
-                      semanticLabel: text,
-                      style: theme.textTheme.bodyLarge.copyWith(
-                        color: colors.neutralPrimary.s900,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              child: _content(theme, colors),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _content(AppThemeData theme, AppColorTheme colors) {
+    final Widget iconWidget = AppIcon(
+      icon,
+      color: readableStopOn(colors.secondary, colors.surface),
+      size: AppIconSize.m,
+    );
+    final TextStyle textStyle = theme.textTheme.bodyLarge.copyWith(
+      color: colors.neutralPrimary.s900,
+    );
+
+    if (direction == Axis.vertical) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: AppSpacings.s8,
+        children: <Widget>[
+          iconWidget,
+          AppText(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.clip,
+            textAlign: TextAlign.center,
+            semanticLabel: text,
+            style: textStyle,
+          ),
+        ],
+      );
+    }
+
+    return Row(
+      spacing: AppSpacings.s8,
+      children: <Widget>[
+        iconWidget,
+        Expanded(
+          child: AppText(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.clip,
+            semanticLabel: text,
+            style: textStyle,
+          ),
+        ),
+      ],
     );
   }
 }

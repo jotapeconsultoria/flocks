@@ -64,8 +64,12 @@ void main() {
     );
   });
 
-  // Não há aqui um gate de "a versão instruída é a do pubspec". O caret de
-  // `^0.1.0` continua válido em 0.1.1, e o `flocks_material` prova o caso: ele
-  // está em 0.1.1 declarando `flocks: ^0.1.0`. Um gate assim reprovaria um
-  // bump legítimo — seria um teste medindo a coisa errada.
+  // Não há aqui um gate de "a versão instruída é a do pubspec". O caret é uma
+  // faixa: em 0.x, `^0.1.0` resolve para `>=0.1.0 <0.2.0`, então ele segue
+  // valendo em cada patch da linha `0.1.x` — o bump seguinte que ele NÃO
+  // alcança é o do MINOR, e em 0.x isso é o recurso. O `flocks_material` prova
+  // o caso: o `flocks: ^0.1.0` do pubspec dele não muda desde que o pacote
+  // entrou neste repositório, e o core seguiu publicando nesse intervalo. Um
+  // gate assim reprovaria um bump legítimo — seria um teste medindo a coisa
+  // errada.
 }

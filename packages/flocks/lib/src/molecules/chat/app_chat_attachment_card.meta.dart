@@ -37,7 +37,18 @@ const AppComponentMeta appChatAttachmentCardMeta = AppComponentMeta(
     PropMeta(name: 'onTap', type: 'VoidCallback?'),
     PropMeta(name: 'onRemove', type: 'VoidCallback?'),
     PropMeta(name: 'size', type: 'double', defaultValue: '104'),
+    PropMeta(
+      name: 'layout',
+      type: 'AppChatAttachmentCardLayout',
+      defaultValue: 'AppChatAttachmentCardLayout.square',
+      description: LocalizedText(
+        en: 'square (the default card) or row — a horizontal block (thumb/icon + name + subtitle, inline remove), 2 x size wide, content height.',
+        pt: 'square (o cartão de sempre) ou row — bloco horizontal (thumb/ícone + nome + subtítulo, remover em linha), largura 2 x size, altura do conteúdo.',
+      ),
+      enumValues: <String>['square', 'row'],
+    ),
   ],
+  variants: <String>['square', 'horizontal'],
   examples: <CodeExample>[
     CodeExample(
       title: LocalizedText(

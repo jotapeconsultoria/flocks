@@ -11,7 +11,7 @@ const AppComponentMeta appChatComposerMeta = AppComponentMeta(
     pt: 'Campo multimodal com toolbar (anexo/modelo/info/contexto).',
   ),
   description: LocalizedText(
-    en: 'The surface wraps ONLY the compose area (a "bare" multiline AppInput + a bare send/stop button). OUTSIDE it (as in Claude): attachments ABOVE the input and the toolbar BELOW (left: attachment + model; right: info popover + context ring). Neutral items (onSurface) with hover/focus/click + tooltip; the only colored one is the context ring. Attachments follow the composer\'s style. It resolves the global style axis (filled/outlined/elevated, with an opaque fill — so the shadow does not bleed) and the shape axis (circular becomes round with attachments OR multiline). Enter sends; Shift+Enter breaks the line. Replaces Material\'s TextField.',
+    en: 'The surface wraps ONLY the compose area (a "bare" multiline AppInput + a bare send/stop button). OUTSIDE it (as in Claude): attachments ABOVE the input and the toolbar BELOW (left: attachment + model; right: info popover + context ring). Neutral items (onSurface) with hover/focus/click + tooltip; the only colored one is the context ring. Attachments follow the composer\'s style. It resolves the global style axis (filled/outlined/elevated, with an opaque fill — so the shadow does not bleed) and the shape axis (circular becomes round with a band above — attachments or preview — OR multiline). Enter sends; Shift+Enter breaks the line. Replaces Material\'s TextField.',
     pt:
         'A superfície envolve SÓ o compose (AppInput multiline "nu" + botão '
         'enviar/parar bare). FORA dela (como no Claude): anexos ACIMA do input e '
@@ -44,6 +44,14 @@ const AppComponentMeta appChatComposerMeta = AppComponentMeta(
       name: 'attachments',
       type: 'List<Widget>',
       defaultValue: 'const []',
+    ),
+    PropMeta(
+      name: 'preview',
+      type: 'Widget?',
+      description: LocalizedText(
+        en: 'Free slot right above the field (a reply banner, a quote); the composer only positions it, below the attachment strip.',
+        pt: 'Slot livre logo acima do campo (banner de resposta, citação); o composer só o posiciona, abaixo da faixa de anexos.',
+      ),
     ),
     PropMeta(name: 'attachmentLimit', type: 'int', defaultValue: '2'),
     PropMeta(name: 'modelLabel', type: 'String?'),

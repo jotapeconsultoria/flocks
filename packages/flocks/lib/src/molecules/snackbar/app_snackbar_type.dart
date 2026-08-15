@@ -12,13 +12,17 @@ enum AppSnackbarType {
   info,
 
   /// Sucesso (verde).
-  success;
+  success,
+
+  /// Aviso (âmbar).
+  warning;
 
   /// Resolve o papel para o seu swatch semântico em [t].
   ColorSwatch<int> resolve(AppColorTheme t) => switch (this) {
     AppSnackbarType.error => t.danger,
     AppSnackbarType.info => t.info,
     AppSnackbarType.success => t.success,
+    AppSnackbarType.warning => t.warning,
   };
 
   /// Ícone do papel.
@@ -26,5 +30,6 @@ enum AppSnackbarType {
     AppSnackbarType.error => AppIconToken.errorCircle,
     AppSnackbarType.info => AppIconToken.infoCircle,
     AppSnackbarType.success => AppIconToken.checkCircle,
+    AppSnackbarType.warning => AppIconToken.alert,
   };
 }

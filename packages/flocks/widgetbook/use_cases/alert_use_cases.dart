@@ -29,13 +29,39 @@ Widget alertPlayground(BuildContext context) {
     initialValue: 'Verifique sua internet e tente novamente.',
   );
   final AppAlertColor color = _colorKnob(context);
+  final bool withAction = context.knobs.boolean(
+    label: 'action',
+    initialValue: false,
+  );
+  final AppAlertActionPlacement actionPlacement = context.knobs.object
+      .dropdown<AppAlertActionPlacement>(
+        label: 'actionPlacement',
+        options: AppAlertActionPlacement.values,
+        initialOption: AppAlertActionPlacement.footer,
+        labelBuilder: (AppAlertActionPlacement p) =>
+            'AppAlertActionPlacement.${p.name}',
+      );
+  final bool dismissible = context.knobs.boolean(
+    label: 'onDismiss',
+    initialValue: false,
+  );
+  final bool liveRegion = context.knobs.boolean(
+    label: 'liveRegion',
+    initialValue: true,
+  );
+  final int maxLinesValue = context.knobs.int.slider(
+    label: 'maxLines (6 = no cap)',
+    initialValue: 3,
+    min: 1,
+    max: 6,
+  );
   final AppStyle? style = wbStyleKnob(context);
   final AppRadiusMode? radiusMode = wbRadiusModeKnob(context);
   return wbUseCase(
     context,
     name: 'AppAlert',
     description:
-        'The alert card itself; pick the semantic color. '
+        'The alert card itself; pick the semantic color and the slots. '
         'style/radius follow the addons unless overridden here.',
     child: SizedBox(
       width: 340,
@@ -43,6 +69,18 @@ Widget alertPlayground(BuildContext context) {
         title: title,
         description: description,
         color: color,
+        action: withAction
+            ? AppButton(
+                onPressed: () {},
+                label: 'Action',
+                size: AppButtonSize.s,
+                style: AppStyle.outlined,
+              )
+            : null,
+        actionPlacement: actionPlacement,
+        onDismiss: dismissible ? () {} : null,
+        liveRegion: liveRegion,
+        maxLines: maxLinesValue >= 6 ? null : maxLinesValue,
         style: style,
         radiusMode: radiusMode,
       ),
@@ -149,6 +187,34 @@ Widget alertStates(BuildContext context) => wbUseCase(
           title: 'Atenção',
           description: 'A licença expira em 3 dias.',
           color: AppAlertColor.warning,
+        ),
+      ),
+      wbState(
+        context,
+        name: 'With action',
+        when: 'The notice offers a way out',
+        width: 300,
+        child: AppAlert(
+          title: 'Troca agendada',
+          description: 'O novo pacote entra no próximo ciclo.',
+          color: AppAlertColor.warning,
+          action: AppButton(
+            onPressed: () {},
+            label: 'Cancelar',
+            size: AppButtonSize.s,
+            style: AppStyle.outlined,
+          ),
+        ),
+      ),
+      wbState(
+        context,
+        name: 'Dismissible',
+        when: 'The user can put it away',
+        width: 300,
+        child: AppAlert(
+          title: 'Dica',
+          description: 'Arraste colunas para reordenar o quadro.',
+          onDismiss: () {},
         ),
       ),
       wbState(
