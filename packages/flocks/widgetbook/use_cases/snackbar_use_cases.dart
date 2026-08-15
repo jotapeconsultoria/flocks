@@ -19,15 +19,23 @@ AppSnackbarType _typeKnob(BuildContext context) =>
 
 @widgetbook.UseCase(name: 'Playground', type: AppSnackbar)
 Widget snackbarPlayground(BuildContext context) {
-  final String title = context.knobs.string(
-    label: 'title',
+  final String titleRaw = context.knobs.string(
+    label: 'title (empty = one-line toast)',
     initialValue: 'Salvo',
   );
+  final String? title = titleRaw.isEmpty ? null : titleRaw;
   final String description = context.knobs.string(
     label: 'description',
     initialValue: 'As alterações foram aplicadas.',
   );
   final AppSnackbarType type = _typeKnob(context);
+  final AppOverlayPosition position = context.knobs.object
+      .dropdown<AppOverlayPosition>(
+        label: 'position',
+        options: AppOverlayPosition.values,
+        initialOption: AppOverlayPosition.bottomRight,
+        labelBuilder: (AppOverlayPosition p) => 'AppOverlayPosition.${p.name}',
+      );
   final AppStyle? style = wbStyleKnob(context);
   final AppRadiusMode? radiusMode = wbRadiusModeKnob(context);
 
@@ -36,7 +44,7 @@ Widget snackbarPlayground(BuildContext context) {
     name: 'AppSnackbar',
     description:
         'The feedback card; pick the semantic type. Use the CTA to show it via '
-        'showAppSnackbar (bottom-right, auto-dismiss).',
+        'showAppSnackbar (auto-dismiss; position picks the corner).',
     cta: wbCta(
       context,
       label: 'Show snackbar',
@@ -45,6 +53,7 @@ Widget snackbarPlayground(BuildContext context) {
         title: title,
         description: description,
         type: type,
+        position: position,
       ),
     ),
     child: SizedBox(
@@ -64,7 +73,9 @@ Widget snackbarPlayground(BuildContext context) {
 Widget snackbarStates(BuildContext context) => wbUseCase(
   context,
   name: 'AppSnackbar',
-  description: 'The three semantic types (color + icon) at a glance.',
+  description:
+      'The four semantic types (color + icon) and the one-line toast at a '
+      'glance.',
   child: Wrap(
     alignment: WrapAlignment.center,
     crossAxisAlignment: WrapCrossAlignment.start,
@@ -79,6 +90,7 @@ Widget snackbarStates(BuildContext context) => wbUseCase(
             AppSnackbarType.success => 'Operação concluída',
             AppSnackbarType.error => 'Algo falhou',
             AppSnackbarType.info => 'Aviso neutro',
+            AppSnackbarType.warning => 'Atenção antes de seguir',
           },
           width: 300,
           child: AppSnackbar(
@@ -87,6 +99,13 @@ Widget snackbarStates(BuildContext context) => wbUseCase(
             type: type,
           ),
         ),
+      wbState(
+        context,
+        name: 'message only',
+        when: 'A frase única, sem título',
+        width: 300,
+        child: const AppSnackbar(description: 'Link copiado.'),
+      ),
     ],
   ),
 );

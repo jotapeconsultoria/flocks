@@ -32,6 +32,11 @@ const Map<String, String> kSemanticsDelegates = <String, String>{
   'molecules/buttons/app_floating_button.dart':
       'molecules/buttons/button_core.dart',
 
+  // Os dois AppButton do rodapé do confirm falam pelo ButtonCore, como todo
+  // botão do pacote — o helper não monta alvo próprio nenhum.
+  'organisms/dialogs/show_app_confirm.dart':
+      'molecules/buttons/button_core.dart',
+
   // Gatilho e linhas de opção saem de `dropdown_internals`, que usa
   // `AppSemantics.expandable` (o combobox anuncia se está aberto).
   'molecules/dropdown/app_dropdown.dart':

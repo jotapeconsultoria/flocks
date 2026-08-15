@@ -88,6 +88,7 @@ final class AppChatComposer extends StatefulWidget {
     this.attachLimitMessage,
     this.attachments = const <Widget>[],
     this.attachmentLayout = AppChatAttachmentLayout.wrap,
+    this.preview,
     this.modelLabel,
     this.modelOptions = const <String>[],
     this.onModelSelected,
@@ -152,12 +153,22 @@ final class AppChatComposer extends StatefulWidget {
   /// ("Limite de N anexos atingido").
   final String? attachLimitMessage;
 
-  /// Faixa de anexos **abaixo do campo** (ex.: `AppChatAttachmentChip`/`Card`).
+  /// Faixa de anexos **acima do campo** (ex.: `AppChatAttachmentChip`/`Card`).
   final List<Widget> attachments;
 
   /// Como a faixa de anexos é disposta. Default [AppChatAttachmentLayout.wrap]
   /// (chips); use [AppChatAttachmentLayout.row] para os cards.
   final AppChatAttachmentLayout attachmentLayout;
+
+  /// Prévia acima do campo — o banner de resposta ("respondendo a…"), a
+  /// citação, o aviso de edição. `null` (default) = o composer de sempre.
+  ///
+  /// Fica IMEDIATAMENTE acima da superfície (abaixo da faixa de anexos): a
+  /// prévia é a citação do que a mensagem responde e ancora no campo que
+  /// responde a ela. O composer só POSICIONA o slot — a aparência é do
+  /// chamador (um banner de reply é peça composta do app; não há tema escopado
+  /// nem estilo imposto). A faixa recebe a largura do composer.
+  final Widget? preview;
 
   /// Nome do modelo atual (ex.: "Atlas"). `null` = sem escolha de modelo.
   final String? modelLabel;
@@ -274,6 +285,7 @@ class _AppChatComposerState extends State<AppChatComposer> {
     final AppColorTheme colors = theme.colorTheme;
     final bool isDark = theme.brightness == AppBrightness.dark;
     final bool hasAttachments = widget.attachments.isNotEmpty;
+    final bool hasPreview = widget.preview != null;
 
     // Estilo de container: segue o eixo global (filled/outlined/elevated), com
     // override local. O fill é sempre OPACO (`surfaceContainer`) — assim no
@@ -353,7 +365,7 @@ class _AppChatComposerState extends State<AppChatComposer> {
               theme,
               constraints.maxWidth,
               value.text,
-              hasAttachments: hasAttachments,
+              hasBandAbove: hasAttachments || hasPreview,
             );
             return DecoratedBox(
               decoration: styleBoxDecoration(
@@ -372,11 +384,14 @@ class _AppChatComposerState extends State<AppChatComposer> {
     );
 
     // Sem nada em volta, o composer É a superfície.
-    if (!hasAttachments && toolbar == null) return composeSurface;
+    if (!hasAttachments && !hasPreview && toolbar == null) {
+      return composeSurface;
+    }
 
-    // Anexos ficam ACIMA do input e a toolbar ABAIXO — ambos FORA da superfície
-    // (como no Claude): só o input + enviar ficam sobre a superfície. Os anexos
-    // seguem o mesmo estilo do composer (ver [_styledAttachments]).
+    // Anexos e prévia ficam ACIMA do input e a toolbar ABAIXO — todos FORA da
+    // superfície (como no Claude): só o input + enviar ficam sobre a
+    // superfície. Os anexos seguem o mesmo estilo do composer (ver
+    // [_styledAttachments]); a prévia é slot cru do chamador.
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -390,6 +405,17 @@ class _AppChatComposerState extends State<AppChatComposer> {
             ),
             child: _styledAttachments(theme, style),
           ),
+        if (widget.preview case final Widget p)
+          Padding(
+            // O mesmo respiro da faixa de anexos: faixas irmãs, mesmo ritmo, e
+            // o l/r s4 alinha a prévia com os itens da toolbar.
+            padding: const EdgeInsets.only(
+              bottom: AppSpacings.s8,
+              left: AppSpacings.s4,
+              right: AppSpacings.s4,
+            ),
+            child: p,
+          ),
         composeSurface,
         ?toolbar,
       ],
@@ -397,7 +423,8 @@ class _AppChatComposerState extends State<AppChatComposer> {
   }
 
   /// Raio da superfície do compose. Segue o eixo global, mas `circular`
-  /// (pílula) só cabe num compose de **uma linha**: com anexos OU quando o texto
+  /// (pílula) só cabe num compose de **uma linha** que se lê como controle
+  /// solitário: com qualquer faixa acima (anexos OU prévia), ou quando o texto
   /// vira multiline (mais de uma linha renderizada), cai para `redondo`. Um
   /// `radius` cru sempre vence.
   BorderRadius _resolveRadius(
@@ -405,12 +432,12 @@ class _AppChatComposerState extends State<AppChatComposer> {
     AppThemeData theme,
     double maxWidth,
     String text, {
-    required bool hasAttachments,
+    required bool hasBandAbove,
   }) {
     if (widget.radius != null) return BorderRadius.circular(widget.radius!);
     final AppRadiusMode mode = widget.radiusMode ?? theme.radiusTheme.mode;
     if (mode == AppRadiusMode.circular &&
-        (hasAttachments || _isMultiline(context, theme, maxWidth, text))) {
+        (hasBandAbove || _isMultiline(context, theme, maxWidth, text))) {
       return theme.radiusTheme.resolve(override: AppRadiusMode.redondo);
     }
     return theme.radiusTheme.resolve(override: mode);

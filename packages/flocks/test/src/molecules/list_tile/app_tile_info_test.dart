@@ -23,6 +23,74 @@ Color _colorOf(WidgetTester tester, String text) =>
     tester.widget<AppText>(_appText(text)).style!.color!;
 
 void main() {
+  testWidgets('vertical default sem icon: geometria e árvore de sempre', (
+    tester,
+  ) async {
+    Widget host(Widget child) => Directionality(
+      textDirection: TextDirection.ltr,
+      child: MediaQuery(
+        data: const MediaQueryData(),
+        child: AppTheme(
+          data: AppThemeData.light,
+          child: Center(child: SizedBox(width: 260, child: child)),
+        ),
+      ),
+    );
+    await tester.pumpWidget(
+      host(const AppTileInfo(title: 'Identificador', text: 'TTS4G47')),
+    );
+    final Size sem = tester.getSize(find.byType(AppTileInfo));
+    expect(find.byType(AppIcon), findsNothing);
+    expect(find.byType(Row), findsNothing);
+
+    await tester.pumpWidget(
+      host(
+        const AppTileInfo(
+          title: 'Identificador',
+          text: 'TTS4G47',
+          layout: AppTileInfoLayout.vertical,
+        ),
+      ),
+    );
+    expect(tester.getSize(find.byType(AppTileInfo)), sem);
+  });
+
+  testWidgets('horizontal: rótulo à esquerda, valor à direita na mesma linha', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _host(
+        const AppTileInfo(
+          title: 'Telefone',
+          text: '+55 11 91234-5678',
+          layout: AppTileInfoLayout.horizontal,
+        ),
+      ),
+    );
+    final Rect title = tester.getRect(find.text('Telefone'));
+    final Rect value = tester.getRect(find.text('+55 11 91234-5678'));
+    expect(title.left, lessThan(value.left));
+    expect((title.center.dy - value.center.dy).abs(), lessThan(title.height));
+  });
+
+  testWidgets('icon acompanha o rótulo na cor muted', (tester) async {
+    await tester.pumpWidget(
+      _host(
+        const AppTileInfo(
+          title: 'Telefone',
+          text: 'x',
+          icon: AppIconToken.infoCircle,
+        ),
+      ),
+    );
+    final AppIcon icon = tester.widget<AppIcon>(find.byType(AppIcon));
+    expect(icon.color, AppThemeData.light.colorTheme.neutralPrimary.s700);
+    expect(
+      tester.getTopLeft(find.byType(AppIcon)).dx,
+      lessThan(tester.getTopLeft(find.text('Telefone')).dx),
+    );
+  });
+
   testWidgets('mostra o par rótulo/valor', (WidgetTester tester) async {
     await tester.pumpWidget(
       _host(const AppTileInfo(title: 'Identificador', text: 'TTS4G47')),

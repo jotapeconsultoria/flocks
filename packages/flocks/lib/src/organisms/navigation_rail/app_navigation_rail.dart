@@ -112,6 +112,7 @@ final class AppNavigationRailItemData {
     required this.icon,
     required this.onPressed,
     required this.route,
+    this.activeIcon,
     this.children,
     this.title,
   });
@@ -121,6 +122,14 @@ final class AppNavigationRailItemData {
 
   /// Ícone do item.
   final String icon;
+
+  /// Ícone alternativo exibido **enquanto o item está selecionado** (ex.: a
+  /// variante preenchida de [icon]). `null` = [icon] serve aos dois estados.
+  /// Fora da seleção, [icon] continua sendo o slug renderizado — [activeIcon]
+  /// nunca aparece em item não selecionado. Num item-pai ([children]), vale
+  /// quando o pai OU qualquer filho casa com a rota — o mesmo sinal que pinta
+  /// ícone e título com o accent.
+  final String? activeIcon;
 
   /// Callback ao pressionar (context, route).
   final void Function(BuildContext context, String route) onPressed;
@@ -137,6 +146,7 @@ final class AppNavigationRailItem extends StatefulWidget {
   const AppNavigationRailItem({
     required this.icon,
     required this.onPressed,
+    this.activeIcon,
     this.isCollapsed,
     this.isSelected = false,
     this.showSelectedBackground = true,
@@ -147,6 +157,10 @@ final class AppNavigationRailItem extends StatefulWidget {
 
   /// Ícone do item.
   final String icon;
+
+  /// Ícone alternativo exibido enquanto [isSelected] é verdadeiro (ex.: a
+  /// variante preenchida de [icon]). `null` = [icon] serve aos dois estados.
+  final String? activeIcon;
 
   /// Item está no modo colapsado. Quando `null`, lê do
   /// [AppNavigationRailScope] ancestral (útil para itens no slot de footer).
@@ -194,7 +208,7 @@ class _AppNavigationRailItemState extends State<AppNavigationRailItem> {
     final inactiveColor = theme.colorTheme.neutralPrimary.s500;
     final label = widget.title ?? '';
     final iconWidget = AppIcon(
-      widget.icon,
+      widget.isSelected ? (widget.activeIcon ?? widget.icon) : widget.icon,
       color: widget.isSelected ? activeColor : inactiveColor,
       customSize: _itemIconSize,
     );
@@ -312,10 +326,12 @@ final class _AppNavigationRailParentItem extends StatelessWidget {
     required this.isSelected,
     required this.onHeaderPressed,
     required this.children,
+    this.activeIcon,
     this.title,
   });
 
   final String icon;
+  final String? activeIcon;
   final bool isCollapsed;
   final bool isExpanded;
   final bool isSelected;
@@ -337,6 +353,7 @@ final class _AppNavigationRailParentItem extends StatelessWidget {
       children: [
         AppNavigationRailItem(
           icon: icon,
+          activeIcon: activeIcon,
           isCollapsed: isCollapsed,
           isSelected: isSelected,
           showSelectedBackground: false,
@@ -521,8 +538,10 @@ final class _AppNavigationRailFloatingToggle extends StatelessWidget {
 ///
 /// ## Logo
 ///
-/// [logoCollapsed] é opcional: quando o shell põe a marca no header, o rail
-/// dispensa o bloco de logo e os itens sobem.
+/// Dois canais, mutuamente exclusivos: os slugs/URLs legados ([logoCollapsed]/
+/// [logoExpanded]) ou os slots de widget ([logo]/[logoCompact] +
+/// [logoSemanticLabel]). Sem nenhum dos dois, o bloco de logo some e os itens
+/// sobem — use quando o shell põe a marca no header.
 final class AppNavigationRail extends StatefulWidget {
   const AppNavigationRail({
     required this.getCurrentRoute,
@@ -531,12 +550,25 @@ final class AppNavigationRail extends StatefulWidget {
     this.decoration,
     this.footer,
     this.logoExpanded,
+    this.logo,
+    this.logoCompact,
+    this.logoSemanticLabel,
     this.showFooterDivider = true,
     this.showFloatingToggle = true,
     this.initiallyCollapsed = false,
     this.onCollapsedChanged,
     super.key,
-  });
+  }) : assert(
+         (logo == null && logoCompact == null) ||
+             (logoCollapsed == null && logoExpanded == null),
+         'Use UM canal de logo: os slots Widget (logo/logoCompact) OU os '
+         'slugs legados (logoCollapsed/logoExpanded), nunca os dois.',
+       ),
+       assert(
+         (logo == null && logoCompact == null) || logoSemanticLabel != null,
+         'logo/logoCompact exigem logoSemanticLabel: o slot Widget entra na '
+         'árvore de semântica e precisa nomear a marca ao leitor de tela.',
+       );
 
   /// Estado do rail enquanto o usuário não mexer nele.
   ///
@@ -584,6 +616,31 @@ final class AppNavigationRail extends StatefulWidget {
   ///
   /// Se não informada, usa [logoCollapsed] também no estado expandido.
   final String? logoExpanded;
+
+  /// Marca como **widget**, para o SVG/imagem que vive no bundle do app (o
+  /// canal de slug exige provider de ícone; o de URL, rede). Usada no rail
+  /// expandido; colapsado cai em [logoCompact] ?? [logo] — fallback simétrico
+  /// de propósito: dois widgets são intercambiáveis, e "declarei a marca e o
+  /// rail a esconde ao colapsar" seria armadilha.
+  ///
+  /// Semântica: o idioma é o do [AppImage] — a subárvore do widget é
+  /// **substituída** pelo nó de imagem nomeado por [logoSemanticLabel]
+  /// (`ExcludeSemantics` por dentro). Um leitor anuncia a marca uma vez, sem
+  /// duplicar com o texto interno do widget; logo interativo não pertence a
+  /// este slot (é caso do header do shell). O slot espera widget com tamanho
+  /// intrínseco (imagem, SVG, texto): ele é encaixado por
+  /// `FittedBox(scaleDown)` na faixa de 56px do header — maior encolhe, menor
+  /// fica intacto.
+  final Widget? logo;
+
+  /// Variante compacta da marca (a marca quadrada) para o rail colapsado.
+  /// Expandido sem [logo], é ela que aparece ([logo] ?? [logoCompact]).
+  final Widget? logoCompact;
+
+  /// Nome acessível da marca quando o logo vem por widget. Obrigatório junto
+  /// com [logo]/[logoCompact] (assert) — é a regra da casa: slot de widget só
+  /// entra com o rótulo semântico como parâmetro.
+  final String? logoSemanticLabel;
 
   /// Mostra um [AppDivider] entre os itens e o [footer]. Ignorado sem footer.
   final bool showFooterDivider;
@@ -742,7 +799,9 @@ final class AppNavigationRailState extends State<AppNavigationRail> {
             const SizedBox(height: AppSpacings.s16),
             // Sem logo (marca no header do shell) o bloco inteiro some e os
             // itens sobem — não fica um vão de 56px.
-            if (widget.logoCollapsed != null) ...[
+            if (widget.logoCollapsed != null ||
+                widget.logo != null ||
+                widget.logoCompact != null) ...[
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSpacings.s16,
@@ -750,15 +809,35 @@ final class AppNavigationRailState extends State<AppNavigationRail> {
                 child: SizedBox(
                   height: _headerHeight,
                   child: Center(
-                    child: _isCollapsed || widget.logoExpanded == null
-                        ? AppIcon(
-                            widget.logoCollapsed!,
-                            customSize: _collapsedLogoSize,
-                          )
-                        : SvgPicture.network(
-                            widget.logoExpanded!,
-                            height: _expandedLogoHeight,
-                            fit: BoxFit.fitHeight,
+                    child: widget.logoCollapsed != null
+                        // Canal legado (slug/URL) — byte a byte o de sempre.
+                        ? (_isCollapsed || widget.logoExpanded == null
+                              ? AppIcon(
+                                  widget.logoCollapsed!,
+                                  customSize: _collapsedLogoSize,
+                                )
+                              : SvgPicture.network(
+                                  widget.logoExpanded!,
+                                  height: _expandedLogoHeight,
+                                  fit: BoxFit.fitHeight,
+                                ))
+                        // Canal Widget: nó de imagem nomeado no idioma do
+                        // AppImage (ExcludeSemantics por dentro — sem isso o
+                        // rótulo mescla com o texto interno e o leitor anuncia
+                        // a marca duas vezes). O FittedBox garante que a marca
+                        // não estoura a faixa de 56px.
+                        : Semantics(
+                            image: true,
+                            label: widget.logoSemanticLabel,
+                            container: true,
+                            child: ExcludeSemantics(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: _isCollapsed
+                                    ? (widget.logoCompact ?? widget.logo!)
+                                    : (widget.logo ?? widget.logoCompact!),
+                              ),
+                            ),
                           ),
                   ),
                 ),
@@ -775,6 +854,7 @@ final class AppNavigationRailState extends State<AppNavigationRail> {
                     final isExpanded = _expandedRoute == item.route;
                     return _AppNavigationRailParentItem(
                       icon: item.icon,
+                      activeIcon: item.activeIcon,
                       isCollapsed: _isCollapsed,
                       isExpanded: isExpanded,
                       isSelected: isSelected,
@@ -783,6 +863,7 @@ final class AppNavigationRailState extends State<AppNavigationRail> {
                       children: item.children!.map((child) {
                         return AppNavigationRailItem(
                           icon: child.icon,
+                          activeIcon: child.activeIcon,
                           isCollapsed: _isCollapsed,
                           isSelected: _isRouteSelected(
                             currentRoute,
@@ -796,6 +877,7 @@ final class AppNavigationRailState extends State<AppNavigationRail> {
                   }
                   return AppNavigationRailItem(
                     icon: item.icon,
+                    activeIcon: item.activeIcon,
                     isCollapsed: _isCollapsed,
                     isSelected: isSelected,
                     onPressed: () => _onItemPressed(item),

@@ -42,6 +42,7 @@ const Set<String> kNoWholeSetView = <String>{
   'AppTypewriter',
   'AppAppear',
   'AppAnimatedRotation',
+  'AppPulse',
   'AppSpin',
   'AppInteractiveMotion',
   'AppScaleOnTap',

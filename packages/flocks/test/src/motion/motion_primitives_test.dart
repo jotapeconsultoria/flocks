@@ -147,4 +147,134 @@ void main() {
       }
     });
   });
+
+  group('AppPulse', () {
+    double opacityOf(WidgetTester tester) => tester
+        .widget<FadeTransition>(find.byType(FadeTransition))
+        .opacity
+        .value;
+
+    testWidgets('respira: cheio em t=0, vale na meia respiração', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _themed(
+          const AppPulse(child: SizedBox(width: 16, height: 16)),
+          animEnabled: true,
+        ),
+      );
+      expect(opacityOf(tester), 1.0);
+
+      // Meia respiração = uma perna do repeat(reverse) = period ~/ 2.
+      await tester.pump(AppDurations.loop ~/ 2);
+      expect(opacityOf(tester), moreOrLessEquals(0.45, epsilon: 0.01));
+
+      // A volta: fecha o period inteiro de novo no cheio.
+      await tester.pump(AppDurations.loop ~/ 2);
+      expect(opacityOf(tester), moreOrLessEquals(1.0, epsilon: 0.01));
+    });
+
+    testWidgets('reduce-motion do SO congela no estado CHEIO', (tester) async {
+      await tester.pumpWidget(
+        _themed(
+          const AppPulse(
+            minScale: 0.85,
+            child: SizedBox(width: 16, height: 16),
+          ),
+          animEnabled: true,
+          disableAnim: true,
+        ),
+      );
+      // A decisão registrada no dartdoc, executável: um laço PARA (não
+      // encurta), e para no ACESO — congelar no vale leria como "desligado".
+      expect(opacityOf(tester), 1.0);
+      final scale = tester.widget<ScaleTransition>(
+        find.byType(ScaleTransition),
+      );
+      expect(scale.scale.value, 1.0);
+      await tester.pumpAndSettle();
+      expect(opacityOf(tester), 1.0);
+    });
+
+    testWidgets('global AppAnimationTheme desligado congela igual', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _themed(
+          const AppPulse(child: SizedBox(width: 16, height: 16)),
+          animEnabled: false,
+        ),
+      );
+      expect(opacityOf(tester), 1.0);
+      await tester.pumpAndSettle();
+      expect(opacityOf(tester), 1.0);
+    });
+
+    testWidgets('minScale default (1.0) não monta ScaleTransition', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _themed(
+          const AppPulse(child: SizedBox(width: 16, height: 16)),
+          animEnabled: true,
+        ),
+      );
+      expect(find.byType(ScaleTransition), findsNothing);
+
+      await tester.pumpWidget(
+        _themed(
+          const AppPulse(
+            minScale: 0.85,
+            child: SizedBox(width: 16, height: 16),
+          ),
+          animEnabled: true,
+        ),
+      );
+      expect(find.byType(ScaleTransition), findsOneWidget);
+    });
+
+    testWidgets('trocar o period não recria o estado nem para o laço', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _themed(
+          const AppPulse(child: SizedBox(width: 16, height: 16)),
+          animEnabled: true,
+        ),
+      );
+      await tester.pumpWidget(
+        _themed(
+          const AppPulse(
+            period: Duration(milliseconds: 600),
+            child: SizedBox(width: 16, height: 16),
+          ),
+          animEnabled: true,
+        ),
+      );
+      // Meia respiração do period novo (600 ~/ 2 = 300ms) chega ao vale.
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(opacityOf(tester), moreOrLessEquals(0.45, epsilon: 0.01));
+    });
+
+    testWidgets('religar o motion retoma o laço de onde congelou', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _themed(
+          const AppPulse(child: SizedBox(width: 16, height: 16)),
+          animEnabled: false,
+        ),
+      );
+      expect(opacityOf(tester), 1.0);
+
+      await tester.pumpWidget(
+        _themed(
+          const AppPulse(child: SizedBox(width: 16, height: 16)),
+          animEnabled: true,
+        ),
+      );
+      await tester.pump(AppDurations.loop ~/ 2);
+      expect(opacityOf(tester), moreOrLessEquals(0.45, epsilon: 0.01));
+    });
+  });
 }

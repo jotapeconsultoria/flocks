@@ -1,6 +1,6 @@
 # Roadmap — distribuição e adoção
 
-O pacote está maduro: 131 componentes migrados, 25 suítes de arquitetura, a
+O pacote está maduro: 135 componentes migrados, 25 suítes de arquitetura, a
 suíte inteira verde sem os goldens (o total sai do comando, na tabela de
 medições abaixo), catálogo bilíngue com gate de frescor. Um roadmap que
 listasse "mais componentes" estaria lendo o problema errado. O que falta é
@@ -18,13 +18,14 @@ Atualizado em 2026-08-11 — o que cada fase mediu está na seção dela.
 | A1 — o corte e o publish | ✅ **publicado em 2026-08-10**: `flocks`, `flocks_phosphor` e `flocks_material` em 0.1.0 no pub.dev, sob exceção de nome concedida pelo suporte (caso `flock`), os três no publisher verificado `jotapeconsultoria.com.br` desde o primeiro publish. Tag `v0.1.0` na main. No mesmo dia veio a **0.1.1**, com o que a pana cobrou (LICENSE reconhecível, plataformas, `example/`), e a tag `v0.1.1` |
 | A1.1 — o que a pana cobrou | ✅ **publicado em 2026-08-10**: a análise da `0.1.0` voltou com 140/160 e apontou três defeitos — `LICENSE` com texto apensado (licença não reconhecida), `pointer_interceptor` derrubando o suporte de plataforma para 2 de 6, e `if (dart.library.html)` tornando o pacote incompatível com wasm. Os três foram consertados e, junto, os `example/` que faltavam ao `flocks` e ao `flocks_material` (10 pontos cada). A `0.1.1` está no ar nos quatro, com a tag `v0.1.1`. A reanálise fechou: **os quatro em 160/160**. A API devolve `0/0` enquanto ela corre — é análise pendente, não nota zero. Detalhe e lições em [`EXTRACAO.md`](packages/flocks/doc/EXTRACAO.md) |
 | A2 — consumidores `git:` → hosted | ✅ concluída (2026-08-10): consumidores de origem resolvem do pub.dev, override de git removido |
-| B — Widgetbook hospedado | ✅ no ar em `widgetbook.flocks.live` (2026-08-06): release de 43 MB com `main.dart.js` de 4,2 MB contra 58 MB do debug; deploy no CI com `needs` nos dois gates e purge; contagem de use cases virou artefato gerado com gate (`doc/widgetbook_use_cases.json`, 295) |
+| B — Widgetbook hospedado | ✅ no ar em `widgetbook.flocks.live` (2026-08-06): release de 43 MB com `main.dart.js` de 4,2 MB contra 58 MB do debug; deploy no CI com `needs` nos dois gates e purge; contagem de use cases virou artefato gerado com gate (`doc/widgetbook_use_cases.json`, 305) |
 | Site — landing | ✅ no ar em `flocks.live` com a copy pós-publicação nos dois idiomas (2026-08-10), `/mcp` bilíngue no ar, tudo fiscalizado pelo `install_docs_test`; `/componentes` ainda não existe. **Cicatriz de 2026-08-10**: a home em inglês passou ~3h30 servindo a nav sem o link `/demo/` com o job de deploy VERDE — os 18 PUTs deram 201 e a zone foi purgada 1 s depois do último, mas a Storage Zone é geo-replicada: o `index.html` só materializou nas réplicas 17 min depois, e a que atendia `/` seguiu servindo a versão anterior (com `cdn-cache: MISS`, buscando na origem e recebendo bytes velhos) enquanto `/index.html` já servia a nova. Convergiu sozinho. Purgar 1 s depois do PUT é pior que não purgar — recacheia o velho pelo TTL. O gate novo compara byte a byte o que o edge devolve com o que subiu, repurgando entre tentativas, e o `workflow_dispatch` ganhou `force_site` porque não havia caminho de re-deploy sem commit de mentirinha em `site/` |
 | C1 — contrato MCP | ✅ definido e documentado no README do `flocks_mcp`: três tools, `lang: en\|pt`, erros como `isError` dentro do resultado |
 | C2 — `flocks_mcp` | ✅ **publicado em 2026-08-10**: no pub.dev sob o publisher verificado `jotapeconsultoria.com.br`, verificado em sessão real de agente, e em **160/160** na pana desde a `0.1.1`. O aviso de não-publicado saiu no mesmo commit que o `publish_to: none`, nas quatro superfícies que o XOR do teste próprio fiscaliza |
 | C3 — distribuição MCP | ✅ **concluída em 2026-08-10**: Release do `flocks_mcp` (4 binários + `.mcpb`, disparado pela tag) e listagem no MCP Registry sob `io.github.jotapeconsultoria/flocks-mcp`, com o `server.json` gerado apontando para o `.mcpb` daquele Release. Republicada na `0.1.1` no mesmo dia — confirmada `isLatest` na API do registry. A `description` teve de cair para 92 caracteres: o registry recusa acima de 100 e o pub.dev não tem esse teto — gate novo em `server_json_test.dart`. As armadilhas do `publish` (o `curl -LO` que não sobrescreve, o `latest` que ainda é a release anterior, o 403 de token sem `read:org`) estão no README do pacote |
 | D — demo | ✅ **no ar em 2026-08-10** em `flocks.live/demo/`: pacote `flocks_demo` (membro do workspace, `publish_to: none` — é vitrine, não biblioteca), dashboard e CRUD só de componentes Flocks, estado na URL, logo client-side, e o `toDartSnippet` que escreve a marca em Dart colável. Deployada pelo CI deste repo, sob prefixo próprio da zone do site, com casca semântica indexável. **Pendência**: o snippet emite `flippedSwatch`, que só existe na `[Unreleased]` do `flocks` — enquanto a 0.1.2 não sai, o código exportado não compila contra o pub.dev |
 | E — guia de migração | ⬜ **desbloqueada** — a instalação real que o guia instrui existe desde 2026-08-10 |
+| G — backlog de adoção (ZAPDESK) | 🟡 **32 de 95 itens entregues em 2026-08-14**. A migração de um app real de 26 mil linhas produziu um backlog de 95 lacunas do pacote; o dono aprovou 32 (3 defeitos, 24 parâmetros opcionais, 5 componentes novos) e recusou ou adiou os outros 63, cada recusa com o porquê. Ver a seção da fase abaixo |
 | F — providers de ícone (`flocks_cupertino`, `flocks_lucide`) | ✅ **implementados em 2026-08-10**: `flocks_cupertino` no molde do `flocks_material` (glifos do pacote `cupertino_icons`, MIT — **não** os SF Symbols da Apple) e `flocks_lucide` no molde do `flocks_phosphor` (fonte vendorada, ISC, 853.920 → 19.624 bytes com `--tree-shake-icons`). O teste de contrato cruzado cobre os quatro adaptadores. O `publish_to: none` dos dois saiu junto com o aviso do README de cada um, no mesmo commit que o XOR do `install_docs_test` cobra — os dois entram na linha pública em 0.1.0, contra o `flocks` que já está no ar |
 
 Os números daqui foram medidos em 2026-08-12, não supostos:
@@ -33,10 +34,10 @@ Os números daqui foram medidos em 2026-08-12, não supostos:
 | --- | --- | --- |
 | Testes do `flocks` (sem golden) | `flutter test --exclude-tags golden` | todos verdes — o total sai do comando e não daqui: qualquer teste novo no pacote o muda, e nenhum gate alcança número escrito nesta tabela |
 | Testes dos sete pacotes | os sete steps de teste do job `checks`, somados | todos verdes — o total sai do comando e não daqui: qualquer teste novo em qualquer um dos sete o muda, e nenhum gate alcança número escrito nesta tabela |
-| Validador | `cd packages/flocks && dart run tool/validate_components.dart` | 131 migrados + 7 internos |
+| Validador | `cd packages/flocks && dart run tool/validate_components.dart` | 135 migrados + 7 internos |
 | Dry-run `flocks` | `dart pub publish --dry-run` | 0 avisos, tarball de 1 MB — eram 16 MB antes do `.pubignore` da A0, que tirou os 302 goldens (14,7 MB) |
 | Dry-run dos 4 adaptadores e do `flocks_mcp` | idem | 0 avisos cada; os seis pacotes publicáveis têm `CHANGELOG.md` |
-| Use cases do Widgetbook | `grep -rc '@widgetbook.UseCase' widgetbook/use_cases/` | 295 |
+| Use cases do Widgetbook | `grep -rc '@widgetbook.UseCase' widgetbook/use_cases/` | 305 |
 | Referências penduradas | `grep -rn FLOCKS_MIGRATION_PLAN packages/` | 1 — a nota da dívida já resolvida, em [`EXTRACAO.md`](packages/flocks/doc/EXTRACAO.md) |
 
 ## Fase A — publicar no pub.dev
@@ -97,7 +98,7 @@ de multi-marca não se perdeu — as duas marcas cliente continuam no relatório
 agora ao lado da terceira.
 
 **5. A contagem do `CHANGELOG.md` do `flocks`.** A seção `[1.0.0]` diz "129
-components"; são 131. O `catalog_freshness_test` fiscaliza o README, não o
+components"; são 135. O `catalog_freshness_test` fiscaliza o README, não o
 CHANGELOG — corrigir à mão.
 
 ### A1 — o corte
@@ -134,7 +135,7 @@ três partes:
 - **Empregos distintos, uma fonte só.** A galeria do site é documentação —
   HTML semântico, indexável, gerado de `*.meta.dart` → `catalog.json`. O
   Widgetbook é prova interativa: knobs, e os eixos globais como addons — a
-  demonstração viva de que três eixos restilizam 131 componentes. Nada é
+  demonstração viva de que três eixos restilizam 135 componentes. Nada é
   escrito duas vezes: a documentação deriva do meta; os use cases são escritos
   uma vez em `widgetbook/` e fiscalizados pelo `widgetbook_conventions_test`.
   Duplicação só existiria se o site construísse um playground próprio — e não
@@ -167,7 +168,7 @@ Itens, em ordem:
 
 ## Fase C — servidor MCP (contrato primeiro, servidor depois)
 
-O dado está pronto: `packages/flocks/doc/mcp/catalog.json`, 131 componentes,
+O dado está pronto: `packages/flocks/doc/mcp/catalog.json`, 135 componentes,
 bilíngue na fonte. O que não existe é o servidor — e, antes dele, o contrato.
 
 **C1 — o contrato** (barato, e destrava qualquer consumidor de escrever
@@ -296,6 +297,62 @@ E (guia)            ⬜ a única aberta. A dependência dela — a instalação 
                        que o guia instrui — existe desde 2026-08-10, então o
                        que falta é escrever, não esperar
 ```
+
+## Fase G — backlog de adoção (o que um app real cobrou do pacote)
+
+Este documento abria dizendo que "um roadmap que listasse mais componentes
+estaria lendo o problema errado". Isso valia enquanto não havia adotante. A
+migração do ZAPDESK — app Flutter de 26.168 linhas, 100% Material — classificou
+616 componentes e produziu **95 lacunas** do pacote, cada uma com arquivo e linha
+dos dois lados. Não é lista de desejos: é o que um consumidor real tentou fazer e
+não conseguiu.
+
+**A triagem, e por que ela importa mais que a lista.** Dos 95, o dono do pacote
+aprovou **32**. Os outros 63 não foram esquecidos — foram **recusados ou adiados
+com o motivo registrado**, e os motivos se agrupam:
+
+| Motivo da recusa | Itens |
+|---|--:|
+| Cor crua onde o pacote fecha por papel semântico | 10 |
+| Semântica/a11y: mover o rótulo do leitor de tela para o call site | 13 |
+| Muda a identidade do componente (segunda anatomia, contrato novo) | 13 |
+| Eixo global ou contrato de tema | 11 |
+| Plugin nativo, asset licenciado ou política de locale | 5 |
+| Estado "selecionado" pedindo par de cores novo | 3 |
+| Exportação de interno (a decisão já estava escrita no fonte) | 3 |
+| Peça de produto, não vocabulário de design system | 5 |
+
+O que entrou, em 2026-08-14, e o que ele destrava:
+
+- **3 defeitos.** `AppChatMessageList` não virtualizava embora a API prometesse
+  (`itemCount`/`itemBuilder` sobre `Column`); a bottom sheet ignorava o teclado e
+  descartava `showHandle` em silêncio no ramo não-arrastável; o ✕ dos picker
+  inputs limpava por dentro e nunca avisava o chamador.
+- **24 parâmetros opcionais**, todos com default que reproduz o pixel de hoje —
+  a prova de cada um está no PR, e onde havia golden ele ficou byte-idêntico.
+- **5 componentes novos**: `showAppConfirm`, `AppPulse`, `AppQuotedMessage`,
+  `AppSlider` e `AppChoiceChip` (+ a barra). Catálogo 131 → **135**.
+
+**O que ficou aberto nesta fase:**
+
+- O **`AppRefreshIndicator`** — o sexto bloqueante da migração — depende de duas
+  decisões de fundação enunciadas em
+  [`doc/DECISOES_PULL_TO_REFRESH.md`](packages/flocks/doc/DECISOES_PULL_TO_REFRESH.md).
+  Sem elas o componente não deve ser escrito.
+- Os **63 itens recusados ou adiados** seguem registrados item a item, com o
+  motivo de cada um, em
+  [`doc/BACKLOG_ADOCAO.md`](packages/flocks/doc/BACKLOG_ADOCAO.md).
+  Vários deles são a mesma pergunta feita de oito jeitos ("posso passar um
+  `Color`?"), e respondê-la uma vez resolve o grupo inteiro.
+- O **corte `0.2.0`** não aconteceu: a seção `[Unreleased]` acumula as entradas
+  até o dia do corte, que é quando ela vira `[X.Y.Z] - AAAA-MM-DD` junto com o
+  bump do pubspec dos pacotes em lockstep.
+
+**Uma convenção mudou por causa desta fase.** O gate de release recusava
+`## [Unreleased]` — regra que fazia sentido quando pubspec e CHANGELOG subiam no
+mesmo commit. Um ciclo com dezenas de PRs antes do corte precisa de um balde, e
+ele agora existe com disciplina própria: no máximo um, sempre no topo, fora das
+seções de versão, carimbado no PR de release.
 
 ## O que este roadmap não cobre
 

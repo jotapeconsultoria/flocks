@@ -174,6 +174,74 @@ void main() {
       expect(find.text('editada'), findsOneWidget);
     });
 
+    testWidgets('edited + time + status → dois gaps de s4, na ordem', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _host(
+          const AppMessageMeta(
+            time: '10:32',
+            edited: true,
+            status: AppMessageStatus.sent,
+          ),
+        ),
+      );
+      final Iterable<SizedBox> gaps = tester
+          .widgetList<SizedBox>(
+            find.descendant(
+              of: find.byType(AppMessageMeta),
+              matching: find.byType(SizedBox),
+            ),
+          )
+          .where((SizedBox b) => b.width == 4);
+      expect(gaps.length, 2);
+      final double edited = tester.getRect(find.text('editada')).left;
+      final double time = tester.getRect(find.text('10:32')).left;
+      final double tick = tester.getRect(find.byType(AppIcon)).left;
+      expect(edited, lessThan(time));
+      expect(time, lessThan(tick));
+    });
+
+    testWidgets('time null + status → só o tique, sem gaps', (tester) async {
+      await tester.pumpWidget(
+        _host(const AppMessageMeta(status: AppMessageStatus.sent)),
+      );
+      expect(find.byType(AppText), findsNothing);
+      expect(find.byType(AppIcon), findsOneWidget);
+      final Iterable<SizedBox> gaps = tester
+          .widgetList<SizedBox>(
+            find.descendant(
+              of: find.byType(AppMessageMeta),
+              matching: find.byType(SizedBox),
+            ),
+          )
+          .where((SizedBox b) => b.width == 4);
+      expect(gaps, isEmpty);
+    });
+
+    testWidgets('time null + edited + status → um único gap', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          const AppMessageMeta(edited: true, status: AppMessageStatus.sent),
+        ),
+      );
+      expect(find.text('editada'), findsOneWidget);
+      final Iterable<SizedBox> gaps = tester
+          .widgetList<SizedBox>(
+            find.descendant(
+              of: find.byType(AppMessageMeta),
+              matching: find.byType(SizedBox),
+            ),
+          )
+          .where((SizedBox b) => b.width == 4);
+      expect(gaps.length, 1);
+    });
+
+    testWidgets('assert: sem time e sem status reprova', (tester) async {
+      expect(() => AppMessageMeta(), throwsAssertionError);
+      expect(() => AppMessageMeta(edited: true), throwsAssertionError);
+    });
+
     testWidgets('está no catálogo', (tester) async {
       expect(_inCatalog('app_message_meta'), isTrue);
     });
@@ -386,6 +454,130 @@ void main() {
       final BorderRadius br =
           composerDecoration(tester).borderRadius! as BorderRadius;
       // redondo (com teto ~12), não a pílula-sentinela.
+      expect(br.topLeft.x, lessThan(100));
+    });
+
+    testWidgets('sem preview → superfície direto (curto-circuito preservado)', (
+      tester,
+    ) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        _host(
+          SizedBox(width: 400, child: AppChatComposer(controller: controller)),
+        ),
+      );
+      // Sem faixa nenhuma, não existe o Padding de faixa (bottom 8, l/r 4)…
+      expect(
+        find.descendant(
+          of: find.byType(AppChatComposer),
+          matching: find.byWidgetPredicate(
+            (Widget w) =>
+                w is Padding &&
+                w.padding ==
+                    const EdgeInsets.only(bottom: 8, left: 4, right: 4),
+          ),
+        ),
+        findsNothing,
+      );
+      // …nem a Column externa (stretch) — o composer É a superfície.
+      expect(
+        find.descendant(
+          of: find.byType(AppChatComposer),
+          matching: find.byWidgetPredicate(
+            (Widget w) =>
+                w is Column &&
+                w.crossAxisAlignment == CrossAxisAlignment.stretch &&
+                w.mainAxisSize == MainAxisSize.min,
+          ),
+        ),
+        findsNothing,
+      );
+    });
+
+    testWidgets('preview fica entre os anexos e a superfície', (tester) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        _host(
+          SizedBox(
+            width: 400,
+            child: AppChatComposer(
+              controller: controller,
+              attachments: const <Widget>[
+                AppChatAttachmentChip(label: 'a.pdf'),
+              ],
+              preview: const SizedBox(
+                key: ValueKey<String>('reply'),
+                height: 32,
+              ),
+            ),
+          ),
+        ),
+      );
+      final Rect chip = tester.getRect(find.byType(AppChatAttachmentChip));
+      final Rect reply = tester.getRect(
+        find.byKey(const ValueKey<String>('reply')),
+      );
+      final Rect input = tester.getRect(find.byType(AppInput));
+      expect(chip.bottom, lessThanOrEqualTo(reply.top));
+      expect(reply.bottom, lessThanOrEqualTo(input.top));
+      // Com anexos E preview há DUAS faixas com o mesmo respiro.
+      expect(
+        find.descendant(
+          of: find.byType(AppChatComposer),
+          matching: find.byWidgetPredicate(
+            (Widget w) =>
+                w is Padding &&
+                w.padding ==
+                    const EdgeInsets.only(bottom: 8, left: 4, right: 4),
+          ),
+        ),
+        findsNWidgets(2),
+      );
+    });
+
+    testWidgets('preview sozinho quebra o curto-circuito', (tester) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        _host(
+          SizedBox(
+            width: 400,
+            child: AppChatComposer(
+              controller: controller,
+              preview: const SizedBox(
+                key: ValueKey<String>('reply'),
+                height: 32,
+              ),
+            ),
+          ),
+        ),
+      );
+      final Rect reply = tester.getRect(
+        find.byKey(const ValueKey<String>('reply')),
+      );
+      final Rect input = tester.getRect(find.byType(AppInput));
+      expect(reply.bottom, lessThanOrEqualTo(input.top));
+    });
+
+    testWidgets('circular + preview → cai para redondo', (tester) async {
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        _host(
+          SizedBox(
+            width: 400,
+            child: AppChatComposer(
+              controller: controller,
+              radiusMode: AppRadiusMode.circular,
+              preview: const SizedBox(height: 32),
+            ),
+          ),
+        ),
+      );
+      final BorderRadius br =
+          composerDecoration(tester).borderRadius! as BorderRadius;
       expect(br.topLeft.x, lessThan(100));
     });
 
@@ -630,6 +822,141 @@ void main() {
       await tester.pump();
       expect(find.byType(Image), findsOneWidget);
     });
+
+    testWidgets('square default mede size × size (identidade)', (tester) async {
+      await tester.pumpWidget(
+        _host(const AppChatAttachmentCard(label: 'a.pdf')),
+      );
+      expect(
+        tester.getSize(find.byType(AppChatAttachmentCard)),
+        const Size(104, 104),
+      );
+
+      // O host de Overlay não troca o child em re-pump — reset entre fases.
+      await tester.pumpWidget(const SizedBox());
+      await tester.pumpWidget(
+        _host(
+          const AppChatAttachmentCard(
+            label: 'a.pdf',
+            layout: AppChatAttachmentCardLayout.square,
+          ),
+        ),
+      );
+      expect(
+        tester.getSize(find.byType(AppChatAttachmentCard)),
+        const Size(104, 104),
+      );
+    });
+
+    testWidgets('row: largura 2×size, altura do conteúdo', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          const AppChatAttachmentCard(
+            label: 'a.pdf',
+            subtitle: '240 KB',
+            layout: AppChatAttachmentCardLayout.row,
+          ),
+        ),
+      );
+      final Size s = tester.getSize(find.byType(AppChatAttachmentCard));
+      expect(s.width, 208);
+      expect(s.height, greaterThan(0));
+      expect(s.height, lessThan(104));
+      expect(find.text('240 KB'), findsOneWidget);
+
+      await tester.pumpWidget(const SizedBox());
+      await tester.pumpWidget(
+        _host(
+          const AppChatAttachmentCard(
+            label: 'a.pdf',
+            size: 80,
+            layout: AppChatAttachmentCardLayout.row,
+          ),
+        ),
+      );
+      expect(tester.getSize(find.byType(AppChatAttachmentCard)).width, 160);
+    });
+
+    testWidgets('row: X em linha (sem Positioned) e callbacks funcionam', (
+      tester,
+    ) async {
+      int removed = 0;
+      int viewed = 0;
+      await tester.pumpWidget(
+        _host(
+          AppChatAttachmentCard(
+            label: 'aula.pptx',
+            layout: AppChatAttachmentCardLayout.row,
+            onRemove: () => removed++,
+            onTap: () => viewed++,
+          ),
+        ),
+      );
+      expect(
+        find.descendant(
+          of: find.byType(AppChatAttachmentCard),
+          matching: find.byType(Positioned),
+        ),
+        findsNothing,
+      );
+      await tester.tap(find.bySemanticsLabel('Remover anexo'));
+      expect(removed, 1);
+      await tester.tap(find.text('aula.pptx'));
+      expect(viewed, 1);
+      // O ícone tingido por categoria continua o mesmo do quadrado.
+      expect(
+        find.byWidgetPredicate(
+          (w) => w is AppIcon && w.icon == AppIcons.filePpt,
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets(
+      'row: raio resolve sem size (redondo teto ~12; circular satura)',
+      (tester) async {
+        // A caixa PRÓPRIA do row é o Container de largura 2×size — o primeiro
+        // Container da subárvore pode ser interno (o disco do AppIcon).
+        Container rowBox() => tester.widget<Container>(
+          find.byWidgetPredicate(
+            (w) =>
+                w is Container &&
+                w.constraints == const BoxConstraints.tightFor(width: 208),
+          ),
+        );
+
+        await tester.pumpWidget(
+          _host(
+            const AppChatAttachmentCard(
+              label: 'a.pdf',
+              layout: AppChatAttachmentCardLayout.row,
+              radiusMode: AppRadiusMode.redondo,
+            ),
+          ),
+        );
+        BorderRadius br =
+            (rowBox().decoration! as BoxDecoration).borderRadius!
+                as BorderRadius;
+        expect(br.topLeft.x, lessThanOrEqualTo(12));
+
+        await tester.pumpWidget(const SizedBox());
+        await tester.pumpWidget(
+          _host(
+            const AppChatAttachmentCard(
+              label: 'a.pdf',
+              layout: AppChatAttachmentCardLayout.row,
+              radiusMode: AppRadiusMode.circular,
+            ),
+          ),
+        );
+        br =
+            (rowBox().decoration! as BoxDecoration).borderRadius!
+                as BorderRadius;
+        // Sentinela de pílula (o Flutter satura na altura real) — o precedente
+        // da pílula de arquivo do chip.
+        expect(br.topLeft.x, greaterThan(100));
+      },
+    );
 
     testWidgets('está no catálogo', (tester) async {
       expect(_inCatalog('app_chat_attachment_card'), isTrue);
@@ -906,6 +1233,44 @@ void main() {
   });
 
   group('AppChatMessageList', () {
+    // Shell próprio, SEM o Overlay do _host: `Overlay.initialEntries` só vale
+    // na criação do estado, então um segundo pumpWidget pelo _host não chega ao
+    // subtree — e os testes de crescimento/troca de controller re-pumpam.
+    Widget host({
+      required int itemCount,
+      IndexedWidgetBuilder? itemBuilder,
+      ScrollController? controller,
+      bool stickToBottom = true,
+      bool autoScroll = true,
+    }) => Directionality(
+      textDirection: TextDirection.ltr,
+      child: MediaQuery(
+        data: const MediaQueryData(),
+        child: AppTheme(
+          data: AppThemeData.light,
+          child: Center(
+            child: SizedBox(
+              height: 400,
+              width: 300,
+              child: AppChatMessageList(
+                controller: controller,
+                itemCount: itemCount,
+                stickToBottom: stickToBottom,
+                autoScroll: autoScroll,
+                itemBuilder:
+                    itemBuilder ??
+                    (context, i) => SizedBox(
+                      key: ValueKey<String>('item-$i'),
+                      height: 40,
+                      child: Text('msg $i'),
+                    ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
     testWidgets('renderiza os itens', (tester) async {
       await tester.pumpWidget(
         _host(
@@ -923,8 +1288,443 @@ void main() {
       expect(find.text('msg 2'), findsOneWidget);
     });
 
+    testWidgets('não constrói índices longe da viewport', (tester) async {
+      final Set<int> built = <int>{};
+      await tester.pumpWidget(
+        host(
+          itemCount: 1000,
+          itemBuilder: (context, i) {
+            built.add(i);
+            return SizedBox(height: 40, child: Text('msg $i'));
+          },
+        ),
+      );
+      // Ancorada no fim: só o rabo da conversa entra — viewport (400px) +
+      // cacheExtent (~250px), nunca as 1000. O teto folgado tolera variação de
+      // cacheExtent sem deixar a materialização total passar.
+      expect(built.length, lessThan(50));
+      expect(built, contains(999));
+      expect(built.where((i) => i < 900), isEmpty);
+    });
+
+    testWidgets('sob altura ILIMITADA a lista não virtualiza — o custo medido', (
+      tester,
+    ) async {
+      // O par do teste acima, e o motivo de ele existir: com altura ilimitada
+      // (lista embutida numa página rolável) o `shrinkWrap` entra e TODOS os
+      // itens são construídos. Isso é escolha registrada — sem ele a lista
+      // estouraria dentro de uma Column sem Expanded, quebrando quem já a monta
+      // assim —, mas é o defeito que o DS-A1 consertou, de volta por uma porta
+      // nomeada. Documentado no dartdoc e no doc.md; aqui ele passa a ser
+      // MEDIDO: se um dia a porta fechar (ou abrir mais), este número muda e
+      // alguém lê. Sem isto, a única prova do caminho era "não estourou".
+      final Set<int> built = <int>{};
+      await tester.pumpWidget(
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: MediaQuery(
+            data: const MediaQueryData(),
+            child: AppTheme(
+              data: AppThemeData.light,
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: 300,
+                  child: AppChatMessageList(
+                    itemCount: 200,
+                    itemBuilder: (BuildContext context, int i) {
+                      built.add(i);
+                      return SizedBox(height: 40, child: Text('msg $i'));
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      expect(
+        built.length,
+        200,
+        reason: 'altura ilimitada materializa a conversa inteira',
+      );
+    });
+
+    testWidgets('stickToBottom ancora poucos itens na base, em ordem', (
+      tester,
+    ) async {
+      await tester.pumpWidget(host(itemCount: 2));
+      final Rect box = tester.getRect(find.byType(AppChatMessageList));
+      final Rect first = tester.getRect(
+        find.byKey(const ValueKey<String>('item-0')),
+      );
+      final Rect last = tester.getRect(
+        find.byKey(const ValueKey<String>('item-1')),
+      );
+      // Último item encostado na base do quadro; item 0 acima do item 1 com o
+      // spacing default entre eles (trava o mapeamento de índice da lista
+      // reversa e o separatorBuilder).
+      expect(last.bottom, moreOrLessEquals(box.bottom));
+      expect(first.bottom, lessThan(last.top));
+      expect(last.top - first.bottom, moreOrLessEquals(AppSpacings.s16));
+    });
+
+    testWidgets('sem stickToBottom o conteúdo ancora no topo', (tester) async {
+      await tester.pumpWidget(host(itemCount: 2, stickToBottom: false));
+      final Rect box = tester.getRect(find.byType(AppChatMessageList));
+      final Rect first = tester.getRect(
+        find.byKey(const ValueKey<String>('item-0')),
+      );
+      expect(first.top, moreOrLessEquals(box.top));
+    });
+
+    testWidgets('autoScroll rola para o fim quando itemCount cresce', (
+      tester,
+    ) async {
+      final ScrollController controller = ScrollController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(host(itemCount: 30, controller: controller));
+      await tester.pump();
+      // Sai do fim da conversa (vai ao topo do histórico).
+      controller.jumpTo(controller.position.maxScrollExtent);
+      await tester.pump();
+      expect(controller.position.extentBefore, greaterThan(0));
+
+      await tester.pumpWidget(host(itemCount: 31, controller: controller));
+      await tester.pumpAndSettle();
+      expect(controller.position.extentBefore, 0);
+    });
+
+    testWidgets('autoScroll: false não é puxado ao fim ao crescer', (
+      tester,
+    ) async {
+      final ScrollController controller = ScrollController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        host(itemCount: 30, controller: controller, autoScroll: false),
+      );
+      await tester.pump();
+      controller.jumpTo(controller.position.maxScrollExtent);
+      await tester.pump();
+      final double before = controller.position.pixels;
+
+      await tester.pumpWidget(
+        host(itemCount: 31, controller: controller, autoScroll: false),
+      );
+      await tester.pumpAndSettle();
+      // Na lista reversa "não rolar" = manter a DISTÂNCIA DA BASE (o conteúdo
+      // lido sobe uma mensagem — delta documentado); o leitor segue longe do
+      // fim, não é puxado.
+      expect(controller.position.pixels, before);
+      expect(controller.position.extentBefore, greaterThan(0));
+    });
+
+    testWidgets('append preserva a identidade dos itens (sem migrar State)', (
+      tester,
+    ) async {
+      final ScrollController controller = ScrollController();
+      addTearDown(controller.dispose);
+      Widget probeHost(int count) => host(
+        itemCount: count,
+        controller: controller,
+        autoScroll: false,
+        itemBuilder: (context, i) => _IdentityProbe(index: i),
+      );
+      await tester.pumpWidget(probeHost(30));
+      await tester.pump();
+      // Leitor no meio do histórico (o pior caso do append em lista reversa).
+      controller.jumpTo(controller.position.maxScrollExtent / 2);
+      await tester.pump();
+
+      await tester.pumpWidget(probeHost(31));
+      await tester.pumpAndSettle();
+      // Sem findChildIndexCallback, todo State vivo migraria para a mensagem
+      // vizinha (nasceu no item 25, passa a exibir o 26).
+      for (final _IdentityProbeState state
+          in tester.stateList<_IdentityProbeState>(
+            find.byType(_IdentityProbe),
+          )) {
+        expect(
+          state.bornIndex,
+          state.widget.index,
+          reason:
+              'State nasceu no item ${state.bornIndex} e agora exibe o '
+              '${state.widget.index}',
+        );
+      }
+    });
+
+    testWidgets('append preserva o MESMO State quando o item tem key própria', (
+      tester,
+    ) async {
+      // O gesto quente do chat: mensagem nova no fim. Com ValueKey do id, o
+      // State de cada item vivo é o MESMO objeto depois do append — nem
+      // recriado (áudio reiniciando), nem migrado (estado na bolha errada).
+      Widget keyedHost(int count) => host(
+        itemCount: count,
+        itemBuilder: (context, i) =>
+            _IdentityProbe(key: ValueKey<int>(i), index: i),
+      );
+      await tester.pumpWidget(keyedHost(20));
+      await tester.pump();
+      final Map<int, _IdentityProbeState> before = <int, _IdentityProbeState>{
+        for (final _IdentityProbeState s
+            in tester.stateList<_IdentityProbeState>(
+              find.byType(_IdentityProbe),
+            ))
+          s.widget.index: s,
+      };
+      expect(before, isNotEmpty);
+
+      await tester.pumpWidget(keyedHost(21));
+      await tester.pumpAndSettle();
+      final Map<int, _IdentityProbeState> after = <int, _IdentityProbeState>{
+        for (final _IdentityProbeState s
+            in tester.stateList<_IdentityProbeState>(
+              find.byType(_IdentityProbe),
+            ))
+          s.widget.index: s,
+      };
+      int preserved = 0;
+      for (final MapEntry<int, _IdentityProbeState> entry in before.entries) {
+        final _IdentityProbeState? now = after[entry.key];
+        if (now == null) continue; // saiu do cache
+        expect(
+          identical(entry.value, now),
+          isTrue,
+          reason: 'id ${entry.key} foi recriado ou migrado no append',
+        );
+        preserved++;
+      }
+      expect(preserved, greaterThan(0));
+    });
+
+    testWidgets('prepend com key própria: conteúdo certo, sem estado alheio', (
+      tester,
+    ) async {
+      // Paginação de histórico: 2 mensagens antigas entram na FRENTE. A
+      // identidade assume append (o gesto quente), então o item com key
+      // RE-MONTA na paginação — o que NUNCA acontece é o State grudar na
+      // mensagem errada. (Estado que sobrevive à paginação usa GlobalKey.)
+      // ids antes: 2..21 (count 20, offset 2); depois: 0..21 (count 22).
+      Widget keyedHost({required int count, required int offset}) => host(
+        itemCount: count,
+        itemBuilder: (context, i) =>
+            _IdentityProbe(key: ValueKey<int>(i + offset), index: i + offset),
+      );
+      await tester.pumpWidget(keyedHost(count: 20, offset: 2));
+      await tester.pump();
+
+      await tester.pumpWidget(keyedHost(count: 22, offset: 0));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      for (final _IdentityProbeState state
+          in tester.stateList<_IdentityProbeState>(
+            find.byType(_IdentityProbe),
+          )) {
+        expect(
+          state.bornIndex,
+          state.widget.index,
+          reason:
+              'State nasceu no id ${state.bornIndex} e exibe o '
+              '${state.widget.index}',
+        );
+      }
+      expect(find.text('msg 21'), findsOneWidget); // a mais nova segue na base
+    });
+
+    testWidgets('prepend em lista MISTA não evicta o item com key', (
+      tester,
+    ) async {
+      // O padrão natural: key só nas bolhas com estado (áudio), texto sem key.
+      // O remap TOTAL (registro para as duas identidades) impede o vizinho sem
+      // key de tomar o slot do item com key na paginação.
+      Widget mixedHost({required int count, required int offset}) => host(
+        itemCount: count,
+        itemBuilder: (context, i) {
+          final int id = i + offset;
+          return id.isEven
+              ? _IdentityProbe(key: ValueKey<int>(id), index: id)
+              : SizedBox(height: 40, child: Text('txt $id'));
+        },
+      );
+      await tester.pumpWidget(mixedHost(count: 20, offset: 2));
+      await tester.pump();
+
+      await tester.pumpWidget(mixedHost(count: 21, offset: 1)); // prepend de 1
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      for (final _IdentityProbeState state
+          in tester.stateList<_IdentityProbeState>(
+            find.byType(_IdentityProbe),
+          )) {
+        expect(state.bornIndex, state.widget.index);
+      }
+    });
+
+    testWidgets('a key do consumidor não é duplicada na árvore', (
+      tester,
+    ) async {
+      // find.byKey + findsOneWidget é o idioma padrão de teste do consumidor —
+      // a promoção da key embrulha (_PromotedKey), não copia.
+      await tester.pumpWidget(
+        host(
+          itemCount: 3,
+          itemBuilder: (context, i) =>
+              _IdentityProbe(key: ValueKey<String>('m$i'), index: i),
+        ),
+      );
+      expect(find.byKey(const ValueKey<String>('m1')), findsOneWidget);
+      expect(
+        tester.state<_IdentityProbeState>(
+          find.byKey(const ValueKey<String>('m1')),
+        ),
+        isNotNull,
+      );
+    });
+
+    testWidgets('prepend sem keys mantém o conteúdo correto', (tester) async {
+      // Sem key própria a identidade é o índice (paridade com a implementação
+      // antiga): o CONTEÚDO fica certo — a mensagem mais nova segue na base.
+      Widget plainHost({required int count, required int offset}) => host(
+        itemCount: count,
+        itemBuilder: (context, i) =>
+            SizedBox(height: 40, child: Text('id ${i + offset}')),
+      );
+      await tester.pumpWidget(plainHost(count: 20, offset: 2));
+      await tester.pump();
+      expect(find.text('id 21'), findsOneWidget);
+
+      await tester.pumpWidget(plainHost(count: 22, offset: 0));
+      await tester.pumpAndSettle();
+      expect(find.text('id 21'), findsOneWidget);
+      final Rect box = tester.getRect(find.byType(AppChatMessageList));
+      expect(
+        tester.getRect(find.text('id 21')).bottom,
+        moreOrLessEquals(box.bottom),
+      );
+    });
+
+    testWidgets('altura ilimitada degrada para shrink-wrap sem estourar', (
+      tester,
+    ) async {
+      for (final bool stick in <bool>[false, true]) {
+        await tester.pumpWidget(
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: MediaQuery(
+              data: const MediaQueryData(),
+              child: AppTheme(
+                data: AppThemeData.light,
+                // Transcript curto embutido numa página rolável: era o layout
+                // que a implementação antiga suportava e a virtualizada pura
+                // estourava ('unbounded height').
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      AppChatMessageList(
+                        itemCount: 3,
+                        stickToBottom: stick,
+                        itemBuilder: (context, i) =>
+                            SizedBox(height: 40, child: Text('msg $i')),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+        expect(tester.takeException(), isNull, reason: 'stickToBottom: $stick');
+        expect(find.text('msg 0'), findsOneWidget);
+        expect(find.text('msg 2'), findsOneWidget);
+      }
+    });
+
+    testWidgets('autoScroll chega ao fim com alturas variadas (sem reverso)', (
+      tester,
+    ) async {
+      final ScrollController controller = ScrollController();
+      addTearDown(controller.dispose);
+      // Histórico baixo (20px) e rabo alto (100px): o maxScrollExtent estimado
+      // pela média subestima o total e um salto único pararia ~10 telas antes
+      // do fim — o assentamento re-corrige até chegar.
+      Widget variedHost(int count) => host(
+        itemCount: count,
+        controller: controller,
+        stickToBottom: false,
+        itemBuilder: (context, i) =>
+            SizedBox(height: i < 150 ? 20 : 100, child: Text('m $i')),
+      );
+      await tester.pumpWidget(variedHost(200));
+      await tester.pumpAndSettle();
+      expect(controller.position.extentAfter, lessThanOrEqualTo(0.5));
+
+      controller.jumpTo(0); // usuário no topo do histórico
+      await tester.pump();
+      await tester.pumpWidget(variedHost(201)); // chega mensagem nova
+      await tester.pumpAndSettle();
+      expect(controller.position.extentAfter, lessThanOrEqualTo(0.5));
+      expect(find.text('m 200'), findsOneWidget);
+    });
+
+    testWidgets('ordem de leitura da semântica segue a visual', (tester) async {
+      final SemanticsHandle handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        host(
+          itemCount: 3,
+          itemBuilder: (context, i) =>
+              SizedBox(height: 40, child: Text('msg $i')),
+        ),
+      );
+      final List<String> labels = tester.semantics
+          .simulatedAccessibilityTraversal()
+          .map((node) => node.label)
+          .where((label) => label.startsWith('msg'))
+          .toList();
+      expect(labels, <String>['msg 0', 'msg 1', 'msg 2']);
+      handle.dispose();
+    });
+
+    testWidgets('troca de controller externo religa a posição', (tester) async {
+      final ScrollController a = ScrollController();
+      final ScrollController b = ScrollController();
+      addTearDown(a.dispose);
+      addTearDown(b.dispose);
+      await tester.pumpWidget(host(itemCount: 5, controller: a));
+      expect(a.hasClients, isTrue);
+      await tester.pumpWidget(host(itemCount: 5, controller: b));
+      expect(a.hasClients, isFalse);
+      expect(b.hasClients, isTrue);
+    });
+
     testWidgets('está no catálogo', (tester) async {
       expect(_inCatalog('app_chat_message_list'), isTrue);
     });
   });
+}
+
+/// Sonda de identidade: guarda no State o índice em que nasceu. Se a
+/// reconciliação por índice de sliver migrar o elemento para outra mensagem,
+/// `bornIndex != widget.index` denuncia.
+class _IdentityProbe extends StatefulWidget {
+  const _IdentityProbe({required this.index, super.key});
+
+  final int index;
+
+  @override
+  State<_IdentityProbe> createState() => _IdentityProbeState();
+}
+
+class _IdentityProbeState extends State<_IdentityProbe> {
+  late final int bornIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    bornIndex = widget.index;
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      SizedBox(height: 40, child: Text('msg ${widget.index}'));
 }

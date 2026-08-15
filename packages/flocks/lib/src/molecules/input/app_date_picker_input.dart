@@ -37,6 +37,7 @@ final class AppDatePickerInput extends StatefulWidget {
     this.label,
     this.lastDate,
     this.maxLength,
+    this.onCleared,
     this.style,
     this.radiusMode,
     this.radius,
@@ -76,6 +77,15 @@ final class AppDatePickerInput extends StatefulWidget {
 
   /// Limite máximo de caracteres digitados no campo.
   final int? maxLength;
+
+  /// Disparado quando o usuário limpa o campo pelo ✕ — o valor selecionado
+  /// volta a ser nenhum, e [onDateSelected] (que só anuncia valores válidos)
+  /// não avisaria sozinho.
+  ///
+  /// O ✕ é o do [AppInput]: só existe com o campo **em erro**
+  /// ([hasError]/[errorText]), habilitado e preenchido. Apagar o texto à mão
+  /// (backspace) não notifica — texto parcial não é um valor.
+  final VoidCallback? onCleared;
 
   /// Callback quando uma data válida é selecionada (digitada ou via picker).
   final ValueChanged<DateTime> onDateSelected;
@@ -129,6 +139,7 @@ class _AppDatePickerInputState extends State<AppDatePickerInput> {
         onClear: widget.enabled
             ? () {
                 setState(() => _selectedDate = null);
+                widget.onCleared?.call();
                 handle.open();
               }
             : null,

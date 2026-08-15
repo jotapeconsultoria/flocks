@@ -20,11 +20,14 @@
 //
 // A regra de lockstep NÃO é lista literal de pacotes: ela é lida da prosa dos
 // pubspecs. Quem declara lockstep fica na versão do core; quem declara que a
-// linha pública dele começa agora porque nunca publicou fica na versão que a
-// própria frase diz. A isenção é autolimitada — no dia em que o pacote
-// publicar, a frase vira mentira e sai, e o lockstep estrito passa a valer
-// sozinho. É o mesmo princípio dos outros gates deste repo: o número não pode
-// envelhecer em silêncio.
+// linha pública dele começa ATRÁS do core, porque estreou depois, fica na
+// versão que a própria frase diz. A isenção tem prazo, e o prazo é cobrado por
+// dois gates que se somam: a prosa cita a versão do core, e a citação é
+// conferida contra a versão de verdade; e a estreia tem de ser datada no dia do
+// release do core que ela cita. No primeiro bump do core os dois reprovam, e a
+// única saída é entrar no número — o lockstep estrito passa a valer sozinho. É
+// o mesmo princípio dos outros gates deste repo: o número não pode envelhecer
+// em silêncio.
 //
 // POR QUE `test/release/`, E NÃO `test/architecture/`. O lugar óbvio seria lá:
 // é onde moram os gates que julgam o repositório em vez do widget, e é de lá
@@ -52,15 +55,22 @@ const String kNomeDoCore = 'flocks';
 /// porquê com as palavras dele.
 const String kMarcaDeLockstep = 'Em lockstep com o core';
 
-/// A cláusula que isenta quem ainda não estreou, e a versão em que ele estreia.
+/// A cláusula que isenta quem estreou atrás do core, e a versão da estreia.
 ///
 /// A versão sai da CAPTURA, não de um literal aqui: `flocks_cupertino` e
 /// `flocks_lucide` estão em 0.1.0 de propósito, e é o pubspec deles que diz
 /// isso. Uma lista de exceções neste arquivo seria a mesma promessa em prosa
 /// que este gate existe para substituir, só que mais longe do pubspec.
+///
+/// Ela é PREFIXO da redação que os dois carregavam antes de estrear — "…começa
+/// em 0.1.0 porque ele nunca foi publicado" —, e isso é de propósito: um pacote
+/// que de fato nunca publicou escreve a frase inteira, continua isento aqui, e
+/// o ramo de 404 do job `changelog (pub.dev)` segue achando a fatia "nunca foi
+/// publicado" que ele grepa (`ci.yml`). O que saiu da regex foi só o pedaço que
+/// a estreia tornou falso: os dois estão no pub.dev desde 2026-08-12, e o outro
+/// ramo daquele job reprova pacote publicado que ainda declare o contrário.
 final RegExp kClausulaDeEstreia = RegExp(
-  r'A linha pública deste pacote começa em (\d+\.\d+\.\d+) '
-  r'porque ele nunca foi publicado',
+  r'A linha pública deste pacote começa em (\d+\.\d+\.\d+)',
 );
 
 /// A frase que cita a versão do core de dentro de outro pubspec.
@@ -80,6 +90,19 @@ final RegExp kCitacaoDoCore = RegExp(r'o `flocks` já está em (\d+\.\d+\.\d+)')
 final RegExp kCabecalhoDeSecao = RegExp(
   r'^\[(\d+\.\d+\.\d+)\](?: - (\d{4}-\d{2}-\d{2}))?$',
 );
+
+/// O balde do ciclo em curso: `## [Unreleased]`, sem data.
+///
+/// A recusa original a este cabeçalho partia de "os seis arquivos bumpam
+/// pubspec e CHANGELOG no mesmo commit" — verdade no dia do corte, mas o
+/// ciclo 0.2.0 acumula PRs de feature ANTES do corte, e cada um precisa de
+/// uma linha de CHANGELOG que ainda não tem versão para chamar de sua.
+/// A convenção mudou aqui, à vista: entre cortes existe NO MÁXIMO UM
+/// `[Unreleased]`, sempre no topo; o PR de release o carimba em
+/// `[X.Y.Z] - AAAA-MM-DD` junto com o bump do pubspec. Ele fica fora de
+/// `secoes` de propósito — os gates de versão, data e ordem seguem medindo só
+/// a linha publicada.
+final RegExp kCabecalhoUnreleased = RegExp(r'^\[Unreleased\]$');
 
 void main() {
   final Directory? raizDoRepo = _acharRaizDeWorkspace();
@@ -181,30 +204,33 @@ void main() {
         }
       });
 
-      test('quem ainda não estreou está na versão que a prosa dele diz', () {
-        // `flocks_cupertino` e `flocks_lucide`. A versão vem da frase, não
-        // de uma lista aqui — e a frase deixa de valer sozinha no dia do
-        // primeiro publish, porque aí ela é falsa e sai.
-        final Iterable<_Pacote> estreantes = publicaveis.where(
-          (_Pacote p) => p.estreiaEm != null,
-        );
-        for (final _Pacote p in estreantes) {
-          expect(
-            p.versao,
-            p.estreiaEm,
-            reason:
-                'O pubspec do `${p.nome}` diz que a linha pública dele '
-                'começa em ${p.estreiaEm}, e o `version:` diz ${p.versao}. '
-                'Os dois saem do mesmo arquivo e não podem discordar.',
+      test(
+        'quem estreou atrás do core está na versão que a prosa dele diz',
+        () {
+          // `flocks_cupertino` e `flocks_lucide`, que estrearam em 0.1.0 no
+          // release que levou o core a 0.1.2. A versão vem da frase, não de uma
+          // lista aqui — e a frase tem prazo: os dois gates abaixo o cobram.
+          final Iterable<_Pacote> estreantes = publicaveis.where(
+            (_Pacote p) => p.estreiaEm != null,
           );
-        }
-      });
+          for (final _Pacote p in estreantes) {
+            expect(
+              p.versao,
+              p.estreiaEm,
+              reason:
+                  'O pubspec do `${p.nome}` diz que a linha pública dele '
+                  'começa em ${p.estreiaEm}, e o `version:` diz ${p.versao}. '
+                  'Os dois saem do mesmo arquivo e não podem discordar.',
+            );
+          }
+        },
+      );
 
-      test('quem ainda não estreou tem uma única seção de CHANGELOG', () {
-        // O contrapeso da isenção. "Nunca foi publicado" e um histórico de
-        // três releases não cabem no mesmo arquivo: se há seções acumuladas,
-        // ou o pacote publicou e a cláusula virou mentira, ou o CHANGELOG
-        // conta uma história que não aconteceu.
+      test('quem estreou atrás do core teve um release só', () {
+        // O contrapeso da isenção. Uma linha pública que começa atrás do core
+        // e um histórico de três releases não cabem no mesmo arquivo: o pacote
+        // que lançou de novo sem alcançar o número do core não acompanha
+        // ninguém, tem linha própria — e aí a cláusula é que está errada.
         for (final _Pacote p in publicaveis.where(
           (_Pacote p) => p.estreiaEm != null,
         )) {
@@ -212,8 +238,9 @@ void main() {
             p.secoes.map((_Secao s) => s.versao),
             hasLength(1),
             reason:
-                'O `${p.nome}` se declara não publicado e o CHANGELOG dele '
-                'tem ${p.secoes.length} seções. Se ele publicou, tire a '
+                'O `${p.nome}` diz que a linha pública dele começa em '
+                '${p.estreiaEm}, atrás do core, e o CHANGELOG dele tem '
+                '${p.secoes.length} seções. Se ele lançou de novo, tire a '
                 'cláusula do pubspec — o lockstep estrito passa a valer e '
                 'este gate cobra a versão do core.',
           );
@@ -234,6 +261,44 @@ void main() {
                 'O pubspec do `${p.nome}` diz que o `$kNomeDoCore` já está '
                 'em ${citacao.group(1)}, e ele está em $versaoDoCore. É o '
                 'tipo de número que apodrece calado; agora não mais.',
+          );
+        }
+      });
+
+      test('quem estreou atrás do core estreou junto do release que cita', () {
+        // A OUTRA METADE do prazo da isenção, e a razão de ela não ser um gate
+        // só. O de cima cobra que a prosa cite a versão ATUAL do core; sozinho,
+        // ele se satisfaz com um refresco do número citado, e a isenção
+        // sobreviveria a qualquer bump com o pacote parado atrás. Aqui a
+        // estreia tem de ser datada no dia da seção de topo do core — que é,
+        // pelo gate de cima, exatamente o release que a prosa cita. Quando o
+        // core lançar de novo, a data do topo dele muda, esta igualdade quebra,
+        // e a saída é entrar no número do core.
+        final _Secao topoDoCore = _core(publicaveis).secoes.first;
+        for (final _Pacote p in publicaveis.where(
+          (_Pacote p) => p.estreiaEm != null,
+        )) {
+          // As seções DATADAS, e não todas: seção sem data é marco interno
+          // anterior à primeira publicação, e o gate de topo já cobra que a do
+          // topo tenha data.
+          expect(
+            p.secoesPublicas,
+            isNotEmpty,
+            reason:
+                'O `${p.nome}` declara estreia atrás do core e não tem nenhuma '
+                'seção datada de CHANGELOG. Sem data não há como conferir que '
+                'ele saiu junto do release do core que a prosa dele cita.',
+          );
+          expect(
+            p.secoesPublicas.first.data,
+            topoDoCore.data,
+            reason:
+                'A estreia do `${p.nome}` é datada '
+                '${p.secoesPublicas.first.data} e a ${topoDoCore.versao} do '
+                '`$kNomeDoCore`, ${topoDoCore.data}. A cláusula do pubspec '
+                'dele isenta do lockstep quem estreou junto do release do '
+                'core; se o core lançou depois disso, a isenção venceu — o '
+                '`version:` dele passa a ser o do core, e a cláusula sai.',
           );
         }
       });
@@ -262,20 +327,49 @@ void main() {
       });
 
       test('todo cabeçalho `##` é uma seção de versão bem formada', () {
-        // Inclui recusar `## [Unreleased]`. Os seis arquivos bumpam pubspec e
-        // CHANGELOG no mesmo commit, e um balde de "não lançado" no topo
-        // desalinharia a seção de cima do `version:` — que é justamente o
-        // gate seguinte. Se a convenção mudar, ela muda aqui, à vista.
+        // Duas formas, e só duas: `[X.Y.Z]( - data)` ou o balde único
+        // `[Unreleased]` do ciclo em curso (ver kCabecalhoUnreleased — a
+        // disciplina dele é o gate seguinte).
         for (final _Pacote p in publicaveis) {
           for (final _Cabecalho c in p.cabecalhos) {
             expect(
-              kCabecalhoDeSecao.hasMatch(c.texto),
+              kCabecalhoDeSecao.hasMatch(c.texto) ||
+                  kCabecalhoUnreleased.hasMatch(c.texto),
               isTrue,
               reason:
                   '${p.nome}/CHANGELOG.md:${c.linha} — li `## ${c.texto}`. '
-                  'O formato é `## [X.Y.Z] - AAAA-MM-DD`, com a data '
-                  'opcional apenas nos marcos internos anteriores à primeira '
-                  'publicação.',
+                  'O formato é `## [X.Y.Z] - AAAA-MM-DD` (data opcional '
+                  'apenas nos marcos internos anteriores à primeira '
+                  'publicação) ou o `## [Unreleased]` único do ciclo em '
+                  'curso.',
+            );
+          }
+        }
+      });
+
+      test('[Unreleased] é no máximo um, e mora no topo', () {
+        // Sem esta disciplina o balde viraria porta de fuga: dois baldes, ou
+        // um balde abaixo de uma versão datada, e a leitura "de cima é o mais
+        // recente" quebra sem nenhum gate reclamar.
+        for (final _Pacote p in publicaveis) {
+          final List<_Cabecalho> baldes = p.cabecalhos
+              .where((_Cabecalho c) => kCabecalhoUnreleased.hasMatch(c.texto))
+              .toList();
+          expect(
+            baldes.length,
+            lessThanOrEqualTo(1),
+            reason:
+                '${p.nome}/CHANGELOG.md tem ${baldes.length} seções '
+                '`[Unreleased]`. O ciclo em curso é um só — funda os baldes.',
+          );
+          if (baldes.isNotEmpty) {
+            expect(
+              p.cabecalhos.first.texto,
+              baldes.first.texto,
+              reason:
+                  '${p.nome}/CHANGELOG.md:${baldes.first.linha} — o '
+                  '`[Unreleased]` está abaixo de uma seção de versão. Quem '
+                  'lê o arquivo lê de cima; o ciclo em curso mora no topo.',
             );
           }
         }
@@ -398,7 +492,9 @@ void main() {
         //
         // Os estreantes ficam FORA deste grupo de propósito: a 0.1.0 do
         // `flocks_cupertino` é a estreia dele, não a 0.1.0 do core. Mesmo
-        // número, releases diferentes, datas legitimamente diferentes.
+        // número, releases diferentes, datas legitimamente diferentes —
+        // 2026-08-12 contra 2026-08-10. É por isso que a isenção não pode ser
+        // "está na versão do core": ela é a razão deste grupo ter um `where`.
         final Map<String, Map<String, String>> porVersao =
             <String, Map<String, String>>{};
         for (final _Pacote p in publicaveis.where(

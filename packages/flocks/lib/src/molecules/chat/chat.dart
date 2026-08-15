@@ -12,5 +12,6 @@ export 'app_chat_day_divider.dart';
 export 'app_chat_message_list.dart';
 export 'app_message_meta.dart';
 export 'app_question_card.dart';
+export 'app_quoted_message.dart';
 export 'app_suggestion_chip.dart';
 export 'app_typing_indicator.dart';
