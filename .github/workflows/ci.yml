@@ -13,6 +13,14 @@ name: CI
 # `widgetbook` e `site` deployam em push na main. `mcpb-build` e `mcpb-release`
 # acordam em tag `v*` e empacotam o servidor MCP como `.mcpb` num GitHub
 # Release.
+#
+# AS MAJORS DAS ACTIONS DA GITHUB NÃO SÃO CONSECUTIVAS, e não é descuido: elas
+# estão na primeira major que rodava Node 24 nativamente OU adiante, porque
+# `node20` está depreciado e o runner já forçava as `@v4` para o 24 avisando por
+# anotação — a v0.1.2 saiu com três dessas. E subir UMA major não resolveria:
+# `upload-artifact@v5` e `download-artifact@v5`/`v6` ainda declaram
+# `runs.using: node20`. O `subosito/flutter-action@v2` fica onde está porque é
+# `using: composite` — não tem runtime Node para depreciar.
 
 on:
   push:
@@ -41,7 +49,7 @@ jobs:
     name: format · analyze · shellcheck · test · validate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # ANTES do toolchain de propósito: shellcheck já vem na imagem do runner,
       # custa cerca de um segundo, e erro de shell não precisa esperar o Flutter
@@ -93,8 +101,16 @@ jobs:
         run: dart format --output=none --set-exit-if-changed .
 
       - name: Análise estática
-        # Da raiz, e isso cobre os três pacotes — verificado por canário
-        # (erro plantado no `flocks_material` reprova aqui).
+        # Da raiz, e isso cobre os SETE pacotes — verificado por canário: sete
+        # erros plantados, um no `lib/` de cada pacote, e UM `dart analyze` daqui
+        # reprova os sete, nomeando os sete caminhos.
+        #
+        # Dizia "os três pacotes", e era verdade quando foi escrito: o commit que
+        # trouxe o Flocks para este repo tinha três pacotes no `workspace:`
+        # (`flocks`, `flocks_material`, `flocks_phosphor`) e três steps de suíte
+        # aqui. O comentário não acompanhou o repo crescer — é a mesma classe do
+        # cabeçalho da linha 3, e o motivo de a contagem viver ao lado do comando
+        # que a sustenta.
         run: dart analyze
 
       - name: Testes + arquitetura (flocks)
@@ -193,7 +209,7 @@ jobs:
     # exigir que o publish viesse antes do merge que o prepara.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: subosito/flutter-action@v2
         with:
@@ -274,7 +290,7 @@ jobs:
     # dois arquivos de texto e uma API pública.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: As datas dos CHANGELOGs são as datas de publicação
         shell: bash
@@ -443,7 +459,7 @@ jobs:
     # mesma". O passo abaixo passou a dizer.
     runs-on: macos-26
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Conferir que a imagem bate com a das baselines
         # Uma linha, antes de rodar teste nenhum, em vez de 302 falhas de pixel
@@ -480,7 +496,7 @@ jobs:
         # que os bytes diferem e não mostra o quê. O `flutter_test` grava
         # master/test/isolatedDiff em `failures/` — é o que a triagem usa.
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: golden-failures
           path: packages/flocks/test/**/failures/**
@@ -506,7 +522,7 @@ jobs:
     needs: [checks, goldens]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: subosito/flutter-action@v2
         with:
@@ -637,14 +653,16 @@ jobs:
     # LITERAL na URL do curl: não há caminho por onde este job escreva fora de
     # `demo/`, nem mesmo se o build emitir um arquivo com nome esquisito.
     #
-    # `needs` nos dois gates, ao contrário do `site`: o site é HTML estático e
-    # não depende do Dart, mas a demo É o Dart — publicá-la à frente de um teste
-    # vermelho seria publicar a vitrine de um design system quebrado.
+    # `needs` nos dois gates: a demo É o Dart, e publicá-la à frente de um teste
+    # vermelho seria publicar a vitrine de um design system quebrado. Este job
+    # foi o segundo a ganhar o `needs`; hoje os TRÊS deploys esperam os mesmos
+    # dois gates, e o `site` — que era a exceção, por ser HTML estático — traz no
+    # comentário dele por que a exceção não se sustentava.
     if: github.ref == 'refs/heads/main'
     needs: [checks, goldens]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: subosito/flutter-action@v2
         with:
@@ -840,7 +858,7 @@ jobs:
             binary: flocks_mcp-windows-x64.exe
             arch: x86_64
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Conferir a arquitetura do runner
         # Mesma razão do guard do `goldens`: o NOME do binário afirma a
@@ -894,7 +912,7 @@ jobs:
           esac
         working-directory: packages/flocks_mcp
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         # O artifact NÃO preserva permissões (tudo chega 644) — o `+x` volta
         # no chmod do `mcpb-release`, antes do zip.
         with:
@@ -929,7 +947,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: A tag é a versão do pubspec?
         # Falha ANTES de montar qualquer coisa: uma tag `v0.2.0` sobre um
@@ -943,7 +961,7 @@ jobs:
             exit 1
           fi
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           pattern: flocks_mcp-*
           path: binaries
@@ -1044,7 +1062,7 @@ jobs:
             --title "flocks_mcp ${GITHUB_REF_NAME}" \
             --notes-file notes.md
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: github.event_name == 'workflow_dispatch'
         with:
           name: flocks-mcp-bundle
@@ -1057,16 +1075,29 @@ jobs:
   site:
     name: site (deploy)
     # Publica a landing em flocks.live. Mesmo padrão anti-supply-chain do
-    # `widgetbook` (find + curl explícitos, sem action de terceiro), com duas
-    # divergências deliberadas:
+    # `widgetbook` (find + curl explícitos, sem action de terceiro) e o mesmo
+    # `needs`, com uma divergência deliberada: a GUARDA DE DIFF. Sem build, todo
+    # push da main deployaria e purgaria o edge à toa; o job só age quando
+    # `site/` mudou neste push. O `workflow_dispatch` tem `force_site` para
+    # atropelá-la à mão.
     #
-    # 1. SEM `needs`: o site é HTML estático e não depende dos gates Dart —
-    #    um golden vermelho não deve segurar a correção de um typo da landing.
-    #    (O conteúdo dele TEM gate: `install_docs_test.dart` fiscaliza a copy
-    #    de instalação das duas páginas junto com a do README.)
-    # 2. Guarda de diff: sem build, todo push da main deployaria e purgaria o
-    #    edge à toa; o job só age quando `site/` mudou neste push. O
-    #    `workflow_dispatch` tem `force_site` para atropelá-la à mão.
+    # O `needs` chegou depois dos outros dois, e o argumento para não o ter era
+    # este: o site é HTML estático e não depende dos gates Dart, então um golden
+    # vermelho não deveria segurar a correção de um typo da landing. O que esse
+    # argumento não pesava é que o conteúdo daqui TEM gate Dart —
+    # `packages/flocks/test/architecture/install_docs_test.dart` lê
+    # `site/index.html` e `site/pt/index.html` e fiscaliza a copy de instalação
+    # das duas junto com a do README, sem tag de golden, portanto dentro do
+    # `checks`. Deployar sem esperar era subir essas duas páginas ANTES do job
+    # que as confere.
+    #
+    # O PREÇO ESTÁ ACEITO E É ESTE: um golden vermelho passa a segurar a landing,
+    # inclusive no dispatch à mão — `force_site` atropela a guarda de diff, não o
+    # `needs` (ele só é lido no `env` do passo da guarda). Foi por esse caminho
+    # que a home sem o link "Demo" foi consertada em 2026-08-10; daqui em diante
+    # o mesmo conserto exige os dois gates verdes antes. A espera medida em
+    # `max(checks, goldens)` nos oito pushes de `main` mais recentes vai de 4m13
+    # a 6m51.
     #
     # A senha de Storage Zone da Bunny é POR ZONA — `BUNNY_SITE_STORAGE_PASSWORD`
     # é da zona `flocks-site`, não confundir com a do widgetbook. Caveat aceito,
@@ -1074,17 +1105,27 @@ jobs:
     #
     # `github.ref` pela mesma razão do `widgetbook`: push de tag não deploya.
     #
-    # DOIS JOBS ESCREVEM NESTA ZONE. Este, sem `needs`, começa na hora; o `demo`,
-    # com `needs: [checks, goldens]`, começa minutos depois — e os dois purgam o
-    # MESMO hostname. A separação de prefixo (`/` aqui, `demo/` lá) evita conflito
-    # de conteúdo, e um purge tardio do `demo` é inofensivo para as páginas daqui:
-    # ele só limpa o edge, que então recarrega de uma origem já correta. O que NÃO
-    # é inofensivo é a ordem inversa dentro de um job só — purgar antes de a
-    # origem assentar —, e é disso que trata o último passo.
+    # DOIS JOBS ESCREVEM NESTA ZONE, e agora o MESMO gate solta os dois — os dois
+    # purgam o MESMO hostname, e o `needs` os aproxima. Medido no run 31633640755,
+    # o último em que `site/` mudou: o purge daqui saiu às 19:38:47, 18s depois
+    # do começo do job, e o do `demo` às 19:46:09, 7m22 adiante; com o gate comum
+    # os dois começam juntos e a distância vira ~1m46, que é o tempo que o `demo`
+    # gasta buildando o web release antes de subir e purgar. A ordem não inverte.
+    #
+    # O que sustenta isso não é a distância, e sim que a sobreposição JÁ ERA a
+    # realidade: nesse mesmo run o purge do `demo` caiu dentro da janela de
+    # conferência deste job (que rodou até as 20:00:51) e este job fechou verde.
+    # A separação de prefixo (`/` aqui, `demo/` lá) evita conflito de conteúdo, e
+    # o purge do outro é inofensivo para as páginas daqui: ele só limpa o edge,
+    # que então recarrega de uma origem já correta — e se pegar o edge no meio do
+    # caminho, quem absorve é o laço de repurge do `conferir-edge.sh`, o mesmo nos
+    # três jobs. O que NÃO é inofensivo é a ordem inversa dentro de um job só —
+    # purgar antes de a origem assentar —, e é disso que trata o último passo.
     if: github.ref == 'refs/heads/main'
+    needs: [checks, goldens]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # Histórico inteiro, e não `fetch-depth: 2`, porque a guarda abaixo
           # compara contra `github.event.before` — o commit anterior ao PUSH, que
