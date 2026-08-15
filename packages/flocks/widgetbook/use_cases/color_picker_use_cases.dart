@@ -34,6 +34,12 @@ Widget appColorPickerPanelPlayground(BuildContext context) {
     label: 'show suggested colors',
     initialValue: true,
   );
+  final bool showSpectrumRaw = context.knobs.boolean(
+    label: 'showSpectrum',
+    initialValue: true,
+  );
+  // O assert exige ao menos uma seção ligada — o clamp evita derrubar o canvas.
+  final bool showSpectrum = showSuggested ? showSpectrumRaw : true;
   return wbUseCase(
     context,
     name: 'AppColorPickerPanel',
@@ -47,6 +53,7 @@ Widget appColorPickerPanelPlayground(BuildContext context) {
         initialColor: initial,
         presets: custom ? _customPresets : null,
         showSuggestedColors: showSuggested,
+        showSpectrum: showSpectrum,
       ),
     ),
   );
@@ -106,11 +113,13 @@ class _ColorPanelDemo extends StatefulWidget {
     required this.initialColor,
     this.presets,
     this.showSuggestedColors = true,
+    this.showSpectrum = true,
   });
 
   final Color initialColor;
   final List<Color>? presets;
   final bool showSuggestedColors;
+  final bool showSpectrum;
 
   @override
   State<_ColorPanelDemo> createState() => _ColorPanelDemoState();
@@ -130,6 +139,7 @@ class _ColorPanelDemoState extends State<_ColorPanelDemo> {
   @override
   Widget build(BuildContext context) => AppColorPickerPanel(
     color: _color,
+    showSpectrum: widget.showSpectrum,
     presets: widget.presets,
     showSuggestedColors: widget.showSuggestedColors,
     onColorChanged: (c) => setState(() => _color = c),

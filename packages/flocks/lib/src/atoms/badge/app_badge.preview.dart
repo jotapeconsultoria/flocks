@@ -2,6 +2,7 @@ import 'package:flutter/widget_previews.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../theme/theme.dart';
+import '../../tokens/app_icon_token.dart';
 import '../../tokens/app_spacings.dart';
 import 'app_badge.dart';
 
@@ -19,6 +20,7 @@ Widget _sample(AppThemeData data) => AppTheme(
       AppBadge('Success', color: AppBadgeColor.success),
       AppBadge('Warning', color: AppBadgeColor.warning),
       AppBadge('Danger', color: AppBadgeColor.danger),
+      AppBadge('Janela', icon: AppIconToken.clock, color: AppBadgeColor.info),
     ],
   ),
 );

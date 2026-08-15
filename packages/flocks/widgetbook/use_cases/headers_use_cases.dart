@@ -61,6 +61,10 @@ Widget primaryHeaderPlayground(BuildContext context) {
     label: 'trailing',
     initialValue: true,
   );
+  final bool withBottom = context.knobs.boolean(
+    label: 'bottom',
+    initialValue: false,
+  );
   final AppStyle effStyle = style ?? AppStyle.filled;
   final bool glassOn = glass ?? theme.glassTheme.enabled;
   return wbUseCase(
@@ -94,6 +98,18 @@ Widget primaryHeaderPlayground(BuildContext context) {
                 semanticLabel: 'Configurações',
               )
             : null,
+        bottom: withBottom
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: AppSpacings.s16,
+                children: <Widget>[
+                  AppText('Todas', style: theme.textTheme.labelMedium),
+                  AppText('Ativas', style: theme.textTheme.labelMedium),
+                  AppText('Arquivadas', style: theme.textTheme.labelMedium),
+                ],
+              )
+            : null,
+        bottomHeight: withBottom ? 40 : 0,
         child: AppText(title, style: theme.textTheme.titleLarge),
       ),
     ),

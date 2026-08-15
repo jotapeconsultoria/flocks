@@ -6,7 +6,7 @@ import '../../tokens/app_spacings.dart';
 import 'app_snackbar.dart';
 import 'app_snackbar_type.dart';
 
-// Previews nativos (Regra 5) — os três tipos, em claro e escuro.
+// Previews nativos (Regra 5) — tipos e o toast de uma frase, claro e escuro.
 
 Widget _sample(AppThemeData data) => AppTheme(
   data: data,
@@ -26,6 +26,12 @@ Widget _sample(AppThemeData data) => AppTheme(
           description: 'Tente novamente em instantes.',
           type: AppSnackbarType.error,
         ),
+        AppSnackbar(
+          title: 'Janela quase no fim',
+          description: 'Restam 10 minutos para responder.',
+          type: AppSnackbarType.warning,
+        ),
+        AppSnackbar(description: 'Link copiado.'),
       ],
     ),
   ),

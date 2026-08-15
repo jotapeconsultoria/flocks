@@ -30,3 +30,26 @@ Widget appDialogLightPreview() => _sample(AppThemeData.light);
 
 @Preview(name: 'AppDialog • escuro')
 Widget appDialogDarkPreview() => _sample(AppThemeData.dark);
+
+// O corpo de confirmação puro (sem ilustração): o bloco da arte sai inteiro do
+// layout — é o que o showAppConfirm monta por padrão.
+Widget _confirmSample(AppThemeData data) => AppTheme(
+  data: data,
+  child: const Center(
+    child: SizedBox(
+      width: 440,
+      child: AppDialog(
+        title: 'Excluir empresa?',
+        child: AppDialogContent(
+          message: 'Os usuários dela perdem o acesso. Não dá para desfazer.',
+        ),
+      ),
+    ),
+  ),
+);
+
+@Preview(name: 'AppDialog • confirm sem ilustração • claro')
+Widget appDialogConfirmLightPreview() => _confirmSample(AppThemeData.light);
+
+@Preview(name: 'AppDialog • confirm sem ilustração • escuro')
+Widget appDialogConfirmDarkPreview() => _confirmSample(AppThemeData.dark);

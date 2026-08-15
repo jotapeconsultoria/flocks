@@ -25,8 +25,16 @@ column and must not be confused.
 
 ## Anatomy
 
-- **Logo**: `logoCollapsed`/`logoExpanded` (icons) at the top.
-- **Items** (`AppNavigationRailItemData`): an icon + a title; items with
+- **Logo**: two mutually exclusive channels at the top — the legacy
+  slug/URL pair (`logoCollapsed`/`logoExpanded`) or the widget slots
+  (`logo`/`logoCompact` + a required `logoSemanticLabel`), for the brand that
+  lives in the app bundle. Collapsed resolves `logoCompact ?? logo`; expanded,
+  `logo ?? logoCompact`. The widget becomes a single named image node (the
+  `AppImage` idiom); the slug stays decorative.
+- **Items** (`AppNavigationRailItemData`): an icon + a title (plus an optional
+  `activeIcon`, the filled pair rendered only while selected — on a parent it
+  follows the same signal that tints the header: the parent or any child
+  matching the route); items with
   `children` become an **expandable parent** (an animated chevron, push-down).
 - **Filters** (`AppNavigationRailFilter`): a fixed label + the current value.
   With no value it shows `emptyLabel` ("All"), which is a neutral state rather

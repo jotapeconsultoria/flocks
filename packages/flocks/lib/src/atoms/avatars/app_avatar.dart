@@ -101,6 +101,7 @@ final class AppAvatar extends StatelessWidget {
   const AppAvatar({
     this.size = AppAvatarSize.m,
     this.fallback,
+    this.fallbackIcon,
     this.imageUrl,
     this.semanticLabel,
     this.style,
@@ -118,6 +119,7 @@ final class AppAvatar extends StatelessWidget {
   const AppAvatar.custom({
     required double diameter,
     this.fallback,
+    this.fallbackIcon,
     this.imageUrl,
     this.semanticLabel,
     this.style,
@@ -132,6 +134,12 @@ final class AppAvatar extends StatelessWidget {
 
   /// Texto curto exibido quando [imageUrl] está nulo, vazio ou falha ao carregar.
   final String? fallback;
+
+  /// Slug de ícone do estado SEM imagem e SEM texto — quando [imageUrl] e
+  /// [fallback] estão vazios. `null` = [AppIconToken.user], o glifo de sempre.
+  /// O texto vence: com [fallback] presente, o ícone não aparece. A cor do
+  /// glifo segue a do fallback (neutro `s700`), deliberadamente.
+  final String? fallbackIcon;
 
   /// URL de rede da imagem. Quando nulo/vazio, exibe o fallback.
   final String? imageUrl;
@@ -360,7 +368,11 @@ final class AppAvatar extends StatelessWidget {
       // escala com o text-scale, FittedBox garante que nunca transborda.
       final double d = _customDiameter!;
       final Widget content = text.isEmpty
-          ? AppIcon(AppIconToken.user, color: fg, size: _iconSizeFor(d))
+          ? AppIcon(
+              fallbackIcon ?? AppIconToken.user,
+              color: fg,
+              size: _iconSizeFor(d),
+            )
           : AppText(
               text,
               maxLines: 1,
@@ -382,7 +394,7 @@ final class AppAvatar extends StatelessWidget {
     final TextScaler scaler = MediaQuery.textScalerOf(context);
     final Widget content = text.isEmpty
         ? AppIcon(
-            AppIconToken.user,
+            fallbackIcon ?? AppIconToken.user,
             color: fg,
             customSize: scaler.scale(size.iconSize.value),
           )

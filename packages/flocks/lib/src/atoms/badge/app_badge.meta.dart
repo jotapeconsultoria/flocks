@@ -47,6 +47,14 @@ const AppComponentMeta appBadgeMeta = AppComponentMeta(
       ),
     ),
     PropMeta(
+      name: 'icon',
+      type: 'String?',
+      description: LocalizedText(
+        en: 'Optional AppIconToken slug left of the label, painted with the label color and sized to its line box.',
+        pt: 'Slug opcional de AppIconToken, pintado com a cor do rótulo e casado à caixa de linha dele.',
+      ),
+    ),
+    PropMeta(
       name: 'color',
       type: 'AppBadgeColor',
       defaultValue: 'AppBadgeColor.neutral',

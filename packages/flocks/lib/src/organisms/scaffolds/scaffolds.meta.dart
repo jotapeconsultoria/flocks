@@ -116,11 +116,34 @@ const AppComponentMeta appAuthSplitLayoutMeta = AppComponentMeta(
     pt: <String>['Página interna comum → AppScaffold.'],
   ),
   props: <PropMeta>[
-    PropMeta(name: 'brandTitle', type: 'String', isRequired: true),
-    PropMeta(name: 'brandSubtitle', type: 'String', isRequired: true),
+    PropMeta(
+      name: 'brandTitle',
+      type: 'String?',
+      description: LocalizedText(
+        en: 'Brand title. Optional as long as identity comes from logoSemanticLabel (asserted).',
+        pt: 'Título da marca. Opcional desde que a identidade venha de logoSemanticLabel (assert).',
+      ),
+    ),
+    PropMeta(name: 'brandSubtitle', type: 'String?'),
     PropMeta(name: 'child', type: 'Widget', isRequired: true),
     PropMeta(name: 'backgroundImageUrl', type: 'String?'),
     PropMeta(name: 'logoUrl', type: 'String?'),
+    PropMeta(
+      name: 'logo',
+      type: 'Widget?',
+      description: LocalizedText(
+        en: 'Brand as a widget (bundle SVG/image). Mutually exclusive with logoUrl; requires logoSemanticLabel. The widget subtree is replaced by a named image node (the AppImage idiom).',
+        pt: 'Marca como widget (SVG/imagem do bundle). Mutuamente exclusivo com logoUrl; exige logoSemanticLabel. A subárvore do widget é substituída por um nó de imagem nomeado (o idioma do AppImage).',
+      ),
+    ),
+    PropMeta(
+      name: 'logoSemanticLabel',
+      type: 'String?',
+      description: LocalizedText(
+        en: 'Accessible brand name. Required with logo; with logoUrl it names the icon; it also satisfies identity when brandTitle is absent.',
+        pt: 'Nome acessível da marca. Obrigatório com logo; com logoUrl nomeia o ícone; também satisfaz a identidade sem brandTitle.',
+      ),
+    ),
     PropMeta(name: 'websiteUrl', type: 'String?'),
   ],
   variants: <String>['desktop', 'mobile'],

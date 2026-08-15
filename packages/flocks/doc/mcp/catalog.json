@@ -413,6 +413,15 @@
         "required": false
       },
       {
+        "name": "fallbackIcon",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Icon slug for the no-image, no-text state. Null = the user glyph. Text wins when present.",
+          "pt": "Slug de ícone do estado sem imagem e sem texto. Nulo = o glifo de user. O texto vence quando presente."
+        }
+      },
+      {
         "name": "semanticLabel",
         "type": "String?",
         "required": false
@@ -1729,6 +1738,15 @@
         "description": {
           "en": "Short text shown in the pill.",
           "pt": "Texto curto exibido na pill."
+        }
+      },
+      {
+        "name": "icon",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Optional AppIconToken slug left of the label, painted with the label color and sized to its line box.",
+          "pt": "Slug opcional de AppIconToken, pintado com a cor do rótulo e casado à caixa de linha dele."
         }
       },
       {
@@ -3240,6 +3258,16 @@
         "default": "1"
       },
       {
+        "name": "textAlign",
+        "type": "TextAlign",
+        "required": false,
+        "default": "TextAlign.start",
+        "description": {
+          "en": "Horizontal alignment of the typed text AND the hint. center = the OTP code field; end aligns numeric values. The text style stays on the typography axis.",
+          "pt": "Alinhamento horizontal do texto digitado E do hint. center = o campo de código OTP; end alinha valor numérico. O estilo do texto segue no eixo de tipografia."
+        }
+      },
+      {
         "name": "maxLength",
         "type": "int?",
         "required": false
@@ -3448,6 +3476,15 @@
         }
       },
       {
+        "name": "onCleared",
+        "type": "VoidCallback?",
+        "required": false,
+        "description": {
+          "en": "Fires when the user clears the field via the ✕ — which AppInput only shows while the field is in ERROR state (hasError/errorText), enabled and filled. The selection callback only announces valid values, so this is how the form learns the value was cleared. Erasing the text by hand does not notify.",
+          "pt": "Dispara quando o usuário limpa o campo pelo ✕ — que o AppInput só mostra com o campo em ERRO (hasError/errorText), habilitado e preenchido. O callback de seleção só anuncia valores válidos, então é por aqui que o form fica sabendo da limpeza. Apagar o texto à mão não notifica."
+        }
+      },
+      {
         "name": "size",
         "type": "AppFieldSize",
         "required": false,
@@ -3555,7 +3592,7 @@
     "props": [
       {
         "name": "onTimeSelected",
-        "type": "ValueChanged<TimeOfDay>",
+        "type": "ValueChanged<({int hour, int minute, int second})>",
         "required": true
       },
       {
@@ -3648,6 +3685,15 @@
         "description": {
           "en": "Help in a popover beside the label.",
           "pt": "Ajuda em popover ao lado do rótulo."
+        }
+      },
+      {
+        "name": "onCleared",
+        "type": "VoidCallback?",
+        "required": false,
+        "description": {
+          "en": "Fires when the user clears the field via the ✕ — which AppInput only shows while the field is in ERROR state (hasError/errorText), enabled and filled. The selection callback only announces valid values, so this is how the form learns the value was cleared. Erasing the text by hand does not notify.",
+          "pt": "Dispara quando o usuário limpa o campo pelo ✕ — que o AppInput só mostra com o campo em ERRO (hasError/errorText), habilitado e preenchido. O callback de seleção só anuncia valores válidos, então é por aqui que o form fica sabendo da limpeza. Apagar o texto à mão não notifica."
         }
       },
       {
@@ -3822,6 +3868,15 @@
         "description": {
           "en": "Help in a popover beside the label.",
           "pt": "Ajuda em popover ao lado do rótulo."
+        }
+      },
+      {
+        "name": "onCleared",
+        "type": "VoidCallback?",
+        "required": false,
+        "description": {
+          "en": "Fires when the user clears the field via the ✕ — which AppInput only shows while the field is in ERROR state (hasError/errorText), enabled and filled. The selection callback only announces valid values, so this is how the form learns the value was cleared. Erasing the text by hand does not notify.",
+          "pt": "Dispara quando o usuário limpa o campo pelo ✕ — que o AppInput só mostra com o campo em ERRO (hasError/errorText), habilitado e preenchido. O callback de seleção só anuncia valores válidos, então é por aqui que o form fica sabendo da limpeza. Apagar o texto à mão não notifica."
         }
       },
       {
@@ -4525,6 +4580,16 @@
         "type": "bool",
         "required": false,
         "default": "true"
+      },
+      {
+        "name": "showSpectrum",
+        "type": "bool",
+        "required": false,
+        "default": "true",
+        "description": {
+          "en": "Shows the free-editing spectrum (saturation area, hue bar and the hex preview). False = presets-only, the fixed-palette picker; at least one of the two sections must stay on (asserted).",
+          "pt": "Mostra o espectro de edição livre (área de saturação, barra de matiz e o preview com hex). False = só-presets, o seletor de paleta fixa; pelo menos uma das duas seções fica ligada (assert)."
+        }
       }
     ],
     "states": [
@@ -6066,6 +6131,25 @@
         "required": false
       },
       {
+        "name": "bottom",
+        "type": "Widget?",
+        "required": false,
+        "description": {
+          "en": "Extra row below the content strip, INSIDE the bar (a filter strip, tabs) — it inherits the bar surface and the glass.",
+          "pt": "Linha extra abaixo da faixa de conteúdo, DENTRO da barra (faixa de filtros, abas) — herda a superfície da barra e o glass."
+        }
+      },
+      {
+        "name": "bottomHeight",
+        "type": "double",
+        "required": false,
+        "default": "0",
+        "description": {
+          "en": "Declared height of bottom; the bar extent adds exactly this value (asserted together with bottom).",
+          "pt": "Altura declarada do bottom; a extensão da barra soma exatamente este valor (assert junto com bottom)."
+        }
+      },
+      {
         "name": "centerChild",
         "type": "bool",
         "required": false,
@@ -6872,7 +6956,34 @@
         "type": "TextAlign",
         "required": false,
         "default": "TextAlign.start"
+      },
+      {
+        "name": "layout",
+        "type": "AppTileInfoLayout",
+        "required": false,
+        "default": "AppTileInfoLayout.vertical",
+        "description": {
+          "en": "vertical stacks label over value (the default); horizontal is the record row — label left, value taking the rest.",
+          "pt": "vertical empilha rótulo sobre valor (o default); horizontal é a linha de ficha — rótulo à esquerda, valor no resto."
+        },
+        "enumValues": [
+          "vertical",
+          "horizontal"
+        ]
+      },
+      {
+        "name": "icon",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Optional icon slug next to the label, in the same muted color.",
+          "pt": "Slug de ícone opcional junto ao rótulo, na mesma cor muted."
+        }
       }
+    ],
+    "variants": [
+      "vertical",
+      "horizontal"
     ],
     "states": [
       "default"
@@ -7534,6 +7645,15 @@
         "required": true
       },
       {
+        "name": "title",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Optional section label ABOVE the card — the same drawing as the AppMenu section title. Null = no label.",
+          "pt": "Rótulo de seção opcional ACIMA do card — o mesmo desenho do título de seção do AppMenu. Nulo = sem rótulo."
+        }
+      },
+      {
         "name": "style",
         "type": "AppListTileStyle",
         "required": false,
@@ -7594,12 +7714,12 @@
     "category": "molecule",
     "status": "migrated",
     "summary": {
-      "en": "Alert card with a title, a description and a semantic icon.",
-      "pt": "Card de alerta com título, descrição e ícone semântico."
+      "en": "Alert card with a title, a description, a semantic icon — and slots for an action, a dismiss control and free content.",
+      "pt": "Card de alerta com título, descrição, ícone semântico — e slots de ação, dispensar e conteúdo livre."
     },
     "description": {
-      "en": "The alert CARD only (surfaceContainer tinted by the semantic color) with a title, a description (up to 3 lines) and an icon in the semantic color (info/success/warning/danger). The container follows the global AppStyle axis (filled = tone only; outlined = tone + border; elevated = tone + shadow). To show it somewhere on screen use the `showAppOverlay` helper (3×3 position without the center, maximum width, enter/exit animation). Colors 100% from the theme → AA contrast; announced (liveRegion).",
-      "pt": "Apenas o CARD de alerta (surfaceContainer tingido pela cor semântica) com título, descrição (até 3 linhas) e ícone na cor semântica (info/success/warning/danger). O container segue o eixo AppStyle global (filled = só o tom; outlined = tom + borda; elevated = tom + sombra). Para exibi-lo num ponto da tela use o helper `showAppOverlay` (posição 3×3 sem o centro, largura máxima, animação de entrada/saída). Cores 100% do tema → contraste AA; anunciado (liveRegion)."
+      "en": "The alert CARD only (surfaceContainer tinted by the semantic color) with a title, a description (up to maxLines lines, 3 by default) and an icon in the semantic color (info/success/warning/danger). It can carry an action inside the card (footer row by default, or at the end of the title row), a named dismiss control and free content below the description. The container follows the global AppStyle axis (filled = tone only; outlined = tone + border; elevated = tone + shadow). To show it somewhere on screen use the `showAppOverlay` helper (3×3 position without the center, maximum width, enter/exit animation). Colors 100% from the theme → AA contrast; announced (liveRegion) unless liveRegion is false.",
+      "pt": "Apenas o CARD de alerta (surfaceContainer tingido pela cor semântica) com título, descrição (até maxLines linhas, 3 por padrão) e ícone na cor semântica (info/success/warning/danger). Pode carregar uma ação DENTRO do card (rodapé por padrão, ou no fim da linha do título), um controle de dispensar nomeado e conteúdo livre abaixo da descrição. O container segue o eixo AppStyle global (filled = só o tom; outlined = tom + borda; elevated = tom + sombra). Para exibi-lo num ponto da tela use o helper `showAppOverlay` (posição 3×3 sem o centro, largura máxima, animação de entrada/saída). Cores 100% do tema → contraste AA; anunciado (liveRegion), salvo liveRegion false."
     },
     "whenToUse": {
       "en": [
@@ -7652,6 +7772,77 @@
           "en": "Icon to the right of the title (defaults to the color's icon).",
           "pt": "Ícone à direita do título (default = ícone do color)."
         }
+      },
+      {
+        "name": "action",
+        "type": "Widget?",
+        "required": false,
+        "description": {
+          "en": "Action slot inside the card (a button, a link). A widget slot rather than a label/callback pair: real cases need loading, two actions, a dropdown.",
+          "pt": "Slot de ação dentro do card (botão, link). Slot de widget em vez de par label/callback: os casos reais precisam de loading, duas ações, um dropdown."
+        }
+      },
+      {
+        "name": "actionPlacement",
+        "type": "AppAlertActionPlacement",
+        "required": false,
+        "default": "AppAlertActionPlacement.footer",
+        "description": {
+          "en": "Where the action sits: its own footer row aligned to the end (default), or at the end of the title row for the compact strip.",
+          "pt": "Onde a ação repousa: rodapé próprio alinhado ao fim (default), ou no fim da linha do título, na faixa compacta."
+        },
+        "enumValues": [
+          "footer",
+          "trailing"
+        ]
+      },
+      {
+        "name": "onDismiss",
+        "type": "VoidCallback?",
+        "required": false,
+        "description": {
+          "en": "Draws a named close control at the end of the title row. A pure callback: the caller owns visibility, the card never hides itself.",
+          "pt": "Desenha um controle de fechar nomeado no fim da linha do título. Callback puro: a visibilidade é do chamador, o card nunca se esconde sozinho."
+        }
+      },
+      {
+        "name": "dismissSemanticLabel",
+        "type": "String",
+        "required": false,
+        "default": "'Dispensar'",
+        "description": {
+          "en": "Accessible name of the close control.",
+          "pt": "Nome acessível do controle de fechar."
+        }
+      },
+      {
+        "name": "child",
+        "type": "Widget?",
+        "required": false,
+        "description": {
+          "en": "Free content below the description and above the action footer, inheriting the tinted background and padding.",
+          "pt": "Conteúdo livre abaixo da descrição e acima do rodapé da ação, herdando o fundo tingido e o padding."
+        }
+      },
+      {
+        "name": "liveRegion",
+        "type": "bool",
+        "required": false,
+        "default": "true",
+        "description": {
+          "en": "Announce the card as a live region. Turn it off when the alert is furniture (a permanent settings box): a live region re-announces the whole card whenever an inner control changes.",
+          "pt": "Anuncia o card como região viva. Desligue quando o alerta é mobília (caixa permanente de configuração): região viva re-anuncia o card inteiro a cada mudança de um controle interno."
+        }
+      },
+      {
+        "name": "maxLines",
+        "type": "int?",
+        "required": false,
+        "default": "3",
+        "description": {
+          "en": "Line cap of the description (ellipsis). Null removes the cap and the text runs whole.",
+          "pt": "Teto de linhas da descrição (ellipsis). Nulo remove o teto e o texto corre inteiro."
+        }
       }
     ],
     "variants": [
@@ -7661,7 +7852,9 @@
       "danger"
     ],
     "states": [
-      "default"
+      "default",
+      "with-action",
+      "dismissible"
     ],
     "examples": [
       {
@@ -7670,6 +7863,13 @@
           "pt": "Alerta de erro"
         },
         "code": "AppAlert(title: 'Sem conexão', description: '...', color: AppAlertColor.danger)"
+      },
+      {
+        "title": {
+          "en": "Callout with an action",
+          "pt": "Callout com ação"
+        },
+        "code": "AppAlert(title: 'Troca agendada', description: '...', color: AppAlertColor.warning, action: AppButton(label: 'Cancelar', size: AppButtonSize.s, style: AppStyle.outlined, onPressed: cancelar))"
       },
       {
         "title": {
@@ -7682,24 +7882,30 @@
     "do": {
       "en": [
         "Use the semantic color that matches the message (danger for an error, and so on).",
-        "Keep the title short (1 line)."
+        "Keep the title short (1 line).",
+        "Small buttons in the trailing placement; two or more actions go to the footer.",
+        "liveRegion: false when the alert is page furniture, not news."
       ],
       "pt": [
         "Use a cor semântica que casa com a mensagem (danger para erro etc.).",
-        "Mantenha o título curto (1 linha)."
+        "Mantenha o título curto (1 linha).",
+        "Botão pequeno no trailing; duas ou mais ações vão para o footer.",
+        "liveRegion: false quando o alerta é mobília da página, não notícia."
       ]
     },
     "dont": {
       "en": [
-        "Do not stack several overlays in the same corner at once."
+        "Do not stack several overlays in the same corner at once.",
+        "Do not expect the card to hide itself on dismiss — the caller owns visibility."
       ],
       "pt": [
-        "Não empilhe vários overlays no mesmo canto ao mesmo tempo."
+        "Não empilhe vários overlays no mesmo canto ao mesmo tempo.",
+        "Não espere o card se esconder sozinho ao dispensar — a visibilidade é do chamador."
       ]
     },
     "a11y": {
-      "en": "Wrapped in AppSemantics.liveRegion → announced when it appears. Title in onSurface and description in neutral s700 over the tinted background both pass AA; the border (when present, in the outlined style) and the icon (semantic color) are ≥ 3:1 against the surface.",
-      "pt": "Embrulhado em AppSemantics.liveRegion → anunciado ao surgir. Título onSurface e descrição neutro s700 sobre o fundo tingido passam AA; borda (quando presente, no estilo outlined) e ícone (cor semântica) ≥ 3:1 sobre a superfície."
+      "en": "Wrapped in AppSemantics.liveRegion → announced when it appears; liveRegion: false keeps title and description readable without re-announcing. The dismiss control is its own named tap target (dismissSemanticLabel) and adds a Tab stop, as does the action. Title in onSurface and description in neutral s700 over the tinted background both pass AA; the border (outlined) and the icon (semantic color) are ≥ 3:1 against the surface, and so is the close glyph composed over the tint.",
+      "pt": "Embrulhado em AppSemantics.liveRegion → anunciado ao surgir; liveRegion: false mantém título e descrição legíveis sem re-anúncio. O controle de dispensar é alvo próprio nomeado (dismissSemanticLabel) e acrescenta uma parada de Tab, como a ação. Título onSurface e descrição neutro s700 sobre o fundo tingido passam AA; borda (outlined) e ícone (cor semântica) ≥ 3:1 sobre a superfície, e o glifo de fechar composto sobre o tom também."
     },
     "crossPlatform": true,
     "themeAware": true,
@@ -7752,7 +7958,11 @@
       {
         "name": "entries",
         "type": "List<AppMenuEntry>",
-        "required": true
+        "required": true,
+        "description": {
+          "en": "Items and sections. An AppMenuItem carries label, optional icon, optional subtitle (a 2-line content preview in the muted neutral, joined into the semantic label), danger, enabled, selected and onPressed.",
+          "pt": "Itens e seções. Um AppMenuItem carrega label, icon opcional, subtitle opcional (prévia de 2 linhas no neutro muted, somada ao rótulo semântico), danger, enabled, selected e onPressed."
+        }
       },
       {
         "name": "placement",
@@ -8691,6 +8901,178 @@
     ]
   },
   {
+    "id": "app_slider",
+    "name": "AppSlider",
+    "category": "molecule",
+    "status": "migrated",
+    "summary": {
+      "en": "Horizontal slider for a value in a range, continuous or stepped.",
+      "pt": "Slider horizontal para um valor num intervalo, contínuo ou por passo."
+    },
+    "description": {
+      "en": "The package's first public slider. Controlled (value + onChanged, state in the caller); onChanged: null disables while KEEPING the semantics node. step quantizes in domain units (1.0 = integers) instead of Material's divisions; formatValue is a single formatting source for the inline label (showValue) and the screen-reader values. The widget is at least 48px tall (born meeting tap-target guidelines) while the track stays thin; the thumb grows while dragging through the motion axis and the focus ring has no duration, surviving reduce-motion. Left/Right arrows step and mirror under RTL (Up/Down and Home/End do not), Home/End jump to the EXACT extremes, outside the quantization; onChangeEnd commits on release.",
+      "pt": "O primeiro slider público do pacote. Controlado (value + onChanged, estado no chamador); onChanged: null desabilita MANTENDO o nó semântico. step quantiza em unidades do domínio (1.0 = inteiros) em vez do divisions do Material; formatValue é fonte única de formatação para o rótulo inline (showValue) e para os valores do leitor de tela. O widget tem no mínimo 48px de altura (nasce cumprindo as diretrizes de alvo de toque) com o trilho fino; o polegar cresce no arraste pelo eixo de motion e o anel de foco não tem duração — sobrevive ao reduce-motion. Setas andam por passo (espelhadas em RTL), Home/End saltam aos extremos; onChangeEnd commita no soltar."
+    },
+    "whenToUse": {
+      "en": [
+        "A numeric setting in a form (a rate, a percentage, a threshold).",
+        "Continuous or stepped values where dragging beats typing."
+      ],
+      "pt": [
+        "Um ajuste numérico num formulário (ritmo, porcentagem, limite).",
+        "Valores contínuos ou por passo onde arrastar ganha de digitar."
+      ]
+    },
+    "whenNotToUse": {
+      "en": [
+        "A handful of discrete labelled options → AppSegmentedButton.",
+        "Exact numeric entry → AppInput with a numeric keyboard."
+      ],
+      "pt": [
+        "Poucas opções discretas com rótulo → AppSegmentedButton.",
+        "Entrada numérica exata → AppInput com teclado numérico."
+      ]
+    },
+    "props": [
+      {
+        "name": "value",
+        "type": "double",
+        "required": true
+      },
+      {
+        "name": "onChanged",
+        "type": "ValueChanged<double>?",
+        "required": true,
+        "description": {
+          "en": "Continuous change during the drag. `null` disables the control.",
+          "pt": "Mudança contínua durante o arraste. `null` desabilita o controle."
+        }
+      },
+      {
+        "name": "min",
+        "type": "double",
+        "required": false,
+        "default": "0.0"
+      },
+      {
+        "name": "max",
+        "type": "double",
+        "required": false,
+        "default": "1.0"
+      },
+      {
+        "name": "step",
+        "type": "double?",
+        "required": false,
+        "description": {
+          "en": "Quantization in domain units (1.0 = integers). `null` = continuous.",
+          "pt": "Quantização em unidades do domínio (1.0 = inteiros). `null` = contínuo."
+        }
+      },
+      {
+        "name": "onChangeEnd",
+        "type": "ValueChanged<double>?",
+        "required": false,
+        "description": {
+          "en": "Commit on release and after each keyboard step.",
+          "pt": "Commit no soltar e após cada passo de teclado."
+        }
+      },
+      {
+        "name": "formatValue",
+        "type": "String Function(double)?",
+        "required": false,
+        "description": {
+          "en": "One source of formatting for the visible label AND the screen reader.",
+          "pt": "Fonte única de formatação para o rótulo visível E o leitor de tela."
+        }
+      },
+      {
+        "name": "showValue",
+        "type": "bool",
+        "required": false,
+        "default": "false"
+      },
+      {
+        "name": "semanticLabel",
+        "type": "String?",
+        "required": false
+      },
+      {
+        "name": "color",
+        "type": "Color?",
+        "required": false,
+        "description": {
+          "en": "Accent override. Default: readableStopOn(primary, surface).",
+          "pt": "Override do acento. Default: readableStopOn(primary, surface)."
+        }
+      },
+      {
+        "name": "trackThickness",
+        "type": "double",
+        "required": false,
+        "default": "AppSizes.s4"
+      },
+      {
+        "name": "thumbSize",
+        "type": "double",
+        "required": false,
+        "default": "AppSizes.s16"
+      }
+    ],
+    "states": [
+      "rest",
+      "dragging",
+      "focused",
+      "at-min",
+      "at-max",
+      "disabled"
+    ],
+    "examples": [
+      {
+        "title": {
+          "en": "Sending rate",
+          "pt": "Ritmo de envio"
+        },
+        "code": "AppSlider(value: ritmo, min: 1, max: 60, step: 1, showValue: true, formatValue: (v) => '${v.round()}/min', semanticLabel: 'Ritmo de envio', onChanged: (v) => setState(() => ritmo = v))"
+      }
+    ],
+    "do": {
+      "en": [
+        "Give it bounded width (Expanded/SizedBox) — it fills what it gets.",
+        "Pass semanticLabel: the node needs a name, not only a value.",
+        "Use formatValue when the unit matters (\"42/min\", not \"42\")."
+      ],
+      "pt": [
+        "Dê largura limitada (Expanded/SizedBox) — ele preenche o que recebe.",
+        "Passe semanticLabel: o nó precisa de nome, não só de valor.",
+        "Use formatValue quando a unidade importa (\"42/min\", não \"42\")."
+      ]
+    },
+    "dont": {
+      "en": [
+        "Do not reach for it when typing is more precise — that is an input.",
+        "Do not rebuild heavy work in onChanged; persist in onChangeEnd."
+      ],
+      "pt": [
+        "Não o use quando digitar é mais preciso — isso é um input.",
+        "Não faça trabalho pesado no onChanged; persista no onChangeEnd."
+      ]
+    },
+    "a11y": {
+      "en": "One slider node: label, value, increasedValue/decreasedValue (all through formatValue) and onIncrease/onDecrease for the adjust gesture. Left/Right arrows step and mirror under RTL (Up/Down and Home/End do not); Home/End jump to the exact extremes. Disabled keeps the node with enabled: false. The whole widget is a 48px-tall opaque hit area; the visible label is excluded from semantics so the value is not read twice.",
+      "pt": "Um nó slider: label, value, increasedValue/decreasedValue (tudo via formatValue) e onIncrease/onDecrease para o gesto de ajustar. Setas ←/→ andam por passo e espelham em RTL (↑/↓ e Home/End não); Home/End saltam aos extremos exatos. Desabilitado mantém o nó com enabled: false. O widget inteiro é área de toque opaca de 48px; o rótulo visível fica fora da semântica para o valor não ser lido duas vezes."
+    },
+    "crossPlatform": true,
+    "themeAware": true,
+    "reducesMotion": true,
+    "related": [
+      "app_rating",
+      "app_segmented_button",
+      "app_input"
+    ]
+  },
+  {
     "id": "app_segmented_button",
     "name": "AppSegmentedButton",
     "category": "molecule",
@@ -8727,7 +9109,11 @@
       {
         "name": "segments",
         "type": "List<AppSegment<T>>",
-        "required": true
+        "required": true,
+        "description": {
+          "en": "The 2-4 options. Each AppSegment carries value, label and/or icon, semanticLabel and an optional tooltip (a visual hint for the abbreviated label; the control name stays the toggle label).",
+          "pt": "As 2-4 opções. Cada AppSegment carrega value, label e/ou icon, semanticLabel e um tooltip opcional (dica visual do rótulo abreviado; o nome do controle segue o do toggle)."
+        }
       },
       {
         "name": "value",
@@ -8958,12 +9344,12 @@
     "category": "molecule",
     "status": "migrated",
     "summary": {
-      "en": "Temporary feedback card (success/error/info).",
-      "pt": "Card de feedback temporário (sucesso/erro/info)."
+      "en": "Temporary feedback card (success/error/info/warning).",
+      "pt": "Card de feedback temporário (sucesso/erro/info/aviso)."
     },
     "description": {
-      "en": "A card with a title, a description and a semantic icon (error/info/success) over a surfaceContainer tinted by the kind's color. The container follows the AppStyle axis (`elevated` by default); the shape follows the radius axis. Show it through `showAppSnackbar` (bottom-right corner, auto-dismiss, single instance, slide-in). Colors 100% from the theme; announced (liveRegion).",
-      "pt": "Card com título, descrição e ícone semântico (error/info/success) sobre surfaceContainer tingido pela cor do tipo. Container segue o eixo AppStyle (default `elevated`); forma pelo eixo de raio. Exiba via `showAppSnackbar` (canto inferior direito, auto-dismiss, instância única, slide-in). Cores 100% do tema; anunciado (liveRegion)."
+      "en": "A card with a description, an optional title and a semantic icon (error/info/success/warning) over a surfaceContainer tinted by the kind's color. With no title it is the one-line toast most screens want. The container follows the AppStyle axis (`elevated` by default); the shape follows the radius axis. Show it through `showAppSnackbar` (auto-dismiss, single instance, slide-in; `position` picks the corner, bottom-right by default). Colors 100% from the theme; announced (liveRegion).",
+      "pt": "Card com descrição, título opcional e ícone semântico (error/info/success/warning) sobre surfaceContainer tingido pela cor do tipo. Sem título é o toast de uma frase que a maioria das telas quer. Container segue o eixo AppStyle (default `elevated`); forma pelo eixo de raio. Exiba via `showAppSnackbar` (auto-dismiss, instância única, slide-in; `position` escolhe o canto, inferior direito por padrão). Cores 100% do tema; anunciado (liveRegion)."
     },
     "whenToUse": {
       "en": [
@@ -8988,8 +9374,12 @@
     "props": [
       {
         "name": "title",
-        "type": "String",
-        "required": true
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Optional heading. Null renders the one-line toast: the title row disappears and the icon centers with the message.",
+          "pt": "Título opcional. Nulo vira o toast de uma frase: a linha do título some e o ícone centraliza com a mensagem."
+        }
       },
       {
         "name": "description",
@@ -8999,11 +9389,17 @@
       {
         "name": "type",
         "type": "AppSnackbarType",
-        "required": true,
+        "required": false,
+        "default": "AppSnackbarType.info",
+        "description": {
+          "en": "Semantic kind (color + icon). Errors MUST pass error explicitly: color and icon are the only failure signal.",
+          "pt": "Tipo semântico (cor + ícone). Erro DEVE passar error explicitamente: cor e ícone são o único sinal da falha."
+        },
         "enumValues": [
           "error",
           "info",
-          "success"
+          "success",
+          "warning"
         ]
       },
       {
@@ -9026,7 +9422,8 @@
     "variants": [
       "error",
       "info",
-      "success"
+      "success",
+      "warning"
     ],
     "states": [
       "default"
@@ -9038,29 +9435,38 @@
           "pt": "Sucesso"
         },
         "code": "showAppSnackbar(context: context, title: 'Salvo', description: '...', type: AppSnackbarType.success)"
+      },
+      {
+        "title": {
+          "en": "One-line toast",
+          "pt": "Toast de uma frase"
+        },
+        "code": "showAppSnackbar(context: context, description: 'Link copiado.')"
       }
     ],
     "do": {
       "en": [
         "Short messages; the card disappears on its own after the duration.",
-        "Use the kind that matches the message (error/info/success)."
+        "Use the kind that matches the message (error/info/success/warning)."
       ],
       "pt": [
         "Mensagens curtas; o card some sozinho após a duração.",
-        "Use o tipo que casa com a mensagem (error/info/success)."
+        "Use o tipo que casa com a mensagem (error/info/success/warning)."
       ]
     },
     "dont": {
       "en": [
-        "Do not stack several snackbars (a new one replaces the previous)."
+        "Do not stack several snackbars (a new one replaces the previous).",
+        "Do not leave an error on the default kind — pass AppSnackbarType.error."
       ],
       "pt": [
-        "Não empilhe várias snackbars (a nova substitui a anterior)."
+        "Não empilhe várias snackbars (a nova substitui a anterior).",
+        "Não deixe erro no tipo default — passe AppSnackbarType.error."
       ]
     },
     "a11y": {
-      "en": "Wrapped in AppSemantics.liveRegion → announced when it appears. Title in onSurface and description in neutral s700 over the tinted background both pass AA; border and icon (semantic color) ≥ 3:1.",
-      "pt": "Embrulhado em AppSemantics.liveRegion → anunciado ao surgir. Título onSurface e descrição neutro s700 sobre o fundo tingido passam AA; borda e ícone (cor semântica) ≥ 3:1."
+      "en": "Wrapped in AppSemantics.liveRegion → announced when it appears, with or without a title. Title in onSurface and description in neutral s700 over the tinted background both pass AA (a title-less message uses onSurface); border and icon (semantic color) ≥ 3:1.",
+      "pt": "Embrulhado em AppSemantics.liveRegion → anunciado ao surgir, com ou sem título. Título onSurface e descrição neutro s700 sobre o fundo tingido passam AA (mensagem sem título usa onSurface); borda e ícone (cor semântica) ≥ 3:1."
     },
     "crossPlatform": true,
     "themeAware": true,
@@ -9648,12 +10054,12 @@
     "category": "atom",
     "status": "migrated",
     "summary": {
-      "en": "Raster image (network/asset) with standardized loading and fallback.",
-      "pt": "Imagem raster (rede/asset) com loading e fallback padronizados."
+      "en": "Raster image (network/asset/memory) with standardized loading and fallback.",
+      "pt": "Imagem raster (rede/asset/memória) com loading e fallback padronizados."
     },
     "description": {
-      "en": "Complements AppIllustration (SVG) and AppAvatar (circular). Clips to the theme radius, cross-fades from the placeholder to the network image and falls back to a theme-aware box on error.",
-      "pt": "Complementa AppIllustration (SVG) e AppAvatar (circular). Recorta ao radius do tema, faz cross-fade do placeholder para a imagem na rede e cai num fallback theme-aware em erro."
+      "en": "Complements AppIllustration (SVG) and AppAvatar (circular). Clips to the theme radius, cross-fades from the placeholder to the decoded image and falls back to a theme-aware box on error. The .memory variant paints bytes already in memory (an API payload, a decoded base64 QR code) with gapless playback.",
+      "pt": "Complementa AppIllustration (SVG) e AppAvatar (circular). Recorta ao radius do tema, faz cross-fade do placeholder para a imagem decodificada e cai num fallback theme-aware em erro. A variante .memory pinta bytes já em memória (payload de API, um QR em base64 decodificado) com gapless playback."
     },
     "whenToUse": {
       "en": [
@@ -9676,11 +10082,20 @@
     "props": [
       {
         "name": "src",
-        "type": "String",
-        "required": true,
+        "type": "String?",
+        "required": false,
         "description": {
-          "en": "Network URL or asset path.",
-          "pt": "URL de rede ou caminho de asset."
+          "en": "Network URL or asset path. Null on the .memory variant.",
+          "pt": "URL de rede ou caminho de asset. Nulo na variante .memory."
+        }
+      },
+      {
+        "name": "bytes",
+        "type": "Uint8List?",
+        "required": false,
+        "description": {
+          "en": "Already decoded image bytes (.memory). Use AppImage.decodeBase64 for a base64 payload.",
+          "pt": "Bytes já decodificados da imagem (.memory). Use AppImage.decodeBase64 para payload base64."
         }
       },
       {
@@ -9739,7 +10154,8 @@
     ],
     "variants": [
       "network",
-      "asset"
+      "asset",
+      "memory"
     ],
     "states": [
       "loading",
@@ -9753,6 +10169,13 @@
           "pt": "Thumbnail de rede"
         },
         "code": "AppImage.network(event.thumbnailUrl, width: 96, height: 64)"
+      },
+      {
+        "title": {
+          "en": "PIX QR from base64",
+          "pt": "QR do PIX em base64"
+        },
+        "code": "final Uint8List? qr = AppImage.decodeBase64(res.pixQrBase64);\nif (qr != null) AppImage.memory(qr, width: 200, height: 200, semanticLabel: 'QR Code do PIX')"
       }
     ],
     "do": {
@@ -9774,8 +10197,8 @@
       ]
     },
     "a11y": {
-      "en": "semanticLabel==null → decorative; otherwise Semantics(image:true, label). The .network variant falls back when the network fails.",
-      "pt": "semanticLabel==null → decorativa; senão Semantics(image:true, label). A variante .network cai no fallback quando a rede falha."
+      "en": "semanticLabel==null → decorative; otherwise Semantics(image:true, label). The .network variant falls back when the network fails. The .memory variant usually carries meaning (a QR code, a chart): label it, and pair a QR with its copyable code as text — a screen reader cannot read a QR.",
+      "pt": "semanticLabel==null → decorativa; senão Semantics(image:true, label). A variante .network cai no fallback quando a rede falha. A variante .memory quase sempre tem significado (QR, gráfico): rotule-a, e acompanhe o QR do código copiável em texto — leitor de tela não lê QR."
     },
     "crossPlatform": true,
     "themeAware": true,
@@ -10062,8 +10485,12 @@
     "props": [
       {
         "name": "time",
-        "type": "String",
-        "required": true
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Already formatted time. Null = status-only meta (requires status != none, asserted).",
+          "pt": "Horário já formatado. Nulo = meta só de status (exige status != none, assert)."
+        }
       },
       {
         "name": "status",
@@ -10120,7 +10547,7 @@
       "pt": "Campo multimodal com toolbar (anexo/modelo/info/contexto)."
     },
     "description": {
-      "en": "The surface wraps ONLY the compose area (a \"bare\" multiline AppInput + a bare send/stop button). OUTSIDE it (as in Claude): attachments ABOVE the input and the toolbar BELOW (left: attachment + model; right: info popover + context ring). Neutral items (onSurface) with hover/focus/click + tooltip; the only colored one is the context ring. Attachments follow the composer's style. It resolves the global style axis (filled/outlined/elevated, with an opaque fill — so the shadow does not bleed) and the shape axis (circular becomes round with attachments OR multiline). Enter sends; Shift+Enter breaks the line. Replaces Material's TextField.",
+      "en": "The surface wraps ONLY the compose area (a \"bare\" multiline AppInput + a bare send/stop button). OUTSIDE it (as in Claude): attachments ABOVE the input and the toolbar BELOW (left: attachment + model; right: info popover + context ring). Neutral items (onSurface) with hover/focus/click + tooltip; the only colored one is the context ring. Attachments follow the composer's style. It resolves the global style axis (filled/outlined/elevated, with an opaque fill — so the shadow does not bleed) and the shape axis (circular becomes round with a band above — attachments or preview — OR multiline). Enter sends; Shift+Enter breaks the line. Replaces Material's TextField.",
       "pt": "A superfície envolve SÓ o compose (AppInput multiline \"nu\" + botão enviar/parar bare). FORA dela (como no Claude): anexos ACIMA do input e a toolbar ABAIXO (esquerda: anexo + modelo; direita: info popover + anel de contexto). Itens neutros (onSurface) com hover/foco/clique + tooltip; o único colorido é o anel de contexto. Anexos seguem o estilo do composer. Resolve os eixos globais de estilo (filled/outlined/elevated, fundo opaco — sombra não vaza) e de forma (circular vira redondo com anexos OU multiline). Enter envia; Shift+Enter quebra. Substitui o TextField do Material."
     },
     "whenToUse": {
@@ -10165,6 +10592,15 @@
         "type": "List<Widget>",
         "required": false,
         "default": "const []"
+      },
+      {
+        "name": "preview",
+        "type": "Widget?",
+        "required": false,
+        "description": {
+          "en": "Free slot right above the field (a reply banner, a quote); the composer only positions it, below the attachment strip.",
+          "pt": "Slot livre logo acima do campo (banner de resposta, citação); o composer só o posiciona, abaixo da faixa de anexos."
+        }
       },
       {
         "name": "attachmentLimit",
@@ -10401,7 +10837,25 @@
         "type": "double",
         "required": false,
         "default": "104"
+      },
+      {
+        "name": "layout",
+        "type": "AppChatAttachmentCardLayout",
+        "required": false,
+        "default": "AppChatAttachmentCardLayout.square",
+        "description": {
+          "en": "square (the default card) or row — a horizontal block (thumb/icon + name + subtitle, inline remove), 2 x size wide, content height.",
+          "pt": "square (o cartão de sempre) ou row — bloco horizontal (thumb/ícone + nome + subtítulo, remover em linha), largura 2 x size, altura do conteúdo."
+        },
+        "enumValues": [
+          "square",
+          "row"
+        ]
       }
+    ],
+    "variants": [
+      "square",
+      "horizontal"
     ],
     "examples": [
       {
@@ -10688,6 +11142,379 @@
     "crossPlatform": true,
     "themeAware": true,
     "reducesMotion": true
+  },
+  {
+    "id": "app_choice_chip",
+    "name": "AppChoiceChip",
+    "category": "molecule",
+    "status": "migrated",
+    "summary": {
+      "en": "Selectable chip — one option of a set, with an optional count.",
+      "pt": "Chip selecionável — uma opção de um conjunto, com contador opcional."
+    },
+    "description": {
+      "en": "The third chip of the package and the only one with CHOICE state: AppFilterChip shows a filter already applied, AppSuggestionChip invites an action, this one answers \"which of these is in effect\". One target under TOGGLE semantics (checked/inMutuallyExclusiveGroup). Selected paints the filled accent — the SAME appFilledButtonColors resolver of the primary role that AppSegmentedButton consumes, so the two cannot drift; unselected is the AppStyle axis container with a neutral hover veil. Selection changes label weight AND fill, never one alone. The count pill (fg at 18%) exists because in a filter bar the number is part of the decision; count: null renders nothing, count: 0 renders \"0\". Minimum height 44 — the iOS tap-target floor, not the 40 of AppButtonSize.s — growing with text scale.",
+      "pt": "O terceiro chip do pacote e o único com estado de ESCOLHA: o AppFilterChip mostra um filtro já aplicado, o AppSuggestionChip convida a uma ação, este responde \"qual destes está valendo\". UM alvo sob semântica de TOGGLE (checked/inMutuallyExclusiveGroup). Selecionado pinta o acento preenchido — o MESMO resolvedor appFilledButtonColors do papel primary que o AppSegmentedButton consome, para os dois não divergirem; não-selecionado é o container do eixo AppStyle com véu neutro de hover. A seleção muda peso do rótulo E preenchimento, nunca um só. A pílula do contador (fg a 18%) existe porque numa barra de filtros o número é parte da decisão; count: null não renderiza nada, count: 0 renderiza \"0\". Altura mínima 44 — o piso de alvo do iOS, e não os 40 do AppButtonSize.s —, crescendo com o text-scale."
+    },
+    "whenToUse": {
+      "en": [
+        "A status filter bar on top of a list (queues with counts).",
+        "A period/group selector where the current choice must stay visible.",
+        "Multi-selection over a small set, inside an AppChoiceChipBar.multi."
+      ],
+      "pt": [
+        "Barra de filtros de status no topo de uma lista (filas com contagem).",
+        "Seletor de período/grupo onde a escolha atual fica visível.",
+        "Multi-seleção num conjunto pequeno, num AppChoiceChipBar.multi."
+      ]
+    },
+    "whenNotToUse": {
+      "en": [
+        "A filter already applied that the user removes → AppFilterChip.",
+        "A one-shot suggestion → AppSuggestionChip.",
+        "Few same-width options with a sliding pill → AppSegmentedButton."
+      ],
+      "pt": [
+        "Filtro já aplicado que o usuário tira → AppFilterChip.",
+        "Sugestão de um toque → AppSuggestionChip.",
+        "Poucas opções de largura igual com pílula → AppSegmentedButton."
+      ]
+    },
+    "props": [
+      {
+        "name": "label",
+        "type": "String",
+        "required": true
+      },
+      {
+        "name": "selected",
+        "type": "bool",
+        "required": true
+      },
+      {
+        "name": "onChanged",
+        "type": "ValueChanged<bool>?",
+        "required": false,
+        "description": {
+          "en": "Called with the NEW selected value. `null` = read-only.",
+          "pt": "Chamado com o valor NOVO de selected. `null` = somente-leitura."
+        }
+      },
+      {
+        "name": "count",
+        "type": "int?",
+        "required": false,
+        "description": {
+          "en": "`null` hides the pill; `0` renders \"0\" — the caller decides.",
+          "pt": "`null` esconde a pílula; `0` renderiza \"0\" — o chamador decide."
+        }
+      },
+      {
+        "name": "icon",
+        "type": "String?",
+        "required": false
+      },
+      {
+        "name": "enabled",
+        "type": "bool",
+        "required": false,
+        "default": "true"
+      },
+      {
+        "name": "mutuallyExclusive",
+        "type": "bool",
+        "required": false,
+        "default": "true",
+        "description": {
+          "en": "Radio-like group announcement. Set false for multi-selection.",
+          "pt": "Anúncio de grupo exclusivo. false para multi-seleção."
+        }
+      },
+      {
+        "name": "semanticLabel",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Full announced phrase — NAME THE UNIT when there is a count.",
+          "pt": "Frase anunciada inteira — NOMEIE A UNIDADE quando houver count."
+        }
+      },
+      {
+        "name": "tooltip",
+        "type": "String?",
+        "required": false
+      },
+      {
+        "name": "style",
+        "type": "AppStyle?",
+        "required": false,
+        "enumValues": [
+          "filled",
+          "outlined",
+          "elevated"
+        ]
+      },
+      {
+        "name": "radiusMode",
+        "type": "AppRadiusMode?",
+        "required": false,
+        "enumValues": [
+          "reto",
+          "redondo",
+          "circular",
+          "padrao"
+        ]
+      },
+      {
+        "name": "radius",
+        "type": "double?",
+        "required": false
+      },
+      {
+        "name": "statesController",
+        "type": "FlocksStatesController?",
+        "required": false
+      }
+    ],
+    "states": [
+      "selected",
+      "unselected",
+      "hovered",
+      "focused",
+      "pressed",
+      "disabled"
+    ],
+    "examples": [
+      {
+        "title": {
+          "en": "Queue filter",
+          "pt": "Filtro de fila"
+        },
+        "code": "AppChoiceChip(label: 'Novos', count: 8, selected: f == 'queue', semanticLabel: 'Novos, 8 conversas na fila', onChanged: (_) => pick('queue'))"
+      }
+    ],
+    "do": {
+      "en": [
+        "Pass semanticLabel naming the unit whenever there is a count.",
+        "Keep labels short; the chip ellipsizes at one line."
+      ],
+      "pt": [
+        "Passe semanticLabel nomeando a unidade sempre que houver count.",
+        "Rótulos curtos; o chip corta em uma linha com elipse."
+      ]
+    },
+    "dont": {
+      "en": [
+        "Do not glue the count into the label (\"Novos (8)\") — alignment dies.",
+        "Do not use it for an applied filter — that is AppFilterChip."
+      ],
+      "pt": [
+        "Não cole o count no rótulo (\"Novos (8)\") — o alinhamento morre.",
+        "Não o use para filtro aplicado — isso é AppFilterChip."
+      ]
+    },
+    "a11y": {
+      "en": "One toggle node: checked, inMutuallyExclusiveGroup (default on), hasEnabledState. Default label is \"<label> (<count>)\" — which does NOT name the unit; a bar with counts should pass semanticLabel (\"Novos, 8 conversas na fila\"). tooltip reaches Semantics.tooltip. The focus ring has no duration and survives reduce-motion. Minimum height 44 meets the iOS tap-target floor (44x44) and is measured by a gate; the Android floor (48x48) is not met and stays registered in kA11yDebt. Give the bar extra padding on touch-first screens.",
+      "pt": "Um nó toggle: checked, inMutuallyExclusiveGroup (default ligado), hasEnabledState. O rótulo default é \"<label> (<count>)\" — que NÃO nomeia a unidade; barra com contador deve passar semanticLabel (\"Novos, 8 conversas na fila\"). tooltip chega a Semantics.tooltip. O anel de foco não tem duração e sobrevive ao reduce-motion. A altura mínima 44 atende o piso de alvo do iOS (44x44) e é medida por gate; o piso do Android (48x48) não é atendido e segue registrado em kA11yDebt. Dê respiro extra à barra em telas de toque."
+    },
+    "crossPlatform": true,
+    "themeAware": true,
+    "reducesMotion": true,
+    "related": [
+      "app_choice_chip_bar",
+      "app_filter_chip",
+      "app_suggestion_chip",
+      "app_segmented_button"
+    ]
+  },
+  {
+    "id": "app_choice_chip_bar",
+    "name": "AppChoiceChipBar",
+    "category": "molecule",
+    "status": "migrated",
+    "summary": {
+      "en": "Row of AppChoiceChip with single or multiple selection — the filter bar.",
+      "pt": "Fila de AppChoiceChip com seleção única ou múltipla — a barra de filtros."
+    },
+    "description": {
+      "en": "Exists because AppSegmentedButton does not scroll: it equalizes cells by the widest label so its pill can slide, and six statuses of very different widths overflow the line. This bar trades the sliding pill for scrolling — each chip hugs its own content. It brings what a hand-rolled row loses: arrow keys walk the chips (the AppSegmentedButton keyboard, copied), the focused chip is scrolled into view, and the scrolled edges get an AppScrollEdgeFade veil instead of a hard cut. Options are data (AppChoiceChipOption<T>); the default constructor is single-selection (T? value + ValueChanged<T>), .multi takes a Set<T> and always hands back a NEW set.",
+      "pt": "Existe porque o AppSegmentedButton não rola: ele iguala as células pela largura do maior rótulo para a pílula deslizar, e seis status de larguras muito diferentes estouram a linha. Esta barra troca a pílula deslizante pela rolagem — cada chip abraça o próprio conteúdo. Traz o que a fila feita à mão perde: setas andam pelos chips (o teclado do AppSegmentedButton, copiado), o chip focado é rolado até aparecer, e as bordas roladas ganham véu de AppScrollEdgeFade em vez de corte seco. Opções são dado (AppChoiceChipOption<T>); o construtor default é seleção única (T? value + ValueChanged<T>), o .multi recebe Set<T> e devolve SEMPRE um conjunto novo."
+    },
+    "whenToUse": {
+      "en": [
+        "A one-of-N filter bar that must not push the content down (scroll).",
+        "A multi-selection over chips inside a form (.multi + wrap)."
+      ],
+      "pt": [
+        "Barra 1-de-N que não pode empurrar o conteúdo para baixo (scroll).",
+        "Multi-seleção por chips dentro de um formulário (.multi + wrap)."
+      ]
+    },
+    "whenNotToUse": {
+      "en": [
+        "Two to four same-width options → AppSegmentedButton.",
+        "Applied, removable filters → a row of AppFilterChip."
+      ],
+      "pt": [
+        "Duas a quatro opções de largura igual → AppSegmentedButton.",
+        "Filtros aplicados e removíveis → uma fila de AppFilterChip."
+      ]
+    },
+    "props": [
+      {
+        "name": "options",
+        "type": "List<AppChoiceChipOption<T>>",
+        "required": true
+      },
+      {
+        "name": "value",
+        "type": "T?",
+        "required": true,
+        "description": {
+          "en": "Single-selection constructor: the chosen value; null = none.",
+          "pt": "Construtor de seleção única: o valor escolhido; null = nenhum."
+        }
+      },
+      {
+        "name": "onChanged",
+        "type": "ValueChanged<T> | ValueChanged<Set<T>>",
+        "required": true,
+        "description": {
+          "en": "Single: the tapped value. Multi: a NEW set (never a mutation).",
+          "pt": "Única: o valor tocado. Multi: um conjunto NOVO (nunca mutação)."
+        }
+      },
+      {
+        "name": "layout",
+        "type": "AppChoiceChipLayout",
+        "required": false,
+        "default": "scroll (single) / wrap (multi)",
+        "enumValues": [
+          "scroll",
+          "wrap"
+        ]
+      },
+      {
+        "name": "spacing",
+        "type": "double",
+        "required": false,
+        "default": "AppSpacings.s8"
+      },
+      {
+        "name": "padding",
+        "type": "EdgeInsets",
+        "required": false,
+        "default": "zero"
+      },
+      {
+        "name": "enabled",
+        "type": "bool",
+        "required": false,
+        "default": "true"
+      },
+      {
+        "name": "semanticLabel",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Names the GROUP for the screen reader (\"Filtrar por status\").",
+          "pt": "Nomeia o GRUPO para o leitor de tela (\"Filtrar por status\")."
+        }
+      },
+      {
+        "name": "fadeColor",
+        "type": "Color?",
+        "required": false,
+        "description": {
+          "en": "Where the edge veil fades from. Default surface; use surfaceContainer inside a card.",
+          "pt": "De onde o véu parte. Default surface; use surfaceContainer num card."
+        }
+      },
+      {
+        "name": "controller",
+        "type": "ScrollController?",
+        "required": false
+      },
+      {
+        "name": "style",
+        "type": "AppStyle?",
+        "required": false,
+        "enumValues": [
+          "filled",
+          "outlined",
+          "elevated"
+        ]
+      },
+      {
+        "name": "radiusMode",
+        "type": "AppRadiusMode?",
+        "required": false,
+        "enumValues": [
+          "reto",
+          "redondo",
+          "circular",
+          "padrao"
+        ]
+      },
+      {
+        "name": "radius",
+        "type": "double?",
+        "required": false
+      }
+    ],
+    "variants": [
+      "singleChoice",
+      "multipleChoice",
+      "horizontal"
+    ],
+    "examples": [
+      {
+        "title": {
+          "en": "Status filter bar",
+          "pt": "Barra de status"
+        },
+        "code": "AppChoiceChipBar<String>(value: filtro, onChanged: setFiltro, semanticLabel: 'Filtrar por status', options: [ AppChoiceChipOption(value: 'all', label: 'Todas'), AppChoiceChipOption(value: 'queue', label: 'Novos', count: 8)])"
+      },
+      {
+        "title": {
+          "en": "Audience multi-select",
+          "pt": "Multi de audiência"
+        },
+        "code": "AppChoiceChipBar<String>.multi(values: selecionados, onChanged: (next) => setState(() => selecionados = next), options: opcoes)"
+      }
+    ],
+    "do": {
+      "en": [
+        "Name the group (semanticLabel) — six loose toggles say nothing.",
+        "Use scroll on top of lists; wrap inside forms."
+      ],
+      "pt": [
+        "Nomeie o grupo (semanticLabel) — seis toggles soltos não dizem nada.",
+        "Use scroll no topo de listas; wrap dentro de formulários."
+      ]
+    },
+    "dont": {
+      "en": [
+        "Do not mutate the Set you received in .multi — it hands back a new one.",
+        "Do not hide the only selected option off-screen without the veil."
+      ],
+      "pt": [
+        "Não mute o Set recebido no .multi — ele devolve um novo.",
+        "Não esconda a única opção selecionada fora da tela sem o véu."
+      ]
+    },
+    "a11y": {
+      "en": "The bar is a named group (menu node with semanticLabel) of toggle chips; without the name the reader hears loose toggles. Left/Right arrows move focus chip to chip and the focused chip is scrolled into view with a motion-axis duration (instant under reduce-motion). In .multi the chips drop inMutuallyExclusiveGroup.",
+      "pt": "A barra é um grupo NOMEADO (nó de menu com semanticLabel) de chips toggle; sem o nome o leitor ouve toggles soltos. Setas ←/→ movem o foco chip a chip e o focado é rolado até aparecer com duração do eixo de motion (instantâneo sob reduce-motion). No .multi os chips perdem o inMutuallyExclusiveGroup."
+    },
+    "crossPlatform": true,
+    "themeAware": true,
+    "reducesMotion": true,
+    "related": [
+      "app_choice_chip",
+      "app_segmented_button",
+      "app_scroll_edge_fade"
+    ]
   },
   {
     "id": "app_timeline",
@@ -11037,6 +11864,186 @@
     "crossPlatform": true,
     "themeAware": true,
     "reducesMotion": true
+  },
+  {
+    "id": "app_quoted_message",
+    "name": "AppQuotedMessage",
+    "category": "molecule",
+    "status": "migrated",
+    "summary": {
+      "en": "Quoted-message block: author, excerpt and an optional thumbnail.",
+      "pt": "Bloco de citação: autor, prévia e miniatura opcional."
+    },
+    "description": {
+      "en": "The reply/quote block of the chat subsystem — inside a bubble (the message being replied to, WhatsApp-style) or in the composer (the \"replying to…\" preview, with onRemove to cancel). Anatomy: a vertical accent bar, the author tinted with the same accent, a dimmed excerpt and an optional cover-cropped thumbnail. Color comes from the AppChatBubbleColor enum the conversation already uses: accentOn paints bar and author, resolve at 10% tints the background — one step BELOW the bubble's 14%, so the quote reads as a nested layer, not a second bubble. With onTap the whole body becomes ONE named target; onRemove adds the \"×\" as its OWN target (the AppFilterChip idiom — cancelling and navigating are different actions).",
+      "pt": "O bloco de responder/citar do subsistema de chat — dentro da bolha (a mensagem respondida, estilo WhatsApp) ou no composer (a prévia de \"respondendo a…\", com onRemove para cancelar). Anatomia: barra de acento vertical, autor tingido pelo mesmo acento, prévia esmaecida e miniatura opcional em cover. A cor vem do enum AppChatBubbleColor que a conversa já usa: accentOn pinta barra e autor, resolve a 10% tinge o fundo — um degrau ABAIXO dos 14% da bolha, para a citação ler como camada aninhada, não como segunda bolha. Com onTap o corpo inteiro vira UM alvo nomeado; onRemove acrescenta o \"×\" como alvo PRÓPRIO (idioma do AppFilterChip — cancelar e navegar são ações diferentes)."
+    },
+    "whenToUse": {
+      "en": [
+        "Showing the message a bubble replies to, above its content.",
+        "The \"replying to…\" preview in the composer, with a cancel \"×\".",
+        "A forwarded/quoted excerpt anywhere the chat idiom applies."
+      ],
+      "pt": [
+        "Mostrar a mensagem que uma bolha responde, acima do conteúdo dela.",
+        "A prévia de \"respondendo a…\" no composer, com \"×\" de cancelar.",
+        "Um trecho citado/encaminhado onde o idioma de chat se aplica."
+      ]
+    },
+    "whenNotToUse": {
+      "en": [
+        "Long-form quotations in documents → the content blockquote.",
+        "An attachment on its own (no quoted text) → AppChatAttachmentChip."
+      ],
+      "pt": [
+        "Citação longa de documento → o blockquote de conteúdo.",
+        "Um anexo sozinho (sem texto citado) → AppChatAttachmentChip."
+      ]
+    },
+    "props": [
+      {
+        "name": "excerpt",
+        "type": "String",
+        "required": true
+      },
+      {
+        "name": "author",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "`null` hides the author line (anonymous/system quote).",
+          "pt": "`null` oculta a linha do autor (citação anônima/de sistema)."
+        }
+      },
+      {
+        "name": "thumbnail",
+        "type": "ImageProvider?",
+        "required": false,
+        "description": {
+          "en": "Cover-cropped preview on the end edge. Decorative for the screen reader — the excerpt is the information.",
+          "pt": "Preview em cover na borda do fim. Decorativa para o leitor de tela — a prévia textual é a informação."
+        }
+      },
+      {
+        "name": "color",
+        "type": "AppChatBubbleColor",
+        "required": false,
+        "default": "AppChatBubbleColor.primary",
+        "enumValues": [
+          "primary",
+          "secondary",
+          "tertiary",
+          "neutral"
+        ]
+      },
+      {
+        "name": "onTap",
+        "type": "VoidCallback?",
+        "required": false,
+        "description": {
+          "en": "Jump to the original message. `null` = not tappable.",
+          "pt": "Pular para a mensagem original. `null` = não tappável."
+        }
+      },
+      {
+        "name": "onRemove",
+        "type": "VoidCallback?",
+        "required": false,
+        "description": {
+          "en": "Cancel the quote (the composer case). Renders the \"×\" as its own target.",
+          "pt": "Cancela a citação (o caso composer). O \"×\" é alvo próprio."
+        }
+      },
+      {
+        "name": "maxLines",
+        "type": "int",
+        "required": false,
+        "default": "2"
+      },
+      {
+        "name": "semanticLabel",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Label of the body target. Defaults to a localized \"quoted message from {author}\" phrase.",
+          "pt": "Rótulo do alvo do corpo. Default \"Mensagem citada de {author}\" / \"Ver mensagem citada\"."
+        }
+      },
+      {
+        "name": "style",
+        "type": "AppStyle?",
+        "required": false,
+        "enumValues": [
+          "filled",
+          "outlined",
+          "elevated"
+        ]
+      },
+      {
+        "name": "radiusMode",
+        "type": "AppRadiusMode?",
+        "required": false,
+        "enumValues": [
+          "reto",
+          "redondo",
+          "circular",
+          "padrao"
+        ]
+      },
+      {
+        "name": "radius",
+        "type": "double?",
+        "required": false
+      }
+    ],
+    "examples": [
+      {
+        "title": {
+          "en": "Reply inside a bubble",
+          "pt": "Resposta na bolha"
+        },
+        "code": "AppChatBubble(author: AppChatAuthor.me, header: AppQuotedMessage(author: 'Ana', excerpt: 'Consegue mandar o relatório?', onTap: jump), child: const Text('Mandando agora!'))"
+      },
+      {
+        "title": {
+          "en": "Composer preview",
+          "pt": "Prévia no composer"
+        },
+        "code": "AppQuotedMessage(author: 'Você', excerpt: 'A reunião fica para amanhã.', onRemove: cancelReply)"
+      }
+    ],
+    "do": {
+      "en": [
+        "Keep the excerpt short — the caller strips markdown and newlines.",
+        "Match `color` with the conversation's bubble color."
+      ],
+      "pt": [
+        "Mantenha a prévia curta — o chamador limpa markdown e quebras.",
+        "Case o `color` com a cor das bolhas da conversa."
+      ]
+    },
+    "dont": {
+      "en": [
+        "Do not put the full original message in the excerpt — it is a preview.",
+        "Do not use raw colors; the accent comes from the role enum."
+      ],
+      "pt": [
+        "Não ponha a mensagem original inteira na prévia — é uma prévia.",
+        "Não use cor crua; o acento vem do enum de papel."
+      ]
+    },
+    "a11y": {
+      "en": "With onTap the body is ONE named button (a localized \"quoted message from {author}\" label); with onRemove the \"×\" is a SEPARATE named target (a localized \"remove quote\" label) — two actions, two nodes. The thumbnail is excluded from semantics (the excerpt carries the information). Accent (accentOn) passes 3:1 against the surface in light and dark on both brands; the excerpt reads at onSurface 72%.",
+      "pt": "Com onTap o corpo é UM botão nomeado (\"Mensagem citada de {author}\"); com onRemove o \"×\" é alvo SEPARADO e nomeado (\"Remover citação\") — duas ações, dois nós. A miniatura fica fora da semântica (a prévia carrega a informação). O acento (accentOn) passa 3:1 sobre a superfície em claro/escuro nas duas marcas; a prévia lê em onSurface 72%."
+    },
+    "crossPlatform": true,
+    "themeAware": true,
+    "reducesMotion": true,
+    "related": [
+      "app_chat_bubble",
+      "app_chat_composer",
+      "app_chat_attachment_chip"
+    ]
   },
   {
     "id": "app_chat_message_list",
@@ -11651,6 +12658,15 @@
         "name": "rows",
         "type": "List<List<Widget>>",
         "required": true
+      },
+      {
+        "name": "columnFlex",
+        "type": "List<double>?",
+        "required": false,
+        "description": {
+          "en": "Flex factor per column (e.g. [2.2, 1, 1]). Null = the uniform split of always. In an unbounded-width context the factor only splits the leftover space.",
+          "pt": "Fator de flex por coluna (ex.: [2.2, 1, 1]). Nulo = a repartição uniforme de sempre. Em contexto sem largura limitada o fator só reparte a sobra."
+        }
       }
     ],
     "states": [
@@ -11736,13 +12752,44 @@
       },
       {
         "name": "logoCollapsed",
-        "type": "String",
-        "required": true
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Legacy logo channel: an icon slug for the collapsed brand. Null with no widget logo = no logo block.",
+          "pt": "Canal legado de logo: slug de ícone da marca compacta. Nulo e sem logo widget = sem bloco de logo."
+        }
       },
       {
         "name": "logoExpanded",
         "type": "String?",
         "required": false
+      },
+      {
+        "name": "logo",
+        "type": "Widget?",
+        "required": false,
+        "description": {
+          "en": "Brand as a widget (bundle SVG/image), shown expanded; collapsed falls back to logoCompact ?? logo. Mutually exclusive with the slug/URL channel; requires logoSemanticLabel.",
+          "pt": "Marca como widget (SVG/imagem do bundle), exibida expandida; colapsado cai em logoCompact ?? logo. Mutuamente exclusivo com o canal slug/URL; exige logoSemanticLabel."
+        }
+      },
+      {
+        "name": "logoCompact",
+        "type": "Widget?",
+        "required": false,
+        "description": {
+          "en": "Compact brand widget for the collapsed rail.",
+          "pt": "Widget da marca compacta para o rail colapsado."
+        }
+      },
+      {
+        "name": "logoSemanticLabel",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Accessible name of the widget logo (asserted together with logo/logoCompact). The widget subtree is replaced by a named image node, the AppImage idiom.",
+          "pt": "Nome acessível do logo widget (assert junto com logo/logoCompact). A subárvore do widget é substituída por um nó de imagem nomeado, o idioma do AppImage."
+        }
       },
       {
         "name": "footer",
@@ -11793,8 +12840,8 @@
       ]
     },
     "a11y": {
-      "en": "Collapsed items expose their title through AppTooltip; clickable items carry Semantics(button:true, label:). The primary accent over the surface passes AA; the floating chevron has a tooltip + semanticLabel.",
-      "pt": "Itens colapsados expõem o título por AppTooltip; itens clicáveis têm Semantics(button:true, label:). O accent primário sobre a superfície passa AA; o chevron flutuante tem tooltip + semanticLabel."
+      "en": "Collapsed items expose their title through AppTooltip; clickable items carry Semantics(button:true, label:). The primary accent over the surface passes AA; the floating chevron has a tooltip + semanticLabel. A widget logo becomes a single named image node (logoSemanticLabel, required by assert; inner semantics excluded, the AppImage idiom); the legacy slug logo stays decorative.",
+      "pt": "Itens colapsados expõem o título por AppTooltip; itens clicáveis têm Semantics(button:true, label:). O accent primário sobre a superfície passa AA; o chevron flutuante tem tooltip + semanticLabel. Logo widget vira UM nó de imagem nomeado (logoSemanticLabel, exigido por assert; semântica interna excluída, o idioma do AppImage); o logo por slug segue decorativo."
     },
     "crossPlatform": true,
     "themeAware": true,
@@ -11839,6 +12886,15 @@
         "name": "icon",
         "type": "String",
         "required": true
+      },
+      {
+        "name": "activeIcon",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Alternate slug rendered while selected (the filled pair of icon). Null = icon serves both states.",
+          "pt": "Slug alternativo renderizado durante a seleção (o par preenchido de icon). Nulo = icon serve aos dois estados."
+        }
       },
       {
         "name": "isCollapsed",
@@ -12961,6 +14017,20 @@
         "required": true
       },
       {
+        "name": "direction",
+        "type": "Axis",
+        "required": false,
+        "default": "Axis.horizontal",
+        "description": {
+          "en": "horizontal = icon left of the text (the default row); vertical stacks icon over label, centered — the sheet grid cell. Same padding, radius and colors.",
+          "pt": "horizontal = ícone à esquerda do texto (a linha de sempre); vertical empilha ícone sobre rótulo, centrados — a célula da grade em folha. Mesmo padding, raio e cores."
+        },
+        "enumValues": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      {
         "name": "style",
         "type": "AppStyle?",
         "required": false,
@@ -12975,6 +14045,10 @@
         "type": "AppRadiusMode?",
         "required": false
       }
+    ],
+    "variants": [
+      "horizontal",
+      "vertical"
     ],
     "states": [
       "default"
@@ -13026,8 +14100,8 @@
       "pt": "Card central de um dialog modal (a superfície flutuante)."
     },
     "description": {
-      "en": "A dialog's surface: a top bar, scrollable content and an optional footer. Show it as a modal (barrier + transition + focus) through the `showAppDialog` helper. The bar is the same one the sheets use — an optional title and a close button (on and to the right by default) — but with the title aligned to the START, and it sits outside the scroll, like the footer; with no title and no button it does not exist. Because it floats, the container follows the AppStyle axis with its own `elevated` default (a shadow), overridable per instance; the shape follows the global radius axis. Colors 100% from the theme → AA contrast.",
-      "pt": "A superfície de um dialog: uma barra de topo, conteúdo rolável e um rodapé opcional. Exiba-o como modal (barrier + transição + foco) via o helper `showAppDialog`. A barra é a mesma das sheets — título opcional e botão de fechar (ligado e à direita por padrão) — mas com o título alinhado ao INÍCIO, e fica fora da rolagem, como o rodapé; sem título e sem botão ela não existe. Por ser flutuante, o container segue o eixo AppStyle com default próprio `elevated` (sombra), sobrescrevível por instância; a forma segue o eixo de raio global. Cores 100% do tema → contraste AA."
+      "en": "A dialog's surface: a top bar, scrollable content and an optional footer. Show it as a modal (barrier + transition + focus) through the `showAppDialog` helper. For the most repeated dialog of all — a yes/no confirmation — use the `showAppConfirm` helper: it assembles body and footer and returns a `Future<bool>` that is NEVER null (barrier, \"X\" and Esc all resolve to `false`). The bar is the same one the sheets use — an optional title and a close button (on and to the right by default) — but with the title aligned to the START, and it sits outside the scroll, like the footer; with no title and no button it does not exist. Because it floats, the container follows the AppStyle axis with its own `elevated` default (a shadow), overridable per instance; the shape follows the global radius axis. Colors 100% from the theme → AA contrast.",
+      "pt": "A superfície de um dialog: uma barra de topo, conteúdo rolável e um rodapé opcional. Exiba-o como modal (barrier + transição + foco) via o helper `showAppDialog`. Para o dialog mais repetido de todos — a confirmação sim/não — use o helper `showAppConfirm`: ele monta corpo e rodapé e devolve um `Future<bool>` que NUNCA é nulo (barrier, \"X\" e Esc resolvem para `false`). A barra é a mesma das sheets — título opcional e botão de fechar (ligado e à direita por padrão) — mas com o título alinhado ao INÍCIO, e fica fora da rolagem, como o rodapé; sem título e sem botão ela não existe. Por ser flutuante, o container segue o eixo AppStyle com default próprio `elevated` (sombra), sobrescrevível por instância; a forma segue o eixo de raio global. Cores 100% do tema → contraste AA."
     },
     "whenToUse": {
       "en": [
@@ -13151,6 +14225,13 @@
           "pt": "Confirmação"
         },
         "code": "showAppDialog(context: context, title: const AppText('Excluir?'), child: const AppDialogContent(message: '...', illustration: 'assets/delete.svg'), footer: buttonsFooter)"
+      },
+      {
+        "title": {
+          "en": "Yes/no confirmation (never null)",
+          "pt": "Confirmação sim/não (nunca nula)"
+        },
+        "code": "if (await showAppConfirm(context: context, title: 'Excluir empresa', message: 'Não dá para desfazer.', confirmLabel: 'Excluir', destructive: true)) { await remove(); }"
       }
     ],
     "do": {
@@ -13176,8 +14257,8 @@
       ]
     },
     "a11y": {
-      "en": "Shown through the Navigator (a PopupRoute): the focus scope and returning focus to the trigger are managed by the route; the barrier is labelled \"Close\". The close button is the dialog's first focusable node and carries the same label; the bar's title is announced as a heading. The theme's colors (surfaceContainer/outline) pass AA in light and dark.",
-      "pt": "Exibido via Navigator (PopupRoute): escopo de foco e devolução de foco ao gatilho são geridos pela rota; o barrier tem rótulo \"Fechar\". O botão de fechar é o primeiro nó focável do dialog e tem o mesmo rótulo; o título da barra é anunciado como cabeçalho. Cores do tema (surfaceContainer/outline) passam AA em claro/escuro."
+      "en": "Shown through the Navigator (a PopupRoute): the focus scope and returning focus to the trigger are managed by the route; the barrier is labelled \"Close\". The close button is the dialog's first focusable node and carries the same label; the bar's title is announced as a heading. In `showAppConfirm` the two footer buttons are named by their own labels, and every way of dismissing (barrier, \"X\", Esc) resolves the future to `false` — the caller never branches on null. The theme's colors (surfaceContainer/outline) pass AA in light and dark.",
+      "pt": "Exibido via Navigator (PopupRoute): escopo de foco e devolução de foco ao gatilho são geridos pela rota; o barrier tem rótulo \"Fechar\". O botão de fechar é o primeiro nó focável do dialog e tem o mesmo rótulo; o título da barra é anunciado como cabeçalho. No `showAppConfirm` os dois botões do rodapé são nomeados pelos próprios rótulos, e toda forma de dispensar (barrier, \"X\", Esc) resolve o future para `false` — o chamador nunca ramifica em nulo. Cores do tema (surfaceContainer/outline) passam AA em claro/escuro."
     },
     "crossPlatform": true,
     "themeAware": true,
@@ -13198,8 +14279,8 @@
       "pt": "Corpo padrão de um dialog: título, mensagem e ilustração."
     },
     "description": {
-      "en": "The most common body of an AppDialog (confirm/notify): a prominent title (optional), a message and a central illustration. When the dialog already carries the title in its top bar, leave this `title` null so it is not repeated. The top breathing room shrinks on its own once the surface has drawn the bar. Colors from the theme; the illustration's accent color uses `secondary` when none is given.",
-      "pt": "O corpo mais comum de um AppDialog (confirmar/avisar): título em destaque (opcional), mensagem e uma ilustração central. Quando o dialog já leva o título na barra de topo, deixe o `title` daqui nulo para não repetir. O respiro do topo encolhe sozinho quando a superfície desenhou a barra. Cores do tema; a cor de destaque da ilustração usa `secondary` quando não informada."
+      "en": "The most common body of an AppDialog (confirm/notify): a prominent title (optional), a message and an optional central illustration — with no `illustration` the art block leaves the layout entirely, which is the plain confirmation body. When the dialog already carries the title in its top bar, leave this `title` null so it is not repeated. The top breathing room shrinks on its own once the surface has drawn the bar. Colors from the theme; the illustration's accent color uses `secondary` when none is given.",
+      "pt": "O corpo mais comum de um AppDialog (confirmar/avisar): título em destaque (opcional), mensagem e uma ilustração central opcional — sem `illustration` o bloco da arte sai inteiro do layout, que é o corpo de confirmação puro. Quando o dialog já leva o título na barra de topo, deixe o `title` daqui nulo para não repetir. O respiro do topo encolhe sozinho quando a superfície desenhou a barra. Cores do tema; a cor de destaque da ilustração usa `secondary` quando não informada."
     },
     "whenToUse": {
       "en": [
@@ -13234,8 +14315,12 @@
       },
       {
         "name": "illustration",
-        "type": "String",
-        "required": true
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "SVG path. `null` draws no illustration at all: the art block and its two 64px breathers leave the layout, and the body closes 32px below the message. That is the plain confirmation dialog.",
+          "pt": "Caminho do SVG. `null` não desenha ilustração nenhuma: o bloco da arte e os dois respiros de 64 saem do layout, e o corpo fecha 32 abaixo da mensagem. É o diálogo de confirmação puro."
+        }
       },
       {
         "name": "accentRole",
@@ -13846,13 +14931,17 @@
     "props": [
       {
         "name": "brandTitle",
-        "type": "String",
-        "required": true
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Brand title. Optional as long as identity comes from logoSemanticLabel (asserted).",
+          "pt": "Título da marca. Opcional desde que a identidade venha de logoSemanticLabel (assert)."
+        }
       },
       {
         "name": "brandSubtitle",
-        "type": "String",
-        "required": true
+        "type": "String?",
+        "required": false
       },
       {
         "name": "child",
@@ -13868,6 +14957,24 @@
         "name": "logoUrl",
         "type": "String?",
         "required": false
+      },
+      {
+        "name": "logo",
+        "type": "Widget?",
+        "required": false,
+        "description": {
+          "en": "Brand as a widget (bundle SVG/image). Mutually exclusive with logoUrl; requires logoSemanticLabel. The widget subtree is replaced by a named image node (the AppImage idiom).",
+          "pt": "Marca como widget (SVG/imagem do bundle). Mutuamente exclusivo com logoUrl; exige logoSemanticLabel. A subárvore do widget é substituída por um nó de imagem nomeado (o idioma do AppImage)."
+        }
+      },
+      {
+        "name": "logoSemanticLabel",
+        "type": "String?",
+        "required": false,
+        "description": {
+          "en": "Accessible brand name. Required with logo; with logoUrl it names the icon; it also satisfies identity when brandTitle is absent.",
+          "pt": "Nome acessível da marca. Obrigatório com logo; com logoUrl nomeia o ícone; também satisfaz a identidade sem brandTitle."
+        }
       },
       {
         "name": "websiteUrl",

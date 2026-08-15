@@ -13,6 +13,16 @@ import 'wb_helpers.dart';
 
 @widgetbook.UseCase(name: 'Playground', type: AppInput)
 Widget appInputPlayground(BuildContext context) {
+  final TextAlign textAlign = context.knobs.object.dropdown<TextAlign>(
+    label: 'textAlign',
+    options: const <TextAlign>[
+      TextAlign.start,
+      TextAlign.center,
+      TextAlign.end,
+    ],
+    initialOption: TextAlign.start,
+    labelBuilder: (a) => 'TextAlign.${a.name}',
+  );
   final label = context.knobs.string(label: 'label', initialValue: 'E-mail');
   final hint = context.knobs.string(
     label: 'hintText',
@@ -53,6 +63,7 @@ Widget appInputPlayground(BuildContext context) {
     child: SizedBox(
       width: 320,
       child: AppInput(
+        textAlign: textAlign,
         label: label.isEmpty ? null : label,
         hintText: hint.isEmpty ? null : hint,
         helperText: helper.isEmpty ? null : helper,

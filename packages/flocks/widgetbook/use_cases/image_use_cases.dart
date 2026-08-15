@@ -1,9 +1,16 @@
+import 'dart:typed_data';
+
 import 'package:flocks/flocks.dart';
 import 'package:flutter/widgets.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 
 import 'wb_helpers.dart';
+
+// 8x8 opaque PNG (74 bytes) — the same canonical sample used by the golden and
+// the native previews (duplicated: lib/ and test/ cannot import each other).
+const String _kSamplePngBase64 =
+    'iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAEUlEQVR42mNgYGD4TwCPBAUAgkg/wZV0VGcAAAAASUVORK5CYII=';
 
 // ---------------------------------------------------------------------------
 // AppImage — Playground (all knobs). Static image; no CTA.
@@ -102,6 +109,27 @@ Widget appImageStates(BuildContext context) => wbUseCase(
           width: 120,
           height: 90,
           loading: AppImageLoading.skeleton,
+        ),
+      ),
+      wbState(
+        context,
+        name: 'memory (base64)',
+        width: 160,
+        child: AppImage.memory(
+          AppImage.decodeBase64(_kSamplePngBase64)!,
+          width: 120,
+          height: 90,
+          semanticLabel: 'Sample bytes',
+        ),
+      ),
+      wbState(
+        context,
+        name: 'memory (corrupt bytes)',
+        width: 160,
+        child: AppImage.memory(
+          Uint8List.fromList(const <int>[1, 2, 3]),
+          width: 120,
+          height: 90,
         ),
       ),
     ],

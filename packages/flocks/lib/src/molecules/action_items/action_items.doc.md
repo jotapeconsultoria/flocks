@@ -28,3 +28,11 @@ pass WCAG AA in light and dark.
 ```dart
 AppActionItem(icon: AppIconToken.support, text: 'Support', onPressed: openSupport);
 ```
+
+## Direction
+
+`Axis.horizontal` (default) is the row of always — icon left of the text.
+`Axis.vertical` stacks the icon over a centered label with the same padding,
+radius and colors: the cell of an attach-options grid in a sheet. Color roles
+stay put in both (tinted primary fill, secondary icon) — opening the color is
+a separate backlog item.

@@ -149,7 +149,130 @@ void main() {
       _expectNoYellowUnderline(tester, find.byType(AppDatePicker));
     },
   );
+  // O ✕ dos três pickers limpa por dentro (estado interno + texto) e AVISA o
+  // chamador por onCleared — o callback de seleção só anuncia valores válidos,
+  // então sem onCleared o form nunca ficaria sabendo que o valor se foi.
+
+  testWidgets('AppDatePickerInput: ✕ dispara onCleared e não a seleção', (
+    tester,
+  ) async {
+    int cleared = 0;
+    int selected = 0;
+    await tester.pumpWidget(
+      _hostThemeBelowOverlay(
+        AppDatePickerInput(
+          initialDate: DateTime(2030, 2, 1),
+          hasError: true, // condição do ✕ no AppInput
+          onCleared: () => cleared++,
+          onDateSelected: (_) => selected++,
+        ),
+      ),
+    );
+    expect(find.text('01/02/2030'), findsOneWidget);
+
+    await tester.tap(_clearFinder);
+    await tester.pumpAndSettle();
+
+    expect(cleared, 1);
+    expect(selected, 0);
+    expect(find.text('01/02/2030'), findsNothing);
+  });
+
+  testWidgets('AppTimePickerInput: ✕ dispara onCleared e não a seleção', (
+    tester,
+  ) async {
+    int cleared = 0;
+    int selected = 0;
+    await tester.pumpWidget(
+      _hostThemeBelowOverlay(
+        AppTimePickerInput(
+          initialHour: 10,
+          initialMinute: 30,
+          hasError: true,
+          onCleared: () => cleared++,
+          onTimeSelected: (_) => selected++,
+        ),
+      ),
+    );
+    expect(find.text('10:30'), findsOneWidget);
+
+    await tester.tap(_clearFinder);
+    await tester.pumpAndSettle();
+
+    expect(cleared, 1);
+    expect(selected, 0);
+    expect(find.text('10:30'), findsNothing);
+  });
+
+  testWidgets('AppDateTimePickerInput: ✕ dispara onCleared e não a seleção', (
+    tester,
+  ) async {
+    int cleared = 0;
+    int selected = 0;
+    await tester.pumpWidget(
+      _hostThemeBelowOverlay(
+        AppDateTimePickerInput(
+          initialDateTime: DateTime(2030, 2, 1, 10, 30),
+          hasError: true,
+          onCleared: () => cleared++,
+          onDateTimeSelected: (_) => selected++,
+        ),
+      ),
+    );
+    expect(find.text('01/02/2030 10:30'), findsOneWidget);
+
+    await tester.tap(_clearFinder);
+    await tester.pumpAndSettle();
+
+    expect(cleared, 1);
+    expect(selected, 0);
+    expect(find.text('01/02/2030 10:30'), findsNothing);
+  });
+
+  testWidgets('pickers: ✕ sem onCleared segue limpando sem lançar (os 3)', (
+    tester,
+  ) async {
+    // Os três têm call sites INDEPENDENTES de onCleared — um `!()` num deles
+    // passaria com o teste cobrindo só o primeiro.
+    final Map<String, Widget> pickers = <String, Widget>{
+      '01/02/2030': AppDatePickerInput(
+        initialDate: DateTime(2030, 2, 1),
+        hasError: true,
+        onDateSelected: (_) {},
+      ),
+      '10:30': AppTimePickerInput(
+        initialHour: 10,
+        initialMinute: 30,
+        hasError: true,
+        onTimeSelected: (_) {},
+      ),
+      '01/02/2030 10:30': AppDateTimePickerInput(
+        initialDateTime: DateTime(2030, 2, 1, 10, 30),
+        hasError: true,
+        onDateTimeSelected: (_) {},
+      ),
+    };
+    for (final MapEntry<String, Widget> entry in pickers.entries) {
+      await tester.pumpWidget(_hostThemeBelowOverlay(entry.value));
+      await tester.tap(_clearFinder);
+      await tester.pumpAndSettle();
+      expect(
+        tester.takeException(),
+        isNull,
+        reason: '${entry.value.runtimeType} lançou ao limpar sem onCleared',
+      );
+      expect(find.text(entry.key), findsNothing);
+      // Fecha o painel que o clear abre antes do próximo picker.
+      await tester.pumpWidget(const SizedBox());
+      await tester.pumpAndSettle();
+    }
+  });
 }
+
+/// Localiza o ✕ de limpar (o sufixo em erro + preenchido) do `AppInput`.
+final Finder _clearFinder = find.byWidgetPredicate(
+  (Widget w) => w is AppIcon && w.icon == AppIconToken.close,
+);
 
 /// Localiza o ícone de lápis (edição) da linha de preview do painel.
 final Finder _pencilFinder = find.byWidgetPredicate(
