@@ -81,6 +81,77 @@ Widget dialogPlayground(BuildContext context) {
 }
 
 // ---------------------------------------------------------------------------
+// Scenario — o confirm real (showAppConfirm) aberto por CTA: Future<bool> que
+// nunca é nulo, corpo sem ilustração, destrutivo opcional. O resultado aparece
+// num AppText controlado pelo próprio use case.
+// ---------------------------------------------------------------------------
+
+@widgetbook.UseCase(name: 'Scenario', type: AppDialog)
+Widget dialogConfirmScenario(BuildContext context) {
+  final String title = context.knobs.string(
+    label: 'title',
+    initialValue: 'Excluir empresa',
+  );
+  final String message = context.knobs.string(
+    label: 'message',
+    initialValue: 'Os usuários dela perdem o acesso. Não dá para desfazer.',
+  );
+  final String confirmLabel = context.knobs.string(
+    label: 'confirmLabel',
+    initialValue: 'Excluir',
+  );
+  final bool destructive = context.knobs.boolean(
+    label: 'destructive',
+    initialValue: true,
+  );
+  final bool barrierDismissible = context.knobs.boolean(
+    label: 'barrierDismissible',
+    initialValue: true,
+  );
+  final AppStyle? style = wbStyleKnob(context);
+  final AppRadiusMode? radiusMode = wbRadiusModeKnob(context);
+  final glass = wbGlassKnob(context);
+
+  return wbUseCase(
+    context,
+    name: 'AppDialog',
+    description:
+        'showAppConfirm: the yes/no convenience over showAppDialog. The future '
+        'resolves true only on the confirm button; cancel, barrier, "X" and Esc '
+        'all resolve false — never null. destructive paints the confirm button '
+        'danger and tints the (optional) illustration with the same accent.',
+    cta: wbCta(
+      context,
+      label: 'Open confirm',
+      onPressed: () async {
+        final bool ok = await showAppConfirm(
+          context: context,
+          title: title,
+          message: message,
+          confirmLabel: confirmLabel,
+          destructive: destructive,
+          barrierDismissible: barrierDismissible,
+          style: style,
+          glass: glass,
+          radiusMode: radiusMode,
+        );
+        if (!context.mounted) return;
+        showAppSnackbar(
+          context: context,
+          title: ok ? 'Resolved: true' : 'Resolved: false',
+          description: 'Every dismissal path resolves to false.',
+          type: ok ? AppSnackbarType.success : AppSnackbarType.info,
+        );
+      },
+    ),
+    child: const AppText(
+      'The confirm is a real modal — open it with the CTA. Every dismissal '
+      'path (cancel, barrier, "X", Esc) resolves to false.',
+    ),
+  );
+}
+
+// ---------------------------------------------------------------------------
 // AppDialogContent — o corpo padrão (título, mensagem, ilustração).
 // ---------------------------------------------------------------------------
 

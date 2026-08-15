@@ -3,7 +3,8 @@ description: "Lucide Icons para o Flocks: os ícones em fonte, com tree-shaking,
 # Em lockstep com o core, como os outros adaptadores: o contrato
 # (`AppIconProvider`) mora lá, e um adaptador numa linha própria só criaria
 # matriz de compatibilidade para manter. A linha pública deste pacote começa em
-# 0.1.0 porque ele nunca foi publicado — o `flocks` já está em 0.1.2.
+# 0.1.0, atrás do core: ele estreou no mesmo release em que o `flocks` já está
+# em 0.1.2, e alcança o número do core no primeiro bump depois desta estreia.
 version: 0.1.0
 
 repository: https://github.com/jotapeconsultoria/flocks/tree/main/packages/flocks_lucide

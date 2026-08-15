@@ -32,7 +32,26 @@ const AppComponentMeta appTileInfoMeta = AppComponentMeta(
       type: 'TextAlign',
       defaultValue: 'TextAlign.start',
     ),
+    PropMeta(
+      name: 'layout',
+      type: 'AppTileInfoLayout',
+      defaultValue: 'AppTileInfoLayout.vertical',
+      description: LocalizedText(
+        en: 'vertical stacks label over value (the default); horizontal is the record row — label left, value taking the rest.',
+        pt: 'vertical empilha rótulo sobre valor (o default); horizontal é a linha de ficha — rótulo à esquerda, valor no resto.',
+      ),
+      enumValues: <String>['vertical', 'horizontal'],
+    ),
+    PropMeta(
+      name: 'icon',
+      type: 'String?',
+      description: LocalizedText(
+        en: 'Optional icon slug next to the label, in the same muted color.',
+        pt: 'Slug de ícone opcional junto ao rótulo, na mesma cor muted.',
+      ),
+    ),
   ],
+  variants: <String>['vertical', 'horizontal'],
   states: <String>['default'],
   examples: <CodeExample>[
     CodeExample(

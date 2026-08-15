@@ -56,6 +56,10 @@ Widget dataTablePlayground(BuildContext context) {
 
 @widgetbook.UseCase(name: 'Playground', type: AppSimpleDataTable)
 Widget simpleDataTablePlayground(BuildContext context) {
+  final bool weighted = context.knobs.boolean(
+    label: 'columnFlex ([2, 1, 1])',
+    initialValue: false,
+  );
   final int rowCount = context.knobs.int.slider(
     label: 'rows',
     initialValue: 3,
@@ -67,7 +71,11 @@ Widget simpleDataTablePlayground(BuildContext context) {
     name: 'AppSimpleDataTable',
     description: 'Static grid: header + rows, no sort/pagination.',
     maxWidth: 560,
-    child: AppSimpleDataTable(columnLabels: _cols, rows: _rows(rowCount)),
+    child: AppSimpleDataTable(
+      columnLabels: _cols,
+      rows: _rows(rowCount),
+      columnFlex: weighted ? const <double>[2, 1, 1] : null,
+    ),
   );
 }
 

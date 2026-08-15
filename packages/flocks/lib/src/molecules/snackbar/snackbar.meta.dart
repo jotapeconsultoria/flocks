@@ -7,17 +7,19 @@ const AppComponentMeta appSnackbarMeta = AppComponentMeta(
   category: ComponentCategory.molecule,
   status: ComponentStatus.migrated,
   summary: LocalizedText(
-    en: 'Temporary feedback card (success/error/info).',
-    pt: 'Card de feedback temporário (sucesso/erro/info).',
+    en: 'Temporary feedback card (success/error/info/warning).',
+    pt: 'Card de feedback temporário (sucesso/erro/info/aviso).',
   ),
   description: LocalizedText(
-    en: 'A card with a title, a description and a semantic icon (error/info/success) over a surfaceContainer tinted by the kind\'s color. The container follows the AppStyle axis (`elevated` by default); the shape follows the radius axis. Show it through `showAppSnackbar` (bottom-right corner, auto-dismiss, single instance, slide-in). Colors 100% from the theme; announced (liveRegion).',
+    en: 'A card with a description, an optional title and a semantic icon (error/info/success/warning) over a surfaceContainer tinted by the kind\'s color. With no title it is the one-line toast most screens want. The container follows the AppStyle axis (`elevated` by default); the shape follows the radius axis. Show it through `showAppSnackbar` (auto-dismiss, single instance, slide-in; `position` picks the corner, bottom-right by default). Colors 100% from the theme; announced (liveRegion).',
     pt:
-        'Card com título, descrição e ícone semântico (error/info/success) sobre '
-        'surfaceContainer tingido pela cor do tipo. Container segue o eixo '
-        'AppStyle (default `elevated`); forma pelo eixo de raio. Exiba via '
-        '`showAppSnackbar` (canto inferior direito, auto-dismiss, instância '
-        'única, slide-in). Cores 100% do tema; anunciado (liveRegion).',
+        'Card com descrição, título opcional e ícone semântico '
+        '(error/info/success/warning) sobre surfaceContainer tingido pela cor do '
+        'tipo. Sem título é o toast de uma frase que a maioria das telas quer. '
+        'Container segue o eixo AppStyle (default `elevated`); forma pelo eixo '
+        'de raio. Exiba via `showAppSnackbar` (auto-dismiss, instância única, '
+        'slide-in; `position` escolhe o canto, inferior direito por padrão). '
+        'Cores 100% do tema; anunciado (liveRegion).',
   ),
   whenToUse: LocalizedList(
     en: <String>[
@@ -40,13 +42,24 @@ const AppComponentMeta appSnackbarMeta = AppComponentMeta(
     ],
   ),
   props: <PropMeta>[
-    PropMeta(name: 'title', type: 'String', isRequired: true),
+    PropMeta(
+      name: 'title',
+      type: 'String?',
+      description: LocalizedText(
+        en: 'Optional heading. Null renders the one-line toast: the title row disappears and the icon centers with the message.',
+        pt: 'Título opcional. Nulo vira o toast de uma frase: a linha do título some e o ícone centraliza com a mensagem.',
+      ),
+    ),
     PropMeta(name: 'description', type: 'String', isRequired: true),
     PropMeta(
       name: 'type',
       type: 'AppSnackbarType',
-      isRequired: true,
-      enumValues: <String>['error', 'info', 'success'],
+      defaultValue: 'AppSnackbarType.info',
+      description: LocalizedText(
+        en: 'Semantic kind (color + icon). Errors MUST pass error explicitly: color and icon are the only failure signal.',
+        pt: 'Tipo semântico (cor + ícone). Erro DEVE passar error explicitamente: cor e ícone são o único sinal da falha.',
+      ),
+      enumValues: <String>['error', 'info', 'success', 'warning'],
     ),
     PropMeta(
       name: 'style',
@@ -56,7 +69,7 @@ const AppComponentMeta appSnackbarMeta = AppComponentMeta(
     ),
     PropMeta(name: 'radiusMode', type: 'AppRadiusMode?'),
   ],
-  variants: <String>['error', 'info', 'success'],
+  variants: <String>['error', 'info', 'success', 'warning'],
   states: <String>['default'],
   examples: <CodeExample>[
     CodeExample(
@@ -65,29 +78,38 @@ const AppComponentMeta appSnackbarMeta = AppComponentMeta(
           "showAppSnackbar(context: context, title: 'Salvo', "
           "description: '...', type: AppSnackbarType.success)",
     ),
+    CodeExample(
+      title: LocalizedText(en: 'One-line toast', pt: 'Toast de uma frase'),
+      code: "showAppSnackbar(context: context, description: 'Link copiado.')",
+    ),
   ],
   dos: LocalizedList(
     en: <String>[
       'Short messages; the card disappears on its own after the duration.',
-      'Use the kind that matches the message (error/info/success).',
+      'Use the kind that matches the message (error/info/success/warning).',
     ],
     pt: <String>[
       'Mensagens curtas; o card some sozinho após a duração.',
-      'Use o tipo que casa com a mensagem (error/info/success).',
+      'Use o tipo que casa com a mensagem (error/info/success/warning).',
     ],
   ),
   donts: LocalizedList(
     en: <String>[
       'Do not stack several snackbars (a new one replaces the previous).',
+      'Do not leave an error on the default kind — pass AppSnackbarType.error.',
     ],
-    pt: <String>['Não empilhe várias snackbars (a nova substitui a anterior).'],
+    pt: <String>[
+      'Não empilhe várias snackbars (a nova substitui a anterior).',
+      'Não deixe erro no tipo default — passe AppSnackbarType.error.',
+    ],
   ),
   a11y: LocalizedText(
-    en: 'Wrapped in AppSemantics.liveRegion → announced when it appears. Title in onSurface and description in neutral s700 over the tinted background both pass AA; border and icon (semantic color) ≥ 3:1.',
+    en: 'Wrapped in AppSemantics.liveRegion → announced when it appears, with or without a title. Title in onSurface and description in neutral s700 over the tinted background both pass AA (a title-less message uses onSurface); border and icon (semantic color) ≥ 3:1.',
     pt:
-        'Embrulhado em AppSemantics.liveRegion → anunciado ao surgir. Título '
-        'onSurface e descrição neutro s700 sobre o fundo tingido passam AA; borda '
-        'e ícone (cor semântica) ≥ 3:1.',
+        'Embrulhado em AppSemantics.liveRegion → anunciado ao surgir, com ou sem '
+        'título. Título onSurface e descrição neutro s700 sobre o fundo tingido '
+        'passam AA (mensagem sem título usa onSurface); borda e ícone (cor '
+        'semântica) ≥ 3:1.',
   ),
   crossPlatform: true,
   themeAware: true,
