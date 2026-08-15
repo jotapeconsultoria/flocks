@@ -18,9 +18,9 @@ novo estabilizou.
 |---|---|
 | Repositório | Próprio, público; sete pacotes em `packages/`: os três da extração, o `flocks_mcp`, os dois providers de ícone da Fase F e a demo da Fase D |
 | Resolução | Pub workspace, com o `pubspec.yaml` da raiz |
-| Versão | `0.1.1` nos quatro publicados, em lockstep; os dois providers novos em `0.1.0`, ainda não publicados |
-| `publish_to` | Fora dos quatro publicados; `none` na raiz (workspace), nos dois providers novos (até o primeiro publish) e no `flocks_demo` (permanente — é vitrine) |
-| Publicação | pub.dev, `0.1.1`, publisher `jotapeconsultoria.com.br`, tag `v0.1.1`. A `0.1.0` saiu de manhã; a `0.1.1`, no fim do dia, com o que a pana cobrou |
+| Versão | `0.1.2` nos quatro que estrearam em 2026-08-10, em lockstep; `flocks_cupertino` e `flocks_lucide` em `0.1.0`, que é a versão com que estrearam em 2026-08-12 |
+| `publish_to` | Fora dos seis publicáveis; `none` só na raiz (workspace) e no `flocks_demo` (permanente — é vitrine). Saiu dos dois providers em 2026-08-11, um dia antes de eles publicarem, e não no commit do publish |
+| Publicação | pub.dev, tag `v0.1.2`; os seis sob o publisher verificado `jotapeconsultoria.com.br`, e os seis em 160/160 na pana. A linha pública abriu na `0.1.0` de 2026-08-10, ganhou a `0.1.1` no fim do mesmo dia com o que a pana cobrou, e a `0.1.2` em 2026-08-12 |
 | Consumo pelo monorepo | Hospedado, `^0.1.0` — a dependência `git:` e o override saíram em 2026-08-10 |
 | Licença | MIT em cada pacote, e na raiz |
 | CI | `.github/workflows/ci.yml`: gates (Linux), goldens (macOS pinado) e os deploys de site, Widgetbook e demo |
@@ -225,7 +225,7 @@ entraram junto, como membros do workspace, pelo mesmo motivo que o do
 Com eles, a medição local do `flocks` fecha em **150/150** (`--no-dartdoc`), ou
 seja 160/160 na escala do pub.dev.
 
-## O passo que faltava
+## O passo que faltava — e o corte de 2026-08-12
 
 ✅ **Publicado** — resolvido em 2026-08-10, na ordem que estava planejada:
 
@@ -260,3 +260,25 @@ publicou depois, quando a 0.1.0 do core já tinha estabilizado o schema do
 catálogo que ele embarca. E o pub.dev não é o único canal dele: o `.mcpb`
 anexado ao GitHub Release é a outra via, armada pela tag — outro canal, outra
 decisão, registrada fora deste documento.
+
+**A `0.1.2` saiu em 2026-08-12**, e com ela o repositório deixou de ter pacote
+publicável inédito: `flocks`, `flocks_phosphor`, `flocks_material` e
+`flocks_mcp` subiram para a `0.1.2`, e `flocks_cupertino` e `flocks_lucide`
+estrearam na `0.1.0`, os seis sob o mesmo publisher verificado e os seis
+medindo **160/160** na pana. O corte é a tag `v0.1.2`.
+
+**A ordem se manteve, e agora tem carimbo:** os horários de publicação que a
+API do pub.dev devolve põem o `flocks` às 20:22Z e os cinco outros entre 20:27Z
+e 20:28Z. É a mesma carga estrutural da lição acima — a pana dos adaptadores
+resolve o `flocks` do pub.dev, não o do workspace, então o core tem de estar no
+ar antes.
+
+**O que o plural cobrou:** o passo 2 desta seção fala de "três pubspecs" porque
+foi escrito para um corte de três pacotes. O de 2026-08-12 foram seis, em duas
+linhas de versão ao mesmo tempo — quatro subindo um patch e dois nascendo. O
+`publish_to: none` dos dois novos não saiu no commit do corte: saiu em
+2026-08-11, no dia anterior, junto com o aviso de "não publicado" do README de
+cada um — o par que o `install_docs_test.dart` **de cada provider** cobra por
+XOR, e não o do core, que não conhece os dois. A regra da nota acima vale um
+degrau acima do arquivo: quando um plano cita um número de pacotes, confira
+quantos são na hora de executar.
