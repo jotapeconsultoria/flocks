@@ -39,7 +39,15 @@ const AppComponentMeta appMenuMeta = AppComponentMeta(
   ),
   props: <PropMeta>[
     PropMeta(name: 'trigger', type: 'Widget', isRequired: true),
-    PropMeta(name: 'entries', type: 'List<AppMenuEntry>', isRequired: true),
+    PropMeta(
+      name: 'entries',
+      type: 'List<AppMenuEntry>',
+      isRequired: true,
+      description: LocalizedText(
+        en: 'Items and sections. An AppMenuItem carries label, optional icon, optional subtitle (a 2-line content preview in the muted neutral, joined into the semantic label), danger, enabled, selected and onPressed.',
+        pt: 'Itens e seções. Um AppMenuItem carrega label, icon opcional, subtitle opcional (prévia de 2 linhas no neutro muted, somada ao rótulo semântico), danger, enabled, selected e onPressed.',
+      ),
+    ),
     PropMeta(
       name: 'placement',
       type: 'AppOverlayPlacement',

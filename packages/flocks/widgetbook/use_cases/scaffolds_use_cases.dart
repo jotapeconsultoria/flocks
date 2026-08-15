@@ -118,13 +118,18 @@ Widget scaffoldGlassOverlay(BuildContext context) {
 @widgetbook.UseCase(name: 'Playground', type: AppAuthSplitLayout)
 Widget authSplitLayoutPlayground(BuildContext context) {
   final String title = context.knobs.string(
-    label: 'brandTitle',
+    label: 'brandTitle (empty = none)',
     initialValue: 'Bem-vindo de volta',
   );
   final String subtitle = context.knobs.string(
-    label: 'brandSubtitle',
+    label: 'brandSubtitle (empty = none)',
     initialValue: 'Acesse sua conta para continuar.',
   );
+  final bool widgetLogo = context.knobs.boolean(
+    label: 'logo (widget channel)',
+    initialValue: false,
+  );
+  final String? brandTitle = title.isEmpty ? null : title;
 
   return wbUseCase(
     context,
@@ -136,9 +141,19 @@ Widget authSplitLayoutPlayground(BuildContext context) {
     child: SizedBox(
       height: 520,
       child: AppAuthSplitLayout(
-        brandTitle: title,
-        brandSubtitle: subtitle,
-        logoUrl: AppIconToken.infoCircle,
+        // Identidade sempre presente: sem título, o rótulo da marca assume.
+        brandTitle: brandTitle,
+        brandSubtitle: subtitle.isEmpty ? null : subtitle,
+        logoUrl: widgetLogo ? null : AppIconToken.infoCircle,
+        logo: widgetLogo
+            ? Builder(
+                builder: (BuildContext context) => AppText(
+                  'ACME',
+                  style: AppTheme.of(context).textTheme.titleLarge,
+                ),
+              )
+            : null,
+        logoSemanticLabel: widgetLogo || brandTitle == null ? 'ACME' : null,
         child: const Center(child: AppText('formulário')),
       ),
     ),

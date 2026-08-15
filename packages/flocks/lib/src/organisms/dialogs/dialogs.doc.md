@@ -2,8 +2,8 @@
 
 The design system's central modal surface. **`AppDialog`** is the floating card
 (scrollable content + an optional footer); **`AppDialogContent`** is the standard
-body (title, message, illustration). To show it as a modal use the
-**`showAppDialog`** helper.
+body (title, message, optional illustration). To show it as a modal use the
+**`showAppDialog`** helper — or **`showAppConfirm`** for the yes/no case.
 
 ## When to use
 
@@ -30,8 +30,11 @@ body (title, message, illustration). To show it as a modal use the
 - **Footer**: an optional `footer` (an `AppButtonsFooter` with a primary +
   secondary action, say).
 - **Standard body** (`AppDialogContent`): an optional title
-  (`titleLarge`/`onSurface`), a message (`bodyLarge`/`neutralPrimary.s700`) and a
-  central illustration (the accent color defaults to the theme's `secondary`).
+  (`titleLarge`/`onSurface`), a message (`bodyLarge`/`neutralPrimary.s700`) and an
+  **optional** central illustration (the accent color defaults to the theme's
+  `secondary`). With `illustration: null` the whole art block — the art and its
+  two 64px breathers — leaves the layout and the body closes 32px below the
+  message: that is the plain confirmation body.
 
 ## Top bar
 
@@ -56,6 +59,48 @@ body (title, message, illustration). To show it as a modal use the
 - **Transition**: a fade with `AppDurations.normal` and the `AppCurves.standard`
   curve; it collapses under reduce-motion (`AppMotion`).
 - **Constraints**: `minWidth 448 / maxWidth 640` by default (overridable).
+
+## Confirmation (`showAppConfirm`)
+
+The convenience pair of `showAppDialog` for the single most repeated dialog:
+title, one sentence, Confirm/Cancel.
+
+- Returns **`Future<bool>` — never null**. The confirm button resolves `true`;
+  the cancel button, the barrier, the "X" and Esc all resolve **`false`**. The
+  caller writes `if (await showAppConfirm(...))` with no `== true` and no
+  `?? false` — that normalization is the reason the function exists.
+- **`destructive: true`** is a reading key, not a color: it turns the confirm
+  button `danger` AND tints the illustration with the SAME accent (the
+  `AppDialogContent.accentRole` contract). `confirmColor` overrides the role
+  without dropping the semantics. The cancel button is always
+  `outlined`/`neutral`.
+- **Body**: pass `message` (the standard `AppDialogContent`, with an optional
+  `illustration`) OR `content` (your own body — a list of items about to be
+  deleted, a type-to-confirm input). Passing both, or neither, is a programming
+  error (assert).
+- **Width**: defaults to `maxWidth: 480` with **no floor** — unlike the 448/640
+  of `showAppDialog`, whose 448 floor is meant for forms and overflows a 375px
+  phone once the route's 64px side paddings are paid. Note the top bar makes
+  the card take the constraints' maximum width (an `AppDialog` behavior), so
+  the default confirm renders at 480 wide when the viewport allows — the "no
+  floor" is what saves narrow phones, not a hug-the-content width.
+- A double tap on either button produces a **single pop** (an
+  `appRouteIsTopmost` guard) — the screen underneath never gets dismissed by the
+  second tap.
+- Everything else — motion (fade + reduce-motion), route focus, barrier,
+  glass/style/radius — is inherited from `showAppDialog` untouched.
+
+```dart
+if (await showAppConfirm(
+  context: context,
+  title: 'Excluir empresa',
+  message: 'Os usuários dela perdem o acesso. Não dá para desfazer.',
+  confirmLabel: 'Excluir',
+  destructive: true,
+)) {
+  await controller.remove(account.id);
+}
+```
 
 ## Global axes
 

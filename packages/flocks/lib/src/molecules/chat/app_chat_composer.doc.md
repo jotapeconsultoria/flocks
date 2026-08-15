@@ -9,6 +9,12 @@ surface** (as in Claude). It replaces Material's `TextField`.
 
 - **Attachment strip** (ABOVE the input, OUTSIDE the surface, optional):
   `AppChatAttachmentChip`/`Card`.
+- **Preview slot** (`preview`, right above the surface and below the
+  attachments, optional): the reply banner, a quote, an edit notice. The
+  composer only POSITIONS it (same rhythm as the attachment strip, full
+  composer width) — **no imposed style**: a reply banner is the app's own
+  composite piece, so the slot is raw. It also counts as a band above the
+  surface for the shape rule below.
 - **Surface / compose** (the `AppInput` + the **send/stop** button on the right —
   a "bare" clickable icon with no background, larger; it becomes **stop** when
   `busy`+`onStop`). It is the **only** thing on the surface.
@@ -42,9 +48,9 @@ surface** (as in Claude). It replaces Material's `TextField`.
   `outlined`, it gains the `outline` border.
 - **Shape** (`radiusMode`/`radius`): the surface follows the global axis
   (`reto`/`redondo`/`circular`). **Exception**: `circular` (a pill) only fits a
-  **single-line** compose area — with **attachments**, or when the text turns
-  **multiline**, it falls back to `redondo` (measured with `LayoutBuilder` +
-  `TextPainter`).
+  **single-line** compose area — with a band above (**attachments** or the
+  **preview** slot), or when the text turns **multiline**, it falls back to
+  `redondo` (measured with `LayoutBuilder` + `TextPainter`).
 - Popovers open **upward** (`AppOverlayPlacement.topEnd`).
 
 ## Accessibility (Rule 8)

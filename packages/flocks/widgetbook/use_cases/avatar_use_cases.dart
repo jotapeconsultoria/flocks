@@ -54,6 +54,15 @@ Widget avatarSizes(BuildContext context) => wbUseCase(
         token: 'fallback: null',
         child: const AppAvatar(size: AppAvatarSize.xl),
       ),
+      wbTile(
+        context,
+        name: 'Custom fallback icon',
+        token: 'fallbackIcon: AppIconToken.attachment',
+        child: const AppAvatar(
+          size: AppAvatarSize.xl,
+          fallbackIcon: AppIconToken.attachment,
+        ),
+      ),
     ],
   ),
 );
@@ -138,6 +147,10 @@ Widget avatarPlayground(BuildContext context) {
     labelBuilder: (e) => e.name,
   );
   final fallback = context.knobs.string(label: 'fallback', initialValue: 'JM');
+  final fallbackIcon = context.knobs.string(
+    label: 'fallbackIcon (used when fallback is empty)',
+    initialValue: '',
+  );
   final imageUrl = context.knobs.string(label: 'imageUrl', initialValue: '');
   final semanticLabel = context.knobs.string(
     label: 'semanticLabel',
@@ -162,6 +175,7 @@ Widget avatarPlayground(BuildContext context) {
     child: AppAvatar(
       size: size,
       fallback: fallback.isEmpty ? null : fallback,
+      fallbackIcon: fallbackIcon.isEmpty ? null : fallbackIcon,
       imageUrl: imageUrl.isEmpty ? null : imageUrl,
       semanticLabel: semanticLabel.isEmpty ? null : semanticLabel,
       effect: effect,

@@ -30,6 +30,7 @@ const Map<String, String> kStyleAxisNotAContainer = <String, String>{
   'molecules/date_picker': 'realce da célula e anel de foco',
   'molecules/interactive': 'véu de hover',
   'molecules/pagination': 'realce da página ativa e hover',
+  'molecules/slider': 'trilho e polegar de um controle, não caixa de container',
   'molecules/time_picker': 'faixa que marca a seleção no trilho',
   'organisms/navigation_rail': 'pílula de hover e recorte do avatar',
   'organisms/resizable_panel': 'cor da alça de arraste',

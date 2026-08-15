@@ -5,7 +5,7 @@ import 'package:flocks/flocks.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-// Goldens dos 11 componentes de chat, na matriz {claro,escuro} × {jotape,zxtrack}
+// Goldens dos 12 componentes de chat, na matriz {claro,escuro} × {jotape,zxtrack}
 // — prova visual da Regra 9. Cada componente vira um PNG por célula
 // (`app_chat_bubble_jotape_light.png`, …). Os ícones renderizam um glifo
 // determinístico via `AppIcon.debugIconBuilder`, instalado em
@@ -90,6 +90,21 @@ Widget _attachments(AppThemeData data) => const Wrap(
   ],
 );
 
+Widget _cards(AppThemeData data) => const Wrap(
+  spacing: AppSpacings.s8,
+  runSpacing: AppSpacings.s8,
+  crossAxisAlignment: WrapCrossAlignment.center,
+  children: <Widget>[
+    AppChatAttachmentCard(label: 'relatorio.pdf', onRemove: _noop),
+    AppChatAttachmentCard(
+      label: 'relatorio.pdf',
+      subtitle: '240 KB',
+      layout: AppChatAttachmentCardLayout.row,
+      onRemove: _noop,
+    ),
+  ],
+);
+
 Widget _typing(AppThemeData data) => const AppTypingIndicator();
 
 Widget _status(AppThemeData data) =>
@@ -166,6 +181,38 @@ Widget _messageList(AppThemeData data) => SizedBox(
 
 void _noop() {}
 
+/// Citação avulsa (autor + prévia) · prévia de composer com "×" · dentro de
+/// uma bolha `me` (a cena de resposta). Sem miniatura de propósito: decode de
+/// imagem é assíncrono e o host dá um pump só — a miniatura fica no widget
+/// test, com MemoryImage determinístico.
+Widget _quoted(AppThemeData data) => const Column(
+  mainAxisSize: MainAxisSize.min,
+  crossAxisAlignment: CrossAxisAlignment.stretch,
+  children: <Widget>[
+    AppQuotedMessage(
+      author: 'Ana',
+      excerpt: 'Consegue mandar o relatório de ontem?',
+      onTap: _noop,
+    ),
+    SizedBox(height: AppSpacings.s8),
+    AppQuotedMessage(
+      author: 'Você',
+      excerpt: 'A reunião fica para amanhã às 10h.',
+      onRemove: _noop,
+    ),
+    SizedBox(height: AppSpacings.s8),
+    AppChatBubble(
+      author: AppChatAuthor.me,
+      header: AppQuotedMessage(
+        author: 'Ana',
+        excerpt: 'Consegue mandar o relatório de ontem?',
+        onTap: _noop,
+      ),
+      child: AppText('Mandando agora!'),
+    ),
+  ],
+);
+
 const List<_ChatSample> _samples = <_ChatSample>[
   _ChatSample('AppChatBubble', 'app_chat_bubble', _bubbles, width: 320),
   _ChatSample('AppMessageMeta', 'app_message_meta', _metas),
@@ -175,6 +222,12 @@ const List<_ChatSample> _samples = <_ChatSample>[
     'app_chat_attachment_chip',
     _attachments,
     width: 320,
+  ),
+  _ChatSample(
+    'AppChatAttachmentCard',
+    'app_chat_attachment_card',
+    _cards,
+    width: 460,
   ),
   _ChatSample('AppTypingIndicator', 'app_typing_indicator', _typing),
   _ChatSample('AppAssistantStatus', 'app_assistant_status', _status),
@@ -197,6 +250,7 @@ const List<_ChatSample> _samples = <_ChatSample>[
     _questionCard,
     width: 380,
   ),
+  _ChatSample('AppQuotedMessage', 'app_quoted_message', _quoted, width: 320),
   _ChatSample(
     'AppChatMessageList',
     'app_chat_message_list',
