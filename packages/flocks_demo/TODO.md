@@ -8,7 +8,7 @@ nas duas telas:
 
 | Fonte | Bytes | Quando | Estado |
 | --- | --- | --- | --- |
-| `roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2` | 63.464 | na carga de fontes, junto dos TTF locais, **antes do primeiro frame** | de pé |
+| `roboto/v32/KFOmCnqEu92Fr1Me4GZLCzYlKw.woff2` | 63.464 | na carga de fontes, junto dos TTF locais, **antes do primeiro frame** | de pé, e o caminho de conserto está decidido mais abaixo |
 | `notosanssymbols/v43/rP2up3q65FkA….woff2` | 69.116 | no **primeiro layout**, sem ninguém digitar nada | **consertada na raiz** |
 
 A medição acima é de produção e continua descrevendo o build que está no ar: o
@@ -20,8 +20,10 @@ desconhecida, e escolheu a Roboto para casar com o Android. Em
 `canvaskit/fonts.dart` do engine (SDK 3.44.0), `loadAssetFonts` percorre o
 `FontManifest.json` e, se nenhuma família ali se chamar literalmente `Roboto`,
 acrescenta `_downloadFont('Roboto', _robotoUrl, 'Roboto')` à lista que é
-**aguardada** antes de seguir. Nosso manifesto declara `packages/flocks/Poppins`
-e `packages/flocks/SpaceGrotesk`: a condição é sempre verdadeira. `_robotoUrl` é
+**aguardada** antes de seguir. A comparação é igualdade de string —
+`if (family.name == 'Roboto')` —, e o manifesto que este build gera declara
+`packages/flocks/Poppins`, `packages/flocks/SpaceGrotesk` e
+`packages/flocks/IBMPlexMono`: a condição é sempre verdadeira. `_robotoUrl` é
 `'${configuration.fontFallbackBaseUrl}roboto/v32/…woff2'`, e
 `fontFallbackBaseUrl` cai no default `https://fonts.gstatic.com/s/` porque
 ninguém o configura — `web/index.html` não tem bloco de config do loader.
@@ -65,16 +67,114 @@ vindo do `www.gstatic.com` — já foi corrigida com `--no-web-resources-cdn` no
 CI, com gate estático em `test/architecture_test.dart`, e a medição confirma que
 essa continua corrigida: zero requisições a `www.gstatic.com`.
 
-**Por que a Roboto ainda não foi corrigida:** o caminho é `fontFallbackBaseUrl`
-na configuração do loader, apontando para uma cópia das fontes de fallback
-servida por nós. Isso significa vendorar a Roboto (Apache 2.0, redistribuível) e
-reproduzir a estrutura de diretórios que o engine espera — sem contrato
-documentado e sujeito a mudar entre versões do Flutter. E apontar a base para
-nós obriga a decidir o que fazer com a fila de Noto inteira, que é grande e é
-escolhida em tempo de execução. Note que empacotar a mono **não** ajuda aqui: a
-condição que dispara o download da Roboto é o nome da família no
-`FontManifest.json`, e `IBMPlexMono` não se chama `Roboto` mais do que `Poppins`
-se chamava.
+**Confirmado no código atual, antes de decidir qualquer coisa.** Para escolher o
+que fazer com a linha que sobrou era preciso saber se ela ainda é a única — a
+tabela lá em cima é de produção, e o código já andou desde ela. Então o
+`build/web` foi refeito com as flags do CI (`--release
+--no-web-resources-cdn`), servido em `127.0.0.1` e medido com
+`performance.getEntriesByType('resource')` — com a tela **pintada**, porque o
+navegador estrangula o render de aba de fundo e o número fecha baixo se ninguém
+olhar: com o painel oculto, aos 130 s o dashboard ainda não tinha pedido um único
+ícone.
+
+| Tela | Recursos | Da nossa origem | De terceiro |
+| --- | --- | --- | --- |
+| `?screen=dashboard` | 21 | 20 | Roboto 63.464 B |
+| `?screen=crud` | 22 | 21 | Roboto 63.464 B |
+
+Zero Noto e zero `www.gstatic.com` nas duas. A Roboto apareceu do cache do
+navegador (`deliveryType: "cache"`, `transferSize: 0`); refetchada com
+`cache: 'reload'` são **63.764 B na rede** para 63.464 B de corpo, por HTTP/3,
+com `cache-control: public, max-age=31536000`. **Sobrou uma, e é a Roboto.**
+
+**Decisão: não seguir pelo `fontFallbackBaseUrl`.** O caminho existe — apontar a
+base para uma cópia servida por nós e vendorar a Roboto (Apache 2.0,
+redistribuível) —, foi medido, e sai mais caro do que o defeito. Três razões, em
+ordem de peso:
+
+1. **O knob é um só, e a fila de Noto usa o mesmo.** Em `font_fallbacks.dart` do
+   engine, `startDownloads()` monta a URL de **cada** fonte de fallback com o
+   mesmo prefixo: `final url = '${configuration.fontFallbackBaseUrl}${font.url}'`.
+   A tabela que alimenta essa fila — `font_fallback_data.dart`, gerada por
+   `dev/roll_fallback_fonts.dart` — tem **724** entradas `NotoFont(` na 3.44.0, e
+   nenhuma delas é a Roboto. Apontar a base para nós para matar uma requisição de
+   63 KB manda as 724 para uma origem onde elas não existem. O engine não estoura
+   com isso: em 404 `_downloadFont` faz
+   `printWarning('Font family $fontFamily not found (404) at $url')` e devolve
+   `FontDownloadResult.fromError`. O preço não é um erro, é o glifo não desenhado
+   — e paga todo codepoint fora do que Poppins, Space Grotesk e IBM Plex Mono
+   cobrem, numa demo cujo CRUD tem campo de busca e formulário que o visitante
+   preenche.
+2. **Não economiza byte nenhum.** Os 63.464 B continuam saindo; mudam de host. O
+   ganho seria de terceiro, não de banda — real, e menor que o custo de (1).
+3. **A falha futura é silenciosa, e nenhum gate a alcança.** O caminho sob a base
+   não é contrato, e o próprio engine avisa: o comentário logo acima de
+   `_robotoUrl` diz que a API do Google Fonts adverte que aquela URL não é
+   estável. Medido no repo do Flutter com `git log -G"roboto/v"` — o `-S` não
+   serve aqui, ele conta ocorrências e essa mudança não mudou a contagem —, o
+   literal mudou **uma vez em seis anos e meio**: nasceu
+   `roboto/v20/…5WZL….ttf` em 2019-11-27 e virou `roboto/v32/…4GZL….woff2` em
+   2024-11-05, no "[web] Switch all fonts to WOFF2 (non-split)". Frequência
+   baixa, mas quando acontecer a cópia vendorada dá 404, o engine só imprime
+   aviso, e isto roda no bootstrap — fora do alcance de qualquer teste em VM. É o
+   mesmo ponto cego que deixou o CanvasKit vir do CDN sem ninguém notar.
+
+**Duas frases desta seção estavam imprecisas e saem.** A primeira dizia que a
+estrutura esperada é "sem contrato documentado": o **knob é** contrato público —
+`fontFallbackBaseUrl?: string` está declarado em
+`lib/web_ui/flutter_js/src/types.d.ts` do engine, e o PR que o criou se chama
+"[web] Add ability to customize font fallback download URL" (2024-03-22). O que
+não tem contrato é o **layout de diretórios sob a base**. A distinção decide de
+onde vem o risco. A segunda dizia que apontar a base "obriga a decidir o que
+fazer com a fila de Noto inteira", como se fosse pendência: não é pendência, é a
+razão de o caminho ser ruim.
+
+**O que fazer no lugar, e por que não coube nesta raia.** `loadAssetFonts` pula o
+download quando o manifesto **já** tem uma família chamada `Roboto`. O conserto,
+então, não é redirecionar a base: é fazer o manifesto ter essa família. A versão
+anterior desta seção chegou a um passo disso — observou que `IBMPlexMono` não se
+chama `Roboto` — e não deu o passo seguinte.
+
+A precisão que faltava: **fonte declarada por um pacote de dependência entra no
+manifesto prefixada**. O `flutter_tools` faz
+`Font('packages/$packageName/${font.familyName}', packageFontAssets)`
+(`lib/src/asset.dart`), e é por isso que o manifesto da demo lista
+`packages/flocks/Poppins` e não `Poppins`. Logo, embarcar uma Roboto no `flocks`
+**não resolveria**: viraria `packages/flocks/Roboto`, e a comparação é igualdade
+literal. A família só pode se chamar `Roboto` se for declarada no `pubspec.yaml`
+do **próprio app** — `packages/flocks_demo/pubspec.yaml`, que hoje não tem sequer
+seção `flutter:` de topo. Fora do escopo da raia que mediu isto, e é o item que
+substitui este.
+
+Duas variantes, e o que falta medir em cada uma:
+
+- **vendorar uma Roboto de verdade.** Honesta: a família chamada Roboto é a
+  Roboto. Custo: um TTF que a demo nunca usa passa a sair da nossa origem em toda
+  carga fria, e fonte de texto não sofre tree-shaking — isso já foi medido quando
+  a mono entrou. O número de bytes é **a medir**;
+- **apelidar sob `family: Roboto` um TTF que já viaja no bundle.** Zero bytes a
+  mais. Em troca o manifesto passa a declarar uma família `Roboto` que não é
+  Roboto — num repo que trata prosa falsa como defeito, isso é decisão de
+  honestidade, não de bytes. Falta medir também se uma seção `fonts:` do app
+  aceita `asset:` de outro pacote.
+
+Nas duas, `fontFallbackBaseUrl` fica intocado e a fila de Noto continua de pé:
+some a requisição **incondicional**, que é a cara, e permanece a **sob demanda**,
+que só sai quando um glifo precisa. Quem executar precisará atualizar junto o
+`reason` do gate do CDN em `test/architecture_test.dart`, que hoje nomeia a
+Roboto como o que a flag não alcança.
+
+**Ressalvas desta medição, ditas por inteiro.** O Flutter instalado é **3.44.9**
+e o CI pina **3.44.0**: os números de rede acima saíram de um build 3.44.9. O que
+sustenta lê-los como válidos para a 3.44.0 não é suposição — `_robotoUrl`, a
+condição de `loadAssetFonts`, o default de `fontFallbackBaseUrl`, a linha de
+`startDownloads` e a contagem de 724 foram lidos na **tag `3.44.0`**
+(`git show 3.44.0:<caminho>`), não na 3.44.9. E uma coisa **não** foi medida: que
+digitar hoje um glifo sem cobertura puxe de fato uma Noto. A tentativa esbarrou
+no que a seção da busca do CRUD já documenta — em build servido em `127.0.0.1` o
+clique não chega ao Dart, e `input.flt-text-editing` nem chega a ser criado. A
+fila de Noto está descrita pelo fonte do engine, não por uma requisição
+observada.
 
 **O que isso não é:** não é o logo saindo da aba. São downloads de fonte, não
 uploads, e o gate de rede continua provando que nenhum byte do logo vai a lugar

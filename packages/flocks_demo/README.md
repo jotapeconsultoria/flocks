@@ -95,7 +95,15 @@ filtrada por origem esconde exatamente estas):
    `FontManifest.json` se chama `Roboto`. A nossa não se chama, então isto sai a
    cada carga fria, aguardado antes do primeiro frame, independentemente de a
    aplicação usá-la (a demo não usa: tudo é Poppins ou Space Grotesk).
-   **Não corrigido.**
+   **De pé, e agora com o caminho decidido.** O conserto que parecia óbvio —
+   apontar o `fontFallbackBaseUrl` do loader para uma cópia servida por nós —
+   foi medido e **descartado**: esse knob é um só, e o engine monta com ele
+   também a URL das 724 fontes de fallback Noto, que passariam a dar 404 na
+   nossa origem e a deixar sem desenho todo glifo que as famílias empacotadas
+   não cobrem. O que fica é mais barato e não mexe na fila de fallback: uma
+   família chamada literalmente `Roboto` no `FontManifest.json`, que só pode ser
+   declarada no `pubspec.yaml` deste pacote — fonte vinda de uma dependência
+   entra no manifesto prefixada com `packages/<nome>/`. Ver [`TODO.md`](TODO.md).
 3. **Noto Sans Symbols do `fonts.gstatic.com`** (69.116 B) — a fila de fallback
    do engine baixa uma Noto por codepoint que as famílias *daquele span* não
    cobrem. O bloco de código do painel pedia uma pilha mono do sistema que o
