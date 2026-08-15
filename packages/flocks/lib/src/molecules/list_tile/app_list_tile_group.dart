@@ -1,7 +1,10 @@
 import 'package:flutter/widgets.dart';
 
 import '../../atoms/divider/divider.dart';
+import '../../atoms/texts/texts.dart';
 import '../../theme/theme.dart';
+import '../../tokens/app_colors.dart';
+import '../../tokens/app_spacings.dart';
 
 /// Estilo de container de um list-tile / grupo de list-tiles.
 enum AppListTileStyle {
@@ -37,19 +40,24 @@ class ListTileGroupScope extends InheritedWidget {
 
 /// Agrupa [children] ([AppListTile]/[AppListTileRadio]) num único card:
 /// fundo/borda conforme [style], cantos arredondados (radius global) e
-/// **divisórias** (`outline`) entre as linhas.
+/// **divisórias** (`outline`) entre as linhas — com um rótulo de seção
+/// opcional ([title]) ACIMA do card.
 ///
 /// ```dart
-/// AppListTileGroup(children: <Widget>[
-///   AppListTile.navigation(title: 'Suporte', onTap: openSupport),
-///   AppListTile.navigation(title: 'Sair', onTap: logout),
-/// ])
+/// AppListTileGroup(
+///   title: 'Respostas rápidas',
+///   children: <Widget>[
+///     AppListTile.navigation(title: 'Suporte', onTap: openSupport),
+///     AppListTile.navigation(title: 'Sair', onTap: logout),
+///   ],
+/// )
 /// ```
 final class AppListTileGroup extends StatelessWidget {
   /// Cria um [AppListTileGroup].
   const AppListTileGroup({
     required this.children,
     this.style = AppListTileStyle.grouped,
+    this.title,
     super.key,
   });
 
@@ -58,6 +66,12 @@ final class AppListTileGroup extends StatelessWidget {
 
   /// Estilo do container. Default [AppListTileStyle.grouped].
   final AppListTileStyle style;
+
+  /// Rótulo de seção ACIMA do card — o MESMO desenho do título de seção do
+  /// `AppMenu` (`labelSmall`, neutro `s600`, 1 linha com ellipsis, padding
+  /// 12/8/12/4). Fica FORA do container de propósito: o card é o conteúdo, o
+  /// rótulo separa grupos numa lista seccionada. `null` = sem rótulo.
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +94,7 @@ final class AppListTileGroup extends StatelessWidget {
             borderRadius: radius,
           );
 
-    return ListTileGroupScope(
+    final Widget card = ListTileGroupScope(
       style: style,
       child: DecoratedBox(
         decoration: decoration,
@@ -93,6 +107,33 @@ final class AppListTileGroup extends StatelessWidget {
           ),
         ),
       ),
+    );
+    if (title == null) return card;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        // O desenho do _SectionTitle do AppMenu, duplicado (a classe é privada
+        // ao menu): labelSmall + neutralPrimary.s600, 1 linha, LTRB 12/8/12/4.
+        Padding(
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacings.s12,
+            AppSpacings.s8,
+            AppSpacings.s12,
+            AppSpacings.s4,
+          ),
+          child: AppText(
+            title!,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.labelSmall.copyWith(
+              color: colors.neutralPrimary.s600,
+            ),
+          ),
+        ),
+        card,
+      ],
     );
   }
 }

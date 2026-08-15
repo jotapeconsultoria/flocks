@@ -15,6 +15,76 @@ Widget _host(Widget child) => Directionality(
 );
 
 void main() {
+  group('AppSegment.tooltip', () {
+    Widget host(Widget child) => Directionality(
+      textDirection: TextDirection.ltr,
+      child: MediaQuery(
+        data: const MediaQueryData(),
+        child: AppTheme(
+          data: AppThemeData.light,
+          child: Overlay(
+            initialEntries: <OverlayEntry>[
+              OverlayEntry(
+                builder: (BuildContext context) => Center(child: child),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    AppSegmentedButton<int> button({String? tooltip}) =>
+        AppSegmentedButton<int>(
+          segments: <AppSegment<int>>[
+            AppSegment<int>(value: 0, label: 'Res', tooltip: tooltip),
+            const AppSegment<int>(value: 1, label: 'Perd'),
+          ],
+          value: 0,
+          onChanged: (_) {},
+        );
+
+    testWidgets('sem tooltip → nenhum AppTooltip (a árvore de sempre)', (
+      tester,
+    ) async {
+      await tester.pumpWidget(host(button()));
+      expect(find.byType(AppTooltip), findsNothing);
+    });
+
+    testWidgets('com tooltip → AppTooltip com a mensagem, toggle intacto', (
+      tester,
+    ) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(host(button(tooltip: 'Resolvidos')));
+      final AppTooltip tip = tester.widget<AppTooltip>(find.byType(AppTooltip));
+      expect(tip.message, 'Resolvidos');
+      // O nome do controle continua o do toggle (label) — o nó do tooltip
+      // também o carrega (annotation), por isso findsWidgets e não OneWidget.
+      expect(find.bySemanticsLabel('Res'), findsWidgets);
+      expect(find.bySemanticsLabel('Resolvidos'), findsNothing);
+      handle.dispose();
+    });
+
+    testWidgets('o toque continua selecionando com o tooltip presente', (
+      tester,
+    ) async {
+      int? picked;
+      await tester.pumpWidget(
+        host(
+          AppSegmentedButton<int>(
+            segments: const <AppSegment<int>>[
+              AppSegment<int>(value: 0, label: 'A', tooltip: 'Primeiro'),
+              AppSegment<int>(value: 1, label: 'B'),
+            ],
+            value: 1,
+            onChanged: (int v) => picked = v,
+          ),
+        ),
+      );
+      await tester.tap(find.text('A'));
+      expect(picked, 0);
+    });
+  });
+
   testWidgets('seleciona ao tocar num segmento', (tester) async {
     int selected = 0;
     await tester.pumpWidget(

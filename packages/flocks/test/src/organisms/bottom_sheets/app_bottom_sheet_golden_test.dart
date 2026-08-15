@@ -60,6 +60,19 @@ void main() {
     child: content(data),
   );
 
+  // O widget PÚBLICO, e não a superfície interna: é ele que ganhou
+  // `showHandle` no conserto do DS-A2.
+  Widget publicSheet(AppThemeData data, {required bool handle}) =>
+      AppBottomSheet(
+        title: 'Filtros',
+        showHandle: handle,
+        footer: Padding(
+          padding: const EdgeInsets.all(AppSpacings.s16),
+          child: AppText('Aplicar', style: data.textTheme.titleMedium),
+        ),
+        child: content(data),
+      );
+
   final Map<String, Widget Function(AppThemeData)> states =
       <String, Widget Function(AppThemeData)>{
         'rest': (AppThemeData d) => surface(d, p: 0),
@@ -70,6 +83,14 @@ void main() {
         'handle': (AppThemeData d) => surface(d, p: 0, handle: true),
         'close_start': (AppThemeData d) =>
             surface(d, p: 0, side: AppSheetCloseSide.start),
+        // O par que faltava. Os seis casos acima montam `BottomSheetSurface`
+        // DIRETO — e a superfície já aceitava `showHandle` antes do conserto,
+        // então nenhum deles cobre o caminho que quebrava: o `AppBottomSheet`
+        // público, cujo construtor NÃO tinha o parâmetro e o descartava em
+        // silêncio no ramo não-arrastável. Só um par prova: com a grabber e
+        // sem ela, no widget público, para a diferença aparecer no pixel.
+        'public_handle': (AppThemeData d) => publicSheet(d, handle: true),
+        'public_no_handle': (AppThemeData d) => publicSheet(d, handle: false),
       };
 
   for (final MapEntry<String, Widget Function(AppThemeData)> state

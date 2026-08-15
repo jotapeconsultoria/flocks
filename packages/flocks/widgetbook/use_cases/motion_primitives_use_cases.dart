@@ -635,3 +635,44 @@ Widget appSpinPlayground(BuildContext context) {
     ),
   );
 }
+
+// ---------------------------------------------------------------------------
+// AppPulse — the live-indicator "breathing" loop (opacity, optional scale).
+// Intrinsic (always pulsing), so NO CTA. Under reduce-motion it freezes at
+// the FULL state on purpose — a live dot frozen dim would read as "off".
+// ---------------------------------------------------------------------------
+
+@widgetbook.UseCase(name: 'Playground', type: AppPulse)
+Widget appPulsePlayground(BuildContext context) {
+  final theme = AppTheme.of(context);
+  final period = wbDurationKnob(
+    context,
+    label: 'period',
+    initial: AppDurations.loop,
+  );
+  final minOpacity = context.knobs.double
+      .slider(label: 'minOpacity (1 = off)', initialValue: 0.45, min: 0, max: 1)
+      .clamp(0.0, 1.0);
+  final minScale = context.knobs.double
+      .slider(label: 'minScale (1 = off)', initialValue: 1, min: 0.5, max: 1)
+      .clamp(0.5, 1.0);
+  return wbUseCase(
+    context,
+    name: 'AppPulse',
+    description:
+        'Looping pulse for live indicators — a recording dot, an on-air '
+        'badge. Opacity breathes by default; scale joins when minScale < 1.',
+    child: AppPulse(
+      period: period,
+      minOpacity: minOpacity,
+      minScale: minScale,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: theme.colorTheme.danger,
+          shape: BoxShape.circle,
+        ),
+        child: const SizedBox(width: AppSizes.s16, height: AppSizes.s16),
+      ),
+    ),
+  );
+}

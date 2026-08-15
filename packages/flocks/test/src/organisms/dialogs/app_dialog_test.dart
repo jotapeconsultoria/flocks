@@ -375,6 +375,79 @@ void main() {
     expect(find.byType(AppText), findsOneWidget);
   });
 
+  // `illustration` é opcional: sem ela o bloco da arte (respiro 64 + arte +
+  // respiro 64) sai inteiro e o corpo fecha com um respiro de 32.
+  testWidgets('AppDialogContent sem illustration não monta AppIllustration', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _host(
+        const SizedBox(
+          width: 440,
+          child: AppDialogContent(message: 'Mensagem'),
+        ),
+      ),
+    );
+    expect(find.text('Mensagem'), findsOneWidget);
+    expect(find.byType(AppIllustration), findsNothing);
+  });
+
+  testWidgets('AppDialogContent: a variante sem arte é 64+h+64-32 mais baixa', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _host(
+        const SizedBox(
+          width: 440,
+          child: AppDialogContent(message: 'Mensagem', illustration: 'x.svg'),
+        ),
+      ),
+    );
+    final double comArte = tester.getSize(find.byType(AppDialogContent)).height;
+    final double alturaDaArte = tester
+        .getSize(find.byType(AppIllustration))
+        .height;
+
+    await tester.pumpWidget(
+      _host(
+        const SizedBox(
+          width: 440,
+          child: AppDialogContent(message: 'Mensagem'),
+        ),
+      ),
+    );
+    final double semArte = tester.getSize(find.byType(AppDialogContent)).height;
+
+    expect(comArte - semArte, 64 + alturaDaArte + 64 - 32);
+  });
+
+  testWidgets('AppDialogContent: illustration null explícito = omitir', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _host(
+        const SizedBox(
+          width: 440,
+          child: AppDialogContent(message: 'Mensagem', illustration: null),
+        ),
+      ),
+    );
+    final double explicito = tester
+        .getSize(find.byType(AppDialogContent))
+        .height;
+    expect(find.byType(AppIllustration), findsNothing);
+
+    await tester.pumpWidget(
+      _host(
+        const SizedBox(
+          width: 440,
+          child: AppDialogContent(message: 'Mensagem'),
+        ),
+      ),
+    );
+    expect(tester.getSize(find.byType(AppDialogContent)).height, explicito);
+  });
+
   test('AppDialog e AppDialogContent estão no catálogo como migrated', () {
     for (final String id in <String>['app_dialog', 'app_dialog_content']) {
       expect(

@@ -196,6 +196,194 @@ void main() {
     expect(find.text('Início'), findsOneWidget);
   });
 
+  group('activeIcon (DS-A4)', () {
+    Finder icon(String slug) =>
+        find.byWidgetPredicate((Widget w) => w is AppIcon && w.icon == slug);
+
+    testWidgets('selecionado com activeIcon renderiza o slug alternativo', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _host(
+          const AppNavigationRailItem(
+            icon: AppIcons.infoCircle,
+            activeIcon: AppIcons.checkCircle,
+            isSelected: true,
+            title: 'Início',
+            onPressed: _noop,
+          ),
+        ),
+      );
+      expect(icon(AppIcons.checkCircle), findsOneWidget);
+      expect(icon(AppIcons.infoCircle), findsNothing);
+    });
+
+    testWidgets('não selecionado com activeIcon mantém o icon', (tester) async {
+      await tester.pumpWidget(
+        _host(
+          const AppNavigationRailItem(
+            icon: AppIcons.infoCircle,
+            activeIcon: AppIcons.checkCircle,
+            title: 'Início',
+            onPressed: _noop,
+          ),
+        ),
+      );
+      expect(icon(AppIcons.infoCircle), findsOneWidget);
+      expect(icon(AppIcons.checkCircle), findsNothing);
+    });
+
+    testWidgets('selecionado SEM activeIcon renderiza o slug de sempre', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _host(
+          const AppNavigationRailItem(
+            icon: AppIcons.infoCircle,
+            isSelected: true,
+            title: 'Início',
+            onPressed: _noop,
+          ),
+        ),
+      );
+      expect(icon(AppIcons.infoCircle), findsOneWidget);
+    });
+
+    testWidgets('pai de grupo com filho selecionado usa o activeIcon do pai', (
+      tester,
+    ) async {
+      final List<AppNavigationRailItemData> items = <AppNavigationRailItemData>[
+        AppNavigationRailItemData(
+          icon: AppIcons.infoCircle,
+          activeIcon: AppIcons.checkCircle,
+          route: '/pai',
+          title: 'Pai',
+          onPressed: (_, _) {},
+          children: <AppNavigationRailItemData>[
+            AppNavigationRailItemData(
+              icon: AppIcons.errorCircle,
+              route: '/pai/filho',
+              title: 'Filho',
+              onPressed: (_, _) {},
+            ),
+          ],
+        ),
+      ];
+      await tester.pumpWidget(
+        _railHost(
+          AppNavigationRail(items: items, getCurrentRoute: (_) => '/pai/filho'),
+        ),
+      );
+      expect(icon(AppIcons.checkCircle), findsOneWidget);
+
+      // Colapsa: o pai continua sendo a única pista de seleção visível.
+      await tester.tap(icon(AppIcons.chevronLeft));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(icon(AppIcons.checkCircle), findsOneWidget);
+    });
+  });
+
+  group('logo por widget', () {
+    Finder icon(String slug) =>
+        find.byWidgetPredicate((Widget w) => w is AppIcon && w.icon == slug);
+
+    testWidgets('canal legado: logoCollapsed segue no AppIcon, faixa de 56', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        _railHost(
+          AppNavigationRail(
+            items: _items(() {}),
+            logoCollapsed: AppIcons.errorCircle,
+            getCurrentRoute: (_) => '/inicio',
+          ),
+        ),
+      );
+      expect(icon(AppIcons.errorCircle), findsOneWidget);
+      final AppIcon logo = tester.widget<AppIcon>(icon(AppIcons.errorCircle));
+      expect(logo.customSize, 40);
+    });
+
+    testWidgets('logo Widget renderiza e é anunciado', (tester) async {
+      final handle = tester.ensureSemantics();
+      await tester.pumpWidget(
+        _railHost(
+          AppNavigationRail(
+            items: _items(() {}),
+            logo: const Text('ACME', key: ValueKey<String>('marca')),
+            logoSemanticLabel: 'ACME',
+            getCurrentRoute: (_) => '/inicio',
+          ),
+        ),
+      );
+      expect(find.byKey(const ValueKey<String>('marca')), findsOneWidget);
+      // Um nó só, nomeado, de imagem — sem duplicar com o texto interno
+      // (idioma do AppImage: ExcludeSemantics por dentro).
+      final s = tester.getSemantics(
+        find.byKey(const ValueKey<String>('marca')),
+      );
+      expect(s.label, 'ACME');
+      expect(s.flagsCollection.isImage, isTrue);
+      handle.dispose();
+    });
+
+    testWidgets('colapsado sem logoCompact cai no logo', (tester) async {
+      await tester.pumpWidget(
+        _railHost(
+          AppNavigationRail(
+            items: _items(() {}),
+            initiallyCollapsed: true,
+            logo: const Text('ACME', key: ValueKey<String>('marca')),
+            logoSemanticLabel: 'ACME',
+            getCurrentRoute: (_) => '/inicio',
+          ),
+        ),
+      );
+      expect(find.byKey(const ValueKey<String>('marca')), findsOneWidget);
+    });
+
+    testWidgets('colapsado com logoCompact prefere o compacto', (tester) async {
+      await tester.pumpWidget(
+        _railHost(
+          AppNavigationRail(
+            items: _items(() {}),
+            initiallyCollapsed: true,
+            logo: const Text('ACME', key: ValueKey<String>('cheia')),
+            logoCompact: const Text('A', key: ValueKey<String>('compacta')),
+            logoSemanticLabel: 'ACME',
+            getCurrentRoute: (_) => '/inicio',
+          ),
+        ),
+      );
+      expect(find.byKey(const ValueKey<String>('compacta')), findsOneWidget);
+      expect(find.byKey(const ValueKey<String>('cheia')), findsNothing);
+    });
+
+    testWidgets('asserts: canal duplo e widget sem rótulo reprovam', (
+      tester,
+    ) async {
+      expect(
+        () => AppNavigationRail(
+          items: const <AppNavigationRailItemData>[],
+          logoCollapsed: AppIcons.infoCircle,
+          logo: const Text('ACME'),
+          logoSemanticLabel: 'ACME',
+          getCurrentRoute: (_) => '/',
+        ),
+        throwsAssertionError,
+      );
+      expect(
+        () => AppNavigationRail(
+          items: const <AppNavigationRailItemData>[],
+          logo: const Text('ACME'),
+          getCurrentRoute: (_) => '/',
+        ),
+        throwsAssertionError,
+      );
+    });
+  });
+
   testWidgets('AppNavigationRailProfile mostra nome/papel e dispara onTap', (
     tester,
   ) async {

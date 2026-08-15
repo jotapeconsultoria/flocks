@@ -17,6 +17,244 @@ follows [SemVer](https://semver.org/).
 > surprise. It graduates to `1.0.0` once the API holds still through a few
 > outside adopters.
 
+## [Unreleased]
+
+### Added
+
+- **`AppBadge(icon:)` — o glifo à esquerda do rótulo, casado à caixa de linha.**
+  Slug de `AppIconToken` pintado com o MESMO papel de cor do texto. O tamanho do
+  ícone é a caixa de linha **medida** do label: o `TextPainter` já aplica o
+  `textScaler`, e altura de ícone igual à da linha garante por construção que a
+  pílula com ícone tem a mesma altura da sem — o raio proporcional não se mexe, e
+  o teste pina isso comparando o `BorderRadius` com e sem ícone. A largura medida
+  soma ícone + gap, senão o resolvedor de raio veria uma pílula mais estreita que
+  a real. O glifo fica fora do `SelectionContainer` e é decorativo: o badge segue
+  um nó rotulado único, com o label ORIGINAL. Contador e conteúdo à direita
+  seguem deliberadamente fora.
+
+- **`AppAvatar(fallbackIcon:)` — o glifo do estado sem imagem e sem texto.** Nos
+  dois construtores: o slug que substitui o `user` chumbado quando não há imagem
+  nem texto — o círculo de anexo, a miniatura de entidade. `null` é o glifo de
+  sempre, o texto de fallback continua vencendo o ícone, e a cor do glifo segue o
+  neutro chumbado (abrir a cor é outro item). Cada caminho preserva o próprio
+  regime de escala; os testes de geometria existentes passaram sem edição e os 6
+  goldens do avatar ficaram byte-idênticos.
+
+- **`AppActionItem(direction:)` — a célula da grade de anexos.** `Axis.vertical`
+  empilha ícone sobre rótulo centrado, com o MESMO padding, o mesmo raio e as
+  mesmas cores; `horizontal` (default) segue a linha de sempre, com teste de
+  identidade pinando `getSize` e a ordem ícone-à-esquerda. Abrir a cor por papel
+  continua sendo outro item.
+
+- **`AppColorPickerPanel(showSpectrum:)` — o modo só-presets.** `false` esconde o
+  espectro de edição livre INTEIRO — área de saturação/brilho, barra de matiz e o
+  preview com hex, que pertence à edição livre — deixando só a paleta fixa. Um
+  assert fecha o painel vazio, e o respiro entre seções sai junto com o espectro:
+  só-presets abre direto no rótulo, sem vão órfão. O painel não tinha teste
+  dedicado (a cobertura vinha indireta pelos picker inputs); agora tem.
+
+- **`AppSegment(tooltip:)` — a forma longa do rótulo abreviado.** A classe é
+  DADO, então não dava para embrulhar um segmento em `AppTooltip` por fora: o
+  parâmetro viaja com o segmento e a célula é envolvida DENTRO do
+  `AppSemantics.toggle` (o precedente é o rail colapsado). O nome do controle
+  continua o do toggle; a dica é visual. Sem `tooltip`, a árvore é a de sempre e
+  os 9 goldens do segmented ficaram byte-idênticos.
+
+- **`AppListTileGroup(title:)` — o rótulo de seção acima do card.** Mesmo traje do
+  título de seção do `AppMenu` (a classe de lá é privada; o desenho foi duplicado
+  com a referência anotada). Fica FORA do container de propósito: o card é o
+  conteúdo, o rótulo separa grupos numa lista seccionada. `null` é a árvore de
+  sempre, provada por teste dedicado — o grupo não tinha nenhum.
+
+- **`AppTileInfo` deita na linha de ficha e ganha ícone.** `AppTileInfoLayout
+  {vertical, horizontal}`, default `vertical` — e sem `icon` o vertical é nó a nó
+  a `Column` de sempre. O horizontal é a linha de ficha que oito pontos do
+  consumidor montavam com larguras mágicas: rótulo à esquerda com o ícone
+  opcional na mesma cor muted, valor no `Expanded` à direita.
+
+- **`AppSimpleDataTable(columnFlex:)` — a coluna larga sem sair do flex.** Fator
+  por coluna (`[2.2, 1, 1]`); `null` é a repartição uniforme de sempre. O
+  mecanismo continua o dos dois caminhos de hoje: com largura finita vira
+  `FlexColumnWidth`, sem largura vira `IntrinsicColumnWidth(flex:)`, que reparte
+  só a sobra. O nome diverge do `columnWidths` do `AppDataTable` de propósito —
+  lá é pixel, aqui é proporção: duas semânticas, dois nomes.
+
+- **`showAppSnackbar` ganha o toast de uma frase, o papel de aviso e o canto.**
+  `title` vira opcional com `type` defaultando para `info` — sem título a linha
+  some, o ícone centraliza com a mensagem e ela assume `onSurface`, por ser o
+  único conteúdo do card. `AppSnackbarType` ganha `warning`, com o mesmo âmbar e
+  o mesmo ícone do `AppAlert` — era o único papel semântico que o alerta tinha e
+  a snackbar não. E `position` deixa de ser chumbado (default `bottomRight`; no
+  celular o esperado é `bottomCenter`). **Atenção na migração:** erro precisa
+  passar `type` explícito — com o default `info`, remover o tipo troca vermelho
+  por azul em silêncio.
+
+- **`AppMenuItem(subtitle:)` — a prévia de duas linhas.** Até 2 linhas com
+  ellipsis, no mesmo par do chrome de seção do menu, esmaecidas junto com o label
+  quando desabilitado. O rótulo semântico soma as duas linhas, então o leitor
+  ouve a prévia sem navegar para dentro do item. Sem `subtitle` a linha é nó a nó
+  a de sempre e os 12 goldens do menu ficaram byte-idênticos.
+
+- **`AppAlert` ganha ação, dispensar e conteúdo livre DENTRO do card.** `action`
+  é Widget, e não par rótulo/callback, porque os casos reais precisam de loading,
+  dropdown ou duas ações; `actionPlacement` escolhe rodapé ou trailing.
+  `onDismiss` é callback puro num × de alvo próprio — dispensar e agir são gestos
+  diferentes, como no `AppFilterChip`. `child` entra entre descrição e rodapé,
+  herdando o fundo tingido. `liveRegion` existe porque região viva com controle
+  dentro re-anuncia o card a cada loading: alerta que é mobília da tela agora
+  desliga o anúncio sem calar o texto. E `maxLines` (default 3, `null` remove o
+  teto) tira o limite chumbado da descrição.
+
+  Junto veio uma correção nos helpers do eixo `AppStyle`: eles liam TODOS os
+  `DecoratedBox` descendentes, e o anel de foco transparente do × viraria falso
+  positivo de borda. Agora leem a caixa PRÓPRIA do card, que é o que o eixo mede.
+
+- **`AppNavigationRailItem(activeIcon:)` — o par vazado/cheio do rail.** O slug
+  alternativo renderizado só enquanto o item está selecionado. Há UM ponto de
+  render de ícone no rail, então colapsado e expandido herdam de graça; no
+  item-pai o sinal é o mesmo que já pinta ícone e título de accent — no rail
+  colapsado com filho selecionado, o ícone do pai é a única pista visível.
+  `null` deixa `icon` servindo aos dois estados, com árvore idêntica por colapso
+  da expressão.
+
+- **`AppNavigationRail` aceita a marca como Widget.** `logo`/`logoCompact` +
+  `logoSemanticLabel` — obrigatório por assert, porque slot de widget só entra
+  nomeado —, mutuamente exclusivos com os slugs e URLs legados, também por
+  assert. O fallback é simétrico nos dois sentidos: a assimetria do canal antigo
+  era acidente de tipo (slug × URL), e dois widgets são intercambiáveis. A
+  semântica segue o idioma do `AppImage`: UM nó de imagem nomeado com a subárvore
+  excluída, senão o rótulo mescla com o texto interno e o leitor anuncia a marca
+  duas vezes. De carona, a meta declarava `logoCollapsed` como obrigatório e o
+  widget o tem opcional desde sempre — a mentira foi corrigida ao lado dos props
+  novos.
+
+- **`AppPrimaryHeader(bottom:, bottomHeight:)` — a faixa de filtros dentro da
+  barra.** A linha extra que vivia no `AppBar.bottom` do Material, herdando fill,
+  borda e glass da superfície. A altura é **declarada**, não medida: o
+  `AppScaffold` reserva a extensão da barra ANTES do layout, então a resolução
+  soma exatamente `bottomHeight`, e os dois parâmetros andam juntos por assert
+  (com `bottomHeight >= 0` à parte — o biconditional sozinho deixaria -5 passar).
+  No ramo `null` o corpo É o mesmo objeto de antes: árvore idêntica por
+  construção.
+
+- **`AppAuthSplitLayout` aceita marca como Widget e afrouxa os textos.**
+  `brandTitle`/`brandSubtitle` viram opcionais e entra `logo` +
+  `logoSemanticLabel`, com TRÊS asserts que fecham os franken-estados: um logo só
+  (Widget OU slug), widget exige rótulo, e identidade sempre presente
+  (`brandTitle` OU `logoSemanticLabel`) — porque subtítulo sozinho não nomeia
+  marca. Era o buraco de a11y do item: sem os asserts, tirar o `required`
+  deixaria o painel mudo.
+
+- **`AppInput(textAlign:)`** — o campo de código centralizado, sem furar o eixo
+  de tipografia. Entra só o alinhamento; o `TextStyle` livre continua **fora** de
+  propósito, porque um estilo cru no call site tira o texto do eixo que faz um
+  valor no tema restilar o pacote inteiro.
+
+- **`AppChatComposer(preview:)` — o banner de resposta ancora no campo.** Um
+  Widget imediatamente acima da superfície de compose, abaixo da faixa de anexos:
+  a prévia é a citação do que a mensagem responde, e ancora no campo que responde
+  a ela. O slot é cru de propósito — um banner de reply é peça composta do app; o
+  composer dá posição e respiro, nada mais. A prévia entra nas duas regras que os
+  anexos já habitavam (quebra o curto-circuito da superfície solitária e conta
+  como faixa acima na exceção de forma). De carona, o dartdoc de `attachments`
+  dizia "abaixo do campo" e o build sempre os pôs acima — corrigido.
+
+- **`AppChatAttachmentCard` deita: `layout: {square, row}`.** O default `square`
+  não muda um pixel — o ramo do row é a primeira linha do build e o corpo do
+  quadrado fica intocado. No row, `size` vira fator de escala: largura 2×,
+  altura do conteúdo, thumb de 40 ou o MESMO tile tingido do quadrado, nome e
+  subtítulo ao lado, e o × de remover em linha no fim — o idioma do chip. A
+  fronteira com o chip fica escrita no doc.md: o chip é a pílula compacta de uma
+  linha para faixas densas; o card-row é o bloco horizontal rico.
+
+- **`AppMessageMeta(time:)` vira opcional — o glifo de status como célula.** Para
+  a meta só-de-status: a célula da tabela de entrega de campanha, o marcador
+  compacto. Um assert fecha o rodapé vazio, e é estrito de propósito: `edited`
+  sozinho é modificador da meta, não meta — um rodapé só com "editada" reprova em
+  vez de renderizar algo que parece meta e não é. Os respiros do `Row` mudaram de
+  dono sem mudar de lugar (cada um pertence ao vizinho seguinte), senão um `time`
+  nulo deixaria 8px órfãos entre "editada" e o tique; com `time` presente a
+  sequência é exatamente a de sempre e os 4 goldens ficaram byte-idênticos.
+
+- **`AppImage.memory` — a terceira variante do átomo de imagem, para o payload
+  que não tem URL.** O QR do PIX que chega em base64, o preview de anexo, o
+  gráfico renderizado pelo backend. Mesmo contrato da variante de rede
+  (placeholder, cross-fade, fallback em erro), com `gaplessPlayback` para
+  trocar de conteúdo sem piscada; bytes vazios ou corrompidos nunca viram frame
+  quebrado. Junto vem `AppImage.decodeBase64`, tolerante ao que o backend
+  costuma mandar (whitespace, prefixo `data:`, padding ausente) e devolvendo
+  `null` em vez de lançar. `src` afrouxa para `String?` — nulo **apenas** na
+  variante nova; `.network`/`.asset` seguem exigindo `String` no call site.
+  `memory` entra em `kComponentVariants` e a matriz golden congela o caminho
+  novo; os 4 PNGs de fallback existentes ficam byte-idênticos, que é a prova de
+  que a árvore sem o parâmetro novo é a de hoje.
+
+- **`AppChoiceChip` + `AppChoiceChipBar` — o chip selecionável que faltava e a
+  barra de filtros que o AppSegmentedButton não atende.** O terceiro chip do
+  pacote é o único com estado de ESCOLHA: UM alvo sob semântica de toggle
+  (checked/inMutuallyExclusiveGroup), contador em pílula própria (colar o
+  número no rótulo mata o alinhamento), selecionado no MESMO
+  `appFilledButtonColors` do AppSegmentedButton — os dois respondem "um de N"
+  e o teste compara contra o resolvedor para nunca divergirem. A barra rola
+  onde o segmented estoura (células de largura própria + véu de borda), com
+  ←/→ andando pelos chips e o focado rolado até aparecer; o `.multi` devolve
+  SEMPRE um `Set` novo. Altura mínima **44**, o piso de alvo de toque do iOS —
+  e não os 40 do `AppButton(size: s)`: um componente que nasce agora não nasce
+  devendo acessibilidade, e a diferença de 4px contra um botão `s` ao lado foi
+  o preço aceito. Os 48×48 do Android seguem em `kA11yDebt`, porque fechá-los
+  custaria a densidade da barra inteira; a metade cumprida é medida por gate,
+  para o número não escorregar de volta. O catálogo vai a **135** (24·75·36).
+
+- **`AppSlider` — o primeiro slider público do pacote.** Controlado (value +
+  onChanged, estado no chamador, molde do AppRating); `step` quantiza em
+  UNIDADES DO DOMÍNIO (1.0 = inteiros) em vez do `divisions` do Material;
+  `formatValue` é fonte única para o rótulo inline (`showValue`) e para o
+  leitor de tela — um formatador separado criaria a divergência que a Regra 8
+  impede. Nasce com 48px de alvo (sem entrada em kA11yDebt), nó `slider` com
+  onIncrease/onDecrease, setas espelhadas em RTL, Home/End, anel de foco sem
+  duração e `onChangeEnd` para persistência. O catálogo vai a **133**
+  (24·73·36). O hue slider privado do color picker segue como está — a
+  recomposição exigiria trilho-gradiente público por um consumidor interno;
+  fica registrada para rodada própria.
+
+- **`AppQuotedMessage` — o bloco de citação que faltava no chat** (autor +
+  prévia + miniatura opcional, atrás de uma barra de acento). Vai de `header`
+  numa `AppChatBubble` (a resposta) ou solto no composer (a prévia de
+  "respondendo a…", com `onRemove` de cancelar — alvo PRÓPRIO, idioma do
+  AppFilterChip). A cor vem do `AppChatBubbleColor` da conversa: `accentOn` na
+  barra e no autor, `resolve` a **10%** no fundo — um degrau abaixo dos 14% da
+  bolha, para ler como camada aninhada. O catálogo vai a **132** componentes
+  (24·72·36).
+
+- **`AppPulse` — o pulso em laço do eixo de motion** (respiração de opacidade
+  e, opcionalmente, escala) para indicadores ao vivo: a bolinha de gravação, o
+  dot de transmissão. Amplitude em vez de flag: `minOpacity`/`minScale` dizem
+  o quanto, e `1.0` desliga o eixo. Sob reduce-motion o laço **para e congela
+  no estado cheio** — deliberadamente diferente do resto do eixo, que colapsa
+  para o alvo: laço não tem alvo, e um indicador ao vivo congelado apagado
+  leria como "desligado". Decorativo por contrato: quem indica "gravando"
+  rotula no ponto de uso.
+
+- **`showAppConfirm` — a confirmação sim/não como função, sobre o
+  `showAppDialog`.** Devolve `Future<bool>` que **nunca é nulo**: confirmar
+  resolve `true`; cancelar, barrier, "X" e Esc resolvem `false`. A normalização
+  é a razão de a função existir — sem ela cada chamador remonta corpo + rodapé
+  e escreve `== true` no final. `destructive:` liga o papel `danger` no botão
+  de confirmar E no acento da ilustração (o contrato do `accentRole`);
+  `confirmColor:` sobrescreve o papel sem desligar a semântica. Uma guarda
+  `appRouteIsTopmost` faz de dois toques rápidos um pop só. É função, não
+  widget: não tem entrada própria no catálogo (precedente dos helpers `show*`)
+  e vive documentada na ficha do `AppDialog`.
+
+### Changed
+
+- **`AppDialogContent.illustration` ficou opcional (`String?`).** `null` tira o
+  bloco da arte inteiro do layout — os dois respiros de 64 e a ilustração — e o
+  corpo fecha com um respiro de 32: é o corpo do diálogo de confirmação puro,
+  que é maioria. Source-compatible para quem constrói (todo chamador passa
+  named param); quem **lê** o campo como `String` não-nulável precisa de `?`
+  agora — daí a linha aqui.
+
 ## [0.1.2] - 2026-08-12
 
 A marca aprende a se escrever. É a única feature de pacote que o ROADMAP prevê,

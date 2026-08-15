@@ -8,6 +8,7 @@ export 'widgets/app_fade.dart';
 export 'widgets/app_fade_through_stack.dart';
 export 'widgets/app_interactive_motion.dart';
 export 'widgets/app_pop.dart';
+export 'widgets/app_pulse.dart';
 export 'widgets/app_scale_on_tap.dart';
 export 'widgets/app_slide.dart';
 export 'widgets/app_spin.dart';

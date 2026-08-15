@@ -7,15 +7,17 @@ const AppComponentMeta appImageMeta = AppComponentMeta(
   category: ComponentCategory.atom,
   status: ComponentStatus.migrated,
   summary: LocalizedText(
-    en: 'Raster image (network/asset) with standardized loading and fallback.',
-    pt: 'Imagem raster (rede/asset) com loading e fallback padronizados.',
+    en: 'Raster image (network/asset/memory) with standardized loading and fallback.',
+    pt: 'Imagem raster (rede/asset/memória) com loading e fallback padronizados.',
   ),
   description: LocalizedText(
-    en: 'Complements AppIllustration (SVG) and AppAvatar (circular). Clips to the theme radius, cross-fades from the placeholder to the network image and falls back to a theme-aware box on error.',
+    en: 'Complements AppIllustration (SVG) and AppAvatar (circular). Clips to the theme radius, cross-fades from the placeholder to the decoded image and falls back to a theme-aware box on error. The .memory variant paints bytes already in memory (an API payload, a decoded base64 QR code) with gapless playback.',
     pt:
         'Complementa AppIllustration (SVG) e AppAvatar (circular). Recorta ao '
-        'radius do tema, faz cross-fade do placeholder para a imagem na rede e cai '
-        'num fallback theme-aware em erro.',
+        'radius do tema, faz cross-fade do placeholder para a imagem decodificada '
+        'e cai num fallback theme-aware em erro. A variante .memory pinta bytes '
+        'já em memória (payload de API, um QR em base64 decodificado) com '
+        'gapless playback.',
   ),
   whenToUse: LocalizedList(
     en: <String>[
@@ -38,11 +40,18 @@ const AppComponentMeta appImageMeta = AppComponentMeta(
   props: <PropMeta>[
     PropMeta(
       name: 'src',
-      type: 'String',
-      isRequired: true,
+      type: 'String?',
       description: LocalizedText(
-        en: 'Network URL or asset path.',
-        pt: 'URL de rede ou caminho de asset.',
+        en: 'Network URL or asset path. Null on the .memory variant.',
+        pt: 'URL de rede ou caminho de asset. Nulo na variante .memory.',
+      ),
+    ),
+    PropMeta(
+      name: 'bytes',
+      type: 'Uint8List?',
+      description: LocalizedText(
+        en: 'Already decoded image bytes (.memory). Use AppImage.decodeBase64 for a base64 payload.',
+        pt: 'Bytes já decodificados da imagem (.memory). Use AppImage.decodeBase64 para payload base64.',
       ),
     ),
     PropMeta(name: 'fit', type: 'BoxFit', defaultValue: 'BoxFit.cover'),
@@ -76,12 +85,18 @@ const AppComponentMeta appImageMeta = AppComponentMeta(
       enumValues: <String>['spinner', 'skeleton'],
     ),
   ],
-  variants: <String>['network', 'asset'],
+  variants: <String>['network', 'asset', 'memory'],
   states: <String>['loading', 'loaded', 'error'],
   examples: <CodeExample>[
     CodeExample(
       title: LocalizedText(en: 'Network thumbnail', pt: 'Thumbnail de rede'),
       code: 'AppImage.network(event.thumbnailUrl, width: 96, height: 64)',
+    ),
+    CodeExample(
+      title: LocalizedText(en: 'PIX QR from base64', pt: 'QR do PIX em base64'),
+      code:
+          'final Uint8List? qr = AppImage.decodeBase64(res.pixQrBase64);\n'
+          "if (qr != null) AppImage.memory(qr, width: 200, height: 200, semanticLabel: 'QR Code do PIX')",
     ),
   ],
   dos: LocalizedList(
@@ -99,10 +114,16 @@ const AppComponentMeta appImageMeta = AppComponentMeta(
     pt: <String>['Não use para vetor (SVG) — é AppIllustration.'],
   ),
   a11y: LocalizedText(
-    en: 'semanticLabel==null → decorative; otherwise Semantics(image:true, label). The .network variant falls back when the network fails.',
+    en:
+        'semanticLabel==null → decorative; otherwise Semantics(image:true, label). '
+        'The .network variant falls back when the network fails. The .memory '
+        'variant usually carries meaning (a QR code, a chart): label it, and pair '
+        'a QR with its copyable code as text — a screen reader cannot read a QR.',
     pt:
         'semanticLabel==null → decorativa; senão Semantics(image:true, label). A '
-        'variante .network cai no fallback quando a rede falha.',
+        'variante .network cai no fallback quando a rede falha. A variante '
+        '.memory quase sempre tem significado (QR, gráfico): rotule-a, e '
+        'acompanhe o QR do código copiável em texto — leitor de tela não lê QR.',
   ),
   crossPlatform: true,
   themeAware: true,

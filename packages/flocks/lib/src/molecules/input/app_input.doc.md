@@ -98,3 +98,11 @@ AppInput(
   onTap: openDatePicker,
 );
 ```
+
+## `textAlign`
+
+Horizontal alignment of the typed text AND the hint (they move together — a
+left hint over centered text would lie). `start` is the default field;
+`center` is the OTP code field; `end` aligns numeric values. The free
+`TextStyle` stays out on purpose: the text style belongs to the typography
+axis.

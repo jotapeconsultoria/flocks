@@ -40,15 +40,22 @@ enum AppMessageStatus {
 final class AppMessageMeta extends StatelessWidget {
   /// Cria um [AppMessageMeta].
   const AppMessageMeta({
-    required this.time,
+    this.time,
     this.status = AppMessageStatus.none,
     this.edited = false,
     this.color,
     super.key,
-  });
+  }) : assert(
+         time != null || status != AppMessageStatus.none,
+         'AppMessageMeta precisa de time ou de um status != none — sem os '
+         'dois o rodapé renderiza vazio (edited sozinho não é meta).',
+       );
 
   /// Horário já formatado (ex.: "10:32"). O DS não formata datas.
-  final String time;
+  ///
+  /// `null` = meta só de status (a célula de tabela, o marcador compacto) —
+  /// exige `status != none` (assert).
+  final String? time;
 
   /// Status de entrega. Default [AppMessageStatus.none] (sem tique).
   final AppMessageStatus status;
@@ -70,17 +77,20 @@ final class AppMessageMeta extends StatelessWidget {
 
     final Widget? statusWidget = _buildStatus(colors, muted);
 
+    // Os gaps são dos VIZINHOS seguintes (não trailing do anterior): com time
+    // nulo não sobra respiro órfão entre "editada" e o tique. Com time
+    // presente, a sequência resultante é a mesma de sempre.
     return Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        if (edited) ...<Widget>[
-          AppText('editada', style: textStyle),
-          const SizedBox(width: AppSpacings.s4),
+        if (edited) AppText('editada', style: textStyle),
+        if (time case final String t) ...<Widget>[
+          if (edited) const SizedBox(width: AppSpacings.s4),
+          AppText(t, style: textStyle),
         ],
-        AppText(time, style: textStyle),
         if (statusWidget != null) ...<Widget>[
-          const SizedBox(width: AppSpacings.s4),
+          if (edited || time != null) const SizedBox(width: AppSpacings.s4),
           statusWidget,
         ],
       ],

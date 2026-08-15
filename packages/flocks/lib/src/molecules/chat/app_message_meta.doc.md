@@ -6,6 +6,9 @@ read-only.
 ## Anatomy
 
 - `time`: an already-formatted time (the design system does not format dates).
+  Optional: `null` renders the **status-only** meta (a table cell, a compact
+  marker) and requires `status != none` — asserted, because a meta with
+  neither would render an empty row (`edited` alone is a modifier, not meta).
 - `status` (`AppMessageStatus`): `none`/`sending` (a clock) / `sent` (1 tick) /
   `delivered` (2 ticks) / `read` (2 ticks in `info`) / `failed` (an error in
   `danger`).

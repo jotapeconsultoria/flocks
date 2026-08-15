@@ -26,7 +26,14 @@ const AppComponentMeta appMessageMetaMeta = AppComponentMeta(
     pt: <String>['Status de sistema/alerta → use AppBadge/AppAlert.'],
   ),
   props: <PropMeta>[
-    PropMeta(name: 'time', type: 'String', isRequired: true),
+    PropMeta(
+      name: 'time',
+      type: 'String?',
+      description: LocalizedText(
+        en: 'Already formatted time. Null = status-only meta (requires status != none, asserted).',
+        pt: 'Horário já formatado. Nulo = meta só de status (exige status != none, assert).',
+      ),
+    ),
     PropMeta(
       name: 'status',
       type: 'AppMessageStatus',

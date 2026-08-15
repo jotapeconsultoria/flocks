@@ -86,6 +86,61 @@ Color _expectedErrorFill(AppColorTheme colors) => mostSeparatedStop(
 );
 
 void main() {
+  group('textAlign', () {
+    Widget host(Widget child) => Directionality(
+      textDirection: TextDirection.ltr,
+      child: MediaQuery(
+        data: const MediaQueryData(),
+        child: AppTheme(
+          data: AppThemeData.light,
+          child: Overlay(
+            initialEntries: <OverlayEntry>[
+              OverlayEntry(
+                builder: (BuildContext context) =>
+                    Center(child: SizedBox(width: 300, child: child)),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    testWidgets('default: start no EditableText (o campo de sempre)', (
+      tester,
+    ) async {
+      await tester.pumpWidget(host(const AppInput(hintText: 'Digite')));
+      final EditableText field = tester.widget<EditableText>(
+        find.byType(EditableText),
+      );
+      expect(field.textAlign, TextAlign.start);
+    });
+
+    testWidgets('center chega ao EditableText e o hint centraliza', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        host(const AppInput(hintText: 'Código', textAlign: TextAlign.center)),
+      );
+      final EditableText field = tester.widget<EditableText>(
+        find.byType(EditableText),
+      );
+      expect(field.textAlign, TextAlign.center);
+      final Rect hint = tester.getRect(find.text('Código'));
+      final Rect input = tester.getRect(find.byType(AppInput));
+      expect((hint.center.dx - input.center.dx).abs(), lessThan(2));
+    });
+
+    testWidgets('end alinha o hint à direita', (tester) async {
+      await tester.pumpWidget(
+        host(const AppInput(hintText: 'Valor', textAlign: TextAlign.end)),
+      );
+      final Rect hint = tester.getRect(find.text('Valor'));
+      final Rect input = tester.getRect(find.byType(AppInput));
+      expect(input.right - hint.right, lessThan(40));
+      expect(hint.left - input.left, greaterThan(100));
+    });
+  });
+
   group('conteúdo', () {
     testWidgets('renderiza label, hint (vazio), helper', (tester) async {
       await tester.pumpWidget(

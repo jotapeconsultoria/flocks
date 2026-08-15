@@ -22,6 +22,67 @@ Widget _host(Widget child) => Directionality(
 );
 
 void main() {
+  group('AppMenuItem.subtitle', () {
+    Future<void> openMenu(WidgetTester tester, AppMenuItem item) async {
+      await tester.pumpWidget(
+        _host(
+          AppMenu(entries: <AppMenuEntry>[item], trigger: const Text('MENU')),
+        ),
+      );
+      await tester.tap(find.text('MENU'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('sem subtitle a linha é a de sempre', (tester) async {
+      await openMenu(tester, AppMenuItem(label: 'Copiar', onPressed: () {}));
+      expect(find.text('Copiar'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(FlocksInteraction),
+          matching: find.byType(AppText),
+        ),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('com subtitle: 2 linhas, prévia no neutro s600', (
+      tester,
+    ) async {
+      await openMenu(
+        tester,
+        AppMenuItem(
+          label: '/saudacao',
+          subtitle: 'Olá! Como posso ajudar você hoje?',
+          onPressed: () {},
+        ),
+      );
+      expect(find.text('/saudacao'), findsOneWidget);
+      final AppText sub = tester.widget<AppText>(
+        find.widgetWithText(AppText, 'Olá! Como posso ajudar você hoje?'),
+      );
+      expect(sub.maxLines, 2);
+      expect(
+        sub.style?.color,
+        AppThemeData.light.colorTheme.neutralPrimary.s600,
+      );
+      final Rect label = tester.getRect(find.text('/saudacao'));
+      final Rect subtitle = tester.getRect(
+        find.text('Olá! Como posso ajudar você hoje?'),
+      );
+      expect(subtitle.top, greaterThanOrEqualTo(label.bottom - 1));
+    });
+
+    testWidgets('o rótulo semântico carrega label e subtitle', (tester) async {
+      final handle = tester.ensureSemantics();
+      await openMenu(
+        tester,
+        AppMenuItem(label: '/saudacao', subtitle: 'Olá!', onPressed: () {}),
+      );
+      expect(find.bySemanticsLabel('/saudacao, Olá!'), findsOneWidget);
+      handle.dispose();
+    });
+  });
+
   testWidgets('abre no clique e seleciona (dispara callback e fecha)', (
     tester,
   ) async {
